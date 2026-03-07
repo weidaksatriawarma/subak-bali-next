@@ -46,7 +46,7 @@ const onboardingSchema = z.object({
     "other",
   ]),
   business_size: z.enum(["micro", "small", "medium"]),
-  employee_count: z.number().min(1).optional(),
+  employee_count: z.coerce.number().min(1).optional(),
   location: z.string().optional(),
   description: z.string().optional(),
 })
