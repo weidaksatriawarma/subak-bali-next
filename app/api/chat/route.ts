@@ -2,7 +2,7 @@ import { streamText, UIMessage, convertToModelMessages, gateway } from "ai"
 import { createClient } from "@/lib/supabase/server"
 import { buildChatSystemPrompt } from "@/lib/ai/prompts"
 
-export const maxDuration = 30
+export const maxDuration = 60
 
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json()
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    model: gateway("openai/gpt-5"),
+    model: gateway("anthropic/claude-sonnet-4-20250514"),
     system: buildChatSystemPrompt(profile, score),
     messages: await convertToModelMessages(messages),
   })
