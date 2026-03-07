@@ -160,21 +160,34 @@ export function AssessmentForm() {
 
       if (error || !assessment) throw error
 
-      await fetch("/api/assessment/score", {
+      const scoreRes = await fetch("/api/assessment/score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ assessment_id: assessment.id }),
       })
 
-      await fetch("/api/assessment/roadmap", {
+      if (!scoreRes.ok) {
+        throw new Error("Gagal menghasilkan skor")
+      }
+
+      const roadmapRes = await fetch("/api/assessment/roadmap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ assessment_id: assessment.id }),
       })
+
+      if (!roadmapRes.ok) {
+        throw new Error("Gagal menghasilkan roadmap")
+      }
 
       router.push("/dashboard/score")
-    } catch {
+    } catch (err) {
       setIsSubmitting(false)
+      alert(
+        err instanceof Error
+          ? err.message
+          : "Terjadi kesalahan. Silakan coba lagi.",
+      )
     }
   }
 

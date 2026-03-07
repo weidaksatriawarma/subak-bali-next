@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react"
 import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
 import { Leaf, Loader2 } from "lucide-react"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { ChatMessage } from "@/components/dashboard/chat-message"
@@ -47,7 +46,7 @@ export default function ChatPage() {
       </div>
       <Separator />
 
-      <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+      <div className="flex-1 overflow-y-auto p-4" ref={scrollRef}>
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
@@ -89,7 +88,7 @@ export default function ChatPage() {
             <span>GreenAdvisor sedang mengetik...</span>
           </div>
         )}
-      </ScrollArea>
+      </div>
 
       <Separator />
       <div className="p-4">
