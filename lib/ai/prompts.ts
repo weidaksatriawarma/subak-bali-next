@@ -3,7 +3,7 @@ import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
 
 export function buildScorePrompt(
   profile: Profile,
-  assessment: Assessment,
+  assessment: Assessment
 ): string {
   return `Analyze this Indonesian MSME sustainability assessment and generate scores (0-100) for each category.
 
@@ -39,7 +39,7 @@ Estimate the industry benchmark (average score) for the ${INDUSTRY_LABELS[profil
 export function buildRoadmapPrompt(
   profile: Profile,
   scores: Score,
-  assessment: Assessment,
+  assessment: Assessment
 ): string {
   return `Generate a sustainability improvement roadmap for this Indonesian MSME.
 
@@ -67,7 +67,7 @@ Focus on actions a small ${INDUSTRY_LABELS[profile.industry]} business can reali
 
 export function buildChatSystemPrompt(
   profile: Profile,
-  score?: Score | null,
+  score?: Score | null
 ): string {
   const scoreContext = score
     ? `

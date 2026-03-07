@@ -120,7 +120,7 @@ export function BentoGrid() {
         </div>
 
         {/* Bento grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[200px]">
+        <div className="grid gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-3">
           {/* Image: Solar panels — tall left */}
           <div className="relative overflow-hidden rounded-2xl sm:row-span-2">
             <Image

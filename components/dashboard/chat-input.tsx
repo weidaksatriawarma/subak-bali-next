@@ -34,11 +34,7 @@ export function ChatInput({
         disabled={isLoading}
         className="flex-1"
       />
-      <Button
-        type="submit"
-        size="icon"
-        disabled={isLoading || !input.trim()}
-      >
+      <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
         <Send className="h-4 w-4" />
         <span className="sr-only">Kirim</span>
       </Button>

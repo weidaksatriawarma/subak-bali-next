@@ -40,10 +40,7 @@ export async function POST(req: Request) {
   const scoreData = result.output
 
   if (!scoreData) {
-    return Response.json(
-      { error: "Failed to generate score" },
-      { status: 500 },
-    )
+    return Response.json({ error: "Failed to generate score" }, { status: 500 })
   }
 
   const { data: score, error } = await supabase

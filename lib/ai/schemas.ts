@@ -16,13 +16,7 @@ export type ScoreResult = z.infer<typeof ScoreSchema>
 export const RoadmapItemSchema = z.object({
   title: z.string(),
   description: z.string(),
-  category: z.enum([
-    "energy",
-    "waste",
-    "supply_chain",
-    "operations",
-    "policy",
-  ]),
+  category: z.enum(["energy", "waste", "supply_chain", "operations", "policy"]),
   priority: z.enum(["high", "medium", "low"]),
   estimated_impact: z.enum(["high", "medium", "low"]),
   estimated_cost: z.enum(["free", "low", "medium", "high"]),

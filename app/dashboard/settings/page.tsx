@@ -7,12 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "sonner"
-import {
-  Settings,
-  LogOut,
-  Trash2,
-  ClipboardList,
-} from "lucide-react"
+import { Settings, LogOut, Trash2, ClipboardList } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -319,10 +314,7 @@ export default function SettingsPage() {
                   <FormItem>
                     <FormLabel>Lokasi (Kota/Provinsi)</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Contoh: Denpasar, Bali"
-                        {...field}
-                      />
+                      <Input placeholder="Contoh: Denpasar, Bali" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

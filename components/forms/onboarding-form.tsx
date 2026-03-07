@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
+import { useForm, type Resolver } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 
@@ -11,11 +11,7 @@ import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
 import type { Industry, BusinessSize } from "@/types/database"
 
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Progress } from "@/components/ui/progress"
@@ -64,7 +60,7 @@ export function OnboardingForm() {
   const [submitting, setSubmitting] = useState(false)
 
   const form = useForm<OnboardingFormValues>({
-    resolver: zodResolver(onboardingSchema),
+    resolver: zodResolver(onboardingSchema) as Resolver<OnboardingFormValues>,
     defaultValues: {
       business_name: "",
       industry: undefined,
@@ -137,10 +133,7 @@ export function OnboardingForm() {
           <div className="flex justify-between">
             {["Informasi Bisnis", "Detail Bisnis", "Konfirmasi"].map(
               (label, i) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-1.5 text-sm"
-                >
+                <div key={label} className="flex items-center gap-1.5 text-sm">
                   <span
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium ${
                       i <= step
@@ -152,15 +145,13 @@ export function OnboardingForm() {
                   </span>
                   <span
                     className={`hidden sm:inline ${
-                      i <= step
-                        ? "text-foreground"
-                        : "text-muted-foreground"
+                      i <= step ? "text-foreground" : "text-muted-foreground"
                     }`}
                   >
                     {label}
                   </span>
                 </div>
-              ),
+              )
             )}
           </div>
         </div>
@@ -323,7 +314,7 @@ export function OnboardingForm() {
             {step === 2 && (
               <div className="space-y-4">
                 <h2 className="text-lg font-semibold">Konfirmasi Data</h2>
-                <div className="rounded-lg border p-4 space-y-3">
+                <div className="space-y-3 rounded-lg border p-4">
                   <SummaryRow
                     label="Nama Bisnis"
                     value={values.business_name}
@@ -331,9 +322,7 @@ export function OnboardingForm() {
                   <SummaryRow
                     label="Jenis Industri"
                     value={
-                      values.industry
-                        ? INDUSTRY_LABELS[values.industry]
-                        : "-"
+                      values.industry ? INDUSTRY_LABELS[values.industry] : "-"
                     }
                   />
                   <SummaryRow
@@ -352,10 +341,7 @@ export function OnboardingForm() {
                         : "-"
                     }
                   />
-                  <SummaryRow
-                    label="Lokasi"
-                    value={values.location || "-"}
-                  />
+                  <SummaryRow label="Lokasi" value={values.location || "-"} />
                   <SummaryRow
                     label="Deskripsi"
                     value={values.description || "-"}
@@ -366,11 +352,7 @@ export function OnboardingForm() {
 
             <div className="flex justify-between gap-3">
               {step > 0 ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleBack}
-                >
+                <Button type="button" variant="outline" onClick={handleBack}>
                   Sebelumnya
                 </Button>
               ) : (
@@ -398,7 +380,7 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between gap-4">
       <span className="text-sm text-muted-foreground">{label}</span>
-      <span className="text-sm font-medium text-right">{value}</span>
+      <span className="text-right text-sm font-medium">{value}</span>
     </div>
   )
 }

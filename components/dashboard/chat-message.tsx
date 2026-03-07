@@ -14,14 +14,17 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
   return (
     <div
-      className={cn("flex items-start gap-3 py-3", isUser && "flex-row-reverse")}
+      className={cn(
+        "flex items-start gap-3 py-3",
+        isUser && "flex-row-reverse"
+      )}
     >
       <Avatar className="h-8 w-8 shrink-0">
         <AvatarFallback
           className={cn(
             isUser
               ? "bg-primary text-primary-foreground"
-              : "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300",
+              : "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
           )}
         >
           {isUser ? <User className="h-4 w-4" /> : <Leaf className="h-4 w-4" />}
@@ -30,9 +33,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
       <div
         className={cn(
           "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm",
-          isUser
-            ? "bg-primary text-primary-foreground"
-            : "bg-muted",
+          isUser ? "bg-primary text-primary-foreground" : "bg-muted"
         )}
       >
         {message.parts?.map((part, i) => {

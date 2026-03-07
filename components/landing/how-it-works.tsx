@@ -39,7 +39,10 @@ export function HowItWorks() {
 
         <div className="grid gap-8 sm:grid-cols-3">
           {steps.map((item) => (
-            <div key={item.step} className="relative flex flex-col items-center text-center">
+            <div
+              key={item.step}
+              className="relative flex flex-col items-center text-center"
+            >
               <div className="relative mb-4">
                 <div className="flex size-16 items-center justify-center rounded-2xl bg-primary/10">
                   <item.icon className="size-7 text-primary" />

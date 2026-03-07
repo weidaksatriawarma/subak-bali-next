@@ -28,11 +28,7 @@ export default async function ScorePage() {
       .order("created_at", { ascending: false })
       .limit(1)
       .single<Score>(),
-    supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single<Profile>(),
+    supabase.from("profiles").select("*").eq("id", user.id).single<Profile>(),
   ])
 
   if (!score) {
@@ -49,9 +45,7 @@ export default async function ScorePage() {
     )
   }
 
-  const industryLabel = profile
-    ? INDUSTRY_LABELS[profile.industry]
-    : "Anda"
+  const industryLabel = profile ? INDUSTRY_LABELS[profile.industry] : "Anda"
 
   return (
     <div className="space-y-6">

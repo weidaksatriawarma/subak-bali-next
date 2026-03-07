@@ -27,7 +27,8 @@ export function Hero() {
 
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl lg:max-w-none">
             GreenAdvisor membantu UMKM Indonesia menilai, merencanakan, dan
-            melacak strategi sustainability bisnis — tanpa biaya konsultan mahal.
+            melacak strategi sustainability bisnis — tanpa biaya konsultan
+            mahal.
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">

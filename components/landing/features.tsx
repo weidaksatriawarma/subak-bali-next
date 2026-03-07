@@ -43,7 +43,10 @@ export function Features() {
 
         <div className="grid gap-6 sm:grid-cols-2">
           {features.map((feature) => (
-            <Card key={feature.title} className="transition-shadow hover:shadow-md">
+            <Card
+              key={feature.title}
+              className="transition-shadow hover:shadow-md"
+            >
               <CardHeader>
                 <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
                   <feature.icon className="size-5 text-primary" />

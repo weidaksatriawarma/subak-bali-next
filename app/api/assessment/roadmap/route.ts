@@ -43,7 +43,7 @@ export async function POST(req: Request) {
   if (!score) {
     return Response.json(
       { error: "Score not found. Run assessment scoring first." },
-      { status: 404 },
+      { status: 404 }
     )
   }
 
@@ -58,7 +58,7 @@ export async function POST(req: Request) {
   if (!roadmapData) {
     return Response.json(
       { error: "Failed to generate roadmap" },
-      { status: 500 },
+      { status: 500 }
     )
   }
 
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
   if (roadmapError || !roadmap) {
     return Response.json(
       { error: roadmapError?.message ?? "Failed to save roadmap" },
-      { status: 500 },
+      { status: 500 }
     )
   }
 

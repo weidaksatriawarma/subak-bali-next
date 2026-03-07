@@ -120,9 +120,21 @@ export function AssessmentForm() {
   const localSourcingPercentage = watch("local_sourcing_percentage")
 
   const stepFields: (keyof AssessmentFormData)[][] = [
-    ["energy_source", "monthly_electricity_kwh", "uses_energy_efficient_equipment"],
-    ["waste_management", "plastic_reduction_efforts", "waste_volume_kg_monthly"],
-    ["local_sourcing_percentage", "supplier_sustainability_check", "packaging_type"],
+    [
+      "energy_source",
+      "monthly_electricity_kwh",
+      "uses_energy_efficient_equipment",
+    ],
+    [
+      "waste_management",
+      "plastic_reduction_efforts",
+      "waste_volume_kg_monthly",
+    ],
+    [
+      "local_sourcing_percentage",
+      "supplier_sustainability_check",
+      "packaging_type",
+    ],
     ["water_conservation", "digital_operations", "transportation_type"],
     [
       "has_sustainability_policy",
@@ -187,7 +199,7 @@ export function AssessmentForm() {
       toast.error(
         err instanceof Error
           ? err.message
-          : "Terjadi kesalahan. Silakan coba lagi.",
+          : "Terjadi kesalahan. Silakan coba lagi."
       )
     }
   }
@@ -199,9 +211,7 @@ export function AssessmentForm() {
       <Card className="mx-auto max-w-2xl">
         <CardContent className="flex flex-col items-center gap-4 py-16">
           <Loader2 className="size-8 animate-spin text-primary" />
-          <p className="text-lg font-medium">
-            Menganalisis assessment Anda...
-          </p>
+          <p className="text-lg font-medium">Menganalisis assessment Anda...</p>
           <p className="text-sm text-muted-foreground">
             AI sedang menghitung skor dan membuat roadmap sustainability
           </p>
@@ -239,14 +249,19 @@ export function AssessmentForm() {
                     setValue("energy_source", v as EnergySource)
                   }
                 >
-                  {Object.entries(ENERGY_SOURCE_LABELS).map(([value, label]) => (
-                    <div key={value} className="flex items-center gap-2">
-                      <RadioGroupItem value={value} id={`energy-${value}`} />
-                      <Label htmlFor={`energy-${value}`} className="font-normal">
-                        {label}
-                      </Label>
-                    </div>
-                  ))}
+                  {Object.entries(ENERGY_SOURCE_LABELS).map(
+                    ([value, label]) => (
+                      <div key={value} className="flex items-center gap-2">
+                        <RadioGroupItem value={value} id={`energy-${value}`} />
+                        <Label
+                          htmlFor={`energy-${value}`}
+                          className="font-normal"
+                        >
+                          {label}
+                        </Label>
+                      </div>
+                    )
+                  )}
                 </RadioGroup>
                 {errors.energy_source && (
                   <p className="text-sm text-destructive">
@@ -304,7 +319,7 @@ export function AssessmentForm() {
                           {label}
                         </Label>
                       </div>
-                    ),
+                    )
                   )}
                 </RadioGroup>
                 {errors.waste_management && (
@@ -394,7 +409,7 @@ export function AssessmentForm() {
                           {label}
                         </Label>
                       </div>
-                    ),
+                    )
                   )}
                 </RadioGroup>
                 {errors.packaging_type && (
@@ -450,7 +465,7 @@ export function AssessmentForm() {
                           {label}
                         </Label>
                       </div>
-                    ),
+                    )
                   )}
                 </RadioGroup>
                 {errors.transportation_type && (

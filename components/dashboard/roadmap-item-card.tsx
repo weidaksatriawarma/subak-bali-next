@@ -42,7 +42,7 @@ export function RoadmapItemCard({ item, onToggle }: RoadmapItemCardProps) {
         <h3
           className={cn(
             "font-bold",
-            item.is_completed && "line-through text-muted-foreground"
+            item.is_completed && "text-muted-foreground line-through"
           )}
         >
           {item.title}
@@ -58,18 +58,12 @@ export function RoadmapItemCard({ item, onToggle }: RoadmapItemCardProps) {
             </Badge>
           )}
           {item.estimated_cost && (
-            <Badge variant="outline">
-              {COST_LABELS[item.estimated_cost]}
-            </Badge>
+            <Badge variant="outline">{COST_LABELS[item.estimated_cost]}</Badge>
           )}
           {item.timeline && (
-            <Badge variant="outline">
-              {TIMELINE_LABELS[item.timeline]}
-            </Badge>
+            <Badge variant="outline">{TIMELINE_LABELS[item.timeline]}</Badge>
           )}
-          <Badge variant="secondary">
-            {CATEGORY_LABELS[item.category]}
-          </Badge>
+          <Badge variant="secondary">{CATEGORY_LABELS[item.category]}</Badge>
         </div>
       </div>
     </Card>

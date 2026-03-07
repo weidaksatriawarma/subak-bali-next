@@ -53,10 +53,8 @@ export default function ChatPage() {
               <Leaf className="h-8 w-8 text-green-600 dark:text-green-400" />
             </div>
             <div className="space-y-2">
-              <h2 className="text-xl font-semibold">
-                Halo! Saya GreenAdvisor
-              </h2>
-              <p className="text-sm text-muted-foreground max-w-md">
+              <h2 className="text-xl font-semibold">Halo! Saya GreenAdvisor</h2>
+              <p className="max-w-md text-sm text-muted-foreground">
                 Konsultan sustainability AI Anda. Tanyakan apa saja tentang
                 praktik bisnis berkelanjutan.
               </p>

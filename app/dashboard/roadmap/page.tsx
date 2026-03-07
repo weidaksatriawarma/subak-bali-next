@@ -179,11 +179,7 @@ export default function RoadmapPage() {
 
       <div className="space-y-3">
         {sorted.map((item) => (
-          <RoadmapItemCard
-            key={item.id}
-            item={item}
-            onToggle={handleToggle}
-          />
+          <RoadmapItemCard key={item.id} item={item} onToggle={handleToggle} />
         ))}
       </div>
     </div>

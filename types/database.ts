@@ -49,12 +49,7 @@ export type EstimatedImpact = "high" | "medium" | "low"
 
 export type EstimatedCost = "free" | "low" | "medium" | "high"
 
-export type Timeline =
-  | "1_week"
-  | "1_month"
-  | "3_months"
-  | "6_months"
-  | "1_year"
+export type Timeline = "1_week" | "1_month" | "3_months" | "6_months" | "1_year"
 
 export interface Profile {
   id: string

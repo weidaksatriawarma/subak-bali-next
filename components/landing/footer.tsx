@@ -12,7 +12,9 @@ export function Footer() {
         </div>
         <p>Dibuat untuk PROXOCORIS 2026</p>
         <p>Tim Subak Code</p>
-        <p>&copy; {new Date().getFullYear()} GreenAdvisor. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} GreenAdvisor. All rights reserved.
+        </p>
       </div>
     </footer>
   )

@@ -52,10 +52,7 @@ export default function ProgressPage() {
           .select("total_score, created_at")
           .eq("user_id", user.id)
           .order("created_at", { ascending: true }),
-        supabase
-          .from("roadmap_items")
-          .select("*")
-          .eq("user_id", user.id),
+        supabase.from("roadmap_items").select("*").eq("user_id", user.id),
       ])
 
       setScores(scoresData || [])
@@ -128,7 +125,7 @@ export default function ProgressPage() {
     .sort(
       (a, b) =>
         new Date(b.completed_at!).getTime() -
-        new Date(a.completed_at!).getTime(),
+        new Date(a.completed_at!).getTime()
     )
     .slice(0, 5)
 
@@ -226,7 +223,9 @@ export default function ProgressPage() {
               <Percent className="h-5 w-5 text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Persentase Selesai</p>
+              <p className="text-sm text-muted-foreground">
+                Persentase Selesai
+              </p>
               <p className="text-2xl font-bold">{completionPercent}%</p>
             </div>
           </CardContent>
@@ -275,7 +274,7 @@ export default function ProgressPage() {
                           day: "numeric",
                           month: "long",
                           year: "numeric",
-                        },
+                        }
                       )}
                     </p>
                   </div>
