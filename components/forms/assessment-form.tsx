@@ -6,6 +6,7 @@ import { useForm, type Resolver } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { Loader2 } from "lucide-react"
+import { toast } from "sonner"
 
 import { createClient } from "@/lib/supabase/client"
 import {
@@ -183,7 +184,7 @@ export function AssessmentForm() {
       router.push("/dashboard/score")
     } catch (err) {
       setIsSubmitting(false)
-      alert(
+      toast.error(
         err instanceof Error
           ? err.message
           : "Terjadi kesalahan. Silakan coba lagi.",
