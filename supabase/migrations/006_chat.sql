@@ -30,3 +30,8 @@ alter table public.chat_messages enable row level security;
 create policy "Users can CRUD own messages"
   on public.chat_messages for all
   using (auth.uid() = user_id);
+
+-- Performance indexes
+create index idx_chat_conversations_user_id on public.chat_conversations(user_id, updated_at desc);
+create index idx_chat_messages_conversation_id on public.chat_messages(conversation_id, created_at asc);
+create index idx_chat_messages_user_id on public.chat_messages(user_id);
