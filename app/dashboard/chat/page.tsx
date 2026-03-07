@@ -19,7 +19,10 @@ import {
 import { ChatMessage } from "@/components/dashboard/chat-message"
 import { ChatInput } from "@/components/dashboard/chat-input"
 import { ChatHistory } from "@/components/dashboard/chat-history"
-import type { ChatConversation, ChatMessage as DBChatMessage } from "@/types/database"
+import type {
+  ChatConversation,
+  ChatMessage as DBChatMessage,
+} from "@/types/database"
 
 const SUGGESTED_PROMPTS = [
   "Bagaimana cara mengurangi limbah plastik?",
@@ -45,13 +48,13 @@ function ChatPanel({
   onFirstMessage: (text: string) => Promise<string | null>
 }) {
   const [input, setInput] = useState("")
+  const [activeConvId, setActiveConvId] = useState(conversationId)
   const scrollRef = useRef<HTMLDivElement>(null)
-  const pendingConvIdRef = useRef<string | null>(null)
 
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
-      body: { conversationId: pendingConvIdRef.current || conversationId },
+      body: { conversationId: activeConvId },
     }),
     messages: initialMessages.length > 0 ? initialMessages : undefined,
   })
@@ -64,23 +67,16 @@ function ChatPanel({
     }
   }, [messages])
 
-  // Keep pendingConvIdRef in sync with conversationId prop
-  useEffect(() => {
-    if (conversationId) {
-      pendingConvIdRef.current = conversationId
-    }
-  }, [conversationId])
-
   const handleSend = async (text?: string) => {
     const messageText = text || input
     if (!messageText.trim()) return
     setInput("")
 
     // If no conversation yet, create one first
-    if (!conversationId && !pendingConvIdRef.current) {
+    if (!activeConvId) {
       const newId = await onFirstMessage(messageText)
       if (newId) {
-        pendingConvIdRef.current = newId
+        setActiveConvId(newId)
       }
     }
 
@@ -143,32 +139,25 @@ function ChatPanel({
   )
 }
 
-function ChatPageContent() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const conversationId = searchParams.get("id")
-
+function useChatData(conversationId: string | null) {
   const [conversations, setConversations] = useState<ChatConversation[]>([])
   const [initialMessages, setInitialMessages] = useState<UIMessage[]>([])
   const [loading, setLoading] = useState(true)
   const [messagesLoading, setMessagesLoading] = useState(false)
-  const [sheetOpen, setSheetOpen] = useState(false)
 
   const fetchConversations = useCallback(async () => {
     const res = await fetch("/api/conversations")
     if (res.ok) {
-      const data = await res.json()
-      setConversations(data)
+      setConversations(await res.json())
     }
     setLoading(false)
   }, [])
 
-  // Fetch conversations on mount
   useEffect(() => {
     fetchConversations()
-  }, [fetchConversations])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  // Fetch messages when conversationId changes
   useEffect(() => {
     if (!conversationId) {
       setInitialMessages([])
@@ -181,13 +170,12 @@ function ChatPageContent() {
     fetch(`/api/conversations/${conversationId}`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (cancelled) return
-        if (data?.messages) {
+        if (!cancelled && data?.messages) {
           setInitialMessages(data.messages.map(dbToUIMessage))
         }
-        setMessagesLoading(false)
       })
-      .catch(() => {
+      .catch(() => {})
+      .finally(() => {
         if (!cancelled) setMessagesLoading(false)
       })
 
@@ -195,6 +183,30 @@ function ChatPageContent() {
       cancelled = true
     }
   }, [conversationId])
+
+  return {
+    conversations,
+    setConversations,
+    initialMessages,
+    loading,
+    messagesLoading,
+    fetchConversations,
+  }
+}
+
+function ChatPageContent() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const conversationId = searchParams.get("id")
+  const [sheetOpen, setSheetOpen] = useState(false)
+
+  const {
+    conversations,
+    setConversations,
+    initialMessages,
+    loading,
+    messagesLoading,
+  } = useChatData(conversationId)
 
   const handleNewChat = () => {
     router.push("/dashboard/chat")

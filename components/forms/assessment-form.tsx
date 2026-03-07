@@ -100,7 +100,10 @@ const DEFAULT_VALUES: Partial<AssessmentFormData> = {
   community_engagement: false,
 }
 
-function loadDraft(): { values: Partial<AssessmentFormData>; step: number } | null {
+function loadDraft(): {
+  values: Partial<AssessmentFormData>
+  step: number
+} | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     return raw ? JSON.parse(raw) : null

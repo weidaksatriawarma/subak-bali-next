@@ -91,8 +91,8 @@ export function ChatHistory({
                   <AlertDialogHeader>
                     <AlertDialogTitle>Hapus percakapan?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Percakapan ini akan dihapus secara permanen dan tidak dapat
-                      dikembalikan.
+                      Percakapan ini akan dihapus secara permanen dan tidak
+                      dapat dikembalikan.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
