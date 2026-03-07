@@ -4,6 +4,7 @@ import { ClipboardList, Map, MessageSquare } from "lucide-react"
 
 import { createClient } from "@/lib/supabase/server"
 import { getScoreLabel, getScoreColor } from "@/lib/constants"
+import { SeedButton } from "@/components/dashboard/seed-button"
 import {
   Card,
   CardContent,
@@ -115,6 +116,13 @@ export default async function DashboardPage() {
           )}
         </CardContent>
       </Card>
+
+      {process.env.NODE_ENV === "development" && (
+        <div className="flex items-center gap-2">
+          <SeedButton />
+          <span className="text-xs text-muted-foreground">Dev only</span>
+        </div>
+      )}
 
       <div>
         <h2 className="mb-4 text-lg font-semibold">Aksi Cepat</h2>
