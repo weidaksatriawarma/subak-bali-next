@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import {
   ClipboardList,
@@ -8,54 +10,10 @@ import {
   Route,
   TrendingUp,
 } from "lucide-react"
+import { useTranslation } from "@/lib/i18n/language-context"
 
-const steps = [
-  {
-    step: 1,
-    icon: ClipboardList,
-    title: "Profil Bisnis",
-    description: "Isi profil bisnis Anda — jenis usaha, skala, dan praktik.",
-  },
-  {
-    step: 2,
-    icon: Brain,
-    title: "AI Assessment",
-    description: "AI menganalisis sustainability dan memberikan skor.",
-  },
-  {
-    step: 3,
-    icon: Map,
-    title: "Roadmap & Tracking",
-    description: "Dapatkan roadmap personal dan lacak progres Anda.",
-  },
-]
-
-const features = [
-  {
-    icon: MessageSquare,
-    title: "AI Chat Consultant",
-    description:
-      "Konsultasi langsung dengan AI tentang strategi sustainability, regulasi, dan praktik terbaik untuk bisnis Anda.",
-  },
-  {
-    icon: Gauge,
-    title: "Sustainability Score",
-    description:
-      "Dapatkan skor sustainability komprehensif berdasarkan analisis AI terhadap profil dan operasi bisnis Anda.",
-  },
-  {
-    icon: Route,
-    title: "Roadmap Generator",
-    description:
-      "AI membuat roadmap sustainability personal dengan langkah-langkah konkret dan timeline yang realistis.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Progress Tracking",
-    description:
-      "Lacak progres sustainability bisnis Anda dengan visualisasi data dan insight dari AI.",
-  },
-]
+const stepIcons = [ClipboardList, Brain, Map]
+const featureIcons = [MessageSquare, Gauge, Route, TrendingUp]
 
 function FeatureCell({
   icon: Icon,
@@ -80,18 +38,28 @@ function FeatureCell({
 }
 
 export function BentoGrid() {
+  const { t } = useTranslation()
+
+  const steps = t.bentoGrid.steps.map((s, i) => ({
+    ...s,
+    step: i + 1,
+    icon: stepIcons[i],
+  }))
+
+  const features = t.bentoGrid.features.map((f, i) => ({
+    ...f,
+    icon: featureIcons[i],
+  }))
+
   return (
     <section id="cara-kerja" className="px-4 py-16 sm:px-6 md:py-24 lg:px-8">
       <div className="mx-auto max-w-6xl">
         {/* Section header */}
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Cara Kerja & Fitur Utama
+            {t.bentoGrid.heading}
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Tiga langkah sederhana dan fitur lengkap untuk sustainability bisnis
-            Anda
-          </p>
+          <p className="mt-3 text-muted-foreground">{t.bentoGrid.subheading}</p>
         </div>
 
         {/* Steps row */}

@@ -1,9 +1,14 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Leaf } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/lib/i18n/language-context"
 
 export function Hero() {
+  const { t } = useTranslation()
+
   return (
     <section className="relative overflow-hidden px-4 pt-20 pb-16 sm:px-6 md:pt-32 md:pb-24 lg:px-8">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--color-primary)/0.12,transparent_70%)]" />
@@ -14,27 +19,25 @@ export function Hero() {
         <div className="text-center lg:text-left">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
             <Leaf className="size-4" />
-            <span>AI-Powered Sustainability</span>
+            <span>{t.hero.badge}</span>
           </div>
 
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-            Konsultan Sustainability{" "}
+            {t.hero.titleStart}{" "}
             <span className="bg-gradient-to-r from-primary to-chart-2 bg-clip-text text-transparent">
-              AI
+              {t.hero.titleHighlight}
             </span>{" "}
-            untuk Bisnis Anda
+            {t.hero.titleEnd}
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl lg:max-w-none">
-            GreenAdvisor membantu UMKM Indonesia menilai, merencanakan, dan
-            melacak strategi sustainability bisnis — tanpa biaya konsultan
-            mahal.
+            {t.hero.description}
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
             <Button size="lg" asChild className="h-12 px-8 text-base">
               <Link href="/register">
-                Mulai Gratis
+                {t.hero.cta}
                 <ArrowRight className="ml-1 size-4" />
               </Link>
             </Button>
@@ -44,7 +47,7 @@ export function Hero() {
               asChild
               className="h-12 px-8 text-base"
             >
-              <a href="#cara-kerja">Pelajari Lebih Lanjut</a>
+              <a href="#cara-kerja">{t.hero.learnMore}</a>
             </Button>
           </div>
         </div>
@@ -52,7 +55,7 @@ export function Hero() {
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl lg:aspect-square">
           <Image
             src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&q=80"
-            alt="Tropical green foliage representing sustainability"
+            alt={t.hero.imageAlt}
             fill
             priority
             className="object-cover"

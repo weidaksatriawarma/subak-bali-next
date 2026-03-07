@@ -1,9 +1,14 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/lib/i18n/language-context"
 
 export function CtaSection() {
+  const { t } = useTranslation()
+
   return (
     <section className="px-4 py-16 sm:px-6 md:py-24 lg:px-8">
       <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl">
@@ -17,15 +22,14 @@ export function CtaSection() {
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 px-8 py-16 text-center sm:px-12 sm:py-20">
           <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            Mulai Assessment Gratis Sekarang
+            {t.cta.heading}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-white/80">
-            Bergabung dengan ribuan UMKM yang sudah memulai perjalanan
-            sustainability mereka bersama GreenAdvisor.
+            {t.cta.description}
           </p>
           <Button size="lg" asChild className="mt-8 h-12 px-8 text-base">
             <Link href="/register">
-              Daftar Sekarang
+              {t.cta.button}
               <ArrowRight className="ml-1 size-4" />
             </Link>
           </Button>
