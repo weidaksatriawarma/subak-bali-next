@@ -5,7 +5,6 @@ import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
 import { Leaf, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { ChatMessage } from "@/components/dashboard/chat-message"
 import { ChatInput } from "@/components/dashboard/chat-input"
 
@@ -39,14 +38,8 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] flex-col">
-      <div className="flex items-center gap-2 px-4 py-3">
-        <Leaf className="h-5 w-5 text-green-600" />
-        <h1 className="text-lg font-semibold">AI Consultant</h1>
-      </div>
-      <Separator />
-
-      <div className="flex-1 overflow-y-auto p-4" ref={scrollRef}>
+    <div className="-m-4 flex h-[calc(100vh-4rem)] flex-col md:-m-6">
+      <div className="flex-1 overflow-y-auto p-2 sm:p-4" ref={scrollRef}>
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
@@ -88,8 +81,7 @@ export default function ChatPage() {
         )}
       </div>
 
-      <Separator />
-      <div className="p-4">
+      <div className="border-t p-2 sm:p-4">
         <ChatInput
           input={input}
           onInputChange={setInput}

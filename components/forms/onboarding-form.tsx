@@ -118,6 +118,7 @@ export function OnboardingForm() {
   }
 
   const progressValue = ((step + 1) / 3) * 100
+  // eslint-disable-next-line react-hooks/incompatible-library
   const values = form.watch()
 
   return (

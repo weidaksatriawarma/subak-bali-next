@@ -3,8 +3,7 @@
 import {
   createContext,
   useContext,
-  useState,
-  useEffect,
+  useSyncExternalStore,
   useCallback,
   type ReactNode,
 } from "react"
@@ -20,19 +19,26 @@ const LanguageContext = createContext<LanguageContextValue | null>(null)
 
 const STORAGE_KEY = "greenadvisor-locale"
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("id")
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback)
+  return () => window.removeEventListener("storage", callback)
+}
 
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored === "en" || stored === "id") {
-      setLocaleState(stored)
-    }
-  }, [])
+function getSnapshot(): Locale {
+  const stored = localStorage.getItem(STORAGE_KEY)
+  return stored === "en" || stored === "id" ? stored : "id"
+}
+
+function getServerSnapshot(): Locale {
+  return "id"
+}
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const locale = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
   const setLocale = useCallback((next: Locale) => {
-    setLocaleState(next)
     localStorage.setItem(STORAGE_KEY, next)
+    window.dispatchEvent(new StorageEvent("storage"))
   }, [])
 
   return (

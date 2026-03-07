@@ -40,7 +40,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
-import type { Industry, BusinessSize, Profile } from "@/types/database"
+import type { Industry, BusinessSize } from "@/types/database"
 
 const profileSchema = z.object({
   business_name: z.string().min(2, "Nama bisnis minimal 2 karakter"),
@@ -65,7 +65,6 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [email, setEmail] = useState("")
-  const [profile, setProfile] = useState<Profile | null>(null)
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -95,10 +94,9 @@ export default function SettingsPage() {
         .from("profiles")
         .select("*")
         .eq("id", user.id)
-        .single<Profile>()
+        .single()
 
       if (data) {
-        setProfile(data)
         form.reset({
           business_name: data.business_name,
           industry: data.industry,
