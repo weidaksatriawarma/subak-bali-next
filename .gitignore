@@ -42,6 +42,7 @@ pnpm-debug.log*
 
 # os
 Thumbs.db
+._*
 
 # supabase local
 supabase/.temp/
