@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { useForm, type Resolver } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -86,9 +86,43 @@ const STEPS = [
   { title: "Kebijakan", description: "Kebijakan sustainability bisnis" },
 ]
 
+const STORAGE_KEY = "assessment-draft"
+
+const DEFAULT_VALUES: Partial<AssessmentFormData> = {
+  uses_energy_efficient_equipment: false,
+  plastic_reduction_efforts: false,
+  local_sourcing_percentage: 0,
+  supplier_sustainability_check: false,
+  water_conservation: false,
+  digital_operations: false,
+  has_sustainability_policy: false,
+  employee_sustainability_training: false,
+  community_engagement: false,
+}
+
+function loadDraft(): { values: Partial<AssessmentFormData>; step: number } | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+function saveDraft(values: Partial<AssessmentFormData>, step: number) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ values, step }))
+  } catch {}
+}
+
+function clearDraft() {
+  localStorage.removeItem(STORAGE_KEY)
+}
+
 export function AssessmentForm() {
   const router = useRouter()
-  const [step, setStep] = useState(0)
+  const draft = useRef(loadDraft())
+  const [step, setStep] = useState(() => draft.current?.step ?? 0)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
@@ -100,18 +134,23 @@ export function AssessmentForm() {
     formState: { errors },
   } = useForm<AssessmentFormData>({
     resolver: zodResolver(assessmentSchema) as Resolver<AssessmentFormData>,
-    defaultValues: {
-      uses_energy_efficient_equipment: false,
-      plastic_reduction_efforts: false,
-      local_sourcing_percentage: 0,
-      supplier_sustainability_check: false,
-      water_conservation: false,
-      digital_operations: false,
-      has_sustainability_policy: false,
-      employee_sustainability_training: false,
-      community_engagement: false,
-    },
+    defaultValues: { ...DEFAULT_VALUES, ...draft.current?.values },
   })
+
+  useEffect(() => {
+    if (draft.current) {
+      toast.info(
+        `Draft assessment ditemukan. Melanjutkan dari langkah ${draft.current.step + 1}.`
+      )
+    }
+  }, [])
+
+  useEffect(() => {
+    const subscription = watch((values) => {
+      saveDraft(values, step)
+    })
+    return () => subscription.unsubscribe()
+  }, [watch, step])
 
   const energySource = watch("energy_source")
   const wasteManagement = watch("waste_management")
@@ -193,6 +232,7 @@ export function AssessmentForm() {
         throw new Error("Gagal menghasilkan roadmap")
       }
 
+      clearDraft()
       router.push("/dashboard/score")
     } catch (err) {
       setIsSubmitting(false)
