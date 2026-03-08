@@ -4,7 +4,7 @@ import { TermsContent } from "./content"
 export const metadata: Metadata = {
   title: "Syarat Layanan",
   description:
-    "Syarat dan ketentuan penggunaan layanan GreenAdvisor untuk UMKM Indonesia.",
+    "Syarat dan ketentuan penggunaan layanan Subak Hijau untuk UMKM Indonesia.",
 }
 
 export default function TermsPage() {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { DashboardOverview } from "@/components/dashboard/dashboard-overview"
@@ -7,6 +8,10 @@ import {
   calculateRegulatoryCompliance,
 } from "@/lib/carbon"
 import type { Assessment, Profile } from "@/types/database"
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+}
 
 export default async function DashboardPage() {
   const supabase = await createClient()

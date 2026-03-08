@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
 export const alt =
-  "GreenAdvisor — Konsultan Sustainability AI untuk UMKM Indonesia"
+  "Subak Hijau — Konsultan Sustainability AI untuk UMKM Indonesia"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -38,7 +38,7 @@ export default async function Image() {
             letterSpacing: "-2px",
           }}
         >
-          GreenAdvisor
+          Subak Hijau
         </span>
       </div>
       <p

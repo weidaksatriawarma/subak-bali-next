@@ -42,10 +42,12 @@ function ChatPanel({
   conversationId,
   initialMessages,
   onFirstMessage,
+  initialPrompt,
 }: {
   conversationId: string | null
   initialMessages: UIMessage[]
   onFirstMessage: (text: string) => Promise<string | null>
+  initialPrompt?: string | null
 }) {
   const [input, setInput] = useState("")
   const [activeConvId, setActiveConvId] = useState(conversationId)
@@ -60,6 +62,7 @@ function ChatPanel({
   })
 
   const isLoading = status === "streaming" || status === "submitted"
+  const hasAutoSent = useRef(false)
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -83,6 +86,14 @@ function ChatPanel({
     sendMessage({ text: messageText })
   }
 
+  useEffect(() => {
+    if (initialPrompt && !hasAutoSent.current) {
+      hasAutoSent.current = true
+      handleSend(initialPrompt)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 overflow-y-auto p-2 sm:p-4" ref={scrollRef}>
@@ -92,7 +103,7 @@ function ChatPanel({
               <Leaf className="h-8 w-8 text-green-600 dark:text-green-400" />
             </div>
             <div className="space-y-2">
-              <h2 className="text-xl font-semibold">Halo! Saya GreenAdvisor</h2>
+              <h2 className="text-xl font-semibold">Halo! Saya Subak Hijau</h2>
               <p className="max-w-md text-sm text-muted-foreground">
                 Konsultan sustainability AI Anda. Tanyakan apa saja tentang
                 praktik bisnis berkelanjutan.
@@ -122,7 +133,7 @@ function ChatPanel({
         {status === "submitted" && (
           <div className="flex items-center gap-2 py-3 text-sm text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
-            <span>GreenAdvisor sedang mengetik...</span>
+            <span>Subak Hijau sedang mengetik...</span>
           </div>
         )}
       </div>
@@ -200,7 +211,15 @@ function ChatPageContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const conversationId = searchParams.get("id")
+  const initialPromptRef = useRef(searchParams.get("prompt"))
   const [sheetOpen, setSheetOpen] = useState(false)
+
+  useEffect(() => {
+    if (initialPromptRef.current) {
+      router.replace("/dashboard/chat", { scroll: false })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const {
     conversations,
@@ -291,7 +310,7 @@ function ChatPageContent() {
             </SheetContent>
           </Sheet>
           <span className="ml-2 text-sm font-medium text-muted-foreground">
-            GreenAdvisor Chat
+            Subak Hijau Chat
           </span>
         </div>
 
@@ -307,6 +326,7 @@ function ChatPageContent() {
               conversationId={conversationId}
               initialMessages={initialMessages}
               onFirstMessage={handleFirstMessage}
+              initialPrompt={initialPromptRef.current}
             />
           )}
         </div>

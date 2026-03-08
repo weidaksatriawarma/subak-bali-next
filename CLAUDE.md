@@ -6,7 +6,7 @@ Always use Context7 MCP when I need library/API documentation, code generation, 
 
 ## Project Overview
 
-GreenAdvisor — an AI-powered sustainability consultant web app for Indonesian MSMEs (UMKM). Built for the PROXOCORIS 2026 competition. The full PRD is in `PLAN.md`.
+Subak Hijau — an AI-powered sustainability consultant web app for Indonesian MSMEs (UMKM). Built for the PROXOCORIS 2026 competition. The full PRD is in `PLAN.md`.
 
 ## Commands
 

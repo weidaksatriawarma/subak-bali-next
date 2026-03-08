@@ -17,7 +17,7 @@ interface LanguageContextValue {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
-const STORAGE_KEY = "greenadvisor-locale"
+const STORAGE_KEY = "subakhijau-locale"
 
 function subscribe(callback: () => void) {
   window.addEventListener("storage", callback)

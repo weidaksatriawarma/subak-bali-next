@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/🌿-GreenAdvisor-22c55e?style=for-the-badge&labelColor=1a1a2e" alt="GreenAdvisor" />
+  <img src="https://img.shields.io/badge/🌿-Subak Hijau-22c55e?style=for-the-badge&labelColor=1a1a2e" alt="Subak Hijau" />
 </p>
 
-<h1 align="center">🌿 GreenAdvisor</h1>
+<h1 align="center">🌿 Subak Hijau</h1>
 
 <p align="center">
   <strong>Konsultan Sustainability AI untuk UMKM Indonesia</strong><br/>
@@ -37,7 +37,7 @@ Indonesia memiliki **65 juta UMKM** — namun hampir tidak ada yang punya akses 
 
 ## 💡 Solusi
 
-**GreenAdvisor** adalah aplikasi web berbasis AI yang membantu UMKM Indonesia menilai, memahami, dan meningkatkan praktik keberlanjutan bisnis mereka — dengan biaya **Rp 0** dibanding jutaan rupiah untuk konsultan tradisional.
+**Subak Hijau** adalah aplikasi web berbasis AI yang membantu UMKM Indonesia menilai, memahami, dan meningkatkan praktik keberlanjutan bisnis mereka — dengan biaya **Rp 0** dibanding jutaan rupiah untuk konsultan tradisional.
 
 ---
 
@@ -256,7 +256,7 @@ Supabase PostgreSQL dengan Row Level Security (RLS):
 
 ## 🧮 Kalkulator Karbon
 
-GreenAdvisor menyertakan kalkulator karbon yang menggunakan **faktor emisi Indonesia**:
+Subak Hijau menyertakan kalkulator karbon yang menggunakan **faktor emisi Indonesia**:
 
 | Sumber Energi | Faktor (kg CO₂/kWh) |
 |---------------|---------------------|
@@ -285,7 +285,7 @@ GreenAdvisor menyertakan kalkulator karbon yang menggunakan **faktor emisi Indon
 
 ## 🌏 SDG Alignment
 
-GreenAdvisor berkontribusi terhadap pencapaian **Sustainable Development Goals**:
+Subak Hijau berkontribusi terhadap pencapaian **Sustainable Development Goals**:
 
 - **SDG 7** ⚡ — Energi Bersih dan Terjangkau
 - **SDG 12** ♻️ — Konsumsi dan Produksi Bertanggung Jawab

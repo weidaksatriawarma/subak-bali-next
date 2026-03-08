@@ -70,7 +70,7 @@ export function Navbar() {
         <Link href="/" className="flex items-center gap-2">
           <Leaf className="size-6 text-primary" />
           <span className="text-lg font-bold text-foreground">
-            GreenAdvisor
+            Subak Hijau
           </span>
         </Link>
 
@@ -119,7 +119,7 @@ export function Navbar() {
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
                   <Leaf className="size-5 text-primary" />
-                  GreenAdvisor
+                  Subak Hijau
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-1 px-4">

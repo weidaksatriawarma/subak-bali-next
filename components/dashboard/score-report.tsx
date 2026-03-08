@@ -1,5 +1,7 @@
 "use client"
 
+import { useState, useEffect } from "react"
+import QRCode from "qrcode"
 import { Printer } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
@@ -29,6 +31,7 @@ interface ScoreReportProps {
   roadmapItems: RoadmapItem[]
   assessment?: Assessment
   businessSize?: BusinessSize
+  certificateToken?: string
 }
 
 function ScoreBar({ label, value }: { label: string; value: number }) {
@@ -67,9 +70,26 @@ export function ScoreReport({
   roadmapItems,
   assessment,
   businessSize = "small",
+  certificateToken,
 }: ScoreReportProps) {
   const { t } = useTranslation()
   const d = t.dashboard.score.report
+
+  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!certificateToken) return
+    QRCode.toDataURL(
+      `https://subakhijau.app/verify/${certificateToken}`,
+      {
+        width: 100,
+        margin: 1,
+        color: { dark: "#16a34a", light: "#FFFFFF" },
+      }
+    )
+      .then(setQrDataUrl)
+      .catch(() => {})
+  }, [certificateToken])
   const cats = t.dashboard.common.categories
   const priorities = t.dashboard.common.priorities
   const impacts = t.dashboard.common.impacts
@@ -104,7 +124,7 @@ export function ScoreReport({
       {/* Header */}
       <div className="text-center">
         <p className="text-sm font-semibold tracking-widest text-green-600">
-          GREENADVISOR
+          SUBAK HIJAU
         </p>
         <h1 className="mt-1 text-3xl font-bold" style={{ color: "#111827" }}>
           {d.title}
@@ -398,10 +418,26 @@ export function ScoreReport({
 
       {/* Footer */}
       <div
-        className="border-t pt-4 text-center text-xs"
+        className="border-t pt-4 text-xs"
         style={{ color: "#9ca3af" }}
       >
-        {d.footer}
+        {qrDataUrl ? (
+          <div className="flex items-center justify-between">
+            <p>{d.footer}</p>
+            <div className="flex flex-col items-center gap-1">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={qrDataUrl}
+                alt="QR verification"
+                width={80}
+                height={80}
+              />
+              <span className="text-[10px]">Scan untuk verifikasi</span>
+            </div>
+          </div>
+        ) : (
+          <p className="text-center">{d.footer}</p>
+        )}
       </div>
     </div>
   )

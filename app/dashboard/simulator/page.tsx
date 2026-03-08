@@ -1,9 +1,14 @@
+import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { ClipboardList } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { EmptyState } from "@/components/shared/empty-state"
 import { SimulatorContent } from "@/components/dashboard/simulator-content"
 import type { Assessment, Score } from "@/types/database"
+
+export const metadata: Metadata = {
+  title: "Simulator Aksi",
+}
 
 export default async function SimulatorPage() {
   const supabase = await createClient()

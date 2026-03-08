@@ -1,5 +1,5 @@
 -- Performance indexes for common queries
--- GreenAdvisor dashboard queries optimization
+-- Subak Hijau dashboard queries optimization
 
 -- Scores: used in dashboard overview, score page (latest by user)
 CREATE INDEX IF NOT EXISTS idx_scores_user_created

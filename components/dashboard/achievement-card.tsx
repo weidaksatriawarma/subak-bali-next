@@ -67,7 +67,7 @@ export function AchievementCard({
     ctx.fillStyle = "rgba(255,255,255,0.5)"
     ctx.textAlign = "center"
     ctx.font = "600 28px Arial, sans-serif"
-    ctx.fillText("GREENADVISOR", W / 2, 120)
+    ctx.fillText("SUBAK HIJAU", W / 2, 120)
 
     ctx.fillStyle = "white"
     ctx.font = "bold 48px Arial, sans-serif"
@@ -177,7 +177,7 @@ export function AchievementCard({
     // Footer
     ctx.fillStyle = "rgba(255,255,255,0.3)"
     ctx.font = "22px Arial, sans-serif"
-    ctx.fillText("greenadvisor.vercel.app", W / 2, H - 120)
+    ctx.fillText("subakhijau.app", W / 2, H - 120)
     ctx.font = "18px Arial, sans-serif"
     ctx.fillText(
       "AI Sustainability Consultant untuk UMKM Indonesia",
@@ -187,7 +187,7 @@ export function AchievementCard({
 
     // Download
     const link = document.createElement("a")
-    link.download = `GreenAdvisor-Achievement-${businessName.replace(/\s+/g, "-")}.png`
+    link.download = `SubakHijau-Achievement-${businessName.replace(/\s+/g, "-")}.png`
     link.href = canvas.toDataURL("image/png")
     link.click()
 

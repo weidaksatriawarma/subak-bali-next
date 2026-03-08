@@ -1,4 +1,4 @@
-const CACHE_NAME = "greenadvisor-v1"
+const CACHE_NAME = "subakhijau-v1"
 const STATIC_ASSETS = ["/", "/dashboard", "/manifest.json"]
 
 self.addEventListener("install", (event) => {

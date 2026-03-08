@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { ClipboardList } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
@@ -5,6 +6,10 @@ import { EmptyState } from "@/components/shared/empty-state"
 import { ScoreContent } from "@/components/dashboard/score-content"
 import { INDUSTRY_LABELS } from "@/lib/constants"
 import type { Score, Profile, Assessment } from "@/types/database"
+
+export const metadata: Metadata = {
+  title: "Skor Sustainability",
+}
 
 export default async function ScorePage() {
   const supabase = await createClient()

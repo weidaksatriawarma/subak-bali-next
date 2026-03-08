@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://greenadvisor.vercel.app"
+  const baseUrl = "https://subakhijau.app"
 
   return [
     {
@@ -18,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/panduan`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,

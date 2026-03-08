@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { landingExtras } from "@/lib/i18n/content/landing-extras"
 
-const CONSENT_KEY = "greenadvisor-cookie-consent"
+const CONSENT_KEY = "subakhijau-cookie-consent"
 
 function subscribe(callback: () => void) {
   window.addEventListener("storage", callback)

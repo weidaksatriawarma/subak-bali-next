@@ -11,7 +11,7 @@ export default function AuthLayout({
         <div className="flex items-center justify-center gap-2">
           <Leaf className="h-8 w-8 text-primary" />
           <span className="text-2xl font-bold tracking-tight">
-            GreenAdvisor
+            Subak Hijau
           </span>
         </div>
         {children}

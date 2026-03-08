@@ -1,6 +1,6 @@
 {
-  "name": "GreenAdvisor — Konsultan Sustainability AI",
-  "short_name": "GreenAdvisor",
+  "name": "Subak Hijau — Konsultan Sustainability AI",
+  "short_name": "Subak Hijau",
   "description": "AI-powered sustainability consultant for Indonesian MSMEs",
   "start_url": "/dashboard",
   "display": "standalone",

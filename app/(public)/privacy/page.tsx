@@ -4,7 +4,7 @@ import { PrivacyContent } from "./content"
 export const metadata: Metadata = {
   title: "Kebijakan Privasi",
   description:
-    "Kebijakan privasi GreenAdvisor — bagaimana kami melindungi data pribadi Anda sesuai UU PDP No. 27/2022.",
+    "Kebijakan privasi Subak Hijau — bagaimana kami melindungi data pribadi Anda sesuai UU PDP No. 27/2022.",
 }
 
 export default function PrivacyPage() {

@@ -31,6 +31,7 @@ export interface DashboardDictionary {
       compliance: string
       help: string
       certificate: string
+      achievementCard: string
       report: string
     }
     groups: {
@@ -510,6 +511,7 @@ const id: Dictionary = {
         compliance: "Kepatuhan",
         help: "Bantuan",
         certificate: "Sertifikat",
+        achievementCard: "Kartu Pencapaian",
         report: "Laporan",
       },
       groups: {
@@ -1013,6 +1015,7 @@ const en: Dictionary = {
         compliance: "Compliance",
         help: "Help",
         certificate: "Certificate",
+        achievementCard: "Achievement Card",
         report: "Report",
       },
       groups: {

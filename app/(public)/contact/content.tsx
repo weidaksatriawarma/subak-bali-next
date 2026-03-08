@@ -1,6 +1,6 @@
 "use client"
 
-import { MessageCircle, Mail, Instagram, Linkedin } from "lucide-react"
+import { MessageCircle, Mail } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useTranslation } from "@/lib/i18n/language-context"
@@ -57,32 +57,6 @@ export function ContactContent() {
                 className="text-sm text-muted-foreground transition-colors hover:text-foreground"
               >
                 {d.email.value}
-              </a>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Social Media */}
-        <Card className="mb-6 border-none bg-muted/50 shadow-none">
-          <CardContent className="pt-2">
-            <h3 className="mb-4 font-semibold">{d.social.title}</h3>
-            <div className="flex flex-col gap-3">
-              <a
-                href="https://instagram.com/greenadvisor.id"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <Instagram className="size-5" />@{d.social.instagram}
-              </a>
-              <a
-                href="https://linkedin.com/company/greenadvisor"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <Linkedin className="size-5" />
-                {d.social.linkedin}
               </a>
             </div>
           </CardContent>

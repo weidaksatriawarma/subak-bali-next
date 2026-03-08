@@ -21,7 +21,15 @@ import { useTranslation } from "@/lib/i18n/language-context"
 import { CATEGORY_EMOJI } from "@/lib/constants"
 import type { RoadmapItem } from "@/types/database"
 import { cn } from "@/lib/utils"
-import { Sparkles, Lock, MoreHorizontal, Pencil, Trash2 } from "lucide-react"
+import {
+  Sparkles,
+  Lock,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+  MessageSquare,
+} from "lucide-react"
+import Link from "next/link"
 
 interface RoadmapItemCardProps {
   item: RoadmapItem
@@ -126,23 +134,46 @@ export function RoadmapItemCard({
         </div>
       </div>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 right-2 h-8 w-8"
-          >
-            <MoreHorizontal className="h-4 w-4" />
-            <span className="sr-only">Actions</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => onEdit(item)}>
-            <Pencil className="mr-2 h-4 w-4" />
-            {rd.editItem}
-          </DropdownMenuItem>
-          {!item.is_mandatory && (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="mr-6 shrink-0 self-center border-green-200 bg-green-50 text-green-700 hover:bg-green-100 dark:border-green-800 dark:bg-green-950 dark:text-green-300 dark:hover:bg-green-900"
+              asChild
+            >
+              <Link
+                href={`/dashboard/chat?prompt=${encodeURIComponent(`Jelaskan lebih detail cara mengimplementasikan langkah sustainability berikut: "${item.title}". ${item.description}`)}`}
+              >
+                <MessageSquare className="mr-1.5 h-4 w-4" />
+                {rd.askAi}
+              </Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{rd.askAiTooltip}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      {!item.is_mandatory && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-2 right-2 h-8 w-8"
+            >
+              <MoreHorizontal className="h-4 w-4" />
+              <span className="sr-only">Actions</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => onEdit(item)}>
+              <Pencil className="mr-2 h-4 w-4" />
+              {rd.editItem}
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => onDelete(item.id)}
               className="text-destructive focus:text-destructive"
@@ -150,9 +181,9 @@ export function RoadmapItemCard({
               <Trash2 className="mr-2 h-4 w-4" />
               {rd.deleteItem}
             </DropdownMenuItem>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </Card>
   )
 }

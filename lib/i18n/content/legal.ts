@@ -24,12 +24,12 @@ const id: LegalDictionary = {
     title: "Syarat dan Ketentuan Layanan",
     lastUpdated: "Terakhir diperbarui: 1 Maret 2026",
     intro:
-      "Dengan mengakses dan menggunakan layanan GreenAdvisor, Anda menyetujui syarat dan ketentuan berikut. Harap baca dengan seksama sebelum menggunakan platform kami.",
+      "Dengan mengakses dan menggunakan layanan Subak Hijau, Anda menyetujui syarat dan ketentuan berikut. Harap baca dengan seksama sebelum menggunakan platform kami.",
     sections: [
       {
         title: "1. Ketentuan Umum",
         content: [
-          "GreenAdvisor adalah platform konsultan sustainability berbasis kecerdasan buatan (AI) yang ditujukan untuk Usaha Mikro, Kecil, dan Menengah (UMKM) di Indonesia.",
+          "Subak Hijau adalah platform konsultan sustainability berbasis kecerdasan buatan (AI) yang ditujukan untuk Usaha Mikro, Kecil, dan Menengah (UMKM) di Indonesia.",
           "Platform ini dioperasikan oleh Tim Subak Code sebagai proyek kompetisi PROXOCORIS 2026.",
           "Dengan mendaftar dan menggunakan layanan ini, Anda menyatakan telah berusia minimal 17 tahun atau memiliki izin dari orang tua/wali.",
         ],
@@ -37,7 +37,7 @@ const id: LegalDictionary = {
       {
         title: "2. Penggunaan Layanan",
         content: [
-          "Layanan GreenAdvisor disediakan sebatas alat bantu konsultasi sustainability menggunakan teknologi AI. Anda bertanggung jawab atas keakuratan data yang Anda masukkan.",
+          "Layanan Subak Hijau disediakan sebatas alat bantu konsultasi sustainability menggunakan teknologi AI. Anda bertanggung jawab atas keakuratan data yang Anda masukkan.",
           "Anda dilarang menggunakan platform untuk tujuan ilegal, menyebarkan malware, atau mengganggu operasi sistem.",
           "Kami berhak menangguhkan atau menghentikan akses Anda tanpa pemberitahuan jika terjadi pelanggaran ketentuan ini.",
         ],
@@ -45,7 +45,7 @@ const id: LegalDictionary = {
       {
         title: "3. Hak dan Kewajiban Pengguna",
         content: [
-          "Anda berhak mengakses fitur-fitur GreenAdvisor yang tersedia, termasuk AI assessment, skor sustainability, roadmap, dan AI chat consultant.",
+          "Anda berhak mengakses fitur-fitur Subak Hijau yang tersedia, termasuk AI assessment, skor sustainability, roadmap, dan AI chat consultant.",
           "Anda wajib menjaga kerahasiaan kredensial akun Anda dan bertanggung jawab atas semua aktivitas yang dilakukan melalui akun Anda.",
           "Anda berhak mengajukan penghapusan data pribadi sesuai dengan UU Perlindungan Data Pribadi (UU No. 27 Tahun 2022).",
         ],
@@ -55,14 +55,14 @@ const id: LegalDictionary = {
         content: [
           "Skor sustainability, roadmap, dan rekomendasi yang dihasilkan oleh AI bersifat indikatif dan tidak menggantikan konsultasi profesional.",
           "Estimasi pengurangan CO\u2082 dan penghematan biaya adalah perkiraan berdasarkan model AI dan data industri rata-rata. Hasil aktual dapat berbeda.",
-          "GreenAdvisor tidak bertanggung jawab atas keputusan bisnis yang diambil berdasarkan rekomendasi AI.",
+          "Subak Hijau tidak bertanggung jawab atas keputusan bisnis yang diambil berdasarkan rekomendasi AI.",
         ],
       },
       {
         title: "5. Pembatasan Tanggung Jawab",
         content: [
           "Layanan disediakan 'sebagaimana adanya' (as-is) tanpa jaminan apapun, baik tersurat maupun tersirat.",
-          "GreenAdvisor tidak bertanggung jawab atas kerugian langsung, tidak langsung, insidental, atau konsekuensial yang timbul dari penggunaan layanan.",
+          "Subak Hijau tidak bertanggung jawab atas kerugian langsung, tidak langsung, insidental, atau konsekuensial yang timbul dari penggunaan layanan.",
           "Batas tanggung jawab maksimal kami adalah nilai layanan yang telah Anda bayar (untuk layanan gratis, hal ini adalah nol).",
         ],
       },
@@ -80,7 +80,7 @@ const id: LegalDictionary = {
     title: "Kebijakan Privasi",
     lastUpdated: "Terakhir diperbarui: 1 Maret 2026",
     intro:
-      "Kebijakan privasi ini menjelaskan bagaimana GreenAdvisor mengumpulkan, menggunakan, menyimpan, dan melindungi data pribadi Anda sesuai dengan Undang-Undang Perlindungan Data Pribadi (UU No. 27 Tahun 2022) dan prinsip-prinsip GDPR.",
+      "Kebijakan privasi ini menjelaskan bagaimana Subak Hijau mengumpulkan, menggunakan, menyimpan, dan melindungi data pribadi Anda sesuai dengan Undang-Undang Perlindungan Data Pribadi (UU No. 27 Tahun 2022) dan prinsip-prinsip GDPR.",
     sections: [
       {
         title: "1. Data yang Dikumpulkan",
@@ -120,7 +120,7 @@ const id: LegalDictionary = {
       {
         title: "5. Cookie dan Pelacakan",
         content: [
-          "GreenAdvisor menggunakan cookie fungsional minimal untuk menyimpan preferensi tampilan (bahasa dan tema).",
+          "Subak Hijau menggunakan cookie fungsional minimal untuk menyimpan preferensi tampilan (bahasa dan tema).",
           "Kami tidak menggunakan cookie pelacakan pihak ketiga atau iklan.",
           "Informasi lebih lanjut tentang cookie kami tersedia di halaman Kebijakan Cookie.",
         ],
@@ -139,22 +139,22 @@ const id: LegalDictionary = {
     title: "Kebijakan Cookie",
     lastUpdated: "Terakhir diperbarui: 1 Maret 2026",
     intro:
-      "Halaman ini menjelaskan penggunaan cookie dan penyimpanan lokal (local storage) oleh GreenAdvisor.",
+      "Halaman ini menjelaskan penggunaan cookie dan penyimpanan lokal (local storage) oleh Subak Hijau.",
     sections: [
       {
         title: "1. Apa Itu Cookie?",
         content: [
           "Cookie adalah file teks kecil yang disimpan di perangkat Anda saat mengunjungi situs web. Cookie membantu situs mengingat preferensi Anda.",
-          "GreenAdvisor juga menggunakan local storage browser, yang berfungsi serupa dengan cookie tetapi disimpan secara lokal di perangkat Anda.",
+          "Subak Hijau juga menggunakan local storage browser, yang berfungsi serupa dengan cookie tetapi disimpan secara lokal di perangkat Anda.",
         ],
       },
       {
         title: "2. Cookie yang Kami Gunakan",
         content: [
-          "greenadvisor-locale: Menyimpan preferensi bahasa Anda (Indonesia/English). Jenis: local storage. Durasi: permanen hingga dihapus manual.",
-          "greenadvisor-theme: Menyimpan preferensi tema tampilan (light/dark). Jenis: local storage. Durasi: permanen hingga dihapus manual.",
-          "greenadvisor-sidebar-state: Menyimpan status sidebar dashboard (terbuka/tertutup). Jenis: cookie. Durasi: 7 hari.",
-          "greenadvisor-cookie-consent: Menyimpan persetujuan cookie Anda. Jenis: local storage. Durasi: permanen hingga dihapus manual.",
+          "subakhijau-locale: Menyimpan preferensi bahasa Anda (Indonesia/English). Jenis: local storage. Durasi: permanen hingga dihapus manual.",
+          "subakhijau-theme: Menyimpan preferensi tema tampilan (light/dark). Jenis: local storage. Durasi: permanen hingga dihapus manual.",
+          "subakhijau-sidebar-state: Menyimpan status sidebar dashboard (terbuka/tertutup). Jenis: cookie. Durasi: 7 hari.",
+          "subakhijau-cookie-consent: Menyimpan persetujuan cookie Anda. Jenis: local storage. Durasi: permanen hingga dihapus manual.",
           "sb-*: Cookie autentikasi Supabase untuk manajemen sesi login. Jenis: cookie. Durasi: sesi.",
         ],
       },
@@ -180,12 +180,12 @@ const id: LegalDictionary = {
     title: "Disclaimer",
     lastUpdated: "Terakhir diperbarui: 1 Maret 2026",
     intro:
-      "Harap baca disclaimer ini dengan seksama sebelum menggunakan layanan GreenAdvisor.",
+      "Harap baca disclaimer ini dengan seksama sebelum menggunakan layanan Subak Hijau.",
     sections: [
       {
         title: "1. Konten yang Dihasilkan AI",
         content: [
-          "Seluruh skor sustainability, rekomendasi, roadmap, dan informasi yang dihasilkan oleh AI GreenAdvisor bersifat informatif dan indikatif.",
+          "Seluruh skor sustainability, rekomendasi, roadmap, dan informasi yang dihasilkan oleh AI Subak Hijau bersifat informatif dan indikatif.",
           "Konten AI tidak menggantikan konsultasi profesional dari konsultan sustainability, akuntan, pengacara, atau ahli lingkungan bersertifikasi.",
           "Akurasi output AI bergantung pada kualitas dan kelengkapan data yang Anda berikan.",
         ],
@@ -202,14 +202,14 @@ const id: LegalDictionary = {
         title: "3. Informasi Regulasi",
         content: [
           "Referensi terhadap regulasi Indonesia (UU PDP, POJK, Perpres, dll.) bersifat informatif dan mungkin tidak mencakup perubahan terbaru.",
-          "GreenAdvisor bukan penasihat hukum. Untuk kepatuhan regulasi, konsultasikan dengan penasihat hukum yang berkompeten.",
+          "Subak Hijau bukan penasihat hukum. Untuk kepatuhan regulasi, konsultasikan dengan penasihat hukum yang berkompeten.",
           "Kami berusaha memperbarui informasi regulasi secara berkala, namun tidak menjamin kelengkapan atau kebaruan informasi.",
         ],
       },
       {
         title: "4. Ketersediaan Layanan",
         content: [
-          "GreenAdvisor adalah proyek kompetisi (PROXOCORIS 2026) dan ketersediaan jangka panjang tidak dijamin.",
+          "Subak Hijau adalah proyek kompetisi (PROXOCORIS 2026) dan ketersediaan jangka panjang tidak dijamin.",
           "Kami berhak mengubah, menangguhkan, atau menghentikan layanan tanpa pemberitahuan sebelumnya.",
           "Kami tidak bertanggung jawab atas gangguan layanan, kehilangan data, atau ketidaktersediaan platform.",
         ],
@@ -230,12 +230,12 @@ const en: LegalDictionary = {
     title: "Terms of Service",
     lastUpdated: "Last updated: March 1, 2026",
     intro:
-      "By accessing and using GreenAdvisor services, you agree to the following terms and conditions. Please read carefully before using our platform.",
+      "By accessing and using Subak Hijau services, you agree to the following terms and conditions. Please read carefully before using our platform.",
     sections: [
       {
         title: "1. General Provisions",
         content: [
-          "GreenAdvisor is an AI-powered sustainability consultant platform intended for Micro, Small, and Medium Enterprises (MSMEs) in Indonesia.",
+          "Subak Hijau is an AI-powered sustainability consultant platform intended for Micro, Small, and Medium Enterprises (MSMEs) in Indonesia.",
           "This platform is operated by Team Subak Code as a PROXOCORIS 2026 competition project.",
           "By registering and using this service, you confirm that you are at least 17 years old or have parental/guardian consent.",
         ],
@@ -243,7 +243,7 @@ const en: LegalDictionary = {
       {
         title: "2. Use of Service",
         content: [
-          "GreenAdvisor services are provided solely as an AI-powered sustainability consultation tool. You are responsible for the accuracy of the data you input.",
+          "Subak Hijau services are provided solely as an AI-powered sustainability consultation tool. You are responsible for the accuracy of the data you input.",
           "You are prohibited from using the platform for illegal purposes, distributing malware, or disrupting system operations.",
           "We reserve the right to suspend or terminate your access without notice in case of violation of these terms.",
         ],
@@ -251,7 +251,7 @@ const en: LegalDictionary = {
       {
         title: "3. User Rights and Obligations",
         content: [
-          "You have the right to access available GreenAdvisor features, including AI assessment, sustainability score, roadmap, and AI chat consultant.",
+          "You have the right to access available Subak Hijau features, including AI assessment, sustainability score, roadmap, and AI chat consultant.",
           "You must maintain the confidentiality of your account credentials and are responsible for all activity conducted through your account.",
           "You have the right to request deletion of your personal data in accordance with the Personal Data Protection Law (UU No. 27/2022).",
         ],
@@ -261,14 +261,14 @@ const en: LegalDictionary = {
         content: [
           "Sustainability scores, roadmaps, and recommendations generated by AI are indicative and do not replace professional consultation.",
           "CO\u2082 reduction estimates and cost savings are approximations based on AI models and average industry data. Actual results may vary.",
-          "GreenAdvisor is not responsible for business decisions made based on AI recommendations.",
+          "Subak Hijau is not responsible for business decisions made based on AI recommendations.",
         ],
       },
       {
         title: "5. Limitation of Liability",
         content: [
           "Services are provided 'as-is' without any warranties, express or implied.",
-          "GreenAdvisor is not liable for any direct, indirect, incidental, or consequential damages arising from the use of services.",
+          "Subak Hijau is not liable for any direct, indirect, incidental, or consequential damages arising from the use of services.",
           "Our maximum liability is limited to the amount you have paid for services (for free services, this is zero).",
         ],
       },
@@ -286,7 +286,7 @@ const en: LegalDictionary = {
     title: "Privacy Policy",
     lastUpdated: "Last updated: March 1, 2026",
     intro:
-      "This privacy policy explains how GreenAdvisor collects, uses, stores, and protects your personal data in accordance with Indonesia's Personal Data Protection Law (UU No. 27/2022) and GDPR principles.",
+      "This privacy policy explains how Subak Hijau collects, uses, stores, and protects your personal data in accordance with Indonesia's Personal Data Protection Law (UU No. 27/2022) and GDPR principles.",
     sections: [
       {
         title: "1. Data We Collect",
@@ -326,7 +326,7 @@ const en: LegalDictionary = {
       {
         title: "5. Cookies and Tracking",
         content: [
-          "GreenAdvisor uses minimal functional cookies to store display preferences (language and theme).",
+          "Subak Hijau uses minimal functional cookies to store display preferences (language and theme).",
           "We do not use third-party tracking or advertising cookies.",
           "More information about our cookies is available on the Cookie Policy page.",
         ],
@@ -345,22 +345,22 @@ const en: LegalDictionary = {
     title: "Cookie Policy",
     lastUpdated: "Last updated: March 1, 2026",
     intro:
-      "This page explains the use of cookies and local storage by GreenAdvisor.",
+      "This page explains the use of cookies and local storage by Subak Hijau.",
     sections: [
       {
         title: "1. What Are Cookies?",
         content: [
           "Cookies are small text files stored on your device when you visit a website. Cookies help the site remember your preferences.",
-          "GreenAdvisor also uses browser local storage, which functions similarly to cookies but is stored locally on your device.",
+          "Subak Hijau also uses browser local storage, which functions similarly to cookies but is stored locally on your device.",
         ],
       },
       {
         title: "2. Cookies We Use",
         content: [
-          "greenadvisor-locale: Stores your language preference (Indonesia/English). Type: local storage. Duration: permanent until manually cleared.",
-          "greenadvisor-theme: Stores your theme preference (light/dark). Type: local storage. Duration: permanent until manually cleared.",
-          "greenadvisor-sidebar-state: Stores dashboard sidebar state (open/closed). Type: cookie. Duration: 7 days.",
-          "greenadvisor-cookie-consent: Stores your cookie consent. Type: local storage. Duration: permanent until manually cleared.",
+          "subakhijau-locale: Stores your language preference (Indonesia/English). Type: local storage. Duration: permanent until manually cleared.",
+          "subakhijau-theme: Stores your theme preference (light/dark). Type: local storage. Duration: permanent until manually cleared.",
+          "subakhijau-sidebar-state: Stores dashboard sidebar state (open/closed). Type: cookie. Duration: 7 days.",
+          "subakhijau-cookie-consent: Stores your cookie consent. Type: local storage. Duration: permanent until manually cleared.",
           "sb-*: Supabase authentication cookies for login session management. Type: cookie. Duration: session.",
         ],
       },
@@ -386,12 +386,12 @@ const en: LegalDictionary = {
     title: "Disclaimer",
     lastUpdated: "Last updated: March 1, 2026",
     intro:
-      "Please read this disclaimer carefully before using GreenAdvisor services.",
+      "Please read this disclaimer carefully before using Subak Hijau services.",
     sections: [
       {
         title: "1. AI-Generated Content",
         content: [
-          "All sustainability scores, recommendations, roadmaps, and information generated by GreenAdvisor's AI are informational and indicative.",
+          "All sustainability scores, recommendations, roadmaps, and information generated by Subak Hijau's AI are informational and indicative.",
           "AI content does not replace professional consultation from certified sustainability consultants, accountants, lawyers, or environmental experts.",
           "AI output accuracy depends on the quality and completeness of the data you provide.",
         ],
@@ -408,14 +408,14 @@ const en: LegalDictionary = {
         title: "3. Regulatory Information",
         content: [
           "References to Indonesian regulations (UU PDP, POJK, Presidential Regulations, etc.) are informational and may not reflect the latest amendments.",
-          "GreenAdvisor is not a legal advisor. For regulatory compliance, consult with qualified legal counsel.",
+          "Subak Hijau is not a legal advisor. For regulatory compliance, consult with qualified legal counsel.",
           "We strive to update regulatory information periodically, but do not guarantee completeness or currency of information.",
         ],
       },
       {
         title: "4. Service Availability",
         content: [
-          "GreenAdvisor is a competition project (PROXOCORIS 2026) and long-term availability is not guaranteed.",
+          "Subak Hijau is a competition project (PROXOCORIS 2026) and long-term availability is not guaranteed.",
           "We reserve the right to modify, suspend, or discontinue the service without prior notice.",
           "We are not responsible for service interruptions, data loss, or platform unavailability.",
         ],

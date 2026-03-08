@@ -1,4 +1,9 @@
+import type { Metadata } from "next"
 import { AssessmentForm } from "@/components/forms/assessment-form"
+
+export const metadata: Metadata = {
+  title: "Assessment Sustainability",
+}
 
 export default function AssessmentPage() {
   return (

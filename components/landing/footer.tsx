@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Leaf, MessageCircle, Mail, Instagram, Linkedin } from "lucide-react"
+import { Leaf, MessageCircle, Mail } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { landingExtras } from "@/lib/i18n/content/landing-extras"
@@ -9,8 +9,6 @@ import { landingExtras } from "@/lib/i18n/content/landing-extras"
 const CONTACT_ICONS: Record<string, React.ElementType> = {
   WhatsApp: MessageCircle,
   Email: Mail,
-  Instagram: Instagram,
-  LinkedIn: Linkedin,
 }
 
 export function Footer() {
@@ -25,7 +23,7 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="mb-3 flex items-center gap-2 text-foreground">
               <Leaf className="size-5 text-primary" />
-              <span className="text-lg font-bold">GreenAdvisor</span>
+              <span className="text-lg font-bold">Subak Hijau</span>
             </div>
             <p className="text-sm text-muted-foreground">{d.tagline}</p>
           </div>

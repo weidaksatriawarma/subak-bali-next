@@ -124,7 +124,7 @@ export function OnboardingForm() {
   return (
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader className="space-y-4">
-        <h1 className="text-center text-2xl font-bold">GreenAdvisor</h1>
+        <h1 className="text-center text-2xl font-bold">Subak Hijau</h1>
         <div className="space-y-2">
           <div className="flex justify-between text-sm text-muted-foreground">
             <span>Langkah {step + 1} dari 3</span>

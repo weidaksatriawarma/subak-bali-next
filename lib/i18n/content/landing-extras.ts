@@ -48,17 +48,17 @@ export interface LandingExtrasDictionary {
 const id: LandingExtrasDictionary = {
   faq: {
     heading: "Pertanyaan yang Sering Diajukan",
-    subheading: "Jawaban untuk pertanyaan umum tentang GreenAdvisor",
+    subheading: "Jawaban untuk pertanyaan umum tentang Subak Hijau",
     items: [
       {
-        question: "Apa itu GreenAdvisor?",
+        question: "Apa itu Subak Hijau?",
         answer:
-          "GreenAdvisor adalah platform konsultan sustainability berbasis AI yang dirancang khusus untuk UMKM Indonesia. Kami membantu bisnis menilai dampak lingkungan, mendapatkan skor sustainability, dan membuat roadmap aksi yang dipersonalisasi.",
+          "Subak Hijau adalah platform konsultan sustainability berbasis AI yang dirancang khusus untuk UMKM Indonesia. Kami membantu bisnis menilai dampak lingkungan, mendapatkan skor sustainability, dan membuat roadmap aksi yang dipersonalisasi.",
       },
       {
-        question: "Apakah GreenAdvisor gratis?",
+        question: "Apakah Subak Hijau gratis?",
         answer:
-          "Ya, GreenAdvisor sepenuhnya gratis untuk digunakan. Misi kami adalah membuat konsultasi sustainability dapat diakses oleh semua pelaku UMKM tanpa biaya konsultan yang mahal.",
+          "Ya, Subak Hijau sepenuhnya gratis untuk digunakan. Misi kami adalah membuat konsultasi sustainability dapat diakses oleh semua pelaku UMKM tanpa biaya konsultan yang mahal.",
       },
       {
         question: "Bagaimana cara kerja skor AI?",
@@ -73,7 +73,7 @@ const id: LandingExtrasDictionary = {
       {
         question: "Industri apa saja yang didukung?",
         answer:
-          "GreenAdvisor mendukung berbagai sektor UMKM termasuk F&B (warung, restoran, kafe), retail, manufaktur skala kecil, jasa, pertanian, dan hospitality. AI kami memberikan rekomendasi yang disesuaikan dengan industri spesifik Anda.",
+          "Subak Hijau mendukung berbagai sektor UMKM termasuk F&B (warung, restoran, kafe), retail, manufaktur skala kecil, jasa, pertanian, dan hospitality. AI kami memberikan rekomendasi yang disesuaikan dengan industri spesifik Anda.",
       },
       {
         question: "Berapa lama proses assessment?",
@@ -81,14 +81,14 @@ const id: LandingExtrasDictionary = {
           "Assessment awal hanya membutuhkan waktu 10-15 menit. Anda mengisi profil bisnis dan menjawab pertanyaan tentang praktik operasional, kemudian AI langsung memberikan skor dan rekomendasi.",
       },
       {
-        question: "Apa hubungan GreenAdvisor dengan regulasi Indonesia?",
+        question: "Apa hubungan Subak Hijau dengan regulasi Indonesia?",
         answer:
-          "GreenAdvisor membantu UMKM memahami dan memenuhi regulasi sustainability Indonesia termasuk POJK 51/2017 tentang Keuangan Berkelanjutan, Perpres 98/2021 tentang Ekonomi Hijau, dan standar ESG yang berlaku.",
+          "Subak Hijau membantu UMKM memahami dan memenuhi regulasi sustainability Indonesia termasuk POJK 51/2017 tentang Keuangan Berkelanjutan, Perpres 98/2021 tentang Ekonomi Hijau, dan standar ESG yang berlaku.",
       },
       {
         question: "Bahasa apa saja yang tersedia?",
         answer:
-          "GreenAdvisor tersedia dalam Bahasa Indonesia dan Bahasa Inggris. Anda dapat beralih bahasa kapan saja melalui tombol bahasa di navigasi.",
+          "Subak Hijau tersedia dalam Bahasa Indonesia dan Bahasa Inggris. Anda dapat beralih bahasa kapan saja melalui tombol bahasa di navigasi.",
       },
     ],
   },
@@ -182,23 +182,13 @@ const id: LandingExtrasDictionary = {
           },
           {
             label: "Email",
-            href: "mailto:hello@greenadvisor.id",
-            external: true,
-          },
-          {
-            label: "Instagram",
-            href: "https://instagram.com/greenadvisor.id",
-            external: true,
-          },
-          {
-            label: "LinkedIn",
-            href: "https://linkedin.com/company/greenadvisor",
+            href: "mailto:hello@subakhijau.app",
             external: true,
           },
         ],
       },
     ],
-    copyright: "GreenAdvisor. Hak cipta dilindungi.",
+    copyright: "Subak Hijau. Hak cipta dilindungi.",
     madeFor: "Dibuat untuk PROXOCORIS 2026 oleh Tim Subak Code",
   },
   cookieConsent: {
@@ -212,17 +202,17 @@ const id: LandingExtrasDictionary = {
 const en: LandingExtrasDictionary = {
   faq: {
     heading: "Frequently Asked Questions",
-    subheading: "Answers to common questions about GreenAdvisor",
+    subheading: "Answers to common questions about Subak Hijau",
     items: [
       {
-        question: "What is GreenAdvisor?",
+        question: "What is Subak Hijau?",
         answer:
-          "GreenAdvisor is an AI-powered sustainability consultant platform designed specifically for Indonesian MSMEs. We help businesses assess their environmental impact, get a sustainability score, and create personalized action roadmaps.",
+          "Subak Hijau is an AI-powered sustainability consultant platform designed specifically for Indonesian MSMEs. We help businesses assess their environmental impact, get a sustainability score, and create personalized action roadmaps.",
       },
       {
-        question: "Is GreenAdvisor free?",
+        question: "Is Subak Hijau free?",
         answer:
-          "Yes, GreenAdvisor is completely free to use. Our mission is to make sustainability consulting accessible to all MSME entrepreneurs without expensive consultant fees.",
+          "Yes, Subak Hijau is completely free to use. Our mission is to make sustainability consulting accessible to all MSME entrepreneurs without expensive consultant fees.",
       },
       {
         question: "How does the AI scoring work?",
@@ -237,7 +227,7 @@ const en: LandingExtrasDictionary = {
       {
         question: "Which industries are supported?",
         answer:
-          "GreenAdvisor supports various MSME sectors including F&B (food stalls, restaurants, cafes), retail, small-scale manufacturing, services, agriculture, and hospitality. Our AI provides recommendations tailored to your specific industry.",
+          "Subak Hijau supports various MSME sectors including F&B (food stalls, restaurants, cafes), retail, small-scale manufacturing, services, agriculture, and hospitality. Our AI provides recommendations tailored to your specific industry.",
       },
       {
         question: "How long does the assessment take?",
@@ -245,14 +235,14 @@ const en: LandingExtrasDictionary = {
           "The initial assessment only takes 10-15 minutes. You fill in your business profile and answer questions about your operational practices, then the AI immediately provides your score and recommendations.",
       },
       {
-        question: "How does GreenAdvisor relate to Indonesian regulations?",
+        question: "How does Subak Hijau relate to Indonesian regulations?",
         answer:
-          "GreenAdvisor helps MSMEs understand and comply with Indonesian sustainability regulations including POJK 51/2017 on Sustainable Finance, Presidential Regulation 98/2021 on Green Economy, and applicable ESG standards.",
+          "Subak Hijau helps MSMEs understand and comply with Indonesian sustainability regulations including POJK 51/2017 on Sustainable Finance, Presidential Regulation 98/2021 on Green Economy, and applicable ESG standards.",
       },
       {
         question: "What languages are available?",
         answer:
-          "GreenAdvisor is available in Bahasa Indonesia and English. You can switch languages anytime via the language toggle in the navigation.",
+          "Subak Hijau is available in Bahasa Indonesia and English. You can switch languages anytime via the language toggle in the navigation.",
       },
     ],
   },
@@ -346,23 +336,13 @@ const en: LandingExtrasDictionary = {
           },
           {
             label: "Email",
-            href: "mailto:hello@greenadvisor.id",
-            external: true,
-          },
-          {
-            label: "Instagram",
-            href: "https://instagram.com/greenadvisor.id",
-            external: true,
-          },
-          {
-            label: "LinkedIn",
-            href: "https://linkedin.com/company/greenadvisor",
+            href: "mailto:hello@subakhijau.app",
             external: true,
           },
         ],
       },
     ],
-    copyright: "GreenAdvisor. All rights reserved.",
+    copyright: "Subak Hijau. All rights reserved.",
     madeFor: "Made for PROXOCORIS 2026 by Team Subak Code",
   },
   cookieConsent: {

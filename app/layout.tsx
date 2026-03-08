@@ -17,13 +17,13 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://greenadvisor.vercel.app"),
+  metadataBase: new URL("https://subakhijau.app"),
   title: {
-    default: "GreenAdvisor — Konsultan Sustainability AI untuk UMKM Indonesia",
-    template: "%s | GreenAdvisor",
+    default: "Subak Hijau — Konsultan Sustainability AI untuk UMKM Indonesia",
+    template: "%s | Subak Hijau",
   },
   description:
-    "GreenAdvisor membantu UMKM Indonesia menilai dampak lingkungan, mendapatkan skor sustainability, dan roadmap AI untuk bisnis yang lebih hijau.",
+    "Subak Hijau membantu UMKM Indonesia menilai dampak lingkungan, mendapatkan skor sustainability, dan roadmap AI untuk bisnis yang lebih hijau.",
   keywords: [
     "sustainability",
     "UMKM",
@@ -36,15 +36,18 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Tim Subak Code" }],
   openGraph: {
-    title: "GreenAdvisor — Konsultan Sustainability AI untuk UMKM Indonesia",
+    title: "Subak Hijau — Konsultan Sustainability AI untuk UMKM Indonesia",
     description:
       "Membantu 65 juta UMKM Indonesia menilai, merencanakan, dan melacak strategi sustainability bisnis dengan AI.",
-    siteName: "GreenAdvisor",
+    siteName: "Subak Hijau",
     locale: "id_ID",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
+    title: "Subak Hijau — Konsultan Sustainability AI untuk UMKM Indonesia",
+    description:
+      "Membantu 65 juta UMKM Indonesia menilai, merencanakan, dan melacak strategi sustainability bisnis dengan AI.",
   },
   robots: {
     index: true,
@@ -73,7 +76,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#16a34a" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="GreenAdvisor" />
+        <meta name="apple-mobile-web-app-title" content="Subak Hijau" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         <script
           type="application/ld+json"
@@ -81,8 +84,8 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              name: "GreenAdvisor",
-              url: "https://greenadvisor.vercel.app",
+              name: "Subak Hijau",
+              url: "https://subakhijau.app",
               description:
                 "AI-powered sustainability consultant for Indonesian MSMEs",
               applicationCategory: "BusinessApplication",
@@ -95,7 +98,27 @@ export default function RootLayout({
               creator: {
                 "@type": "Organization",
                 name: "Tim Subak Code",
-                url: "https://greenadvisor.vercel.app/about",
+                url: "https://subakhijau.app/about",
+              },
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Subak Hijau",
+              url: "https://subakhijau.app",
+              logo: "https://subakhijau.app/icons/icon-512x512.png",
+              description:
+                "Konsultan sustainability AI untuk UMKM Indonesia yang lebih hijau.",
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "customer service",
+                email: "hello@subakhijau.app",
+                availableLanguage: ["Indonesian", "English"],
               },
             }),
           }}

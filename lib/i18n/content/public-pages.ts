@@ -47,8 +47,6 @@ export interface PublicPagesDictionary {
     }
     social: {
       title: string
-      instagram: string
-      linkedin: string
     }
     response: string
   }
@@ -57,7 +55,7 @@ export interface PublicPagesDictionary {
 const id: PublicPagesDictionary = {
   about: {
     title: "Tentang Kami",
-    heroHeading: "Tentang GreenAdvisor",
+    heroHeading: "Tentang Subak Hijau",
     heroDescription:
       "Platform konsultan sustainability AI yang memberdayakan UMKM Indonesia untuk bisnis yang lebih hijau dan berkelanjutan.",
     heroImageAlt: "Pemandangan sawah terasering Bali dari udara",
@@ -102,7 +100,7 @@ const id: PublicPagesDictionary = {
     sdg: {
       title: "Kontribusi SDG",
       subtitle:
-        "GreenAdvisor berkontribusi pada pencapaian Sustainable Development Goals",
+        "Subak Hijau berkontribusi pada pencapaian Sustainable Development Goals",
       goals: [
         {
           number: 7,
@@ -137,12 +135,10 @@ const id: PublicPagesDictionary = {
     },
     email: {
       label: "Email",
-      value: "hello@greenadvisor.id",
+      value: "hello@subakhijau.app",
     },
     social: {
       title: "Media Sosial",
-      instagram: "greenadvisor.id",
-      linkedin: "GreenAdvisor",
     },
     response: "Kami biasanya merespons dalam 1x24 jam pada hari kerja.",
   },
@@ -151,7 +147,7 @@ const id: PublicPagesDictionary = {
 const en: PublicPagesDictionary = {
   about: {
     title: "About Us",
-    heroHeading: "About GreenAdvisor",
+    heroHeading: "About Subak Hijau",
     heroDescription:
       "An AI sustainability consultant platform empowering Indonesian MSMEs for greener and more sustainable businesses.",
     heroImageAlt: "Aerial view of Bali rice terraces",
@@ -196,7 +192,7 @@ const en: PublicPagesDictionary = {
     sdg: {
       title: "SDG Contribution",
       subtitle:
-        "GreenAdvisor contributes to achieving the Sustainable Development Goals",
+        "Subak Hijau contributes to achieving the Sustainable Development Goals",
       goals: [
         {
           number: 7,
@@ -231,12 +227,10 @@ const en: PublicPagesDictionary = {
     },
     email: {
       label: "Email",
-      value: "hello@greenadvisor.id",
+      value: "hello@subakhijau.app",
     },
     social: {
       title: "Social Media",
-      instagram: "greenadvisor.id",
-      linkedin: "GreenAdvisor",
     },
     response: "We typically respond within 24 hours on business days.",
   },

@@ -120,7 +120,7 @@ Score breakdown:
     ? sanitizeForPrompt(profile.description, 500)
     : ""
 
-  return `You are GreenAdvisor, an AI sustainability consultant specializing in helping Indonesian MSMEs (UMKM) adopt environmentally friendly business practices.
+  return `You are Subak Hijau, an AI sustainability consultant specializing in helping Indonesian MSMEs (UMKM) adopt environmentally friendly business practices.
 
 Context about this business:
 - Business name: ${name}

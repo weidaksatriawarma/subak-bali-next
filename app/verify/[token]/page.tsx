@@ -1,4 +1,6 @@
+import { cache } from "react"
 import { notFound } from "next/navigation"
+import type { Metadata } from "next"
 import { createClient } from "@/lib/supabase/server"
 import { getScoreLabel } from "@/lib/constants"
 import { getIndustryRank } from "@/lib/gamification/industry-data"
@@ -13,12 +15,7 @@ function getTierColor(score: number): string {
   return "text-orange-700 dark:text-orange-400"
 }
 
-export default async function VerifyPage({
-  params,
-}: {
-  params: Promise<{ token: string }>
-}) {
-  const { token } = await params
+const getCertificateData = cache(async (token: string) => {
   const supabase = await createClient()
 
   const { data: score } = await supabase
@@ -27,9 +24,7 @@ export default async function VerifyPage({
     .eq("certificate_token", token)
     .single()
 
-  if (!score) {
-    notFound()
-  }
+  if (!score) return null
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -37,11 +32,61 @@ export default async function VerifyPage({
     .eq("id", score.user_id)
     .single()
 
-  const businessName = profile?.business_name ?? "Bisnis"
-  const industry = (profile?.industry ?? "other") as Industry
-  const scoreLabel = getScoreLabel(score.total_score)
-  const { rank } = getIndustryRank(industry, score.total_score)
-  const dateStr = new Date(score.created_at).toLocaleDateString("id-ID", {
+  return {
+    totalScore: score.total_score,
+    createdAt: score.created_at,
+    businessName: profile?.business_name ?? "Bisnis",
+    industry: (profile?.industry ?? "other") as Industry,
+  }
+})
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ token: string }>
+}): Promise<Metadata> {
+  const { token } = await params
+  const data = await getCertificateData(token)
+
+  if (!data) {
+    return { title: "Sertifikat Tidak Ditemukan" }
+  }
+
+  const title = `Sertifikat ${data.businessName} — Skor ${data.totalScore}/100`
+  const description = `${data.businessName} telah mendapatkan skor sustainability ${data.totalScore}/100 dari Subak Hijau. Sertifikat ini terverifikasi dan valid.`
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `https://subakhijau.app/verify/${token}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  }
+}
+
+export default async function VerifyPage({
+  params,
+}: {
+  params: Promise<{ token: string }>
+}) {
+  const { token } = await params
+  const data = await getCertificateData(token)
+
+  if (!data) {
+    notFound()
+  }
+
+  const scoreLabel = getScoreLabel(data.totalScore)
+  const { rank } = getIndustryRank(data.industry, data.totalScore)
+  const dateStr = new Date(data.createdAt).toLocaleDateString("id-ID", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -56,29 +101,29 @@ export default async function VerifyPage({
           </div>
           <CardTitle className="text-xl">Sertifikat Terverifikasi</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Verified by GreenAdvisor
+            Verified by Subak Hijau
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="rounded-lg border bg-muted/30 p-4 text-center">
             <p className="text-sm text-muted-foreground">Bisnis</p>
-            <p className="text-lg font-bold">{businessName}</p>
+            <p className="text-lg font-bold">{data.businessName}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="rounded-lg border bg-muted/30 p-3 text-center">
               <p className="text-sm text-muted-foreground">Skor Total</p>
               <p
-                className={`text-3xl font-bold ${getTierColor(score.total_score)}`}
+                className={`text-3xl font-bold ${getTierColor(data.totalScore)}`}
               >
-                {score.total_score}
+                {data.totalScore}
               </p>
               <p className="text-xs text-muted-foreground">/100</p>
             </div>
             <div className="rounded-lg border bg-muted/30 p-3 text-center">
               <p className="text-sm text-muted-foreground">Tier</p>
               <p
-                className={`text-lg font-bold ${getTierColor(score.total_score)}`}
+                className={`text-lg font-bold ${getTierColor(data.totalScore)}`}
               >
                 {scoreLabel}
               </p>
@@ -99,7 +144,7 @@ export default async function VerifyPage({
           </div>
 
           <p className="text-center text-xs text-muted-foreground">
-            GreenAdvisor — AI Sustainability Consultant untuk UMKM Indonesia
+            Subak Hijau — AI Sustainability Consultant untuk UMKM Indonesia
           </p>
         </CardContent>
       </Card>

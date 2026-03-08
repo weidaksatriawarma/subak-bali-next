@@ -19,6 +19,7 @@ import {
   Shield,
   SlidersHorizontal,
   TrendingUp,
+  Trophy,
 } from "lucide-react"
 
 import type { LucideIcon } from "lucide-react"
@@ -120,6 +121,11 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           icon: Award,
         },
         {
+          title: d.nav.achievementCard,
+          href: "/dashboard/score#achievement-card",
+          icon: Trophy,
+        },
+        {
           title: d.nav.report,
           href: "/dashboard/score/report",
           icon: FileText,
@@ -175,7 +181,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
                   <Leaf className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">GreenAdvisor</span>
+                  <span className="truncate font-semibold">Subak Hijau</span>
                   <span className="truncate text-xs text-muted-foreground">
                     {d.subtitle}
                   </span>

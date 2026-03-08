@@ -460,7 +460,7 @@ export async function POST(req: Request) {
         user_id: userId,
         role: "assistant",
         content:
-          "Cara mengukur pengurangan limbah plastik:\n\n**Metode Sederhana (Rekomendasi):**\n1. **Timbang sebelum** - Minggu ini, timbang semua plastik yang dibuang per hari. Catat rata-rata harian.\n2. **Timbang sesudah** - Setelah beralih ke AvaniEco, timbang lagi plastik yang tersisa.\n3. **Hitung persentase** - (Sebelum - Sesudah) / Sebelum x 100%\n\n**Tracking Tambahan:**\n- Catat jumlah pelanggan takeaway per hari\n- Hitung biaya kemasan lama vs baru\n- Foto dokumentasi untuk laporan keberlanjutan\n\n**Target Realistis:**\n- Bulan 1: Pengurangan 50% plastik takeaway\n- Bulan 3: Pengurangan 80%\n- Bulan 6: Warung bebas plastik sekali pakai\n\nAnda bisa input data ini di assessment berikutnya di GreenAdvisor untuk melihat peningkatan skor keberlanjutan Anda!",
+          "Cara mengukur pengurangan limbah plastik:\n\n**Metode Sederhana (Rekomendasi):**\n1. **Timbang sebelum** - Minggu ini, timbang semua plastik yang dibuang per hari. Catat rata-rata harian.\n2. **Timbang sesudah** - Setelah beralih ke AvaniEco, timbang lagi plastik yang tersisa.\n3. **Hitung persentase** - (Sebelum - Sesudah) / Sebelum x 100%\n\n**Tracking Tambahan:**\n- Catat jumlah pelanggan takeaway per hari\n- Hitung biaya kemasan lama vs baru\n- Foto dokumentasi untuk laporan keberlanjutan\n\n**Target Realistis:**\n- Bulan 1: Pengurangan 50% plastik takeaway\n- Bulan 3: Pengurangan 80%\n- Bulan 6: Warung bebas plastik sekali pakai\n\nAnda bisa input data ini di assessment berikutnya di Subak Hijau untuk melihat peningkatan skor keberlanjutan Anda!",
         created_at: daysAgo(5),
       },
       // Second conversation — demo of AI tool usage

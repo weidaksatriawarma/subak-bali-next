@@ -32,9 +32,9 @@ export function WhatsAppShare({
 
   const message = `🌿 *${businessName}* ${d.gotScore} *${score}/100* (${scoreLabel}) ${d.from}
 
-${d.checkYours}: https://greenadvisor.vercel.app
+${d.checkYours}: https://subakhijau.app
 
-#UMKM #Sustainability #GreenAdvisor`
+#UMKM #Sustainability #SubakHijau`
 
   const url = `https://wa.me/?text=${encodeURIComponent(message)}`
 

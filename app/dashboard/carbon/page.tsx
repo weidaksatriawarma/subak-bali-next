@@ -1,9 +1,14 @@
+import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { ClipboardList } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { EmptyState } from "@/components/shared/empty-state"
 import { CarbonContent } from "@/components/dashboard/carbon-content"
 import type { Assessment, Profile } from "@/types/database"
+
+export const metadata: Metadata = {
+  title: "Jejak Karbon",
+}
 
 export default async function CarbonPage() {
   const supabase = await createClient()

@@ -208,13 +208,13 @@ export function SustainabilityCertificate({
     ctx.lineTo(W - cornerOffset, H - cornerOffset - cornerSize)
     ctx.stroke()
 
-    // --- "GREENADVISOR" header ---
+    // --- "SUBAK HIJAU" header ---
     ctx.fillStyle = "rgba(255,255,255,0.6)"
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
     ctx.font = "600 14px Arial, Helvetica, sans-serif"
     ctx.letterSpacing = "8px"
-    ctx.fillText("GREENADVISOR", W / 2, 70)
+    ctx.fillText("SUBAK HIJAU", W / 2, 70)
     ctx.letterSpacing = "0px"
 
     // --- Certificate title ---
@@ -468,7 +468,7 @@ export function SustainabilityCertificate({
     // --- QR Code ---
     if (certificateToken) {
       try {
-        const qrUrl = `https://greenadvisor.vercel.app/verify/${certificateToken}`
+        const qrUrl = `https://subakhijau.app/verify/${certificateToken}`
         const qrDataUrl = await QRCode.toDataURL(qrUrl, {
           width: 120,
           margin: 1,
@@ -494,14 +494,14 @@ export function SustainabilityCertificate({
     ctx.fillStyle = "rgba(255,255,255,0.4)"
     ctx.font = "12px Arial, Helvetica, sans-serif"
     ctx.fillText(
-      "GreenAdvisor \u2014 AI Sustainability Consultant untuk UMKM Indonesia",
+      "Subak Hijau \u2014 AI Sustainability Consultant untuk UMKM Indonesia",
       W / 2,
       770
     )
 
     // --- Download ---
     const link = document.createElement("a")
-    link.download = `GreenAdvisor-Certificate-${businessName.replace(/\s+/g, "-")}.png`
+    link.download = `SubakHijau-Certificate-${businessName.replace(/\s+/g, "-")}.png`
     link.href = canvas.toDataURL("image/png")
     link.click()
 

@@ -1,5 +1,5 @@
 -- ============================================================
--- GreenAdvisor — Combined Migration Script (idempotent)
+-- Subak Hijau — Combined Migration Script (idempotent)
 -- Run this in Supabase Dashboard > SQL Editor > New Query
 -- Safe to re-run: uses IF NOT EXISTS for all objects
 -- ============================================================

@@ -1,9 +1,14 @@
+import type { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { ClipboardList } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { EmptyState } from "@/components/shared/empty-state"
 import { ComplianceContent } from "@/components/dashboard/compliance-content"
 import type { Assessment } from "@/types/database"
+
+export const metadata: Metadata = {
+  title: "Kepatuhan Regulasi",
+}
 
 export default async function CompliancePage() {
   const supabase = await createClient()

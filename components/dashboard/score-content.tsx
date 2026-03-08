@@ -616,18 +616,20 @@ export function ScoreContent({
             certificateToken={certificateToken}
           />
         )}
-        <AchievementCard
-          businessName={data.businessName ?? ""}
-          totalScore={data.totalScore}
-          rankName={getIndustryRank(industry, data.totalScore).rank}
-          achievements={unlockedBadges.map((b) => ({
-            id: b.id,
-            emoji: b.emoji,
-            title: b.name,
-            unlocked: true,
-          }))}
-          streakWeeks={0}
-        />
+        <div id="achievement-card">
+          <AchievementCard
+            businessName={data.businessName ?? ""}
+            totalScore={data.totalScore}
+            rankName={getIndustryRank(industry, data.totalScore).rank}
+            achievements={unlockedBadges.map((b) => ({
+              id: b.id,
+              emoji: b.emoji,
+              title: b.name,
+              unlocked: true,
+            }))}
+            streakWeeks={0}
+          />
+        </div>
         <Button asChild variant="outline">
           <Link href="/dashboard/score/report" target="_blank">
             <FileDown className="mr-2 h-4 w-4" />

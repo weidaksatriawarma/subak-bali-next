@@ -67,6 +67,7 @@ export default async function ReportPage() {
       roadmapItems={roadmapItems ?? []}
       assessment={assessment ?? undefined}
       businessSize={profile.business_size}
+      certificateToken={score.certificate_token}
     />
   )
 }

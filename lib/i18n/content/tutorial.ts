@@ -60,10 +60,10 @@ const id: TutorialDictionary = {
   public: {
     title: "Panduan Pengguna",
     metaDescription:
-      "Panduan lengkap cara menggunakan GreenAdvisor — platform konsultan sustainability AI untuk UMKM Indonesia.",
+      "Panduan lengkap cara menggunakan Subak Hijau — platform konsultan sustainability AI untuk UMKM Indonesia.",
     heroHeading: "Panduan Pengguna",
     heroDescription:
-      "Pelajari cara memaksimalkan GreenAdvisor untuk meningkatkan sustainability bisnis Anda secara efektif.",
+      "Pelajari cara memaksimalkan Subak Hijau untuk meningkatkan sustainability bisnis Anda secara efektif.",
     heroImageAlt: "Ruang kerja profesional dengan laptop",
     gettingStarted: {
       title: "Mulai dalam 4 Langkah",
@@ -180,7 +180,7 @@ const id: TutorialDictionary = {
   },
   dashboard: {
     title: "Pusat Bantuan",
-    subtitle: "Temukan jawaban untuk pertanyaan Anda tentang GreenAdvisor",
+    subtitle: "Temukan jawaban untuk pertanyaan Anda tentang Subak Hijau",
     fullGuideLink: "Lihat panduan lengkap \u2192",
     sections: [
       {
@@ -300,10 +300,10 @@ const en: TutorialDictionary = {
   public: {
     title: "User Guide",
     metaDescription:
-      "Complete guide on how to use GreenAdvisor — an AI sustainability consultant platform for Indonesian MSMEs.",
+      "Complete guide on how to use Subak Hijau — an AI sustainability consultant platform for Indonesian MSMEs.",
     heroHeading: "User Guide",
     heroDescription:
-      "Learn how to maximize GreenAdvisor to effectively improve your business sustainability.",
+      "Learn how to maximize Subak Hijau to effectively improve your business sustainability.",
     heroImageAlt: "Professional workspace with laptop",
     gettingStarted: {
       title: "Get Started in 4 Steps",
@@ -419,7 +419,7 @@ const en: TutorialDictionary = {
   },
   dashboard: {
     title: "Help Center",
-    subtitle: "Find answers to your questions about GreenAdvisor",
+    subtitle: "Find answers to your questions about Subak Hijau",
     fullGuideLink: "See full guide \u2192",
     sections: [
       {
