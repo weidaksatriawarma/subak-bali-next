@@ -5,11 +5,7 @@ export function apiSuccess<T>(data: T, status = 200) {
   return NextResponse.json(data, { status })
 }
 
-export function apiError(
-  message: string,
-  status: number,
-  detail?: unknown
-) {
+export function apiError(message: string, status: number, detail?: unknown) {
   if (detail) {
     logger.error(`[API Error] ${status}: ${message}`, {
       detail:

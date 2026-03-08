@@ -249,9 +249,7 @@ describe("calculatePotentialSavings", () => {
     })
     // energy: (200000+400000)/2 * min(10,2) = 600000
     // rest default to count=1
-    const energySavings = result.byCategory.find(
-      (c) => c.category === "energy"
-    )
+    const energySavings = result.byCategory.find((c) => c.category === "energy")
     expect(energySavings?.savingsRp).toBe(600000)
   })
 

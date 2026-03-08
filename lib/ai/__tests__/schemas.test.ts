@@ -175,13 +175,7 @@ describe("RoadmapItemSchema", () => {
   })
 
   it("accepts all valid timeline values", () => {
-    for (const tl of [
-      "1_week",
-      "1_month",
-      "3_months",
-      "6_months",
-      "1_year",
-    ]) {
+    for (const tl of ["1_week", "1_month", "3_months", "6_months", "1_year"]) {
       const result = RoadmapItemSchema.safeParse({
         ...validItem,
         timeline: tl,
