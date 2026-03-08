@@ -2,10 +2,7 @@ import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 
 export async function POST(req: Request) {
-  if (
-    process.env.NODE_ENV !== "development" &&
-    process.env.SEED_SECRET
-  ) {
+  if (process.env.NODE_ENV !== "development" && process.env.SEED_SECRET) {
     try {
       const { secret } = await req.json()
       if (secret !== process.env.SEED_SECRET) {

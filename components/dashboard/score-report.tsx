@@ -111,17 +111,14 @@ export function ScoreReport({
       {/* Total Score */}
       <div className="rounded-xl border p-6 text-center">
         <p
-          className="mb-1 text-sm font-medium uppercase tracking-wider"
+          className="mb-1 text-sm font-medium tracking-wider uppercase"
           style={{ color: "#6b7280" }}
         >
           {t.dashboard.score.totalScore}
         </p>
         <p className="text-6xl font-bold text-green-600">
           {score.totalScore}
-          <span
-            className="text-2xl font-normal"
-            style={{ color: "#9ca3af" }}
-          >
+          <span className="text-2xl font-normal" style={{ color: "#9ca3af" }}>
             /100
           </span>
         </p>
@@ -129,10 +126,7 @@ export function ScoreReport({
 
       {/* Category Breakdown */}
       <div>
-        <h2
-          className="mb-4 text-lg font-bold"
-          style={{ color: "#111827" }}
-        >
+        <h2 className="mb-4 text-lg font-bold" style={{ color: "#111827" }}>
           {d.categoryBreakdown}
         </h2>
         <div className="space-y-3">
@@ -146,10 +140,7 @@ export function ScoreReport({
 
       {/* SDG Alignment */}
       <div>
-        <h2
-          className="mb-4 text-lg font-bold"
-          style={{ color: "#111827" }}
-        >
+        <h2 className="mb-4 text-lg font-bold" style={{ color: "#111827" }}>
           {d.sdgAlignment}
         </h2>
         <SDGBadges
@@ -166,10 +157,7 @@ export function ScoreReport({
       {/* AI Summary */}
       {summaryLines.length > 0 && (
         <div>
-          <h2
-            className="mb-4 text-lg font-bold"
-            style={{ color: "#111827" }}
-          >
+          <h2 className="mb-4 text-lg font-bold" style={{ color: "#111827" }}>
             {d.aiAnalysis}
           </h2>
           <div className="space-y-2">
@@ -189,10 +177,7 @@ export function ScoreReport({
       {/* Industry Benchmark */}
       {score.industryBenchmark !== null && (
         <div>
-          <h2
-            className="mb-2 text-lg font-bold"
-            style={{ color: "#111827" }}
-          >
+          <h2 className="mb-2 text-lg font-bold" style={{ color: "#111827" }}>
             {d.industryBenchmark}
           </h2>
           <p className="text-sm" style={{ color: "#374151" }}>
@@ -218,10 +203,7 @@ export function ScoreReport({
       {/* Recommended Actions */}
       {roadmapItems.length > 0 && (
         <div>
-          <h2
-            className="mb-4 text-lg font-bold"
-            style={{ color: "#111827" }}
-          >
+          <h2 className="mb-4 text-lg font-bold" style={{ color: "#111827" }}>
             {d.recommendedActions}
           </h2>
           <div className="space-y-3">
@@ -235,16 +217,10 @@ export function ScoreReport({
                     {i + 1}
                   </span>
                   <div>
-                    <p
-                      className="font-medium"
-                      style={{ color: "#111827" }}
-                    >
+                    <p className="font-medium" style={{ color: "#111827" }}>
                       {item.title}
                     </p>
-                    <p
-                      className="mt-1 text-sm"
-                      style={{ color: "#6b7280" }}
-                    >
+                    <p className="mt-1 text-sm" style={{ color: "#6b7280" }}>
                       {item.description}
                     </p>
                     <div className="mt-2 flex gap-2">
@@ -267,7 +243,11 @@ export function ScoreReport({
                           }}
                         >
                           {d.impact}:{" "}
-                          {impacts[item.estimated_impact as keyof typeof impacts]}
+                          {
+                            impacts[
+                              item.estimated_impact as keyof typeof impacts
+                            ]
+                          }
                         </span>
                       )}
                     </div>

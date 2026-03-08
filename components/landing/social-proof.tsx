@@ -28,7 +28,7 @@ export function SocialProof() {
               <CardContent className="flex flex-col items-center gap-3 pt-2 text-center">
                 <span className="text-4xl">{EMOJIS[i]}</span>
                 <Badge variant="secondary">{item.type}</Badge>
-                <p className="text-sm italic text-muted-foreground">
+                <p className="text-sm text-muted-foreground italic">
                   &ldquo;{item.quote}&rdquo;
                 </p>
                 <p className="text-xl font-bold text-green-600">

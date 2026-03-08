@@ -312,17 +312,20 @@ const id: Dictionary = {
     items: [
       {
         type: "Warung",
-        quote: "Dengan roadmap GreenAdvisor, kami berhasil mengurangi limbah makanan secara signifikan.",
+        quote:
+          "Dengan roadmap GreenAdvisor, kami berhasil mengurangi limbah makanan secara signifikan.",
         metric: "Pengurangan limbah 40% dalam 3 bulan",
       },
       {
         type: "Toko Retail",
-        quote: "AI-nya kasih rekomendasi hemat listrik yang langsung bisa diterapkan.",
+        quote:
+          "AI-nya kasih rekomendasi hemat listrik yang langsung bisa diterapkan.",
         metric: "Hemat Rp 2 juta/bulan biaya listrik",
       },
       {
         type: "Manufaktur",
-        quote: "Laporan sustainability membantu kami mendapat kepercayaan buyer internasional.",
+        quote:
+          "Laporan sustainability membantu kami mendapat kepercayaan buyer internasional.",
         metric: "Berhasil mendapat sertifikasi Eco-Label",
       },
     ],
@@ -616,22 +619,24 @@ const en: Dictionary = {
   },
   socialProof: {
     heading: "Impact for Indonesian MSMEs",
-    subheading:
-      "See how GreenAdvisor helps businesses become more sustainable",
+    subheading: "See how GreenAdvisor helps businesses become more sustainable",
     items: [
       {
         type: "Food Stall",
-        quote: "With GreenAdvisor's roadmap, we significantly reduced our food waste.",
+        quote:
+          "With GreenAdvisor's roadmap, we significantly reduced our food waste.",
         metric: "40% waste reduction in 3 months",
       },
       {
         type: "Retail Shop",
-        quote: "The AI gave us energy-saving recommendations we could apply right away.",
+        quote:
+          "The AI gave us energy-saving recommendations we could apply right away.",
         metric: "Saved Rp 2M/month on electricity",
       },
       {
         type: "Manufacturing",
-        quote: "The sustainability report helped us gain trust from international buyers.",
+        quote:
+          "The sustainability report helped us gain trust from international buyers.",
         metric: "Achieved Eco-Label certification",
       },
     ],

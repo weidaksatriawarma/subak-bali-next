@@ -74,9 +74,7 @@ export function RoadmapItemCard({ item, onToggle }: RoadmapItemCardProps) {
               {common.impacts[item.estimated_impact]}
             </Badge>
           )}
-          <Badge variant="secondary">
-            {common.categories[item.category]}
-          </Badge>
+          <Badge variant="secondary">{common.categories[item.category]}</Badge>
         </div>
       </div>
     </Card>

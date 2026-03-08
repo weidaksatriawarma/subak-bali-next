@@ -22,7 +22,7 @@ export function AchievementBadge({ achievement }: AchievementBadgeProps) {
       )}
     >
       <span className="text-2xl">{achievement.emoji}</span>
-      <span className="text-xs font-medium leading-tight">
+      <span className="text-xs leading-tight font-medium">
         {achievement.title}
       </span>
     </div>

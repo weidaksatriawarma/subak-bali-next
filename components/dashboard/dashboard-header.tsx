@@ -32,9 +32,7 @@ export function DashboardHeader() {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() =>
-            setTheme(resolvedTheme === "dark" ? "light" : "dark")
-          }
+          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
           aria-label="Toggle theme"
         >
           <Sun className="size-4 scale-100 rotate-0 transition-transform dark:scale-0 dark:-rotate-90" />

@@ -34,7 +34,7 @@ export default async function DashboardLayout({
       <AppSidebar profile={profile} />
       <SidebarInset>
         <DashboardHeader />
-        <main className="flex-1 animate-fade-in p-4 md:p-6">{children}</main>
+        <main className="animate-fade-in flex-1 p-4 md:p-6">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   )

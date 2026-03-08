@@ -22,11 +22,7 @@ export default async function ReportPage() {
         .order("created_at", { ascending: false })
         .limit(1)
         .returns<Score[]>(),
-      supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .single<Profile>(),
+      supabase.from("profiles").select("*").eq("id", user.id).single<Profile>(),
       supabase
         .from("roadmap_items")
         .select("*")
