@@ -11,6 +11,11 @@ import {
   TrendingUp,
 } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
+import {
+  FadeInUp,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/landing/motion-wrapper"
 
 const stepIcons = [ClipboardList, Brain, Map]
 const featureIcons = [MessageSquare, Gauge, Route, TrendingUp]
@@ -55,42 +60,50 @@ export function BentoGrid() {
     <section id="cara-kerja" className="px-4 py-16 sm:px-6 md:py-24 lg:px-8">
       <div className="mx-auto max-w-6xl">
         {/* Section header */}
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            {t.bentoGrid.heading}
-          </h2>
-          <p className="mt-3 text-muted-foreground">{t.bentoGrid.subheading}</p>
-        </div>
+        <FadeInUp>
+          <div className="mb-8 text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              {t.bentoGrid.heading}
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              {t.bentoGrid.subheading}
+            </p>
+          </div>
+        </FadeInUp>
 
         {/* Steps row */}
-        <div className="mb-8 grid gap-4 sm:grid-cols-3">
+        <StaggerContainer className="mb-8 grid gap-4 sm:grid-cols-3">
           {steps.map((item) => (
-            <div
-              key={item.step}
-              className="flex items-center gap-4 rounded-2xl border bg-card p-4 ring-1 ring-border"
-            >
-              <div className="relative flex-shrink-0">
-                <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10">
-                  <item.icon className="size-6 text-primary" />
+            <StaggerItem key={item.step}>
+              <div className="flex items-center gap-4 rounded-2xl border bg-card p-4 ring-1 ring-border">
+                <div className="relative flex-shrink-0">
+                  <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10">
+                    <item.icon className="size-6 text-primary" />
+                  </div>
+                  <div className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                    {item.step}
+                  </div>
                 </div>
-                <div className="absolute -top-1.5 -right-1.5 flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                  {item.step}
+                <div>
+                  <h3 className="font-semibold text-foreground">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    {item.description}
+                  </p>
                 </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground">{item.title}</h3>
-                <p className="text-xs leading-relaxed text-muted-foreground">
-                  {item.description}
-                </p>
-              </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         {/* Bento grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-3">
+        <StaggerContainer
+          className="grid gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-3"
+          staggerDelay={0.08}
+        >
           {/* Image: Solar panels — tall left */}
-          <div className="relative overflow-hidden rounded-2xl sm:row-span-2">
+          <StaggerItem className="relative overflow-hidden rounded-2xl sm:row-span-2">
             <Image
               src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80"
               alt="Solar panels representing sustainable energy"
@@ -98,25 +111,25 @@ export function BentoGrid() {
               className="object-cover"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-          </div>
+          </StaggerItem>
 
           {/* Feature: AI Chat */}
-          <div className="lg:col-span-2">
+          <StaggerItem className="lg:col-span-2">
             <FeatureCell {...features[0]} />
-          </div>
+          </StaggerItem>
 
           {/* Feature: Score */}
-          <div className="lg:col-span-2">
+          <StaggerItem className="lg:col-span-2">
             <FeatureCell {...features[1]} />
-          </div>
+          </StaggerItem>
 
           {/* Feature: Roadmap */}
-          <div className="lg:col-span-2">
+          <StaggerItem className="lg:col-span-2">
             <FeatureCell {...features[2]} />
-          </div>
+          </StaggerItem>
 
           {/* Image: Workspace — tall right */}
-          <div className="relative overflow-hidden rounded-2xl sm:row-span-2">
+          <StaggerItem className="relative overflow-hidden rounded-2xl sm:row-span-2">
             <Image
               src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80"
               alt="Modern workspace representing business innovation"
@@ -124,15 +137,15 @@ export function BentoGrid() {
               className="object-cover"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-          </div>
+          </StaggerItem>
 
           {/* Feature: Tracking */}
-          <div className="lg:col-span-2">
+          <StaggerItem className="lg:col-span-2">
             <FeatureCell {...features[3]} />
-          </div>
+          </StaggerItem>
 
           {/* Image: Forest — wide bottom */}
-          <div className="relative aspect-video overflow-hidden rounded-2xl sm:col-span-2 lg:col-span-3 lg:aspect-auto lg:h-[200px]">
+          <StaggerItem className="relative aspect-video overflow-hidden rounded-2xl sm:col-span-2 lg:col-span-3 lg:aspect-auto lg:h-[200px]">
             <Image
               src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80"
               alt="Forest canopy representing nature and environment"
@@ -140,8 +153,8 @@ export function BentoGrid() {
               className="object-cover"
               sizes="100vw"
             />
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerContainer>
       </div>
     </section>
   )
