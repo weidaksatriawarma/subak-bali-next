@@ -79,14 +79,11 @@ export function ScoreReport({
 
   useEffect(() => {
     if (!certificateToken) return
-    QRCode.toDataURL(
-      `https://subakhijau.app/verify/${certificateToken}`,
-      {
-        width: 100,
-        margin: 1,
-        color: { dark: "#16a34a", light: "#FFFFFF" },
-      }
-    )
+    QRCode.toDataURL(`https://subakhijau.app/verify/${certificateToken}`, {
+      width: 100,
+      margin: 1,
+      color: { dark: "#16a34a", light: "#FFFFFF" },
+    })
       .then(setQrDataUrl)
       .catch(() => {})
   }, [certificateToken])
@@ -417,10 +414,7 @@ export function ScoreReport({
       )}
 
       {/* Footer */}
-      <div
-        className="border-t pt-4 text-xs"
-        style={{ color: "#9ca3af" }}
-      >
+      <div className="border-t pt-4 text-xs" style={{ color: "#9ca3af" }}>
         {qrDataUrl ? (
           <div className="flex items-center justify-between">
             <p>{d.footer}</p>

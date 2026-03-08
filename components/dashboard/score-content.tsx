@@ -310,18 +310,14 @@ export function ScoreContent({
               <div
                 className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 ${labelInfo.color}`}
               >
-                <labelInfo.icon
-                  className={`h-4 w-4 ${labelInfo.iconColor}`}
-                />
-                <span className="text-sm font-semibold">
-                  {labelInfo.label}
-                </span>
+                <labelInfo.icon className={`h-4 w-4 ${labelInfo.iconColor}`} />
+                <span className="text-sm font-semibold">{labelInfo.label}</span>
               </div>
             </div>
 
             {/* Category Breakdown */}
             <div className="w-full space-y-3">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-medium tracking-wider text-muted-foreground uppercase">
                 {d.categoryBreakdown}
               </p>
               <div className="space-y-2.5">

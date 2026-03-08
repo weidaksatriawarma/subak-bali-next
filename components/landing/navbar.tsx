@@ -69,9 +69,7 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Leaf className="size-6 text-primary" />
-          <span className="text-lg font-bold text-foreground">
-            Subak Hijau
-          </span>
+          <span className="text-lg font-bold text-foreground">Subak Hijau</span>
         </Link>
 
         {/* Desktop nav */}

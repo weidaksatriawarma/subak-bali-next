@@ -12,8 +12,7 @@ import { landingExtras } from "@/lib/i18n/content/landing-extras"
 
 export const metadata: Metadata = {
   title: {
-    absolute:
-      "Subak Hijau — Konsultan Sustainability AI untuk UMKM Indonesia",
+    absolute: "Subak Hijau — Konsultan Sustainability AI untuk UMKM Indonesia",
   },
   openGraph: {
     url: "https://subakhijau.app",

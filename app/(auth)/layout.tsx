@@ -10,9 +10,7 @@ export default function AuthLayout({
       <div className="w-full max-w-[400px] space-y-6">
         <div className="flex items-center justify-center gap-2">
           <Leaf className="h-8 w-8 text-primary" />
-          <span className="text-2xl font-bold tracking-tight">
-            Subak Hijau
-          </span>
+          <span className="text-2xl font-bold tracking-tight">Subak Hijau</span>
         </div>
         {children}
       </div>
