@@ -61,10 +61,6 @@ export default function RoadmapPage() {
   const [loading, setLoading] = useState(true)
   const [categoryFilter, setCategoryFilter] = useState<"all" | Category>("all")
   const [sortBy, setSortBy] = useState<SortOption>("priority")
-  const [impactData, setImpactData] = useState<{
-    co2: number
-    trees: number
-  } | null>(null)
 
   // CRUD state
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -104,33 +100,6 @@ export default function RoadmapPage() {
 
       if (roadmaps?.[0]) {
         setRoadmapId(roadmaps[0].id)
-      }
-
-      // Try to get AI-generated CO2 data, fallback to client-side estimation
-      const aiContent = roadmaps?.[0]?.ai_generated_content as {
-        estimated_co2_reduction_kg?: number
-        tree_equivalent?: number
-      } | null
-      if (
-        aiContent &&
-        typeof aiContent.estimated_co2_reduction_kg === "number"
-      ) {
-        setImpactData({
-          co2: aiContent.estimated_co2_reduction_kg,
-          trees:
-            aiContent.tree_equivalent ??
-            Math.round(aiContent.estimated_co2_reduction_kg / 22),
-        })
-      } else if (roadmapItems && roadmapItems.length > 0) {
-        // Client-side fallback based on estimated_impact
-        const totalCo2 = roadmapItems.reduce((sum, item) => {
-          const impact = item.estimated_impact ?? "low"
-          return sum + (CO2_FALLBACK[impact] ?? 50)
-        }, 0)
-        setImpactData({
-          co2: totalCo2,
-          trees: Math.round(totalCo2 / 22),
-        })
       }
 
       setLoading(false)
@@ -316,6 +285,25 @@ export default function RoadmapPage() {
   )
   const unlockedCount = achievements.filter((a) => a.unlocked).length
 
+  const impactData = useMemo(() => {
+    if (items.length === 0) return null
+    const totalCo2 = items.reduce((sum, item) => {
+      return sum + (CO2_FALLBACK[item.estimated_impact ?? "low"] ?? 50)
+    }, 0)
+    const completedCo2 = items
+      .filter((i) => i.is_completed)
+      .reduce((sum, item) => {
+        return sum + (CO2_FALLBACK[item.estimated_impact ?? "low"] ?? 50)
+      }, 0)
+    return {
+      totalCo2,
+      completedCo2,
+      totalTrees: Math.round(totalCo2 / 22),
+      completedTrees: Math.round(completedCo2 / 22),
+      impactPercent: totalCo2 > 0 ? (completedCo2 / totalCo2) * 100 : 0,
+    }
+  }, [items])
+
   if (loading) {
     return (
       <div className="space-y-6">
@@ -378,7 +366,11 @@ export default function RoadmapPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-green-700 dark:text-green-400">
-                    {impactData.co2.toLocaleString("id-ID")} kg
+                    {impactData.completedCo2.toLocaleString("id-ID")}
+                    <span className="text-base font-normal text-muted-foreground">
+                      {" "}
+                      / {impactData.totalCo2.toLocaleString("id-ID")} kg
+                    </span>
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {d.impactEstimator.co2Reduction}
@@ -391,7 +383,11 @@ export default function RoadmapPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-green-700 dark:text-green-400">
-                    {impactData.trees}
+                    {impactData.completedTrees}
+                    <span className="text-base font-normal text-muted-foreground">
+                      {" "}
+                      / {impactData.totalTrees}
+                    </span>
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {d.impactEstimator.trees}
@@ -399,7 +395,13 @@ export default function RoadmapPage() {
                 </div>
               </div>
             </div>
-            <p className="mt-3 text-xs text-muted-foreground">
+            <Progress
+              value={impactData.impactPercent}
+              className="mt-3 h-2"
+            />
+            <p className="mt-2 text-xs text-muted-foreground">
+              {Math.round(impactData.impactPercent)}%{" "}
+              {d.impactEstimator.progressLabel} —{" "}
               {d.impactEstimator.annualEstimate}
             </p>
           </CardContent>
