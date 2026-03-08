@@ -6,6 +6,7 @@ import { BentoGrid } from "@/components/landing/bento-grid"
 import { CtaSection } from "@/components/landing/cta-section"
 import { FaqSection } from "@/components/landing/faq-section"
 import { Footer } from "@/components/landing/footer"
+import { CommunityImpact } from "@/components/landing/community-impact"
 import { ScrollToTop } from "@/components/landing/scroll-to-top"
 
 export default function Page() {
@@ -16,6 +17,7 @@ export default function Page() {
       <Stats />
       <TrustBadges />
       <BentoGrid />
+      <CommunityImpact />
       <CtaSection />
       <FaqSection />
       <Footer />
