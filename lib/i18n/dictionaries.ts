@@ -140,6 +140,38 @@ export interface DashboardDictionary {
       annualEstimate: string
       trees: string
     }
+    addItem: string
+    editItem: string
+    deleteItem: string
+    deleteConfirmTitle: string
+    deleteConfirmDesc: string
+    deleteBtn: string
+    cancelBtn: string
+    saveBtn: string
+    savingBtn: string
+    aiGenerated: string
+    mandatory: string
+    mandatoryTooltip: string
+    userAdded: string
+    itemAdded: string
+    itemUpdated: string
+    itemDeleted: string
+    addError: string
+    updateError: string
+    deleteError: string
+    cannotDeleteMandatory: string
+    form: {
+      title: string
+      titlePlaceholder: string
+      description: string
+      descriptionPlaceholder: string
+      category: string
+      priority: string
+      estimatedImpact: string
+      estimatedCost: string
+      timeline: string
+      selectPlaceholder: string
+    }
   }
   common: {
     categories: {
@@ -479,6 +511,40 @@ const id: Dictionary = {
         annualEstimate: "Estimasi tahunan jika semua langkah diterapkan",
         trees: "pohon/tahun",
       },
+      addItem: "Tambah Langkah",
+      editItem: "Edit Langkah",
+      deleteItem: "Hapus Langkah",
+      deleteConfirmTitle: "Hapus langkah ini?",
+      deleteConfirmDesc:
+        "Langkah ini akan dihapus permanen dan tidak bisa dikembalikan.",
+      deleteBtn: "Hapus",
+      cancelBtn: "Batal",
+      saveBtn: "Simpan",
+      savingBtn: "Menyimpan...",
+      aiGenerated: "AI",
+      mandatory: "Wajib",
+      mandatoryTooltip:
+        "Langkah wajib dari AI, tidak bisa dihapus",
+      userAdded: "Manual",
+      itemAdded: "Langkah berhasil ditambahkan!",
+      itemUpdated: "Langkah berhasil diperbarui!",
+      itemDeleted: "Langkah berhasil dihapus!",
+      addError: "Gagal menambahkan langkah",
+      updateError: "Gagal memperbarui langkah",
+      deleteError: "Gagal menghapus langkah",
+      cannotDeleteMandatory: "Langkah wajib tidak bisa dihapus",
+      form: {
+        title: "Judul",
+        titlePlaceholder: "Masukkan judul langkah",
+        description: "Deskripsi",
+        descriptionPlaceholder: "Jelaskan langkah ini",
+        category: "Kategori",
+        priority: "Prioritas",
+        estimatedImpact: "Estimasi Dampak",
+        estimatedCost: "Estimasi Biaya",
+        timeline: "Timeline",
+        selectPlaceholder: "Pilih...",
+      },
     },
     common: {
       categories: {
@@ -791,6 +857,40 @@ const en: Dictionary = {
         treeEquivalent: "Tree Equivalent",
         annualEstimate: "Annual estimate if all steps are implemented",
         trees: "trees/year",
+      },
+      addItem: "Add Step",
+      editItem: "Edit Step",
+      deleteItem: "Delete Step",
+      deleteConfirmTitle: "Delete this step?",
+      deleteConfirmDesc:
+        "This step will be permanently deleted and cannot be recovered.",
+      deleteBtn: "Delete",
+      cancelBtn: "Cancel",
+      saveBtn: "Save",
+      savingBtn: "Saving...",
+      aiGenerated: "AI",
+      mandatory: "Required",
+      mandatoryTooltip:
+        "Required AI-generated step, cannot be deleted",
+      userAdded: "Manual",
+      itemAdded: "Step added successfully!",
+      itemUpdated: "Step updated successfully!",
+      itemDeleted: "Step deleted successfully!",
+      addError: "Failed to add step",
+      updateError: "Failed to update step",
+      deleteError: "Failed to delete step",
+      cannotDeleteMandatory: "Required steps cannot be deleted",
+      form: {
+        title: "Title",
+        titlePlaceholder: "Enter step title",
+        description: "Description",
+        descriptionPlaceholder: "Describe this step",
+        category: "Category",
+        priority: "Priority",
+        estimatedImpact: "Estimated Impact",
+        estimatedCost: "Estimated Cost",
+        timeline: "Timeline",
+        selectPlaceholder: "Select...",
       },
     },
     common: {

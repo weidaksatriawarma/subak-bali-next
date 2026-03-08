@@ -23,7 +23,7 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
           Jejak Karbon
         </p>
         <p className="mb-2 text-lg font-bold text-green-700 dark:text-green-400">
-          {(output.totalCO2 as number).toLocaleString()} kg CO₂/tahun
+          {(output.totalCO2 as number).toLocaleString("id-ID")} kg CO₂/tahun
         </p>
         <div className="mb-2 space-y-1">
           {breakdown.map((b) => (
@@ -35,7 +35,7 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
                 />
               </div>
               <span className="w-24 text-muted-foreground">
-                {b.category}: {b.co2Kg.toLocaleString()} kg
+                {b.category}: {b.co2Kg.toLocaleString("id-ID")} kg
               </span>
               <span className="w-8 text-right font-medium">
                 {b.percentage}%

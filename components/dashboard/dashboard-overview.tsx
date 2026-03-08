@@ -259,7 +259,7 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
                 <Leaf className="h-4 w-4 text-green-600" />
                 <div>
                   <p className="text-lg font-bold text-green-700 dark:text-green-400">
-                    {data.impact.carbon.totalCO2.toLocaleString()} kg
+                    {data.impact.carbon.totalCO2.toLocaleString("id-ID")} kg
                   </p>
                   <p className="text-[10px] text-muted-foreground">CO₂/tahun</p>
                 </div>

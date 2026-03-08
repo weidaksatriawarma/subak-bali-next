@@ -195,7 +195,7 @@ function AnimatedNumber({
 
   const formatted = hasDecimal
     ? current.toFixed(1)
-    : Math.round(current).toLocaleString()
+    : Math.round(current).toLocaleString("id-ID")
 
   return (
     <>

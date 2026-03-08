@@ -4,17 +4,44 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { CATEGORY_EMOJI } from "@/lib/constants"
 import type { RoadmapItem } from "@/types/database"
 import { cn } from "@/lib/utils"
+import {
+  Sparkles,
+  Lock,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+} from "lucide-react"
 
 interface RoadmapItemCardProps {
   item: RoadmapItem
   onToggle: (id: string, completed: boolean) => void
+  onEdit: (item: RoadmapItem) => void
+  onDelete: (id: string) => void
 }
 
-export function RoadmapItemCard({ item, onToggle }: RoadmapItemCardProps) {
+export function RoadmapItemCard({
+  item,
+  onToggle,
+  onEdit,
+  onDelete,
+}: RoadmapItemCardProps) {
   const [justCompleted, setJustCompleted] = useState(false)
   const { t } = useTranslation()
   const common = t.dashboard.common
@@ -38,7 +65,7 @@ export function RoadmapItemCard({ item, onToggle }: RoadmapItemCardProps) {
   return (
     <Card
       className={cn(
-        "flex items-start gap-4 p-4 transition-all",
+        "relative flex items-start gap-4 p-4 transition-all",
         item.is_completed && "opacity-60",
         justCompleted && "animate-check-bounce"
       )}
@@ -75,8 +102,63 @@ export function RoadmapItemCard({ item, onToggle }: RoadmapItemCardProps) {
             </Badge>
           )}
           <Badge variant="secondary">{common.categories[item.category]}</Badge>
+          {item.source === "ai_generated" && (
+            <Badge
+              variant="outline"
+              className="border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300"
+            >
+              <Sparkles className="mr-1 h-3 w-3" />
+              {rd.aiGenerated}
+            </Badge>
+          )}
+          {item.is_mandatory && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Badge
+                    variant="outline"
+                    className="border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300"
+                  >
+                    <Lock className="mr-1 h-3 w-3" />
+                    {rd.mandatory}
+                  </Badge>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{rd.mandatoryTooltip}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </div>
       </div>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8"
+          >
+            <MoreHorizontal className="h-4 w-4" />
+            <span className="sr-only">Actions</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => onEdit(item)}>
+            <Pencil className="mr-2 h-4 w-4" />
+            {rd.editItem}
+          </DropdownMenuItem>
+          {!item.is_mandatory && (
+            <DropdownMenuItem
+              onClick={() => onDelete(item.id)}
+              className="text-destructive focus:text-destructive"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              {rd.deleteItem}
+            </DropdownMenuItem>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </Card>
   )
 }

@@ -155,6 +155,9 @@ create table if not exists public.roadmap_items (
   completed_at timestamptz,
   sort_order int default 0,
 
+  source text not null default 'ai_generated',
+  is_mandatory boolean not null default false,
+
   created_at timestamptz default now()
 );
 

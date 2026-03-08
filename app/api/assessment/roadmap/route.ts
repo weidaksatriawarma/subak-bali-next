@@ -119,6 +119,8 @@ export async function POST(req: Request) {
     estimated_cost: item.estimated_cost,
     timeline: item.timeline,
     sort_order: index,
+    source: "ai_generated" as const,
+    is_mandatory: true,
   }))
 
   const { error: itemsError } = await supabase

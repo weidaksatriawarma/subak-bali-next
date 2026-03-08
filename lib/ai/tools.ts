@@ -144,7 +144,7 @@ export function createChatTools(assessment: Assessment | null) {
               ),
             },
           ],
-          context: `Total emisi tahunan: ${result.totalCO2.toLocaleString()} kg CO₂, setara dengan ${result.treeEquivalent} pohon per tahun untuk menyerap emisi ini.`,
+          context: `Total emisi tahunan: ${result.totalCO2.toLocaleString("id-ID")} kg CO₂, setara dengan ${result.treeEquivalent} pohon per tahun untuk menyerap emisi ini.`,
         }
       },
     }),

@@ -51,6 +51,8 @@ export type EstimatedCost = "free" | "low" | "medium" | "high"
 
 export type Timeline = "1_week" | "1_month" | "3_months" | "6_months" | "1_year"
 
+export type RoadmapItemSource = "ai_generated" | "manual" | "ai_chat"
+
 export interface Profile {
   id: string
   business_name: string
@@ -125,6 +127,8 @@ export interface RoadmapItem {
   is_completed: boolean
   completed_at: string | null
   sort_order: number
+  source: RoadmapItemSource
+  is_mandatory: boolean
   created_at: string
 }
 

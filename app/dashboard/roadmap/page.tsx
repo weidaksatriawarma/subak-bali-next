@@ -4,8 +4,9 @@ import { useEffect, useState, useMemo } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { toast } from "sonner"
-import { MapIcon, Leaf, TreePine } from "lucide-react"
+import { MapIcon, Leaf, TreePine, Plus } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
@@ -15,8 +16,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { Skeleton } from "@/components/ui/skeleton"
 import { RoadmapItemCard } from "@/components/dashboard/roadmap-item-card"
+import {
+  RoadmapItemDialog,
+  type RoadmapItemFormValues,
+} from "@/components/dashboard/roadmap-item-dialog"
 import { AchievementBadge } from "@/components/dashboard/achievement-badge"
 import { computeAchievements } from "@/lib/achievements"
 import { EmptyState } from "@/components/shared/empty-state"
@@ -50,6 +65,14 @@ export default function RoadmapPage() {
     co2: number
     trees: number
   } | null>(null)
+
+  // CRUD state
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [editingItem, setEditingItem] = useState<RoadmapItem | null>(null)
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null)
+  const [saving, setSaving] = useState(false)
+  const [roadmapId, setRoadmapId] = useState<string | null>(null)
+
   const { t } = useTranslation()
   const d = t.dashboard.roadmap
   const common = t.dashboard.common
@@ -71,13 +94,17 @@ export default function RoadmapPage() {
           .order("sort_order", { ascending: true }),
         supabase
           .from("roadmaps")
-          .select("ai_generated_content")
+          .select("id, ai_generated_content")
           .eq("user_id", user.id)
           .order("created_at", { ascending: false })
           .limit(1),
       ])
 
       setItems(roadmapItems || [])
+
+      if (roadmaps?.[0]) {
+        setRoadmapId(roadmaps[0].id)
+      }
 
       // Try to get AI-generated CO2 data, fallback to client-side estimation
       const aiContent = roadmaps?.[0]?.ai_generated_content as {
@@ -136,6 +163,127 @@ export default function RoadmapPage() {
     if (completed) {
       toast.success(d.stepComplete)
     }
+  }
+
+  function handleOpenCreate() {
+    setEditingItem(null)
+    setDialogOpen(true)
+  }
+
+  function handleOpenEdit(item: RoadmapItem) {
+    setEditingItem(item)
+    setDialogOpen(true)
+  }
+
+  function handleRequestDelete(id: string) {
+    const target = items.find((i) => i.id === id)
+    if (target?.is_mandatory) {
+      toast.error(d.cannotDeleteMandatory)
+      return
+    }
+    setDeleteTargetId(id)
+  }
+
+  async function handleSave(values: RoadmapItemFormValues) {
+    setSaving(true)
+    const supabase = createClient()
+
+    if (editingItem) {
+      // Edit mode
+      const updateData = editingItem.is_mandatory
+        ? { title: values.title, description: values.description }
+        : {
+            title: values.title,
+            description: values.description,
+            category: values.category,
+            priority: values.priority,
+            estimated_impact: values.estimated_impact,
+            estimated_cost: values.estimated_cost,
+            timeline: values.timeline,
+          }
+
+      const { error } = await supabase
+        .from("roadmap_items")
+        .update(updateData)
+        .eq("id", editingItem.id)
+
+      if (error) {
+        toast.error(d.updateError)
+        setSaving(false)
+        return
+      }
+
+      setItems((prev) =>
+        prev.map((item) =>
+          item.id === editingItem.id ? { ...item, ...updateData } : item
+        )
+      )
+      toast.success(d.itemUpdated)
+    } else {
+      // Create mode
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+
+      if (!user || !roadmapId) {
+        toast.error(d.addError)
+        setSaving(false)
+        return
+      }
+
+      const newItem = {
+        roadmap_id: roadmapId,
+        user_id: user.id,
+        title: values.title,
+        description: values.description,
+        category: values.category,
+        priority: values.priority,
+        estimated_impact: values.estimated_impact,
+        estimated_cost: values.estimated_cost,
+        timeline: values.timeline,
+        sort_order: items.length,
+        source: "manual" as const,
+        is_mandatory: false,
+      }
+
+      const { data, error } = await supabase
+        .from("roadmap_items")
+        .insert(newItem)
+        .select()
+        .single()
+
+      if (error || !data) {
+        toast.error(d.addError)
+        setSaving(false)
+        return
+      }
+
+      setItems((prev) => [...prev, data as RoadmapItem])
+      toast.success(d.itemAdded)
+    }
+
+    setSaving(false)
+    setDialogOpen(false)
+    setEditingItem(null)
+  }
+
+  async function handleConfirmDelete() {
+    if (!deleteTargetId) return
+
+    const supabase = createClient()
+    const { error } = await supabase
+      .from("roadmap_items")
+      .delete()
+      .eq("id", deleteTargetId)
+
+    if (error) {
+      toast.error(d.deleteError)
+    } else {
+      setItems((prev) => prev.filter((item) => item.id !== deleteTargetId))
+      toast.success(d.itemDeleted)
+    }
+
+    setDeleteTargetId(null)
   }
 
   const filtered =
@@ -230,7 +378,7 @@ export default function RoadmapPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-green-700 dark:text-green-400">
-                    {impactData.co2.toLocaleString()} kg
+                    {impactData.co2.toLocaleString("id-ID")} kg
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {d.impactEstimator.co2Reduction}
@@ -306,26 +454,75 @@ export default function RoadmapPage() {
           </TabsList>
         </Tabs>
 
-        <Select
-          value={sortBy}
-          onValueChange={(v) => setSortBy(v as SortOption)}
-        >
-          <SelectTrigger className="w-44">
-            <SelectValue placeholder={d.sortPlaceholder} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="priority">{d.sort.priority}</SelectItem>
-            <SelectItem value="impact">{d.sort.impact}</SelectItem>
-            <SelectItem value="timeline">{d.sort.timeline}</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex gap-2">
+          <Select
+            value={sortBy}
+            onValueChange={(v) => setSortBy(v as SortOption)}
+          >
+            <SelectTrigger className="w-44">
+              <SelectValue placeholder={d.sortPlaceholder} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="priority">{d.sort.priority}</SelectItem>
+              <SelectItem value="impact">{d.sort.impact}</SelectItem>
+              <SelectItem value="timeline">{d.sort.timeline}</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Button onClick={handleOpenCreate} size="default">
+            <Plus className="mr-1 h-4 w-4" />
+            {d.addItem}
+          </Button>
+        </div>
       </div>
 
       <div className="space-y-3">
         {sorted.map((item) => (
-          <RoadmapItemCard key={item.id} item={item} onToggle={handleToggle} />
+          <RoadmapItemCard
+            key={item.id}
+            item={item}
+            onToggle={handleToggle}
+            onEdit={handleOpenEdit}
+            onDelete={handleRequestDelete}
+          />
         ))}
       </div>
+
+      <RoadmapItemDialog
+        open={dialogOpen}
+        onOpenChange={(open) => {
+          setDialogOpen(open)
+          if (!open) setEditingItem(null)
+        }}
+        item={editingItem}
+        saving={saving}
+        onSave={handleSave}
+      />
+
+      <AlertDialog
+        open={deleteTargetId !== null}
+        onOpenChange={(open) => {
+          if (!open) setDeleteTargetId(null)
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{d.deleteConfirmTitle}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {d.deleteConfirmDesc}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{d.cancelBtn}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {d.deleteBtn}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

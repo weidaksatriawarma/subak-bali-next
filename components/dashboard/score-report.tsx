@@ -187,7 +187,7 @@ export function ScoreReport({
                       className="text-2xl font-bold"
                       style={{ color: "#16a34a" }}
                     >
-                      {carbon.totalCO2.toLocaleString()} kg
+                      {carbon.totalCO2.toLocaleString("id-ID")} kg
                     </p>
                     <p className="text-xs" style={{ color: "#6b7280" }}>
                       CO₂/tahun
@@ -218,11 +218,11 @@ export function ScoreReport({
                 </div>
                 <div className="mt-3 space-y-1">
                   <p className="text-sm" style={{ color: "#374151" }}>
-                    Energi: {carbon.energyCO2.toLocaleString()} kg
+                    Energi: {carbon.energyCO2.toLocaleString("id-ID")} kg
                     {" \u2022 "}
-                    Limbah: {carbon.wasteCO2.toLocaleString()} kg
+                    Limbah: {carbon.wasteCO2.toLocaleString("id-ID")} kg
                     {" \u2022 "}
-                    Transportasi: {carbon.transportCO2.toLocaleString()} kg
+                    Transportasi: {carbon.transportCO2.toLocaleString("id-ID")} kg
                   </p>
                   <p className="text-xs" style={{ color: "#6b7280" }}>
                     Setara {carbon.treeEquivalent} pohon per tahun untuk
