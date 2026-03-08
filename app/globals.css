@@ -212,6 +212,14 @@
   animation: pulse-subtle 2s ease-in-out infinite;
 }
 
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+.animate-typing-dot {
+  animation: typing-bounce 1.4s infinite ease-in-out;
+}
+
 :focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
@@ -223,7 +231,8 @@
   .animate-fade-in,
   .animate-streak-pulse,
   .animate-celebration-entrance,
-  .animate-pulse-subtle {
+  .animate-pulse-subtle,
+  .animate-typing-dot {
     animation: none !important;
   }
 }

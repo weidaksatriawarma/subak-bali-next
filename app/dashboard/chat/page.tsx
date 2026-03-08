@@ -16,7 +16,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { ChatMessage } from "@/components/dashboard/chat-message"
+import {
+  ChatMessage,
+  TypingIndicator,
+} from "@/components/dashboard/chat-message"
 import { ChatInput } from "@/components/dashboard/chat-input"
 import { ChatHistory } from "@/components/dashboard/chat-history"
 import type {
@@ -132,7 +135,7 @@ function ChatPanel({
 
         {status === "submitted" && (
           <div className="flex items-center gap-2 py-3 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <TypingIndicator />
             <span>Subak Hijau sedang mengetik...</span>
           </div>
         )}

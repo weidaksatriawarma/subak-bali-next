@@ -4,8 +4,9 @@ import { useState } from "react"
 import type { UIMessage } from "ai"
 import { isToolUIPart } from "ai"
 import ReactMarkdown from "react-markdown"
+import type { Components } from "react-markdown"
 import remarkGfm from "remark-gfm"
-import { User, Leaf, Loader2, Copy, Check } from "lucide-react"
+import { User, Leaf, Copy, Check, ExternalLink } from "lucide-react"
 import { toast } from "sonner"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
@@ -145,6 +146,97 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
   )
 }
 
+function CodeBlock({ language, code }: { language: string; code: string }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code)
+      setCopied(true)
+      toast.success("Kode disalin!")
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      toast.error("Gagal menyalin kode")
+    }
+  }
+
+  return (
+    <div className="my-3 overflow-hidden rounded-lg border border-zinc-800">
+      <div className="flex items-center justify-between bg-zinc-800 px-3 py-1.5">
+        <span className="text-xs text-zinc-400">{language || "code"}</span>
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1 text-xs text-zinc-400 transition-colors hover:text-zinc-200"
+        >
+          {copied ? (
+            <>
+              <Check className="h-3 w-3" />
+              Disalin
+            </>
+          ) : (
+            <>
+              <Copy className="h-3 w-3" />
+              Salin
+            </>
+          )}
+        </button>
+      </div>
+      <pre className="overflow-x-auto bg-zinc-950 p-3 dark:bg-zinc-900">
+        <code className="text-sm leading-relaxed text-zinc-100">{code}</code>
+      </pre>
+    </div>
+  )
+}
+
+export function TypingIndicator() {
+  return (
+    <div className="flex items-center gap-1">
+      {[0, 1, 2].map((i) => (
+        <span
+          key={i}
+          className="animate-typing-dot h-2 w-2 rounded-full bg-muted-foreground/60"
+          style={{ animationDelay: `${i * 0.2}s` }}
+        />
+      ))}
+    </div>
+  )
+}
+
+const markdownComponents: Components = {
+  pre: ({ children }) => <>{children}</>,
+  code: ({ className, children, ...props }) => {
+    const match = /language-(\w+)/.exec(className || "")
+    if (match) {
+      return (
+        <CodeBlock
+          language={match[1]}
+          code={String(children).replace(/\n$/, "")}
+        />
+      )
+    }
+    return (
+      <code
+        className="rounded bg-muted px-1.5 py-0.5 font-mono text-[0.85em] text-foreground"
+        {...props}
+      >
+        {children}
+      </code>
+    )
+  },
+  a: ({ href, children, ...props }) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-0.5"
+      {...props}
+    >
+      {children}
+      <ExternalLink className="inline h-3 w-3 shrink-0" />
+    </a>
+  ),
+}
+
 function CopyButton({ message }: { message: UIMessage }) {
   const [copied, setCopied] = useState(false)
 
@@ -227,9 +319,12 @@ export function ChatMessage({ message }: ChatMessageProps) {
             return (
               <div
                 key={i}
-                className="prose dark:prose-invert prose-p:my-2 prose-p:leading-relaxed prose-headings:mb-2 prose-headings:mt-4 prose-headings:font-semibold prose-h3:text-base prose-h4:text-sm prose-ul:my-2 prose-ol:my-2 prose-ul:space-y-1 prose-ol:space-y-1 prose-li:my-0 prose-strong:font-semibold prose-strong:text-foreground prose-pre:my-3 prose-hr:my-4 max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                className="prose dark:prose-invert prose-p:my-2 prose-p:leading-relaxed prose-headings:mb-2 prose-headings:mt-4 prose-headings:font-semibold prose-h3:text-base prose-h4:text-sm prose-ul:my-2 prose-ol:my-2 prose-ul:space-y-1 prose-ol:space-y-1 prose-li:my-0 prose-strong:font-semibold prose-strong:text-foreground prose-pre:my-0 prose-hr:my-4 prose-code:before:content-none prose-code:after:content-none prose-table:my-3 prose-table:w-full prose-thead:border-b prose-thead:border-border prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:text-xs prose-th:font-semibold prose-td:border-t prose-td:border-border prose-td:px-3 prose-td:py-2 prose-td:text-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
               >
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={markdownComponents}
+                >
                   {part.text}
                 </ReactMarkdown>
               </div>
@@ -254,7 +349,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                   key={i}
                   className="my-1 flex items-center gap-2 text-xs text-muted-foreground"
                 >
-                  <Loader2 className="h-3 w-3 animate-spin" />
+                  <TypingIndicator />
                   <span>Menganalisis data...</span>
                 </div>
               )
