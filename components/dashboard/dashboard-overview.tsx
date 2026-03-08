@@ -12,6 +12,9 @@ import {
   Leaf,
   Banknote,
   Shield,
+  Sprout,
+  TreePine,
+  Trees,
   type LucideIcon,
 } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
@@ -35,7 +38,9 @@ import type {
 } from "@/lib/carbon"
 
 interface ScoreLabelInfo {
-  emoji: string
+  icon: LucideIcon
+  color: string
+  iconColor: string
   label: string
   description: string
 }
@@ -44,11 +49,40 @@ function getScoreLabelInfoT(
   score: number,
   labels: DashboardDictionary["common"]["scoreLabels"]
 ): ScoreLabelInfo {
-  if (score < 20) return { emoji: "\u{1F331}", ...labels.seed }
-  if (score < 40) return { emoji: "\u{1F331}", ...labels.sprout }
-  if (score < 60) return { emoji: "\u{1F33F}", ...labels.growing }
-  if (score < 80) return { emoji: "\u{1F333}", ...labels.tree }
-  return { emoji: "\u{1F333}\u2728", ...labels.forest }
+  if (score < 20)
+    return {
+      icon: Sprout,
+      color: "bg-red-100 dark:bg-red-900/50",
+      iconColor: "text-red-500",
+      ...labels.seed,
+    }
+  if (score < 40)
+    return {
+      icon: Sprout,
+      color: "bg-orange-100 dark:bg-orange-900/50",
+      iconColor: "text-orange-500",
+      ...labels.sprout,
+    }
+  if (score < 60)
+    return {
+      icon: Leaf,
+      color: "bg-yellow-100 dark:bg-yellow-900/50",
+      iconColor: "text-yellow-500",
+      ...labels.growing,
+    }
+  if (score < 80)
+    return {
+      icon: TreePine,
+      color: "bg-green-100 dark:bg-green-900/50",
+      iconColor: "text-green-500",
+      ...labels.tree,
+    }
+  return {
+    icon: Trees,
+    color: "bg-emerald-100 dark:bg-emerald-900/50",
+    iconColor: "text-emerald-500",
+    ...labels.forest,
+  }
 }
 
 function getScoreColor(score: number): string {
@@ -211,7 +245,11 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
           {data.totalScore !== null && labelInfo ? (
             <div className="flex items-center gap-6">
               <div className="text-center">
-                <span className="text-4xl">{labelInfo.emoji}</span>
+                <div className={`rounded-full p-2 ${labelInfo.color}`}>
+                  <labelInfo.icon
+                    className={`h-8 w-8 ${labelInfo.iconColor}`}
+                  />
+                </div>
                 <p
                   className={`text-4xl font-bold ${getScoreColor(data.totalScore)}`}
                 >

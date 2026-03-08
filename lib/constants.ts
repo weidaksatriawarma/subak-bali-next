@@ -1,3 +1,4 @@
+import { Sprout, Leaf, TreePine, Trees, type LucideIcon } from "lucide-react"
 import type {
   Industry,
   BusinessSize,
@@ -93,7 +94,9 @@ export const TRANSPORTATION_TYPE_LABELS: Record<TransportationType, string> = {
 }
 
 export interface ScoreLabelInfo {
-  emoji: string
+  icon: LucideIcon
+  color: string
+  iconColor: string
   label: string
   description: string
 }
@@ -101,30 +104,40 @@ export interface ScoreLabelInfo {
 export function getScoreLabelInfo(score: number): ScoreLabelInfo {
   if (score < 20)
     return {
-      emoji: "\u{1F331}",
+      icon: Sprout,
+      color: "bg-red-100 dark:bg-red-900/50",
+      iconColor: "text-red-500",
       label: "Benih Kecil",
       description: "Baru mulai! Yuk tumbuh bersama",
     }
   if (score < 40)
     return {
-      emoji: "\u{1F331}",
+      icon: Sprout,
+      color: "bg-orange-100 dark:bg-orange-900/50",
+      iconColor: "text-orange-500",
       label: "Tunas Muda",
       description: "Sudah mulai tumbuh, terus semangat!",
     }
   if (score < 60)
     return {
-      emoji: "\u{1F33F}",
+      icon: Leaf,
+      color: "bg-yellow-100 dark:bg-yellow-900/50",
+      iconColor: "text-yellow-500",
       label: "Pohon yang Tumbuh",
       description: "Bisnis kamu makin hijau!",
     }
   if (score < 80)
     return {
-      emoji: "\u{1F333}",
+      icon: TreePine,
+      color: "bg-green-100 dark:bg-green-900/50",
+      iconColor: "text-green-500",
       label: "Pohon Rindang",
       description: "Hebat! Sudah jadi teladan",
     }
   return {
-    emoji: "\u{1F333}\u2728",
+    icon: Trees,
+    color: "bg-emerald-100 dark:bg-emerald-900/50",
+    iconColor: "text-emerald-500",
     label: "Hutan Lestari",
     description: "Luar biasa! Champion keberlanjutan!",
   }
