@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
+import { BottomNav } from "@/components/dashboard/bottom-nav"
 
 export default async function DashboardLayout({
   children,
@@ -34,7 +35,10 @@ export default async function DashboardLayout({
       <AppSidebar profile={profile} />
       <SidebarInset>
         <DashboardHeader />
-        <main className="animate-fade-in flex-1 p-4 md:p-6">{children}</main>
+        <main className="animate-fade-in flex-1 p-4 pb-20 md:p-6 md:pb-6">
+          {children}
+        </main>
+        <BottomNav />
       </SidebarInset>
     </SidebarProvider>
   )

@@ -248,7 +248,7 @@ function ChatPageContent() {
 
   if (loading) {
     return (
-      <div className="-m-4 flex h-[calc(100vh-4rem)] md:-m-6">
+      <div className="-m-4 -mb-20 flex h-[calc(100dvh-7.5rem)] md:-m-6 md:h-[calc(100dvh-4rem)]">
         <div className="hidden w-64 border-r p-3 md:block">
           <Skeleton className="mb-3 h-9 w-full" />
           <div className="space-y-2">
@@ -263,7 +263,7 @@ function ChatPageContent() {
   }
 
   return (
-    <div className="-m-4 flex h-[calc(100vh-4rem)] md:-m-6">
+    <div className="-m-4 -mb-20 flex h-[calc(100dvh-7.5rem)] md:-m-6 md:h-[calc(100dvh-4rem)]">
       {/* Desktop history panel */}
       <div className="hidden w-64 border-r md:block">{historyPanel}</div>
 
@@ -313,7 +313,7 @@ export default function ChatPage() {
   return (
     <Suspense
       fallback={
-        <div className="-m-4 flex h-[calc(100vh-4rem)] items-center justify-center md:-m-6">
+        <div className="-m-4 -mb-20 flex h-[calc(100dvh-7.5rem)] items-center justify-center md:-m-6 md:h-[calc(100dvh-4rem)]">
           <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
         </div>
       }
