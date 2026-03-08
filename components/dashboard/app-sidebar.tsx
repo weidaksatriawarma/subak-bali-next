@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import {
   BarChart3,
   ClipboardList,
+  Footprints,
   LayoutDashboard,
   Leaf,
   LogOut,
@@ -12,6 +13,8 @@ import {
   MessageSquare,
   MoreVertical,
   Settings,
+  Shield,
+  SlidersHorizontal,
   TrendingUp,
 } from "lucide-react"
 
@@ -56,6 +59,21 @@ export function AppSidebar({ profile }: AppSidebarProps) {
       icon: ClipboardList,
     },
     { title: d.nav.myScore, href: "/dashboard/score", icon: BarChart3 },
+    {
+      title: d.nav.simulator,
+      href: "/dashboard/simulator",
+      icon: SlidersHorizontal,
+    },
+    {
+      title: d.nav.carbonFootprint,
+      href: "/dashboard/carbon",
+      icon: Footprints,
+    },
+    {
+      title: d.nav.compliance,
+      href: "/dashboard/compliance",
+      icon: Shield,
+    },
     { title: d.nav.roadmap, href: "/dashboard/roadmap", icon: Map },
     {
       title: d.nav.aiConsultant,

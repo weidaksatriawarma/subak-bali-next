@@ -26,6 +26,9 @@ export interface DashboardDictionary {
       aiConsultant: string
       progress: string
       settings: string
+      simulator: string
+      carbonFootprint: string
+      compliance: string
     }
     settings: string
     signOut: string
@@ -139,6 +142,7 @@ export interface DashboardDictionary {
       treeEquivalent: string
       annualEstimate: string
       trees: string
+      progressLabel: string
     }
     addItem: string
     editItem: string
@@ -209,6 +213,62 @@ export interface DashboardDictionary {
       policy: string
     }
   }
+  carbon: {
+    title: string
+    subtitle: string
+    totalEmissions: string
+    treeEquivalent: string
+    potentialSavings: string
+    breakdown: string
+    energyLabel: string
+    wasteLabel: string
+    transportLabel: string
+    vsIndustry: string
+    yourBusiness: string
+    industryAvg: string
+    topRecommendations: string
+    noAssessment: string
+    noAssessmentDesc: string
+    startAssessment: string
+    kgYear: string
+    trees: string
+    rpMonth: string
+  }
+  compliance: {
+    title: string
+    subtitle: string
+    overallScore: string
+    framework: string
+    compliant: string
+    nonCompliant: string
+    recommendation: string
+    noAssessment: string
+    noAssessmentDesc: string
+    startAssessment: string
+  }
+  simulator: {
+    title: string
+    subtitle: string
+    currentScore: string
+    projectedScore: string
+    pointIncrease: string
+    ifAllApplied: string
+    couldIncrease: string
+    to: string
+    reset: string
+    noAssessment: string
+    noAssessmentDesc: string
+    startAssessment: string
+  }
+  certificate: {
+    download: string
+    generating: string
+    certificateTitle: string
+    issuedTo: string
+    assessmentDate: string
+    level: string
+    categoryBreakdown: string
+  }
 }
 
 export interface Dictionary {
@@ -251,6 +311,16 @@ export interface Dictionary {
     heading: string
     subheading: string
     items: { type: string; quote: string; metric: string }[]
+  }
+  communityImpact: {
+    heading: string
+    subheading: string
+    stat1Value: string
+    stat1Label: string
+    stat2Value: string
+    stat2Label: string
+    stat3Value: string
+    stat3Label: string
   }
   dashboard: DashboardDictionary
 }
@@ -367,6 +437,16 @@ const id: Dictionary = {
       },
     ],
   },
+  communityImpact: {
+    heading: "Dampak Kolektif Komunitas",
+    subheading: "Bersama-sama kita membuat perubahan nyata",
+    stat1Value: "500+",
+    stat1Label: "Bisnis Terdaftar",
+    stat2Value: "120+",
+    stat2Label: "ton CO₂ Dikurangi",
+    stat3Value: "2.500+",
+    stat3Label: "Langkah Sustainability Diambil",
+  },
   dashboard: {
     sidebar: {
       subtitle: "Konsultan Berkelanjutan",
@@ -378,6 +458,9 @@ const id: Dictionary = {
         aiConsultant: "AI Consultant",
         progress: "Progress",
         settings: "Pengaturan",
+        simulator: "Simulator",
+        carbonFootprint: "Jejak Karbon",
+        compliance: "Kepatuhan",
       },
       settings: "Pengaturan",
       signOut: "Keluar",
@@ -508,8 +591,9 @@ const id: Dictionary = {
         title: "\u{1F33F} Estimasi Dampak Lingkungan",
         co2Reduction: "Pengurangan CO\u2082",
         treeEquivalent: "Setara Pohon",
-        annualEstimate: "Estimasi tahunan jika semua langkah diterapkan",
+        annualEstimate: "Estimasi dampak dari langkah yang telah diselesaikan",
         trees: "pohon/tahun",
+        progressLabel: "tercapai",
       },
       addItem: "Tambah Langkah",
       editItem: "Edit Langkah",
@@ -600,6 +684,67 @@ const id: Dictionary = {
         operations: "Ahli Operasional",
         policy: "Pelopor Kebijakan",
       },
+    },
+    carbon: {
+      title: "Jejak Karbon",
+      subtitle: "Visualisasi emisi karbon dan potensi penghematan bisnis Anda",
+      totalEmissions: "Total Emisi CO₂",
+      treeEquivalent: "Setara Pohon",
+      potentialSavings: "Potensi Penghematan",
+      breakdown: "Rincian Emisi",
+      energyLabel: "Energi",
+      wasteLabel: "Limbah",
+      transportLabel: "Transportasi",
+      vsIndustry: "Bisnis Anda vs Rata-rata Industri",
+      yourBusiness: "Bisnis Anda",
+      industryAvg: "Rata-rata Industri",
+      topRecommendations: "Rekomendasi Teratas",
+      noAssessment: "Belum ada data",
+      noAssessmentDesc:
+        "Lengkapi assessment untuk melihat jejak karbon bisnis Anda.",
+      startAssessment: "Mulai Assessment",
+      kgYear: "kg CO₂/tahun",
+      trees: "pohon",
+      rpMonth: "Rp/bulan",
+    },
+    compliance: {
+      title: "Kepatuhan Regulasi",
+      subtitle:
+        "Status kepatuhan bisnis Anda terhadap regulasi sustainability Indonesia",
+      overallScore: "Skor Kepatuhan",
+      framework: "Framework",
+      compliant: "Terpenuhi",
+      nonCompliant: "Belum Terpenuhi",
+      recommendation: "Rekomendasi",
+      noAssessment: "Belum ada data",
+      noAssessmentDesc:
+        "Lengkapi assessment untuk melihat status kepatuhan regulasi bisnis Anda.",
+      startAssessment: "Mulai Assessment",
+    },
+    simulator: {
+      title: "Simulator Skor",
+      subtitle:
+        "Simulasikan perubahan untuk melihat dampaknya terhadap skor keberlanjutan Anda",
+      currentScore: "Skor Saat Ini",
+      projectedScore: "Skor Proyeksi",
+      pointIncrease: "poin",
+      ifAllApplied: "Jika semua diterapkan, skor Anda bisa naik dari",
+      couldIncrease: "menjadi",
+      to: "\u2192",
+      reset: "Reset Semua",
+      noAssessment: "Belum ada data",
+      noAssessmentDesc:
+        "Lengkapi assessment dan generate skor terlebih dahulu untuk menggunakan simulator.",
+      startAssessment: "Mulai Assessment",
+    },
+    certificate: {
+      download: "Download Sertifikat",
+      generating: "Membuat sertifikat...",
+      certificateTitle: "SERTIFIKAT KEBERLANJUTAN",
+      issuedTo: "Diberikan kepada",
+      assessmentDate: "Tanggal Assessment",
+      level: "Level",
+      categoryBreakdown: "Rincian Kategori",
     },
   },
 }
@@ -715,6 +860,16 @@ const en: Dictionary = {
       },
     ],
   },
+  communityImpact: {
+    heading: "Collective Community Impact",
+    subheading: "Together we're making real change",
+    stat1Value: "500+",
+    stat1Label: "Registered Businesses",
+    stat2Value: "120+",
+    stat2Label: "tons CO₂ Reduced",
+    stat3Value: "2,500+",
+    stat3Label: "Sustainability Steps Taken",
+  },
   dashboard: {
     sidebar: {
       subtitle: "Sustainability Consultant",
@@ -726,6 +881,9 @@ const en: Dictionary = {
         aiConsultant: "AI Consultant",
         progress: "Progress",
         settings: "Settings",
+        simulator: "Simulator",
+        carbonFootprint: "Carbon Footprint",
+        compliance: "Compliance",
       },
       settings: "Settings",
       signOut: "Sign Out",
@@ -855,8 +1013,9 @@ const en: Dictionary = {
         title: "\u{1F33F} Environmental Impact Estimate",
         co2Reduction: "CO\u2082 Reduction",
         treeEquivalent: "Tree Equivalent",
-        annualEstimate: "Annual estimate if all steps are implemented",
+        annualEstimate: "Impact from completed steps out of total potential",
         trees: "trees/year",
+        progressLabel: "achieved",
       },
       addItem: "Add Step",
       editItem: "Edit Step",
@@ -947,6 +1106,67 @@ const en: Dictionary = {
         operations: "Operations Expert",
         policy: "Policy Pioneer",
       },
+    },
+    carbon: {
+      title: "Carbon Footprint",
+      subtitle: "Visualize your business carbon emissions and savings potential",
+      totalEmissions: "Total CO₂ Emissions",
+      treeEquivalent: "Tree Equivalent",
+      potentialSavings: "Potential Savings",
+      breakdown: "Emission Breakdown",
+      energyLabel: "Energy",
+      wasteLabel: "Waste",
+      transportLabel: "Transportation",
+      vsIndustry: "Your Business vs Industry Average",
+      yourBusiness: "Your Business",
+      industryAvg: "Industry Average",
+      topRecommendations: "Top Recommendations",
+      noAssessment: "No data yet",
+      noAssessmentDesc:
+        "Complete an assessment to view your business carbon footprint.",
+      startAssessment: "Start Assessment",
+      kgYear: "kg CO₂/year",
+      trees: "trees",
+      rpMonth: "Rp/month",
+    },
+    compliance: {
+      title: "Regulatory Compliance",
+      subtitle:
+        "Your business compliance status against Indonesian sustainability regulations",
+      overallScore: "Compliance Score",
+      framework: "Framework",
+      compliant: "Compliant",
+      nonCompliant: "Non-Compliant",
+      recommendation: "Recommendation",
+      noAssessment: "No data yet",
+      noAssessmentDesc:
+        "Complete an assessment to view your regulatory compliance status.",
+      startAssessment: "Start Assessment",
+    },
+    simulator: {
+      title: "Score Simulator",
+      subtitle:
+        "Simulate changes to see their impact on your sustainability score",
+      currentScore: "Current Score",
+      projectedScore: "Projected Score",
+      pointIncrease: "points",
+      ifAllApplied: "If all applied, your score could increase from",
+      couldIncrease: "to",
+      to: "\u2192",
+      reset: "Reset All",
+      noAssessment: "No data yet",
+      noAssessmentDesc:
+        "Complete an assessment and generate a score first to use the simulator.",
+      startAssessment: "Start Assessment",
+    },
+    certificate: {
+      download: "Download Certificate",
+      generating: "Generating certificate...",
+      certificateTitle: "SUSTAINABILITY CERTIFICATE",
+      issuedTo: "Issued to",
+      assessmentDate: "Assessment Date",
+      level: "Level",
+      categoryBreakdown: "Category Breakdown",
     },
   },
 }

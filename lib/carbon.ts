@@ -60,14 +60,14 @@ const SAVINGS_BY_CATEGORY: Record<
 
 // ─── Regulatory Compliance Mapping ───────────────────────────────
 
-interface ComplianceItem {
+export interface ComplianceItem {
   id: string
   label: string
   labelEn: string
   weight: number
 }
 
-const COMPLIANCE_ITEMS: ComplianceItem[] = [
+export const COMPLIANCE_ITEMS: ComplianceItem[] = [
   {
     id: "sustainability_policy",
     label: "Kebijakan sustainability",
@@ -192,15 +192,15 @@ export function calculatePotentialSavings(
 export interface RegulatoryCompliance {
   overallPercent: number
   framework: string
-  met: { id: string; label: string }[]
-  unmet: { id: string; label: string }[]
+  met: { id: string; label: string; labelEn: string }[]
+  unmet: { id: string; label: string; labelEn: string }[]
 }
 
 export function calculateRegulatoryCompliance(
   assessment: Partial<Assessment>
 ): RegulatoryCompliance {
-  const met: { id: string; label: string }[] = []
-  const unmet: { id: string; label: string }[] = []
+  const met: { id: string; label: string; labelEn: string }[] = []
+  const unmet: { id: string; label: string; labelEn: string }[] = []
   let totalWeight = 0
 
   const checks: Record<string, boolean> = {
@@ -219,10 +219,10 @@ export function calculateRegulatoryCompliance(
 
   for (const item of COMPLIANCE_ITEMS) {
     if (checks[item.id]) {
-      met.push({ id: item.id, label: item.label })
+      met.push({ id: item.id, label: item.label, labelEn: item.labelEn })
       totalWeight += item.weight
     } else {
-      unmet.push({ id: item.id, label: item.label })
+      unmet.push({ id: item.id, label: item.label, labelEn: item.labelEn })
     }
   }
 
