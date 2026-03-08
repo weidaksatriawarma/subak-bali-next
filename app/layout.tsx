@@ -16,9 +16,39 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "GreenAdvisor — Konsultan Sustainability AI untuk UMKM Indonesia",
+  metadataBase: new URL("https://greenadvisor.vercel.app"),
+  title: {
+    default: "GreenAdvisor — Konsultan Sustainability AI untuk UMKM Indonesia",
+    template: "%s | GreenAdvisor",
+  },
   description:
     "GreenAdvisor membantu UMKM Indonesia menilai dampak lingkungan, mendapatkan skor sustainability, dan roadmap AI untuk bisnis yang lebih hijau.",
+  keywords: [
+    "sustainability",
+    "UMKM",
+    "Indonesia",
+    "AI",
+    "SDG",
+    "keberlanjutan",
+    "MSME",
+    "green business",
+  ],
+  authors: [{ name: "Tim Subak Code" }],
+  openGraph: {
+    title: "GreenAdvisor — Konsultan Sustainability AI untuk UMKM Indonesia",
+    description:
+      "Membantu 65 juta UMKM Indonesia menilai, merencanakan, dan melacak strategi sustainability bisnis dengan AI.",
+    siteName: "GreenAdvisor",
+    locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({
