@@ -3,7 +3,22 @@ import { redirect } from "next/navigation"
 import { ClipboardList } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { EmptyState } from "@/components/shared/empty-state"
-import { SimulatorContent } from "@/components/dashboard/simulator-content"
+import dynamic from "next/dynamic"
+
+const SimulatorContent = dynamic(
+  () =>
+    import("@/components/dashboard/simulator-content").then(
+      (mod) => mod.SimulatorContent
+    ),
+  {
+    loading: () => (
+      <div className="space-y-6">
+        <div className="h-14 w-full animate-pulse rounded-xl bg-muted" />
+        <div className="h-[300px] w-full animate-pulse rounded-xl bg-muted" />
+      </div>
+    ),
+  }
+)
 import type { Assessment, Score } from "@/types/database"
 
 export const metadata: Metadata = {

@@ -27,7 +27,21 @@ import {
 import { Button } from "@/components/ui/button"
 import { ScoreGauge } from "@/components/dashboard/score-gauge"
 
-import { ScoreRadarChart } from "@/components/dashboard/score-radar-chart"
+import dynamic from "next/dynamic"
+
+const ScoreRadarChart = dynamic(
+  () =>
+    import("@/components/dashboard/score-radar-chart").then(
+      (mod) => mod.ScoreRadarChart
+    ),
+  {
+    loading: () => (
+      <div className="flex h-[200px] items-center justify-center">
+        <div className="h-32 w-32 animate-pulse rounded-full bg-muted" />
+      </div>
+    ),
+  }
+)
 import { SDGBadges } from "@/components/dashboard/sdg-badges"
 import { BenchmarkCard } from "@/components/dashboard/benchmark-card"
 import { WhatsAppShare } from "@/components/dashboard/whatsapp-share"

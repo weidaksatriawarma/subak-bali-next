@@ -3,7 +3,22 @@ import { redirect } from "next/navigation"
 import { ClipboardList } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { EmptyState } from "@/components/shared/empty-state"
-import { CarbonContent } from "@/components/dashboard/carbon-content"
+import dynamic from "next/dynamic"
+
+const CarbonContent = dynamic(
+  () =>
+    import("@/components/dashboard/carbon-content").then(
+      (mod) => mod.CarbonContent
+    ),
+  {
+    loading: () => (
+      <div className="space-y-6">
+        <div className="h-28 w-full animate-pulse rounded-xl bg-muted" />
+        <div className="h-[250px] w-full animate-pulse rounded-xl bg-muted" />
+      </div>
+    ),
+  }
+)
 import type { Assessment, Profile } from "@/types/database"
 
 export const metadata: Metadata = {

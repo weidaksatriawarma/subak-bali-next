@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/lib/i18n/language-context"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
 import { CookieConsent } from "@/components/cookie-consent"
+import { ServiceWorkerRegister } from "@/components/service-worker-register"
 import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
@@ -137,6 +138,7 @@ export default function RootLayout({
               {children}
               <Toaster />
               <CookieConsent />
+              <ServiceWorkerRegister />
             </TooltipProvider>
           </LanguageProvider>
         </ThemeProvider>

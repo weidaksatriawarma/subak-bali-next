@@ -3,7 +3,22 @@ import { redirect } from "next/navigation"
 import { ClipboardList } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { EmptyState } from "@/components/shared/empty-state"
-import { ComplianceContent } from "@/components/dashboard/compliance-content"
+import dynamic from "next/dynamic"
+
+const ComplianceContent = dynamic(
+  () =>
+    import("@/components/dashboard/compliance-content").then(
+      (mod) => mod.ComplianceContent
+    ),
+  {
+    loading: () => (
+      <div className="space-y-6">
+        <div className="h-24 w-full animate-pulse rounded-xl bg-muted" />
+        <div className="h-16 w-full animate-pulse rounded-xl bg-muted" />
+      </div>
+    ),
+  }
+)
 import type { Assessment } from "@/types/database"
 
 export const metadata: Metadata = {

@@ -5,7 +5,9 @@ import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { CelebrationProvider } from "@/components/dashboard/celebration-modal"
+import { KeyboardShortcuts } from "@/components/dashboard/keyboard-shortcuts"
 import { OnboardingTour } from "@/components/dashboard/onboarding-tour"
+import { CommandPalette } from "@/components/dashboard/command-palette"
 import { PageTransition } from "@/components/dashboard/page-transition"
 
 export default async function DashboardLayout({
@@ -41,6 +43,8 @@ export default async function DashboardLayout({
         <main id="main-content" className="flex-1 p-4 pb-20 md:p-6 md:pb-6">
           <CelebrationProvider>
             <OnboardingTour />
+            <CommandPalette />
+            <KeyboardShortcuts />
             <PageTransition>{children}</PageTransition>
           </CelebrationProvider>
         </main>

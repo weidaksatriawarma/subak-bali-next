@@ -150,7 +150,9 @@ export async function POST(req: Request) {
 
     if (assessmentError) throw assessmentError
 
-    // 3. Insert scores
+    // 3. Insert scores (with certificate_token for PDF/QR demo)
+    const certificateToken = crypto.randomUUID()
+
     const { error: scoreError } = await supabase.from("scores").insert([
       {
         id: scoreIds[0],
@@ -195,6 +197,7 @@ export async function POST(req: Request) {
         ai_summary:
           "Warung Hijau Bali menunjukkan transformasi luar biasa! Penggunaan panel surya, pengomposan limbah, dan 75% bahan baku lokal menempatkan bisnis Anda di atas rata-rata industri F&B. Fokus selanjutnya: sertifikasi hijau dan program pelatihan karyawan berkelanjutan.",
         industry_benchmark: 48,
+        certificate_token: certificateToken,
         created_at: daysAgo(7),
       },
     ])
@@ -492,6 +495,8 @@ export async function POST(req: Request) {
         roadmap_items: 10,
         chat_conversations: 2,
         chat_messages: 8,
+        certificate_token: certificateToken,
+        verify_url: `/verify/${certificateToken}`,
       },
     })
   } catch (error) {

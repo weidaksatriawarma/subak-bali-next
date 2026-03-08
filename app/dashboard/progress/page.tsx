@@ -10,6 +10,8 @@ import {
   Percent,
   Award,
   Lock,
+  Banknote,
+  ArrowDownRight,
 } from "lucide-react"
 import { ExportButton } from "@/components/dashboard/export-button"
 import { exportToCSV, formatScoresForExport } from "@/lib/export"
@@ -18,11 +20,24 @@ import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { EmptyState } from "@/components/shared/empty-state"
-import { ProgressChart } from "@/components/dashboard/progress-chart"
+import dynamic from "next/dynamic"
+
+const ProgressChart = dynamic(
+  () =>
+    import("@/components/dashboard/progress-chart").then(
+      (mod) => mod.ProgressChart
+    ),
+  {
+    loading: () => (
+      <div className="h-[250px] w-full animate-pulse rounded-lg bg-muted" />
+    ),
+  }
+)
 import { StreakCounter } from "@/components/dashboard/streak-counter"
 import { computeWeeklyStreak } from "@/lib/gamification/streaks"
 import { CATEGORY_LABELS } from "@/lib/constants"
-import type { RoadmapItem, Category } from "@/types/database"
+import { calculatePotentialSavings } from "@/lib/carbon"
+import type { RoadmapItem, Category, BusinessSize } from "@/types/database"
 
 interface ScoreData {
   total_score: number
@@ -44,6 +59,7 @@ interface Milestone {
 export default function ProgressPage() {
   const [scores, setScores] = useState<ScoreData[]>([])
   const [items, setItems] = useState<RoadmapItem[]>([])
+  const [businessSize, setBusinessSize] = useState<BusinessSize>("small")
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -55,19 +71,26 @@ export default function ProgressPage() {
 
       if (!user) return
 
-      const [{ data: scoresData }, { data: itemsData }] = await Promise.all([
-        supabase
-          .from("scores")
-          .select(
-            "total_score, energy_score, waste_score, supply_chain_score, operations_score, policy_score, created_at"
-          )
-          .eq("user_id", user.id)
-          .order("created_at", { ascending: true }),
-        supabase.from("roadmap_items").select("*").eq("user_id", user.id),
-      ])
+      const [{ data: scoresData }, { data: itemsData }, { data: profile }] =
+        await Promise.all([
+          supabase
+            .from("scores")
+            .select(
+              "total_score, energy_score, waste_score, supply_chain_score, operations_score, policy_score, created_at"
+            )
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: true }),
+          supabase.from("roadmap_items").select("*").eq("user_id", user.id),
+          supabase
+            .from("profiles")
+            .select("business_size")
+            .eq("id", user.id)
+            .single(),
+        ])
 
       setScores(scoresData || [])
       setItems(itemsData || [])
+      if (profile?.business_size) setBusinessSize(profile.business_size)
       setLoading(false)
     }
     fetchData()
@@ -334,6 +357,15 @@ export default function ProgressPage() {
         </Card>
       )}
 
+      {/* Sustainability Analytics */}
+      {completedItems.length > 0 && (
+        <SustainabilityAnalytics
+          completedItems={completedItems}
+          scores={scores}
+          businessSize={businessSize}
+        />
+      )}
+
       {/* Milestones */}
       <Card>
         <CardHeader>
@@ -370,5 +402,125 @@ export default function ProgressPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+function SustainabilityAnalytics({
+  completedItems,
+  scores,
+  businessSize,
+}: {
+  completedItems: RoadmapItem[]
+  scores: ScoreData[]
+  businessSize: BusinessSize
+}) {
+  // Calculate completed categories for savings estimation
+  const completedCategories: Record<string, number> = {}
+  for (const item of completedItems) {
+    completedCategories[item.category] =
+      (completedCategories[item.category] || 0) + 1
+  }
+
+  const savings = calculatePotentialSavings(businessSize, completedCategories)
+
+  // Score improvement trend
+  const firstScore = scores[0]?.total_score ?? 0
+  const latestScore = scores[scores.length - 1]?.total_score ?? 0
+  const scoreImprovement = latestScore - firstScore
+
+  // Estimate CO2 reduction based on score improvement (rough approximation)
+  // Higher score = better practices = lower CO2
+  const estimatedCO2ReductionKg = Math.round(scoreImprovement * 25)
+
+  // ROI estimate: savings vs typical implementation cost
+  const typicalMonthlyCost =
+    businessSize === "micro"
+      ? 200_000
+      : businessSize === "small"
+        ? 500_000
+        : 1_000_000
+  const roiMonths =
+    savings.monthlySavingsRp > 0
+      ? Math.ceil(
+          (typicalMonthlyCost * completedItems.length) /
+            savings.monthlySavingsRp
+        )
+      : 0
+
+  return (
+    <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
+      <CardHeader>
+        <CardTitle className="text-base">
+          Analitik Dampak Keberlanjutan
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/40">
+              <Banknote className="h-5 w-5 text-blue-600" />
+            </div>
+            <div>
+              <p className="text-lg font-bold text-blue-700 dark:text-blue-400">
+                Rp {(savings.monthlySavingsRp / 1_000_000).toFixed(1)} jt
+              </p>
+              <p className="text-xs text-muted-foreground">
+                estimasi hemat/bulan
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/40">
+              <ArrowDownRight className="h-5 w-5 text-green-600" />
+            </div>
+            <div>
+              <p className="text-lg font-bold text-green-700 dark:text-green-400">
+                {estimatedCO2ReductionKg > 0
+                  ? `${estimatedCO2ReductionKg.toLocaleString("id-ID")} kg`
+                  : "—"}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                estimasi CO₂ berkurang
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/40">
+              <TrendingUp className="h-5 w-5 text-amber-600" />
+            </div>
+            <div>
+              <p className="text-lg font-bold text-amber-700 dark:text-amber-400">
+                {roiMonths > 0 ? `${roiMonths} bulan` : "—"}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                estimasi ROI balik modal
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {savings.byCategory.length > 0 && (
+          <div className="mt-4 space-y-2">
+            <p className="text-xs font-medium text-muted-foreground">
+              Estimasi penghematan per kategori
+            </p>
+            {savings.byCategory
+              .filter((c) => c.savingsRp > 0)
+              .map((c) => (
+                <div
+                  key={c.category}
+                  className="flex items-center justify-between text-sm"
+                >
+                  <span>{CATEGORY_LABELS[c.category as Category]}</span>
+                  <span className="font-medium">
+                    Rp {c.savingsRp.toLocaleString("id-ID")}
+                    /bulan
+                  </span>
+                </div>
+              ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
   )
 }
