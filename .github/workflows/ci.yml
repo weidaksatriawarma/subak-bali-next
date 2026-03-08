@@ -6,9 +6,15 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  ci:
+  quality:
+    name: Quality
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
@@ -26,11 +32,81 @@ jobs:
       - name: Lint
         run: npm run lint
 
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
       - name: Typecheck
         run: npm run typecheck
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
 
       - name: Build
         run: npm run build
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+
+      - name: Bundle size report
+        run: |
+          echo "## Bundle Size Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Total static output size
+          TOTAL_SIZE=$(du -sh .next/static 2>/dev/null | cut -f1 || echo "N/A")
+          echo "**Total static size:** \`${TOTAL_SIZE}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # JS chunk count
+          JS_COUNT=$(find .next/static -name "*.js" 2>/dev/null | wc -l)
+          echo "**JS chunks:** \`${JS_COUNT}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Top 10 largest chunks
+          echo "### Top 10 Largest Chunks" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Size | File |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+          find .next/static -name "*.js" -printf "%s %p\n" 2>/dev/null \
+            | sort -rn \
+            | head -10 \
+            | while read size filepath; do
+                human_size=$(numfmt --to=iec-i --suffix=B "$size")
+                filename=$(basename "$filepath")
+                echo "| \`${human_size}\` | \`${filename}\` |" >> $GITHUB_STEP_SUMMARY
+              done
+
+      - name: Save bundle stats
+        run: |
+          TOTAL_BYTES=$(du -sb .next/static 2>/dev/null | cut -f1 || echo "0")
+          echo "${TOTAL_BYTES}" > bundle-stats.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bundle-stats
+          path: bundle-stats.txt
+          retention-days: 90
