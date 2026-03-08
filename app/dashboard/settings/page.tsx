@@ -165,7 +165,7 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6 p-6">
+      <div className="space-y-6">
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-[400px] w-full" />
         <Skeleton className="h-32 w-full" />
@@ -175,7 +175,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Pengaturan</h1>
         <p className="text-sm text-muted-foreground">

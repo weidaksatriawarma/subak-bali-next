@@ -1,8 +1,20 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 
-export async function POST() {
-  if (process.env.NODE_ENV !== "development") {
+export async function POST(req: Request) {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    process.env.SEED_SECRET
+  ) {
+    try {
+      const { secret } = await req.json()
+      if (secret !== process.env.SEED_SECRET) {
+        return NextResponse.json({ error: "Not found" }, { status: 404 })
+      }
+    } catch {
+      return NextResponse.json({ error: "Not found" }, { status: 404 })
+    }
+  } else if (process.env.NODE_ENV !== "development") {
     return NextResponse.json({ error: "Not found" }, { status: 404 })
   }
 

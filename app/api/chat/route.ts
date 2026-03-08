@@ -51,26 +51,33 @@ export async function POST(req: Request) {
     }
   }
 
-  const result = streamText({
-    model: gateway("anthropic/claude-sonnet-4-20250514"),
-    system: buildChatSystemPrompt(profile, score),
-    messages: await convertToModelMessages(messages),
-    async onFinish({ text }) {
-      if (conversationId && text) {
-        await supabase.from("chat_messages").insert({
-          conversation_id: conversationId,
-          user_id: user.id,
-          role: "assistant",
-          content: text,
-        })
+  try {
+    const result = streamText({
+      model: gateway("anthropic/claude-sonnet-4-20250514"),
+      system: buildChatSystemPrompt(profile, score),
+      messages: await convertToModelMessages(messages),
+      async onFinish({ text }) {
+        if (conversationId && text) {
+          await supabase.from("chat_messages").insert({
+            conversation_id: conversationId,
+            user_id: user.id,
+            role: "assistant",
+            content: text,
+          })
 
-        await supabase
-          .from("chat_conversations")
-          .update({ updated_at: new Date().toISOString() })
-          .eq("id", conversationId)
-      }
-    },
-  })
+          await supabase
+            .from("chat_conversations")
+            .update({ updated_at: new Date().toISOString() })
+            .eq("id", conversationId)
+        }
+      },
+    })
 
-  return result.toUIMessageStreamResponse()
+    return result.toUIMessageStreamResponse()
+  } catch {
+    return new Response(
+      "Layanan AI sedang tidak tersedia. Silakan coba lagi dalam beberapa saat.",
+      { status: 503 }
+    )
+  }
 }

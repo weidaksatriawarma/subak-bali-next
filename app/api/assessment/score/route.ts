@@ -31,13 +31,23 @@ export async function POST(req: Request) {
     return Response.json({ error: "Not found" }, { status: 404 })
   }
 
-  const result = await generateText({
-    model: gateway("anthropic/claude-sonnet-4-20250514"),
-    output: Output.object({ schema: ScoreSchema }),
-    prompt: buildScorePrompt(profile, assessment),
-  })
-
-  const scoreData = result.output
+  let scoreData
+  try {
+    const result = await generateText({
+      model: gateway("anthropic/claude-sonnet-4-20250514"),
+      output: Output.object({ schema: ScoreSchema }),
+      prompt: buildScorePrompt(profile, assessment),
+    })
+    scoreData = result.output
+  } catch {
+    return Response.json(
+      {
+        error:
+          "Layanan AI sedang tidak tersedia. Silakan coba lagi dalam beberapa saat.",
+      },
+      { status: 503 }
+    )
+  }
 
   if (!scoreData) {
     return Response.json({ error: "Failed to generate score" }, { status: 500 })

@@ -47,13 +47,23 @@ export async function POST(req: Request) {
     )
   }
 
-  const result = await generateText({
-    model: gateway("anthropic/claude-sonnet-4-20250514"),
-    output: Output.object({ schema: RoadmapSchema }),
-    prompt: buildRoadmapPrompt(profile, score, assessment),
-  })
-
-  const roadmapData = result.output
+  let roadmapData
+  try {
+    const result = await generateText({
+      model: gateway("anthropic/claude-sonnet-4-20250514"),
+      output: Output.object({ schema: RoadmapSchema }),
+      prompt: buildRoadmapPrompt(profile, score, assessment),
+    })
+    roadmapData = result.output
+  } catch {
+    return Response.json(
+      {
+        error:
+          "Layanan AI sedang tidak tersedia. Silakan coba lagi dalam beberapa saat.",
+      },
+      { status: 503 }
+    )
+  }
 
   if (!roadmapData) {
     return Response.json(

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts"
 
 interface ScoreGaugeProps {
@@ -13,8 +13,13 @@ function getGaugeColor(score: number): string {
   return "#22C55E"
 }
 
+function easeOutCubic(t: number): number {
+  return 1 - Math.pow(1 - t, 3)
+}
+
 export function ScoreGauge({ score }: ScoreGaugeProps) {
   const [displayScore, setDisplayScore] = useState(0)
+  const animationRef = useRef<number>(0)
   const color = getGaugeColor(score)
   const data = [
     { name: "score", value: displayScore },
@@ -22,29 +27,47 @@ export function ScoreGauge({ score }: ScoreGaugeProps) {
   ]
 
   useEffect(() => {
-    let current = 0
-    const step = Math.max(1, Math.floor(score / 40))
-    const timer = setInterval(() => {
-      current += step
-      if (current >= score) {
-        current = score
-        clearInterval(timer)
+    const duration = 1200
+    const delay = 500
+    let startTime: number | null = null
+
+    const timeout = setTimeout(() => {
+      function animate(timestamp: number) {
+        if (!startTime) startTime = timestamp
+        const elapsed = timestamp - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        const easedProgress = easeOutCubic(progress)
+
+        setDisplayScore(Math.round(easedProgress * score))
+
+        if (progress < 1) {
+          animationRef.current = requestAnimationFrame(animate)
+        }
       }
-      setDisplayScore(current)
-    }, 25)
-    return () => clearInterval(timer)
+
+      animationRef.current = requestAnimationFrame(animate)
+    }, delay)
+
+    return () => {
+      clearTimeout(timeout)
+      cancelAnimationFrame(animationRef.current)
+    }
   }, [score])
 
   return (
     <div className="flex flex-col items-center">
-      <ResponsiveContainer width="100%" height={200}>
+      <ResponsiveContainer
+        width="100%"
+        height={180}
+        className="sm:!h-[200px] lg:!h-[220px]"
+      >
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={70}
-            outerRadius={95}
+            innerRadius="55%"
+            outerRadius="78%"
             startAngle={90}
             endAngle={-270}
             dataKey="value"

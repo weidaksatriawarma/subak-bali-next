@@ -170,7 +170,7 @@ export default function RoadmapPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6 p-6">
+      <div className="space-y-6">
         <Skeleton className="h-8 w-64" />
         <Skeleton className="h-4 w-48" />
         <Skeleton className="h-2 w-full" />
@@ -185,7 +185,7 @@ export default function RoadmapPage() {
 
   if (items.length === 0) {
     return (
-      <div className="p-6">
+      <div>
         <EmptyState
           icon={MapIcon}
           title={d.noRoadmap}
@@ -272,9 +272,29 @@ export default function RoadmapPage() {
       </Card>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        {/* Mobile: dropdown, Desktop: tabs */}
+        <div className="sm:hidden">
+          <Select
+            value={categoryFilter}
+            onValueChange={(v) => setCategoryFilter(v as "all" | Category)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{d.all}</SelectItem>
+              {(Object.keys(common.categories) as Category[]).map((cat) => (
+                <SelectItem key={cat} value={cat}>
+                  {CATEGORY_EMOJI[cat]} {common.categories[cat]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
         <Tabs
           value={categoryFilter}
           onValueChange={(v) => setCategoryFilter(v as "all" | Category)}
+          className="hidden sm:block"
         >
           <TabsList>
             <TabsTrigger value="all">{d.all}</TabsTrigger>

@@ -64,7 +64,7 @@ export default function ProgressPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6 p-6">
+      <div className="space-y-6">
         <Skeleton className="h-8 w-64" />
         <Skeleton className="h-[300px] w-full" />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -78,7 +78,7 @@ export default function ProgressPage() {
 
   if (scores.length === 0) {
     return (
-      <div className="p-6">
+      <div>
         <EmptyState
           icon={TrendingUp}
           title="Belum ada data progres"
@@ -159,7 +159,7 @@ export default function ProgressPage() {
   ]
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">
           Progres Keberlanjutan
