@@ -365,16 +365,6 @@ export interface Dictionary {
     subheading: string
     items: { type: string; quote: string; metric: string }[]
   }
-  communityImpact: {
-    heading: string
-    subheading: string
-    stat1Value: string
-    stat1Label: string
-    stat2Value: string
-    stat2Label: string
-    stat3Value: string
-    stat3Label: string
-  }
   dashboard: DashboardDictionary
 }
 
@@ -489,16 +479,6 @@ const id: Dictionary = {
         metric: "Berhasil mendapat sertifikasi Eco-Label",
       },
     ],
-  },
-  communityImpact: {
-    heading: "Dampak Kolektif Komunitas",
-    subheading: "Bersama-sama kita membuat perubahan nyata",
-    stat1Value: "500+",
-    stat1Label: "Bisnis Terdaftar",
-    stat2Value: "120+",
-    stat2Label: "ton CO₂ Dikurangi",
-    stat3Value: "2.500+",
-    stat3Label: "Langkah Sustainability Diambil",
   },
   dashboard: {
     sidebar: {
@@ -989,16 +969,6 @@ const en: Dictionary = {
         metric: "Achieved Eco-Label certification",
       },
     ],
-  },
-  communityImpact: {
-    heading: "Collective Community Impact",
-    subheading: "Together we're making real change",
-    stat1Value: "500+",
-    stat1Label: "Registered Businesses",
-    stat2Value: "120+",
-    stat2Label: "tons CO₂ Reduced",
-    stat3Value: "2,500+",
-    stat3Label: "Sustainability Steps Taken",
   },
   dashboard: {
     sidebar: {
