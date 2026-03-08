@@ -105,7 +105,7 @@ const id: LegalDictionary = {
         content: [
           "Data disimpan pada server Supabase dengan enkripsi AES-256 saat penyimpanan (at rest) dan TLS 1.3 saat transmisi (in transit).",
           "Database dilindungi dengan Row Level Security (RLS) yang memastikan setiap pengguna hanya dapat mengakses data miliknya sendiri.",
-          "Kami menerapkan prinsip minimisasi data — hanya mengumpulkan data yang diperlukan untuk menyediakan layanan.",
+          "Kami menerapkan prinsip minimisasi data, hanya mengumpulkan data yang diperlukan untuk menyediakan layanan.",
           "Data akan disimpan selama akun Anda aktif. Setelah penghapusan akun, data akan dihapus dalam waktu 30 hari kerja.",
         ],
       },
@@ -311,7 +311,7 @@ const en: LegalDictionary = {
         content: [
           "Data is stored on Supabase servers with AES-256 encryption at rest and TLS 1.3 encryption in transit.",
           "The database is protected with Row Level Security (RLS) ensuring each user can only access their own data.",
-          "We apply the principle of data minimization — only collecting data necessary to provide our services.",
+          "We apply the principle of data minimization, only collecting data necessary to provide our services.",
           "Data will be stored as long as your account is active. After account deletion, data will be removed within 30 business days.",
         ],
       },

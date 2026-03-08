@@ -76,7 +76,7 @@ const id: PublicPagesDictionary = {
     team: {
       title: "Tim Kami",
       subtitle:
-        "Tim Subak Code — membangun solusi untuk masa depan berkelanjutan",
+        "Tim Subak Code, membangun solusi untuk masa depan berkelanjutan",
       members: [
         {
           name: "Ahmad Rizky",
@@ -178,7 +178,7 @@ const en: PublicPagesDictionary = {
     },
     team: {
       title: "Our Team",
-      subtitle: "Team Subak Code — building solutions for a sustainable future",
+      subtitle: "Team Subak Code, building solutions for a sustainable future",
       members: [
         {
           name: "Ahmad Rizky",
