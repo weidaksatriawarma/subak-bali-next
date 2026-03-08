@@ -19,6 +19,7 @@ import { CategoryBars } from "@/components/dashboard/category-bars"
 import { ScoreRadarChart } from "@/components/dashboard/score-radar-chart"
 import { SDGBadges } from "@/components/dashboard/sdg-badges"
 import { WhatsAppShare } from "@/components/dashboard/whatsapp-share"
+import { SustainabilityCertificate } from "@/components/dashboard/sustainability-certificate"
 import {
   calculateCarbonFootprint,
   calculatePotentialSavings,
@@ -413,6 +414,21 @@ export function ScoreContent({
           <WhatsAppShare
             score={data.totalScore}
             businessName={data.businessName}
+            scoreLabel={labelInfo.label}
+          />
+        )}
+        {assessment && (
+          <SustainabilityCertificate
+            businessName={data.businessName ?? ""}
+            totalScore={data.totalScore}
+            categoryScores={{
+              energy: data.energyScore,
+              waste: data.wasteScore,
+              supply_chain: data.supplyChainScore,
+              operations: data.operationsScore,
+              policy: data.policyScore,
+            }}
+            assessmentDate={assessment.created_at}
             scoreLabel={labelInfo.label}
           />
         )}
