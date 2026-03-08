@@ -106,9 +106,7 @@ export const REGULATIONS: Regulation[] = [
   },
 ]
 
-export function lookupRegulations(
-  topic: string
-): {
+export function lookupRegulations(topic: string): {
   name: string
   number: string
   year: number
