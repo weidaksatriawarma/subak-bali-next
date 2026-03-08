@@ -1,13 +1,21 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, TrendingUp, TrendingDown, Minus } from "lucide-react"
+import {
+  ArrowRight,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  FileDown,
+} from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ScoreGauge } from "@/components/dashboard/score-gauge"
 import { CategoryBars } from "@/components/dashboard/category-bars"
 import { ScoreRadarChart } from "@/components/dashboard/score-radar-chart"
+import { SDGBadges } from "@/components/dashboard/sdg-badges"
+import { WhatsAppShare } from "@/components/dashboard/whatsapp-share"
 import type { DashboardDictionary } from "@/lib/i18n/dictionaries"
 
 interface ScoreLabelInfo {
@@ -40,6 +48,7 @@ interface ScoreData extends CategoryScores {
   aiSummary: string | null
   industryBenchmark: number | null
   industryLabel: string
+  businessName?: string
 }
 
 function DeltaIndicator({
@@ -179,6 +188,23 @@ export function ScoreContent({
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle>{t.dashboard.score.sdg.title}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <SDGBadges
+            categoryScores={{
+              energy: data.energyScore,
+              waste: data.wasteScore,
+              supply_chain: data.supplyChainScore,
+              operations: data.operationsScore,
+              policy: data.policyScore,
+            }}
+          />
+        </CardContent>
+      </Card>
+
       {previousScore && (
         <Card>
           <CardHeader>
@@ -307,7 +333,20 @@ export function ScoreContent({
         </Card>
       )}
 
-      <div className="flex justify-center">
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        {data.businessName && (
+          <WhatsAppShare
+            score={data.totalScore}
+            businessName={data.businessName}
+            scoreLabel={labelInfo.label}
+          />
+        )}
+        <Button asChild variant="outline">
+          <Link href="/dashboard/score/report" target="_blank">
+            <FileDown className="mr-2 h-4 w-4" />
+            {d.downloadReport}
+          </Link>
+        </Button>
         <Button asChild size="lg">
           <Link href="/dashboard/roadmap">
             {d.viewRoadmap}

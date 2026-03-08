@@ -57,6 +57,7 @@ export default async function ScorePage() {
         aiSummary: score.ai_summary,
         industryBenchmark: score.industry_benchmark,
         industryLabel,
+        businessName: profile?.business_name ?? "",
       }}
       previousScore={
         previousScore
