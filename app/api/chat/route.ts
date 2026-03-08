@@ -1,6 +1,14 @@
-import { streamText, UIMessage, convertToModelMessages, gateway } from "ai"
+import {
+  streamText,
+  UIMessage,
+  convertToModelMessages,
+  gateway,
+  stepCountIs,
+} from "ai"
 import { createClient } from "@/lib/supabase/server"
 import { buildChatSystemPrompt } from "@/lib/ai/prompts"
+import { createChatTools } from "@/lib/ai/tools"
+import type { Assessment } from "@/types/database"
 
 export const maxDuration = 60
 
@@ -25,13 +33,23 @@ export async function POST(req: Request) {
     .eq("id", user.id)
     .single()
 
-  const { data: score } = await supabase
-    .from("scores")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single()
+  const [{ data: score }, { data: assessment }] = await Promise.all([
+    supabase
+      .from("scores")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single(),
+    supabase
+      .from("assessments")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("status", "completed")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single<Assessment>(),
+  ])
 
   if (!profile) {
     return new Response("Profile not found", { status: 404 })
@@ -56,6 +74,8 @@ export async function POST(req: Request) {
       model: gateway("anthropic/claude-sonnet-4-20250514"),
       system: buildChatSystemPrompt(profile, score),
       messages: await convertToModelMessages(messages),
+      tools: createChatTools(assessment),
+      stopWhen: stepCountIs(3),
       async onFinish({ text }) {
         if (conversationId && text) {
           await supabase.from("chat_messages").insert({
