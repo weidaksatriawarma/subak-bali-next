@@ -182,6 +182,8 @@ export interface DashboardDictionary {
 export interface Dictionary {
   navbar: {
     howItWorks: string
+    faq: string
+    about: string
     login: string
     register: string
   }
@@ -224,6 +226,8 @@ export interface Dictionary {
 const id: Dictionary = {
   navbar: {
     howItWorks: "Cara Kerja",
+    faq: "FAQ",
+    about: "Tentang",
     login: "Masuk",
     register: "Daftar",
   },
@@ -537,6 +541,8 @@ const id: Dictionary = {
 const en: Dictionary = {
   navbar: {
     howItWorks: "How It Works",
+    faq: "FAQ",
+    about: "About",
     login: "Login",
     register: "Register",
   },
