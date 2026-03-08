@@ -1,0 +1,34 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { ChevronUp } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/lib/i18n/language-context"
+import { landingExtras } from "@/lib/i18n/content/landing-extras"
+
+export function ScrollToTop() {
+  const [visible, setVisible] = useState(false)
+  const { locale } = useTranslation()
+  const label = landingExtras[locale].scrollToTop
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  if (!visible) return null
+
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      aria-label={label}
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      className="fixed right-6 bottom-6 z-40 rounded-full shadow-lg"
+    >
+      <ChevronUp className="size-5" />
+    </Button>
+  )
+}
