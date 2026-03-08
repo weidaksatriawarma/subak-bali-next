@@ -206,6 +206,8 @@ export async function POST(req: Request) {
       ai_generated_content: {
         generated_at: daysAgo(7),
         model: "claude-sonnet-4-20250514",
+        estimated_co2_reduction_kg: 1850,
+        tree_equivalent: 84,
       },
       created_at: daysAgo(7),
     })
@@ -383,16 +385,27 @@ export async function POST(req: Request) {
 
     if (itemsError) throw itemsError
 
-    // 6. Insert chat conversation
+    // 6. Insert chat conversations
+    const conversationId2 = crypto.randomUUID()
+
     const { error: convError } = await supabase
       .from("chat_conversations")
-      .insert({
-        id: conversationId,
-        user_id: userId,
-        title: "Strategi Pengurangan Limbah",
-        created_at: daysAgo(5),
-        updated_at: daysAgo(5),
-      })
+      .insert([
+        {
+          id: conversationId,
+          user_id: userId,
+          title: "Strategi Pengurangan Limbah",
+          created_at: daysAgo(5),
+          updated_at: daysAgo(5),
+        },
+        {
+          id: conversationId2,
+          user_id: userId,
+          title: "Berapa jejak karbon saya?",
+          created_at: daysAgo(2),
+          updated_at: daysAgo(2),
+        },
+      ])
 
     if (convError) throw convError
 
@@ -446,6 +459,22 @@ export async function POST(req: Request) {
           "Cara mengukur pengurangan limbah plastik:\n\n**Metode Sederhana (Rekomendasi):**\n1. **Timbang sebelum** - Minggu ini, timbang semua plastik yang dibuang per hari. Catat rata-rata harian.\n2. **Timbang sesudah** - Setelah beralih ke AvaniEco, timbang lagi plastik yang tersisa.\n3. **Hitung persentase** - (Sebelum - Sesudah) / Sebelum x 100%\n\n**Tracking Tambahan:**\n- Catat jumlah pelanggan takeaway per hari\n- Hitung biaya kemasan lama vs baru\n- Foto dokumentasi untuk laporan keberlanjutan\n\n**Target Realistis:**\n- Bulan 1: Pengurangan 50% plastik takeaway\n- Bulan 3: Pengurangan 80%\n- Bulan 6: Warung bebas plastik sekali pakai\n\nAnda bisa input data ini di assessment berikutnya di GreenAdvisor untuk melihat peningkatan skor keberlanjutan Anda!",
         created_at: daysAgo(5),
       },
+      // Second conversation — demo of AI tool usage
+      {
+        conversation_id: conversationId2,
+        user_id: userId,
+        role: "user",
+        content: "Berapa jejak karbon bisnis saya saat ini?",
+        created_at: daysAgo(2),
+      },
+      {
+        conversation_id: conversationId2,
+        user_id: userId,
+        role: "assistant",
+        content:
+          "Berdasarkan data assessment Warung Hijau Bali, berikut estimasi jejak karbon tahunan bisnis Anda:\n\n**Total: 2,620 kg CO₂/tahun**\n\n- Energi (PLN + Solar, 400 kWh/bulan): **1,872 kg** (71%)\n- Limbah (60 kg/bulan, composting): **72 kg** (3%)\n- Transportasi (sepeda): **0 kg** (0%)\n\nSetara dengan **119 pohon** per tahun untuk menyerap emisi ini.\n\nKabar baiknya, penggunaan panel surya dan sepeda sudah mengurangi emisi Anda secara signifikan! Jika Anda beralih sepenuhnya ke solar panel, emisi energi bisa turun dari 1,872 kg menjadi hanya **240 kg/tahun** — penghematan 87%.\n\nMau saya hitung potensi penghematan biaya juga?",
+        created_at: daysAgo(2),
+      },
     ])
 
     if (msgError) throw msgError
@@ -457,7 +486,8 @@ export async function POST(req: Request) {
         assessments: 3,
         scores: 3,
         roadmap_items: 10,
-        chat_messages: 6,
+        chat_conversations: 2,
+        chat_messages: 8,
       },
     })
   } catch (error) {
