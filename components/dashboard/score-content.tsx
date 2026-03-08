@@ -16,7 +16,14 @@ import {
   type LucideIcon,
 } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ScoreGauge } from "@/components/dashboard/score-gauge"
 
@@ -294,52 +301,88 @@ export function ScoreContent({
         <Card>
           <CardHeader>
             <CardTitle>{d.totalScore}</CardTitle>
+            <CardDescription>{labelInfo.description}</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col items-center gap-4">
-            <ScoreGauge score={data.totalScore} />
-
-            {/* Mini category bars */}
-            <div className="w-full space-y-2">
-              {miniCategories.map((cat) => (
-                <div key={cat.key} className="flex items-center gap-2 text-xs">
-                  <span className="flex w-24 items-center gap-1 truncate">
-                    <span>{CATEGORY_EMOJI[cat.key]}</span>
-                    <span className="truncate">{cat.label}</span>
-                  </span>
-                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
-                    <div
-                      className={`h-full rounded-full ${getScoreBgColor(cat.score)} animate-bar-grow`}
-                      style={
-                        {
-                          "--bar-width": `${cat.score}%`,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </div>
-                  <span className="w-7 text-right font-medium">
-                    {cat.score}
-                  </span>
-                </div>
-              ))}
+          <CardContent className="flex flex-col items-center gap-5">
+            {/* Hero — Gauge + Tier Badge */}
+            <div className="flex flex-col items-center gap-2">
+              <ScoreGauge score={data.totalScore} />
+              <div
+                className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 ${labelInfo.color}`}
+              >
+                <labelInfo.icon
+                  className={`h-4 w-4 ${labelInfo.iconColor}`}
+                />
+                <span className="text-sm font-semibold">
+                  {labelInfo.label}
+                </span>
+              </div>
             </div>
 
-            {/* Industry benchmark one-liner */}
-            {data.industryBenchmark !== null && (
-              <div className="flex w-full items-center gap-1.5 rounded-md border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+            {/* Category Breakdown */}
+            <div className="w-full space-y-3">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                {d.categoryBreakdown}
+              </p>
+              <div className="space-y-2.5">
+                {miniCategories.map((cat) => (
+                  <div key={cat.key} className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-xs font-medium">
+                        <span>{CATEGORY_EMOJI[cat.key]}</span>
+                        <span>{cat.label}</span>
+                      </span>
+                      <span className="text-xs font-semibold tabular-nums">
+                        {cat.score}
+                        <span className="font-normal text-muted-foreground">
+                          /100
+                        </span>
+                      </span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                      <div
+                        className={`h-full rounded-full ${getScoreBgColor(cat.score)} animate-bar-grow`}
+                        style={
+                          {
+                            "--bar-width": `${cat.score}%`,
+                          } as React.CSSProperties
+                        }
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+
+          {/* Benchmark Footer */}
+          {data.industryBenchmark !== null && (
+            <CardFooter>
+              <div
+                className={`flex w-full items-center gap-2 rounded-lg px-4 py-3 text-sm ${
+                  data.totalScore >= data.industryBenchmark
+                    ? "bg-green-50 dark:bg-green-950/30"
+                    : "bg-orange-50 dark:bg-orange-950/30"
+                }`}
+              >
                 {data.totalScore >= data.industryBenchmark ? (
                   <>
-                    <TrendingUp className="h-3.5 w-3.5 shrink-0 text-green-600" />
-                    <span>{d.aboveAverage}</span>
+                    <TrendingUp className="h-4 w-4 shrink-0 text-green-600" />
+                    <span className="font-medium text-green-700 dark:text-green-400">
+                      {d.aboveAverage}
+                    </span>
                   </>
                 ) : (
                   <>
-                    <TrendingDown className="h-3.5 w-3.5 shrink-0 text-orange-500" />
-                    <span>{d.belowAverage}</span>
+                    <TrendingDown className="h-4 w-4 shrink-0 text-orange-600" />
+                    <span className="font-medium text-orange-700 dark:text-orange-400">
+                      {d.belowAverage}
+                    </span>
                   </>
                 )}
               </div>
-            )}
-          </CardContent>
+            </CardFooter>
+          )}
         </Card>
 
         <Card>
