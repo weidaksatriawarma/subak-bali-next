@@ -32,7 +32,11 @@ Assessment Data:
 - Community engagement: ${assessment.community_engagement}
 
 Score each category 0-100 based on Indonesian MSME standards.
-Generate a 2-3 sentence summary in Bahasa Indonesia explaining the overall score and key areas for improvement.
+Generate ai_summary as exactly 3 bullet lines (no numbering, just the lines separated by newline):
+- Line 1: start with "\u2705" then one positive thing they're doing well
+- Line 2: start with "\u26A0\uFE0F" then one area that needs improvement
+- Line 3: start with "\u{1F4A1}" then one concrete first step to improve
+Use casual Bahasa Indonesia (like talking to a friend, not a formal report). Keep each line max 15 words.
 Estimate the industry benchmark (average score) for the ${INDUSTRY_LABELS[profile.industry]} sector in Indonesia.`
 }
 

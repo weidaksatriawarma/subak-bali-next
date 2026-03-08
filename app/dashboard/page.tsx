@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import { ClipboardList, Map, MessageSquare } from "lucide-react"
 
 import { createClient } from "@/lib/supabase/server"
-import { getScoreLabel, getScoreColor } from "@/lib/constants"
+import { getScoreLabelInfo, getScoreColor } from "@/lib/constants"
 import { SeedButton } from "@/components/dashboard/seed-button"
 import {
   Card,
@@ -31,30 +31,39 @@ export default async function DashboardPage() {
     .eq("id", user.id)
     .single()
 
-  const { data: latestScore } = await supabase
-    .from("scores")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single()
+  const [{ data: latestScore }, { data: roadmapItems }] = await Promise.all([
+    supabase
+      .from("scores")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single(),
+    supabase
+      .from("roadmap_items")
+      .select("id, is_completed")
+      .eq("user_id", user.id),
+  ])
+
+  const completedRoadmap = roadmapItems?.filter((i) => i.is_completed).length ?? 0
+  const totalRoadmap = roadmapItems?.length ?? 0
 
   const quickActions = [
     {
-      title: "Mulai Assessment",
-      description: "Evaluasi praktik keberlanjutan bisnis Anda",
+      title: "\u{1F4CB} Mulai Assessment",
+      description: "Cek seberapa hijau bisnismu sekarang",
       href: "/dashboard/assessment",
       icon: ClipboardList,
     },
     {
-      title: "AI Consultant",
-      description: "Konsultasi langsung dengan AI advisor",
+      title: "\u{1F4AC} AI Consultant",
+      description: "Tanya langsung ke AI advisor kamu",
       href: "/dashboard/chat",
       icon: MessageSquare,
     },
     {
-      title: "Lihat Roadmap",
-      description: "Rencana aksi untuk meningkatkan skor Anda",
+      title: "\u{1F5FA}\uFE0F Lihat Roadmap",
+      description: "Langkah-langkah untuk naik level",
       href: "/dashboard/roadmap",
       icon: Map,
     },
@@ -82,8 +91,11 @@ export default async function DashboardPage() {
           {latestScore ? (
             <div className="flex items-center gap-6">
               <div className="text-center">
+                <span className="text-4xl">
+                  {getScoreLabelInfo(latestScore.total_score).emoji}
+                </span>
                 <p
-                  className={`text-5xl font-bold ${getScoreColor(latestScore.total_score)}`}
+                  className={`text-4xl font-bold ${getScoreColor(latestScore.total_score)}`}
                 >
                   {latestScore.total_score}
                 </p>
@@ -91,11 +103,14 @@ export default async function DashboardPage() {
               </div>
               <div className="flex-1">
                 <p className="font-medium">
-                  {getScoreLabel(latestScore.total_score)}
+                  {getScoreLabelInfo(latestScore.total_score).label}
                 </p>
-                {latestScore.ai_summary && (
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {latestScore.ai_summary}
+                <p className="text-xs text-muted-foreground">
+                  {getScoreLabelInfo(latestScore.total_score).description}
+                </p>
+                {totalRoadmap > 0 && (
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {"\u{1F3C6}"} {completedRoadmap}/{totalRoadmap} pencapaian roadmap
                   </p>
                 )}
                 <Button asChild className="mt-3" size="sm">

@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "sonner"
 import { MapIcon } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Select,
@@ -15,8 +16,12 @@ import {
 } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
 import { RoadmapItemCard } from "@/components/dashboard/roadmap-item-card"
+import {
+  AchievementBadge,
+  type Achievement,
+} from "@/components/dashboard/achievement-badge"
 import { EmptyState } from "@/components/shared/empty-state"
-import { CATEGORY_LABELS } from "@/lib/constants"
+import { CATEGORY_LABELS, CATEGORY_EMOJI } from "@/lib/constants"
 import type { RoadmapItem, Category } from "@/types/database"
 
 type SortOption = "priority" | "impact" | "timeline"
@@ -29,6 +34,80 @@ const TIMELINE_ORDER = {
   "3_months": 2,
   "6_months": 3,
   "1_year": 4,
+}
+
+function computeAchievements(items: RoadmapItem[]): Achievement[] {
+  const completed = items.filter((i) => i.is_completed).length
+  const total = items.length
+  const pct = total > 0 ? completed / total : 0
+
+  const achievements: Achievement[] = [
+    {
+      id: "first",
+      emoji: "\u{1F3AF}",
+      title: "Langkah Pertama",
+      unlocked: completed >= 1,
+    },
+    {
+      id: "five",
+      emoji: "\u{1F4AA}",
+      title: "Pejuang Hijau",
+      unlocked: completed >= 5,
+    },
+    {
+      id: "half",
+      emoji: "\u{1F33F}",
+      title: "Setengah Jalan",
+      unlocked: pct >= 0.5,
+    },
+    {
+      id: "eighty",
+      emoji: "\u{1F333}",
+      title: "Hampir Sampai",
+      unlocked: pct >= 0.8,
+    },
+    {
+      id: "all",
+      emoji: "\u{1F3C6}",
+      title: "Champion Keberlanjutan",
+      unlocked: total > 0 && completed === total,
+    },
+  ]
+
+  const categories: Category[] = [
+    "energy",
+    "waste",
+    "supply_chain",
+    "operations",
+    "policy",
+  ]
+  const catNames: Record<Category, string> = {
+    energy: "Pahlawan Energi",
+    waste: "Pejuang Limbah",
+    supply_chain: "Master Rantai Pasok",
+    operations: "Ahli Operasional",
+    policy: "Pelopor Kebijakan",
+  }
+  const catEmoji: Record<Category, string> = {
+    energy: "\u26A1",
+    waste: "\u267B\uFE0F",
+    supply_chain: "\u{1F4E6}",
+    operations: "\u2699\uFE0F",
+    policy: "\u{1F4CB}",
+  }
+
+  for (const cat of categories) {
+    const catItems = items.filter((i) => i.category === cat)
+    const catCompleted = catItems.filter((i) => i.is_completed).length
+    achievements.push({
+      id: `cat-${cat}`,
+      emoji: catEmoji[cat],
+      title: catNames[cat],
+      unlocked: catItems.length > 0 && catCompleted === catItems.length,
+    })
+  }
+
+  return achievements
 }
 
 export default function RoadmapPage() {
@@ -81,7 +160,7 @@ export default function RoadmapPage() {
     )
 
     if (completed) {
-      toast.success("Langkah selesai!")
+      toast.success("\u{1F389} +10 poin! Langkah selesai!")
     }
   }
 
@@ -105,8 +184,12 @@ export default function RoadmapPage() {
   })
 
   const completedCount = items.filter((i) => i.is_completed).length
+  const totalPoints = completedCount * 10
   const progressPercent =
     items.length > 0 ? (completedCount / items.length) * 100 : 0
+
+  const achievements = useMemo(() => computeAchievements(items), [items])
+  const unlockedCount = achievements.filter((a) => a.unlocked).length
 
   if (loading) {
     return (
@@ -142,10 +225,32 @@ export default function RoadmapPage() {
       <div>
         <h1 className="text-2xl font-bold">Roadmap Sustainability</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          {completedCount} dari {items.length} langkah selesai
+          {completedCount} dari {items.length} langkah selesai {"\u2022"}{" "}
+          {"\u2B50"} {totalPoints} poin
         </p>
-        <Progress value={progressPercent} className="mt-3 h-2" />
+        <Progress value={progressPercent} className="mt-3 h-3" />
+        <div className="mt-1 flex justify-between text-xs text-muted-foreground">
+          <span>{Math.round(progressPercent)}%</span>
+          <span>
+            {"\u{1F3C6}"} {unlockedCount}/{achievements.length} pencapaian
+          </span>
+        </div>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">
+            {"\u{1F3C6}"} Pencapaian
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-5">
+            {achievements.map((a) => (
+              <AchievementBadge key={a.id} achievement={a} />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Tabs
@@ -156,7 +261,7 @@ export default function RoadmapPage() {
             <TabsTrigger value="all">Semua</TabsTrigger>
             {(Object.keys(CATEGORY_LABELS) as Category[]).map((cat) => (
               <TabsTrigger key={cat} value={cat}>
-                {CATEGORY_LABELS[cat]}
+                {CATEGORY_EMOJI[cat]} {CATEGORY_LABELS[cat]}
               </TabsTrigger>
             ))}
           </TabsList>

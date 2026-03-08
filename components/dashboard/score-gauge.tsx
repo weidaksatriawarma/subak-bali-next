@@ -1,7 +1,7 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts"
-import { getScoreLabel } from "@/lib/constants"
 
 interface ScoreGaugeProps {
   score: number
@@ -14,22 +14,37 @@ function getGaugeColor(score: number): string {
 }
 
 export function ScoreGauge({ score }: ScoreGaugeProps) {
+  const [displayScore, setDisplayScore] = useState(0)
   const color = getGaugeColor(score)
   const data = [
-    { name: "score", value: score },
-    { name: "remaining", value: 100 - score },
+    { name: "score", value: displayScore },
+    { name: "remaining", value: 100 - displayScore },
   ]
+
+  useEffect(() => {
+    let current = 0
+    const step = Math.max(1, Math.floor(score / 40))
+    const timer = setInterval(() => {
+      current += step
+      if (current >= score) {
+        current = score
+        clearInterval(timer)
+      }
+      setDisplayScore(current)
+    }, 25)
+    return () => clearInterval(timer)
+  }, [score])
 
   return (
     <div className="flex flex-col items-center">
-      <ResponsiveContainer width="100%" height={250}>
+      <ResponsiveContainer width="100%" height={200}>
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={80}
-            outerRadius={110}
+            innerRadius={70}
+            outerRadius={95}
             startAngle={90}
             endAngle={-270}
             dataKey="value"
@@ -43,18 +58,18 @@ export function ScoreGauge({ score }: ScoreGaugeProps) {
             y="46%"
             textAnchor="middle"
             dominantBaseline="middle"
-            className="fill-foreground text-4xl font-bold"
+            className="fill-foreground text-3xl font-bold"
           >
-            {score}
+            {displayScore}
           </text>
           <text
             x="50%"
-            y="58%"
+            y="60%"
             textAnchor="middle"
             dominantBaseline="middle"
             className="fill-muted-foreground text-sm"
           >
-            {getScoreLabel(score)}
+            / 100
           </text>
         </PieChart>
       </ResponsiveContainer>

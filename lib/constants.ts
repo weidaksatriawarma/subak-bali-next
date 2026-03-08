@@ -92,12 +92,61 @@ export const TRANSPORTATION_TYPE_LABELS: Record<TransportationType, string> = {
   none: "Tidak Ada",
 }
 
+export interface ScoreLabelInfo {
+  emoji: string
+  label: string
+  description: string
+}
+
+export function getScoreLabelInfo(score: number): ScoreLabelInfo {
+  if (score < 20)
+    return {
+      emoji: "\u{1F331}",
+      label: "Benih Kecil",
+      description: "Baru mulai! Yuk tumbuh bersama",
+    }
+  if (score < 40)
+    return {
+      emoji: "\u{1F331}",
+      label: "Tunas Muda",
+      description: "Sudah mulai tumbuh, terus semangat!",
+    }
+  if (score < 60)
+    return {
+      emoji: "\u{1F33F}",
+      label: "Pohon yang Tumbuh",
+      description: "Bisnis kamu makin hijau!",
+    }
+  if (score < 80)
+    return {
+      emoji: "\u{1F333}",
+      label: "Pohon Rindang",
+      description: "Hebat! Sudah jadi teladan",
+    }
+  return {
+    emoji: "\u{1F333}\u2728",
+    label: "Hutan Lestari",
+    description: "Luar biasa! Champion keberlanjutan!",
+  }
+}
+
 export function getScoreLabel(score: number): string {
-  if (score < 20) return "Sangat Rendah"
-  if (score < 40) return "Rendah"
-  if (score < 60) return "Sedang"
-  if (score < 80) return "Baik"
-  return "Sangat Baik"
+  return getScoreLabelInfo(score).label
+}
+
+export const CATEGORY_EMOJI: Record<Category, string> = {
+  energy: "\u{1F4A1}",
+  waste: "\u267B\uFE0F",
+  supply_chain: "\u{1F4E6}",
+  operations: "\u2699\uFE0F",
+  policy: "\u{1F4CB}",
+}
+
+export function getScoreFeedback(score: number): string {
+  if (score < 30) return "Perlu usaha lagi"
+  if (score < 60) return "Lumayan!"
+  if (score < 80) return "Bagus!"
+  return "Keren banget!"
 }
 
 export function getScoreColor(score: number): string {

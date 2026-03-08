@@ -1,14 +1,16 @@
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { ClipboardList, ArrowRight, BarChart3 } from "lucide-react"
+import { ClipboardList, ArrowRight } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { EmptyState } from "@/components/shared/empty-state"
 import { ScoreGauge } from "@/components/dashboard/score-gauge"
-import { ScoreRadarChart } from "@/components/dashboard/score-radar-chart"
-import { getScoreLabel, INDUSTRY_LABELS } from "@/lib/constants"
+import { CategoryBars } from "@/components/dashboard/category-bars"
+import {
+  getScoreLabelInfo,
+  INDUSTRY_LABELS,
+} from "@/lib/constants"
 import type { Score, Profile } from "@/types/database"
 
 export default async function ScorePage() {
@@ -46,6 +48,11 @@ export default async function ScorePage() {
   }
 
   const industryLabel = profile ? INDUSTRY_LABELS[profile.industry] : "Anda"
+  const labelInfo = getScoreLabelInfo(score.total_score)
+
+  const summaryLines = score.ai_summary
+    ? score.ai_summary.split("\n").filter((line: string) => line.trim())
+    : []
 
   return (
     <div className="space-y-6">
@@ -61,18 +68,15 @@ export default async function ScorePage() {
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5" />
-              Skor Total
-            </CardTitle>
+            <CardTitle>Skor Total</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-col items-center gap-2">
+            <span className="text-5xl">{labelInfo.emoji}</span>
             <ScoreGauge score={score.total_score} />
-            <div className="mt-4 flex justify-center">
-              <Badge variant="secondary" className="text-sm">
-                {getScoreLabel(score.total_score)}
-              </Badge>
-            </div>
+            <p className="text-lg font-bold">{labelInfo.label}</p>
+            <p className="text-center text-sm text-muted-foreground">
+              {labelInfo.description}
+            </p>
           </CardContent>
         </Card>
 
@@ -81,11 +85,11 @@ export default async function ScorePage() {
             <CardTitle>Skor per Kategori</CardTitle>
           </CardHeader>
           <CardContent>
-            <ScoreRadarChart
+            <CategoryBars
               scores={{
                 energy: score.energy_score,
                 waste: score.waste_score,
-                supplyChain: score.supply_chain_score,
+                supply_chain: score.supply_chain_score,
                 operations: score.operations_score,
                 policy: score.policy_score,
               }}
@@ -94,15 +98,22 @@ export default async function ScorePage() {
         </Card>
       </div>
 
-      {score.ai_summary && (
+      {summaryLines.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle>Ringkasan AI</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="leading-relaxed text-muted-foreground">
-              {score.ai_summary}
-            </p>
+            <div className="space-y-3">
+              {summaryLines.map((line: string, i: number) => (
+                <div
+                  key={i}
+                  className="rounded-lg border bg-muted/30 px-4 py-3 text-sm leading-relaxed"
+                >
+                  {line.trim()}
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
       )}
@@ -110,20 +121,24 @@ export default async function ScorePage() {
       {score.industry_benchmark !== null && (
         <Card>
           <CardHeader>
-            <CardTitle>Perbandingan Industri</CardTitle>
+            <CardTitle>{"\u{1F4CA}"} Perbandingan Industri</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
               Rata-rata industri {industryLabel}:{" "}
               <span className="font-semibold text-foreground">
-                {score.industry_benchmark}
+                {score.industry_benchmark}/100
               </span>
             </p>
             <div className="mt-2">
               {score.total_score >= score.industry_benchmark ? (
-                <Badge variant="default">Di atas rata-rata</Badge>
+                <span className="text-sm font-medium text-green-600">
+                  {"\u{1F389}"} Skor kamu di atas rata-rata! Keren!
+                </span>
               ) : (
-                <Badge variant="secondary">Di bawah rata-rata</Badge>
+                <span className="text-sm font-medium text-orange-500">
+                  {"\u{1F4AA}"} Masih di bawah rata-rata, tapi kamu bisa kejar!
+                </span>
               )}
             </div>
           </CardContent>
