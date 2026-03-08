@@ -214,12 +214,12 @@ export function ScoreContent({
       )}
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card>
+        <Card className="flex flex-col">
           <CardHeader>
             <CardTitle>{d.totalScore}</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col items-center gap-2">
-            <span className="text-8xl">{labelInfo.emoji}</span>
+          <CardContent className="flex flex-1 flex-col items-center justify-center gap-2">
+            <span className="text-9xl">{labelInfo.emoji}</span>
             <ScoreGauge score={data.totalScore} />
             <p className="text-lg font-bold">{labelInfo.label}</p>
             <p className="text-center text-sm text-muted-foreground">
