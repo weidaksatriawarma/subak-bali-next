@@ -58,7 +58,7 @@ export function Navbar() {
         "fixed top-0 right-0 left-0 z-50 border-b transition-[background-color,border-color] duration-300",
         scrolled
           ? "border-border bg-background/80 backdrop-blur-md"
-          : "border-transparent bg-transparent",
+          : "border-transparent bg-transparent"
       )}
     >
       <nav
@@ -84,10 +84,10 @@ export function Navbar() {
                 "relative text-sm font-medium transition-colors",
                 "after:absolute after:bottom-[-4px] after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200",
                 "hover:text-foreground hover:after:scale-x-100",
-                "focus-visible:ring-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+                "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
                 isActive(link.href)
                   ? "text-foreground after:scale-x-100"
-                  : "text-muted-foreground",
+                  : "text-muted-foreground"
               )}
             >
               {link.label}
@@ -131,10 +131,10 @@ export function Navbar() {
                     className={cn(
                       "rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
                       "hover:bg-muted hover:text-foreground",
-                      "focus-visible:ring-ring focus-visible:outline-none focus-visible:ring-2",
+                      "focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
                       isActive(link.href)
                         ? "bg-muted text-foreground"
-                        : "text-muted-foreground",
+                        : "text-muted-foreground"
                     )}
                   >
                     {link.label}

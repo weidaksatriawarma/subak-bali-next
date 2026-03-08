@@ -247,9 +247,7 @@ export function CarbonContent({
       {/* Stat Cards */}
       <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
         <CardHeader>
-          <CardTitle className="text-base">
-            {d.title}
-          </CardTitle>
+          <CardTitle className="text-base">{d.title}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-3">
@@ -262,9 +260,7 @@ export function CarbonContent({
                 <p className="text-xl font-bold text-green-700 dark:text-green-400">
                   {carbonData.totalCO2.toLocaleString("id-ID")} kg
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  {d.kgYear}
-                </p>
+                <p className="text-xs text-muted-foreground">{d.kgYear}</p>
               </div>
             </div>
 
@@ -290,8 +286,7 @@ export function CarbonContent({
               </div>
               <div>
                 <p className="text-xl font-bold text-blue-700 dark:text-blue-400">
-                  Rp{" "}
-                  {(savingsData.monthlySavingsRp / 1_000_000).toFixed(1)} jt
+                  Rp {(savingsData.monthlySavingsRp / 1_000_000).toFixed(1)} jt
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {d.potentialSavings} ({d.rpMonth})
@@ -347,7 +342,10 @@ export function CarbonContent({
                 </PieChart>
               </ResponsiveContainer>
               {/* Center text */}
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center" style={{ marginBottom: "28px" }}>
+              <div
+                className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                style={{ marginBottom: "28px" }}
+              >
                 <div className="text-center">
                   <p className="text-2xl font-bold">
                     {carbonData.totalCO2.toLocaleString("id-ID")}

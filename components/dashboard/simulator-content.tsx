@@ -137,10 +137,7 @@ function ScoreGauge({
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div
-        className="relative"
-        style={{ width: size, height: size }}
-      >
+      <div className="relative" style={{ width: size, height: size }}>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -384,9 +381,7 @@ export function SimulatorContent({
                 const isActive = activeToggles.has(scenario.id)
                 const delta = scenarioDeltas[scenario.id] ?? 0
                 const categoryLabel =
-                  categories[
-                    scenario.category as keyof typeof categories
-                  ]
+                  categories[scenario.category as keyof typeof categories]
 
                 return (
                   <div
@@ -404,7 +399,7 @@ export function SimulatorContent({
                       className="mt-0.5 shrink-0"
                     />
                     <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                      <span className="text-sm font-medium leading-tight">
+                      <span className="text-sm leading-tight font-medium">
                         {locale === "en" ? scenario.labelEn : scenario.label}
                       </span>
                       <div className="flex flex-wrap items-center gap-1.5">

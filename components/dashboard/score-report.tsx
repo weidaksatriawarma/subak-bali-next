@@ -222,7 +222,10 @@ export function ScoreReport({
                     {" \u2022 "}
                     Limbah: {carbon.wasteCO2.toLocaleString("id-ID")} kg
                     {" \u2022 "}
-                    Transportasi: {carbon.transportCO2.toLocaleString("id-ID")} kg
+                    Transportasi: {carbon.transportCO2.toLocaleString(
+                      "id-ID"
+                    )}{" "}
+                    kg
                   </p>
                   <p className="text-xs" style={{ color: "#6b7280" }}>
                     Setara {carbon.treeEquivalent} pohon per tahun untuk

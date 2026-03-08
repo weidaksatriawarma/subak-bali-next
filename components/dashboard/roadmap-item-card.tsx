@@ -21,13 +21,7 @@ import { useTranslation } from "@/lib/i18n/language-context"
 import { CATEGORY_EMOJI } from "@/lib/constants"
 import type { RoadmapItem } from "@/types/database"
 import { cn } from "@/lib/utils"
-import {
-  Sparkles,
-  Lock,
-  MoreHorizontal,
-  Pencil,
-  Trash2,
-} from "lucide-react"
+import { Sparkles, Lock, MoreHorizontal, Pencil, Trash2 } from "lucide-react"
 
 interface RoadmapItemCardProps {
   item: RoadmapItem
@@ -137,7 +131,7 @@ export function RoadmapItemCard({
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-2 top-2 h-8 w-8"
+            className="absolute top-2 right-2 h-8 w-8"
           >
             <MoreHorizontal className="h-4 w-4" />
             <span className="sr-only">Actions</span>

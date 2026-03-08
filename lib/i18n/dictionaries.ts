@@ -607,8 +607,7 @@ const id: Dictionary = {
       savingBtn: "Menyimpan...",
       aiGenerated: "AI",
       mandatory: "Wajib",
-      mandatoryTooltip:
-        "Langkah wajib dari AI, tidak bisa dihapus",
+      mandatoryTooltip: "Langkah wajib dari AI, tidak bisa dihapus",
       userAdded: "Manual",
       itemAdded: "Langkah berhasil ditambahkan!",
       itemUpdated: "Langkah berhasil diperbarui!",
@@ -1029,8 +1028,7 @@ const en: Dictionary = {
       savingBtn: "Saving...",
       aiGenerated: "AI",
       mandatory: "Required",
-      mandatoryTooltip:
-        "Required AI-generated step, cannot be deleted",
+      mandatoryTooltip: "Required AI-generated step, cannot be deleted",
       userAdded: "Manual",
       itemAdded: "Step added successfully!",
       itemUpdated: "Step updated successfully!",
@@ -1109,7 +1107,8 @@ const en: Dictionary = {
     },
     carbon: {
       title: "Carbon Footprint",
-      subtitle: "Visualize your business carbon emissions and savings potential",
+      subtitle:
+        "Visualize your business carbon emissions and savings potential",
       totalEmissions: "Total CO₂ Emissions",
       treeEquivalent: "Tree Equivalent",
       potentialSavings: "Potential Savings",

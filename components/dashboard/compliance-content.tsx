@@ -1,10 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import {
-  calculateRegulatoryCompliance,
-  COMPLIANCE_ITEMS,
-} from "@/lib/carbon"
+import { calculateRegulatoryCompliance, COMPLIANCE_ITEMS } from "@/lib/carbon"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -140,11 +137,7 @@ function ComplianceGauge({ percent }: { percent: number }) {
   )
 }
 
-export function ComplianceContent({
-  assessment,
-}: {
-  assessment: Assessment
-}) {
+export function ComplianceContent({ assessment }: { assessment: Assessment }) {
   const { t, locale } = useTranslation()
   const d = t.dashboard.compliance
   const compliance = calculateRegulatoryCompliance(assessment)

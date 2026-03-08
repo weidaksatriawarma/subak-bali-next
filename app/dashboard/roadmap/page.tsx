@@ -395,10 +395,7 @@ export default function RoadmapPage() {
                 </div>
               </div>
             </div>
-            <Progress
-              value={impactData.impactPercent}
-              className="mt-3 h-2"
-            />
+            <Progress value={impactData.impactPercent} className="mt-3 h-2" />
             <p className="mt-2 text-xs text-muted-foreground">
               {Math.round(impactData.impactPercent)}%{" "}
               {d.impactEstimator.progressLabel} —{" "}
@@ -518,7 +515,7 @@ export default function RoadmapPage() {
             <AlertDialogCancel>{d.cancelBtn}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className="text-destructive-foreground bg-destructive hover:bg-destructive/90"
             >
               {d.deleteBtn}
             </AlertDialogAction>

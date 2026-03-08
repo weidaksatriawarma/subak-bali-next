@@ -99,15 +99,10 @@ export function RoadmapItemDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>
-            {item ? rd.editItem : rd.addItem}
-          </DialogTitle>
+          <DialogTitle>{item ? rd.editItem : rd.addItem}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSave)}
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSave)} className="space-y-4">
             <FormField
               control={form.control}
               name="title"
@@ -115,10 +110,7 @@ export function RoadmapItemDialog({
                 <FormItem>
                   <FormLabel>{rd.form.title}</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder={rd.form.titlePlaceholder}
-                      {...field}
-                    />
+                    <Input placeholder={rd.form.titlePlaceholder} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,19 +148,17 @@ export function RoadmapItemDialog({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue
-                          placeholder={rd.form.selectPlaceholder}
-                        />
+                        <SelectValue placeholder={rd.form.selectPlaceholder} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {(
-                        Object.keys(common.categories) as Category[]
-                      ).map((cat) => (
-                        <SelectItem key={cat} value={cat}>
-                          {common.categories[cat]}
-                        </SelectItem>
-                      ))}
+                      {(Object.keys(common.categories) as Category[]).map(
+                        (cat) => (
+                          <SelectItem key={cat} value={cat}>
+                            {common.categories[cat]}
+                          </SelectItem>
+                        )
+                      )}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -196,13 +186,13 @@ export function RoadmapItemDialog({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {(
-                          Object.keys(common.priorities) as Priority[]
-                        ).map((p) => (
-                          <SelectItem key={p} value={p}>
-                            {common.priorities[p]}
-                          </SelectItem>
-                        ))}
+                        {(Object.keys(common.priorities) as Priority[]).map(
+                          (p) => (
+                            <SelectItem key={p} value={p}>
+                              {common.priorities[p]}
+                            </SelectItem>
+                          )
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -229,15 +219,13 @@ export function RoadmapItemDialog({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {(
-                          Object.keys(
-                            common.impacts
-                          ) as EstimatedImpact[]
-                        ).map((i) => (
-                          <SelectItem key={i} value={i}>
-                            {common.impacts[i]}
-                          </SelectItem>
-                        ))}
+                        {(Object.keys(common.impacts) as EstimatedImpact[]).map(
+                          (i) => (
+                            <SelectItem key={i} value={i}>
+                              {common.impacts[i]}
+                            </SelectItem>
+                          )
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -266,13 +254,13 @@ export function RoadmapItemDialog({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {(
-                          Object.keys(COST_LABELS) as EstimatedCost[]
-                        ).map((c) => (
-                          <SelectItem key={c} value={c}>
-                            {COST_LABELS[c]}
-                          </SelectItem>
-                        ))}
+                        {(Object.keys(COST_LABELS) as EstimatedCost[]).map(
+                          (c) => (
+                            <SelectItem key={c} value={c}>
+                              {COST_LABELS[c]}
+                            </SelectItem>
+                          )
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -299,13 +287,13 @@ export function RoadmapItemDialog({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {(
-                          Object.keys(TIMELINE_LABELS) as Timeline[]
-                        ).map((tl) => (
-                          <SelectItem key={tl} value={tl}>
-                            {TIMELINE_LABELS[tl]}
-                          </SelectItem>
-                        ))}
+                        {(Object.keys(TIMELINE_LABELS) as Timeline[]).map(
+                          (tl) => (
+                            <SelectItem key={tl} value={tl}>
+                              {TIMELINE_LABELS[tl]}
+                            </SelectItem>
+                          )
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />

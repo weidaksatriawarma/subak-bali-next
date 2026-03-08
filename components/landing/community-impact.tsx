@@ -22,7 +22,7 @@ export function CommunityImpact() {
   ]
 
   return (
-    <section className="border-t bg-green-50/50 py-16 dark:bg-green-950/10 md:py-24">
+    <section className="border-t bg-green-50/50 py-16 md:py-24 dark:bg-green-950/10">
       <div className="mx-auto max-w-5xl px-4">
         <FadeInUp>
           <h2 className="text-center text-2xl font-bold tracking-tight md:text-3xl">
