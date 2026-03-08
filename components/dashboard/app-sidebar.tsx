@@ -3,8 +3,10 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
+  Award,
   BarChart3,
   ClipboardList,
+  FileText,
   Footprints,
   LayoutDashboard,
   Leaf,
@@ -19,6 +21,7 @@ import {
   TrendingUp,
 } from "lucide-react"
 
+import type { LucideIcon } from "lucide-react"
 import type { Profile } from "@/types/database"
 import { useTranslation } from "@/lib/i18n/language-context"
 import {
@@ -27,6 +30,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -42,6 +46,18 @@ import {
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 
+interface NavItem {
+  title: string
+  href: string
+  icon: LucideIcon
+  exact?: boolean
+}
+
+interface NavGroup {
+  label: string
+  items: NavItem[]
+}
+
 interface AppSidebarProps {
   profile: Profile
 }
@@ -52,38 +68,81 @@ export function AppSidebar({ profile }: AppSidebarProps) {
   const { t } = useTranslation()
   const d = t.dashboard.sidebar
 
-  const navItems = [
-    { title: d.nav.dashboard, href: "/dashboard", icon: LayoutDashboard },
+  const navGroups: NavGroup[] = [
     {
-      title: d.nav.assessment,
-      href: "/dashboard/assessment",
-      icon: ClipboardList,
+      label: d.groups.main,
+      items: [
+        {
+          title: d.nav.dashboard,
+          href: "/dashboard",
+          icon: LayoutDashboard,
+          exact: true,
+        },
+        {
+          title: d.nav.assessment,
+          href: "/dashboard/assessment",
+          icon: ClipboardList,
+        },
+      ],
     },
-    { title: d.nav.myScore, href: "/dashboard/score", icon: BarChart3 },
     {
-      title: d.nav.simulator,
-      href: "/dashboard/simulator",
-      icon: SlidersHorizontal,
+      label: d.groups.analysis,
+      items: [
+        {
+          title: d.nav.myScore,
+          href: "/dashboard/score",
+          icon: BarChart3,
+          exact: true,
+        },
+        {
+          title: d.nav.carbonFootprint,
+          href: "/dashboard/carbon",
+          icon: Footprints,
+        },
+        {
+          title: d.nav.compliance,
+          href: "/dashboard/compliance",
+          icon: Shield,
+        },
+        {
+          title: d.nav.simulator,
+          href: "/dashboard/simulator",
+          icon: SlidersHorizontal,
+        },
+      ],
     },
     {
-      title: d.nav.carbonFootprint,
-      href: "/dashboard/carbon",
-      icon: Footprints,
+      label: d.groups.results,
+      items: [
+        {
+          title: d.nav.certificate,
+          href: "/dashboard/score#certificate",
+          icon: Award,
+        },
+        {
+          title: d.nav.report,
+          href: "/dashboard/score/report",
+          icon: FileText,
+        },
+        { title: d.nav.roadmap, href: "/dashboard/roadmap", icon: Map },
+      ],
     },
     {
-      title: d.nav.compliance,
-      href: "/dashboard/compliance",
-      icon: Shield,
+      label: d.groups.support,
+      items: [
+        {
+          title: d.nav.aiConsultant,
+          href: "/dashboard/chat",
+          icon: MessageSquare,
+        },
+        {
+          title: d.nav.progress,
+          href: "/dashboard/progress",
+          icon: TrendingUp,
+        },
+        { title: d.nav.help, href: "/dashboard/help", icon: HelpCircle },
+      ],
     },
-    { title: d.nav.roadmap, href: "/dashboard/roadmap", icon: Map },
-    {
-      title: d.nav.aiConsultant,
-      href: "/dashboard/chat",
-      icon: MessageSquare,
-    },
-    { title: d.nav.progress, href: "/dashboard/progress", icon: TrendingUp },
-    { title: d.nav.help, href: "/dashboard/help", icon: HelpCircle },
-    { title: d.nav.settings, href: "/dashboard/settings", icon: Settings },
   ]
 
   const initials = profile.business_name
@@ -97,6 +156,12 @@ export function AppSidebar({ profile }: AppSidebarProps) {
     const supabase = createClient()
     await supabase.auth.signOut()
     router.push("/login")
+  }
+
+  function isActive(item: NavItem) {
+    if (item.href.includes("#")) return false
+    if (item.exact) return pathname === item.href
+    return pathname === item.href
   }
 
   return (
@@ -122,26 +187,29 @@ export function AppSidebar({ profile }: AppSidebarProps) {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={pathname === item.href}
-                    tooltip={item.title}
-                  >
-                    <Link href={item.href}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {navGroups.map((group) => (
+          <SidebarGroup key={group.label}>
+            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map((item) => (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActive(item)}
+                      tooltip={item.title}
+                    >
+                      <Link href={item.href}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
 
       <SidebarFooter>

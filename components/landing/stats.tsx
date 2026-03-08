@@ -22,7 +22,7 @@ export function Stats() {
             const Icon = icons[i]
             return (
               <StaggerItem key={i}>
-                <Card className="border-none bg-muted/50 text-center shadow-none">
+                <Card className="h-full border-none bg-muted/50 text-center shadow-none">
                   <CardContent className="flex flex-col items-center gap-3 pt-2">
                     <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
                       <Icon className="size-6 text-primary" />

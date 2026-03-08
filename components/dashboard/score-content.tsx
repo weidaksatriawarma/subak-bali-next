@@ -19,7 +19,7 @@ import { useTranslation } from "@/lib/i18n/language-context"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ScoreGauge } from "@/components/dashboard/score-gauge"
-import { CategoryBars } from "@/components/dashboard/category-bars"
+
 import { ScoreRadarChart } from "@/components/dashboard/score-radar-chart"
 import { SDGBadges } from "@/components/dashboard/sdg-badges"
 import { WhatsAppShare } from "@/components/dashboard/whatsapp-share"
@@ -298,21 +298,6 @@ export function ScoreContent({
           <CardContent className="flex flex-col items-center gap-4">
             <ScoreGauge score={data.totalScore} />
 
-            {/* Compact tier badge */}
-            <div className="flex items-center gap-2">
-              <div className={`rounded-full p-1.5 ${labelInfo.color}`}>
-                <labelInfo.icon className={`h-5 w-5 ${labelInfo.iconColor}`} />
-              </div>
-              <div>
-                <p className="text-sm leading-tight font-bold">
-                  {labelInfo.label}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {labelInfo.description}
-                </p>
-              </div>
-            </div>
-
             {/* Mini category bars */}
             <div className="w-full space-y-2">
               {miniCategories.map((cat) => (
@@ -359,14 +344,14 @@ export function ScoreContent({
 
         <Card>
           <CardHeader>
-            <CardTitle>{d.categoryScores}</CardTitle>
+            <CardTitle>{d.radarChart}</CardTitle>
           </CardHeader>
           <CardContent>
-            <CategoryBars
+            <ScoreRadarChart
               scores={{
                 energy: data.energyScore,
                 waste: data.wasteScore,
-                supply_chain: data.supplyChainScore,
+                supplyChain: data.supplyChainScore,
                 operations: data.operationsScore,
                 policy: data.policyScore,
               }}
@@ -420,23 +405,6 @@ export function ScoreContent({
           </CardContent>
         </Card>
       )}
-
-      <Card>
-        <CardHeader>
-          <CardTitle>{d.radarChart}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ScoreRadarChart
-            scores={{
-              energy: data.energyScore,
-              waste: data.wasteScore,
-              supplyChain: data.supplyChainScore,
-              operations: data.operationsScore,
-              policy: data.policyScore,
-            }}
-          />
-        </CardContent>
-      </Card>
 
       <Card>
         <CardHeader>
@@ -583,7 +551,10 @@ export function ScoreContent({
         </Card>
       )}
 
-      <div className="flex flex-wrap items-center justify-center gap-3">
+      <div
+        id="certificate"
+        className="flex flex-wrap items-center justify-center gap-3"
+      >
         {data.businessName && (
           <WhatsAppShare
             score={data.totalScore}

@@ -30,6 +30,14 @@ export interface DashboardDictionary {
       carbonFootprint: string
       compliance: string
       help: string
+      certificate: string
+      report: string
+    }
+    groups: {
+      main: string
+      analysis: string
+      results: string
+      support: string
     }
     settings: string
     signOut: string
@@ -498,6 +506,14 @@ const id: Dictionary = {
         carbonFootprint: "Jejak Karbon",
         compliance: "Kepatuhan",
         help: "Bantuan",
+        certificate: "Sertifikat",
+        report: "Laporan",
+      },
+      groups: {
+        main: "Utama",
+        analysis: "Analisis",
+        results: "Hasil",
+        support: "Dukungan",
       },
       settings: "Pengaturan",
       signOut: "Keluar",
@@ -990,6 +1006,14 @@ const en: Dictionary = {
         carbonFootprint: "Carbon Footprint",
         compliance: "Compliance",
         help: "Help",
+        certificate: "Certificate",
+        report: "Report",
+      },
+      groups: {
+        main: "Main",
+        analysis: "Analysis",
+        results: "Results",
+        support: "Support",
       },
       settings: "Settings",
       signOut: "Sign Out",
