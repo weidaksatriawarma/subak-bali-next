@@ -7,6 +7,9 @@ import {
   TrendingDown,
   Minus,
   FileDown,
+  Leaf,
+  Banknote,
+  Shield,
 } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,7 +19,13 @@ import { CategoryBars } from "@/components/dashboard/category-bars"
 import { ScoreRadarChart } from "@/components/dashboard/score-radar-chart"
 import { SDGBadges } from "@/components/dashboard/sdg-badges"
 import { WhatsAppShare } from "@/components/dashboard/whatsapp-share"
+import {
+  calculateCarbonFootprint,
+  calculatePotentialSavings,
+  calculateRegulatoryCompliance,
+} from "@/lib/carbon"
 import type { DashboardDictionary } from "@/lib/i18n/dictionaries"
+import type { Assessment, BusinessSize } from "@/types/database"
 
 interface ScoreLabelInfo {
   emoji: string
@@ -87,9 +96,13 @@ function DeltaIndicator({
 export function ScoreContent({
   data,
   previousScore,
+  assessment,
+  businessSize = "small",
 }: {
   data: ScoreData
   previousScore?: CategoryScores
+  assessment?: Assessment
+  businessSize?: BusinessSize
 }) {
   const { t } = useTranslation()
   const d = t.dashboard.score
@@ -131,12 +144,74 @@ export function ScoreContent({
       ]
     : []
 
+  const carbonData = assessment ? calculateCarbonFootprint(assessment) : null
+  const savingsData = calculatePotentialSavings(businessSize)
+  const complianceData = assessment
+    ? calculateRegulatoryCompliance(assessment)
+    : null
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">{d.title}</h1>
         <p className="text-muted-foreground">{d.subtitle}</p>
       </div>
+
+      {/* Dampak Lingkungan — Hero Metrics */}
+      {carbonData && (
+        <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
+          <CardHeader>
+            <CardTitle className="text-base">
+              {t.dashboard.score.impactTitle ??
+                "\u{1F33F} Dampak Lingkungan Bisnis Anda"}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="flex items-center gap-3">
+                <div className="flex size-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/40">
+                  <Leaf className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-green-700 dark:text-green-400">
+                    {carbonData.totalCO2.toLocaleString()} kg
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    CO₂/tahun ({carbonData.treeEquivalent} pohon)
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex size-10 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/40">
+                  <Banknote className="h-5 w-5 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-blue-700 dark:text-blue-400">
+                    Rp {(savingsData.monthlySavingsRp / 1_000_000).toFixed(1)}{" "}
+                    jt
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    potensi hemat/bulan
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex size-10 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/40">
+                  <Shield className="h-5 w-5 text-amber-600" />
+                </div>
+                <div>
+                  <p className="text-xl font-bold text-amber-700 dark:text-amber-400">
+                    {complianceData?.overallPercent ?? 0}%
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    POJK 51/2017 compliance
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>

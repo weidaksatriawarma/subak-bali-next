@@ -1,6 +1,12 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { DashboardOverview } from "@/components/dashboard/dashboard-overview"
+import {
+  calculateCarbonFootprint,
+  calculatePotentialSavings,
+  calculateRegulatoryCompliance,
+} from "@/lib/carbon"
+import type { Assessment, Profile } from "@/types/database"
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -18,8 +24,9 @@ export default async function DashboardPage() {
     { data: latestScore },
     { data: roadmapItems },
     { data: assessment },
+    { data: fullAssessment },
   ] = await Promise.all([
-    supabase.from("profiles").select("*").eq("id", user.id).single(),
+    supabase.from("profiles").select("*").eq("id", user.id).single<Profile>(),
     supabase
       .from("scores")
       .select("*")
@@ -40,6 +47,14 @@ export default async function DashboardPage() {
       .eq("status", "completed")
       .limit(1)
       .single(),
+    supabase
+      .from("assessments")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("status", "completed")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single<Assessment>(),
   ])
 
   const allItems = roadmapItems ?? []
@@ -57,6 +72,16 @@ export default async function DashboardPage() {
       return (order[a.priority] ?? 3) - (order[b.priority] ?? 3)
     })
     .slice(0, 3)
+
+  // Calculate impact data if assessment exists
+  const impact =
+    fullAssessment && profile
+      ? {
+          carbon: calculateCarbonFootprint(fullAssessment),
+          savings: calculatePotentialSavings(profile.business_size),
+          compliance: calculateRegulatoryCompliance(fullAssessment),
+        }
+      : null
 
   return (
     <DashboardOverview
@@ -79,6 +104,7 @@ export default async function DashboardPage() {
         hasAssessment: !!assessment,
         hasScore: latestScore !== null,
         hasRoadmap: totalRoadmap > 0,
+        impact,
       }}
     />
   )

@@ -9,6 +9,9 @@ import {
   CheckCircle2,
   Circle,
   ArrowRight,
+  Leaf,
+  Banknote,
+  Shield,
   type LucideIcon,
 } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
@@ -25,6 +28,11 @@ import {
 import { Button } from "@/components/ui/button"
 import type { DashboardDictionary } from "@/lib/i18n/dictionaries"
 import type { Category, EstimatedCost, EstimatedImpact } from "@/types/database"
+import type {
+  CarbonFootprint,
+  PotentialSavings,
+  RegulatoryCompliance,
+} from "@/lib/carbon"
 
 interface ScoreLabelInfo {
   emoji: string
@@ -57,6 +65,12 @@ interface QuickWin {
   estimated_impact: EstimatedImpact | null
 }
 
+interface ImpactData {
+  carbon: CarbonFootprint
+  savings: PotentialSavings
+  compliance: RegulatoryCompliance
+}
+
 interface OverviewData {
   businessName: string
   totalScore: number | null
@@ -67,6 +81,7 @@ interface OverviewData {
   hasAssessment: boolean
   hasScore: boolean
   hasRoadmap: boolean
+  impact?: ImpactData | null
 }
 
 export function DashboardOverview({ data }: { data: OverviewData }) {
@@ -230,6 +245,55 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
           )}
         </CardContent>
       </Card>
+
+      {data.impact && (
+        <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
+          <CardHeader>
+            <CardTitle className="text-base">
+              {"\u{1F33F}"} Dampak Lingkungan
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="flex items-center gap-2">
+                <Leaf className="h-4 w-4 text-green-600" />
+                <div>
+                  <p className="text-lg font-bold text-green-700 dark:text-green-400">
+                    {data.impact.carbon.totalCO2.toLocaleString()} kg
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">CO₂/tahun</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Banknote className="h-4 w-4 text-blue-600" />
+                <div>
+                  <p className="text-lg font-bold text-blue-700 dark:text-blue-400">
+                    Rp{" "}
+                    {(data.impact.savings.monthlySavingsRp / 1_000_000).toFixed(
+                      1
+                    )}{" "}
+                    jt
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">
+                    hemat/bulan
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-amber-600" />
+                <div>
+                  <p className="text-lg font-bold text-amber-700 dark:text-amber-400">
+                    {data.impact.compliance.overallPercent}%
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">
+                    POJK compliance
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {data.hasScore && data.quickWins.length > 0 && (
         <Card>

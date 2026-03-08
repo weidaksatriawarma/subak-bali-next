@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server"
 import { EmptyState } from "@/components/shared/empty-state"
 import { ScoreContent } from "@/components/dashboard/score-content"
 import { INDUSTRY_LABELS } from "@/lib/constants"
-import type { Score, Profile } from "@/types/database"
+import type { Score, Profile, Assessment } from "@/types/database"
 
 export default async function ScorePage() {
   const supabase = await createClient()
@@ -15,16 +15,25 @@ export default async function ScorePage() {
 
   if (!user) redirect("/login")
 
-  const [{ data: scores }, { data: profile }] = await Promise.all([
-    supabase
-      .from("scores")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(2)
-      .returns<Score[]>(),
-    supabase.from("profiles").select("*").eq("id", user.id).single<Profile>(),
-  ])
+  const [{ data: scores }, { data: profile }, { data: assessment }] =
+    await Promise.all([
+      supabase
+        .from("scores")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(2)
+        .returns<Score[]>(),
+      supabase.from("profiles").select("*").eq("id", user.id).single<Profile>(),
+      supabase
+        .from("assessments")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("status", "completed")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single<Assessment>(),
+    ])
 
   const score = scores?.[0] ?? null
   const previousScore = scores?.[1] ?? null
@@ -70,6 +79,8 @@ export default async function ScorePage() {
             }
           : undefined
       }
+      assessment={assessment ?? undefined}
+      businessSize={profile?.business_size ?? "small"}
     />
   )
 }

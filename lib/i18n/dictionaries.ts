@@ -92,6 +92,7 @@ export interface DashboardDictionary {
       currentScore: string
       change: string
     }
+    impactTitle: string
     downloadReport: string
     sdg: {
       title: string
@@ -419,6 +420,7 @@ const id: Dictionary = {
         currentScore: "Skor Sekarang",
         change: "Perubahan",
       },
+      impactTitle: "\u{1F33F} Dampak Lingkungan Bisnis Anda",
       downloadReport: "Download Laporan",
       sdg: {
         title: "Kontribusi SDG",
@@ -729,6 +731,7 @@ const en: Dictionary = {
         currentScore: "Current Score",
         change: "Change",
       },
+      impactTitle: "\u{1F33F} Your Business Environmental Impact",
       downloadReport: "Download Report",
       sdg: {
         title: "SDG Contribution",

@@ -4,7 +4,12 @@ import { Printer } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { SDGBadges } from "@/components/dashboard/sdg-badges"
-import type { RoadmapItem } from "@/types/database"
+import {
+  calculateCarbonFootprint,
+  calculatePotentialSavings,
+  calculateRegulatoryCompliance,
+} from "@/lib/carbon"
+import type { RoadmapItem, Assessment, BusinessSize } from "@/types/database"
 
 interface ReportScore {
   totalScore: number
@@ -22,6 +27,8 @@ interface ScoreReportProps {
   businessName: string
   industryLabel: string
   roadmapItems: RoadmapItem[]
+  assessment?: Assessment
+  businessSize?: BusinessSize
 }
 
 function ScoreBar({ label, value }: { label: string; value: number }) {
@@ -58,6 +65,8 @@ export function ScoreReport({
   businessName,
   industryLabel,
   roadmapItems,
+  assessment,
+  businessSize = "small",
 }: ScoreReportProps) {
   const { t } = useTranslation()
   const d = t.dashboard.score.report
@@ -153,6 +162,131 @@ export function ScoreReport({
           }}
         />
       </div>
+
+      {/* Carbon Footprint */}
+      {assessment &&
+        (() => {
+          const carbon = calculateCarbonFootprint(assessment)
+          const savings = calculatePotentialSavings(businessSize)
+          const compliance = calculateRegulatoryCompliance(assessment)
+          return (
+            <>
+              <div>
+                <h2
+                  className="mb-4 text-lg font-bold"
+                  style={{ color: "#111827" }}
+                >
+                  Jejak Karbon & Dampak Lingkungan
+                </h2>
+                <div
+                  className="grid grid-cols-3 gap-4 rounded-lg border p-4"
+                  style={{ borderColor: "#d1d5db" }}
+                >
+                  <div className="text-center">
+                    <p
+                      className="text-2xl font-bold"
+                      style={{ color: "#16a34a" }}
+                    >
+                      {carbon.totalCO2.toLocaleString()} kg
+                    </p>
+                    <p className="text-xs" style={{ color: "#6b7280" }}>
+                      CO₂/tahun
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <p
+                      className="text-2xl font-bold"
+                      style={{ color: "#2563eb" }}
+                    >
+                      Rp {(savings.monthlySavingsRp / 1_000_000).toFixed(1)} jt
+                    </p>
+                    <p className="text-xs" style={{ color: "#6b7280" }}>
+                      potensi hemat/bulan
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <p
+                      className="text-2xl font-bold"
+                      style={{ color: "#d97706" }}
+                    >
+                      {compliance.overallPercent}%
+                    </p>
+                    <p className="text-xs" style={{ color: "#6b7280" }}>
+                      {compliance.framework}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-3 space-y-1">
+                  <p className="text-sm" style={{ color: "#374151" }}>
+                    Energi: {carbon.energyCO2.toLocaleString()} kg
+                    {" \u2022 "}
+                    Limbah: {carbon.wasteCO2.toLocaleString()} kg
+                    {" \u2022 "}
+                    Transportasi: {carbon.transportCO2.toLocaleString()} kg
+                  </p>
+                  <p className="text-xs" style={{ color: "#6b7280" }}>
+                    Setara {carbon.treeEquivalent} pohon per tahun untuk
+                    menyerap emisi
+                  </p>
+                </div>
+              </div>
+
+              {/* Regulatory Compliance */}
+              <div>
+                <h2
+                  className="mb-3 text-lg font-bold"
+                  style={{ color: "#111827" }}
+                >
+                  Kepatuhan Regulasi ({compliance.framework})
+                </h2>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {compliance.met.length > 0 && (
+                    <div>
+                      <p
+                        className="mb-1 text-sm font-medium"
+                        style={{ color: "#16a34a" }}
+                      >
+                        Terpenuhi ({compliance.met.length})
+                      </p>
+                      <ul className="space-y-0.5">
+                        {compliance.met.map((item) => (
+                          <li
+                            key={item.id}
+                            className="text-xs"
+                            style={{ color: "#374151" }}
+                          >
+                            {"\u2705"} {item.label}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {compliance.unmet.length > 0 && (
+                    <div>
+                      <p
+                        className="mb-1 text-sm font-medium"
+                        style={{ color: "#dc2626" }}
+                      >
+                        Belum Terpenuhi ({compliance.unmet.length})
+                      </p>
+                      <ul className="space-y-0.5">
+                        {compliance.unmet.map((item) => (
+                          <li
+                            key={item.id}
+                            className="text-xs"
+                            style={{ color: "#374151" }}
+                          >
+                            {"\u274C"} {item.label}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )
+        })()}
 
       {/* AI Summary */}
       {summaryLines.length > 0 && (
