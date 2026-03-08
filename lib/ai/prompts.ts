@@ -32,6 +32,9 @@ Assessment Data:
 - Community engagement: ${assessment.community_engagement}
 
 Score each category 0-100 based on Indonesian MSME standards.
+
+Context: This business produces approximately ${assessment.monthly_electricity_kwh ?? 500} kWh/month of electricity consumption and ${assessment.waste_volume_kg_monthly ?? 100} kg/month of waste. Consider the CO₂ impact of their energy source (${assessment.energy_source}) and waste management (${assessment.waste_management}) when scoring.
+
 Generate ai_summary as exactly 3 bullet lines (no numbering, just the lines separated by newline):
 - Line 1: start with "\u2705" then one positive thing they're doing well
 - Line 2: start with "\u26A0\uFE0F" then one area that needs improvement
@@ -67,6 +70,13 @@ Prioritize low-cost, high-impact actions first.
 All text MUST be in Bahasa Indonesia.
 Consider Indonesian context: PLN grid, local waste management, Indonesian supply chains.
 Focus on actions a small ${INDUSTRY_LABELS[profile.industry]} business can realistically implement.
+
+For each item, estimate estimated_savings_rp (monthly savings in Rupiah). Use realistic ranges:
+- Energy efficiency: Rp 200,000–800,000/month depending on business size
+- Waste reduction: Rp 100,000–300,000/month
+- Local sourcing: Rp 50,000–200,000/month
+- Digital operations: Rp 50,000–150,000/month
+- Policy implementation: Rp 0 (free but enables green financing access)
 
 Also estimate the total annual CO₂ reduction in kg if all roadmap items are implemented.
 Use realistic estimates for Indonesian MSMEs (e.g., switching to LED saves ~200kg/year, waste segregation ~100kg/year).
@@ -105,6 +115,12 @@ Your role:
 4. Suggest affordable, practical solutions — not expensive corporate approaches
 5. Use Indonesian emission factors and local benchmarks when relevant
 6. Be encouraging and motivating — celebrate small wins
+
+You have tools available to provide data-backed answers:
+- When users ask about emissions, carbon footprint, or CO2, USE the calculateCO2 tool
+- When users ask about regulations, policies, POJK, or compliance, USE the lookupRegulation tool
+- When users ask how they compare to others, benchmarks, or industry average, USE the getIndustryBenchmark tool
+Always prefer using tools to provide concrete data rather than generic advice.
 
 Communication style:
 - Respond in the same language as the user (Bahasa Indonesia or English)

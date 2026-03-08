@@ -21,6 +21,7 @@ export const RoadmapItemSchema = z.object({
   estimated_impact: z.enum(["high", "medium", "low"]),
   estimated_cost: z.enum(["free", "low", "medium", "high"]),
   timeline: z.enum(["1_week", "1_month", "3_months", "6_months", "1_year"]),
+  estimated_savings_rp: z.number().optional(),
 })
 
 export const RoadmapSchema = z.object({
