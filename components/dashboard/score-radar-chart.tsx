@@ -7,6 +7,7 @@ import {
   Radar,
   ResponsiveContainer,
 } from "recharts"
+import { useTranslation } from "@/lib/i18n/language-context"
 
 interface ScoreRadarChartProps {
   scores: {
@@ -19,12 +20,15 @@ interface ScoreRadarChartProps {
 }
 
 export function ScoreRadarChart({ scores }: ScoreRadarChartProps) {
+  const { t } = useTranslation()
+  const cats = t.dashboard.common.categories
+
   const data = [
-    { category: "Energi", value: scores.energy, fullMark: 100 },
-    { category: "Limbah", value: scores.waste, fullMark: 100 },
-    { category: "Rantai Pasok", value: scores.supplyChain, fullMark: 100 },
-    { category: "Operasional", value: scores.operations, fullMark: 100 },
-    { category: "Kebijakan", value: scores.policy, fullMark: 100 },
+    { category: cats.energy, value: scores.energy, fullMark: 100 },
+    { category: cats.waste, value: scores.waste, fullMark: 100 },
+    { category: cats.supply_chain, value: scores.supplyChain, fullMark: 100 },
+    { category: cats.operations, value: scores.operations, fullMark: 100 },
+    { category: cats.policy, value: scores.policy, fullMark: 100 },
   ]
 
   return (
@@ -36,7 +40,7 @@ export function ScoreRadarChart({ scores }: ScoreRadarChartProps) {
           tick={{ fill: "#6b7280", fontSize: 13 }}
         />
         <Radar
-          name="Skor"
+          name="Score"
           dataKey="value"
           stroke="#3b82f6"
           fill="#3b82f6"

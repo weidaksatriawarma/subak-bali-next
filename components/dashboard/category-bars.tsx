@@ -1,10 +1,7 @@
 "use client"
 
-import {
-  CATEGORY_LABELS,
-  CATEGORY_EMOJI,
-  getScoreFeedback,
-} from "@/lib/constants"
+import { useTranslation } from "@/lib/i18n/language-context"
+import { CATEGORY_EMOJI } from "@/lib/constants"
 import type { Category } from "@/types/database"
 
 interface CategoryBarsProps {
@@ -17,8 +14,21 @@ function getBarColor(score: number): string {
   return "from-green-500 to-emerald-400"
 }
 
+function getScoreFeedbackT(
+  score: number,
+  feedback: { low: string; medium: string; good: string; excellent: string }
+): string {
+  if (score < 30) return feedback.low
+  if (score < 60) return feedback.medium
+  if (score < 80) return feedback.good
+  return feedback.excellent
+}
+
 export function CategoryBars({ scores }: CategoryBarsProps) {
-  const categories = Object.keys(CATEGORY_LABELS) as Category[]
+  const { t } = useTranslation()
+  const cats = t.dashboard.common.categories
+  const feedback = t.dashboard.common.scoreFeedback
+  const categories = Object.keys(cats) as Category[]
 
   return (
     <div className="space-y-4">
@@ -28,7 +38,7 @@ export function CategoryBars({ scores }: CategoryBarsProps) {
           <div key={cat} className="space-y-1">
             <div className="flex items-center justify-between text-sm">
               <span className="font-medium">
-                {CATEGORY_EMOJI[cat]} {CATEGORY_LABELS[cat]}
+                {CATEGORY_EMOJI[cat]} {cats[cat]}
               </span>
               <span className="font-bold">{score}</span>
             </div>
@@ -43,7 +53,7 @@ export function CategoryBars({ scores }: CategoryBarsProps) {
               />
             </div>
             <p className="text-xs text-muted-foreground">
-              {getScoreFeedback(score)}
+              {getScoreFeedbackT(score, feedback)}
             </p>
           </div>
         )

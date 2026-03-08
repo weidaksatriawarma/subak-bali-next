@@ -4,12 +4,8 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
-import {
-  PRIORITY_LABELS,
-  IMPACT_LABELS,
-  CATEGORY_LABELS,
-  CATEGORY_EMOJI,
-} from "@/lib/constants"
+import { useTranslation } from "@/lib/i18n/language-context"
+import { CATEGORY_EMOJI } from "@/lib/constants"
 import type { RoadmapItem } from "@/types/database"
 import { cn } from "@/lib/utils"
 
@@ -20,6 +16,9 @@ interface RoadmapItemCardProps {
 
 export function RoadmapItemCard({ item, onToggle }: RoadmapItemCardProps) {
   const [justCompleted, setJustCompleted] = useState(false)
+  const { t } = useTranslation()
+  const common = t.dashboard.common
+  const rd = t.dashboard.roadmap
 
   const priorityVariant =
     item.priority === "high"
@@ -61,21 +60,23 @@ export function RoadmapItemCard({ item, onToggle }: RoadmapItemCardProps) {
           </h3>
           {item.is_completed && (
             <span className="text-xs font-medium text-green-600">
-              +10 poin
+              {rd.pointsLabel}
             </span>
           )}
         </div>
         <p className="text-sm text-muted-foreground">{item.description}</p>
         <div className="flex flex-wrap gap-2">
           <Badge variant={priorityVariant}>
-            {PRIORITY_LABELS[item.priority]}
+            {common.priorities[item.priority]}
           </Badge>
           {item.estimated_impact && (
             <Badge variant="outline">
-              {IMPACT_LABELS[item.estimated_impact]}
+              {common.impacts[item.estimated_impact]}
             </Badge>
           )}
-          <Badge variant="secondary">{CATEGORY_LABELS[item.category]}</Badge>
+          <Badge variant="secondary">
+            {common.categories[item.category]}
+          </Badge>
         </div>
       </div>
     </Card>

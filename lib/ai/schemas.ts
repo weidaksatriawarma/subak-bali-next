@@ -26,6 +26,8 @@ export const RoadmapItemSchema = z.object({
 export const RoadmapSchema = z.object({
   title: z.string(),
   items: z.array(RoadmapItemSchema),
+  estimated_co2_reduction_kg: z.number(),
+  tree_equivalent: z.number(),
 })
 
 export type RoadmapResult = z.infer<typeof RoadmapSchema>

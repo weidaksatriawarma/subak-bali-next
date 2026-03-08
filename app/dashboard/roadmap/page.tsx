@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useMemo } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { useTranslation } from "@/lib/i18n/language-context"
 import { toast } from "sonner"
-import { MapIcon } from "lucide-react"
+import { MapIcon, Leaf, TreePine } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -16,12 +17,10 @@ import {
 } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
 import { RoadmapItemCard } from "@/components/dashboard/roadmap-item-card"
-import {
-  AchievementBadge,
-  type Achievement,
-} from "@/components/dashboard/achievement-badge"
+import { AchievementBadge } from "@/components/dashboard/achievement-badge"
+import { computeAchievements } from "@/lib/achievements"
 import { EmptyState } from "@/components/shared/empty-state"
-import { CATEGORY_LABELS, CATEGORY_EMOJI } from "@/lib/constants"
+import { CATEGORY_EMOJI } from "@/lib/constants"
 import type { RoadmapItem, Category } from "@/types/database"
 
 type SortOption = "priority" | "impact" | "timeline"
@@ -36,78 +35,10 @@ const TIMELINE_ORDER = {
   "1_year": 4,
 }
 
-function computeAchievements(items: RoadmapItem[]): Achievement[] {
-  const completed = items.filter((i) => i.is_completed).length
-  const total = items.length
-  const pct = total > 0 ? completed / total : 0
-
-  const achievements: Achievement[] = [
-    {
-      id: "first",
-      emoji: "\u{1F3AF}",
-      title: "Langkah Pertama",
-      unlocked: completed >= 1,
-    },
-    {
-      id: "five",
-      emoji: "\u{1F4AA}",
-      title: "Pejuang Hijau",
-      unlocked: completed >= 5,
-    },
-    {
-      id: "half",
-      emoji: "\u{1F33F}",
-      title: "Setengah Jalan",
-      unlocked: pct >= 0.5,
-    },
-    {
-      id: "eighty",
-      emoji: "\u{1F333}",
-      title: "Hampir Sampai",
-      unlocked: pct >= 0.8,
-    },
-    {
-      id: "all",
-      emoji: "\u{1F3C6}",
-      title: "Champion Keberlanjutan",
-      unlocked: total > 0 && completed === total,
-    },
-  ]
-
-  const categories: Category[] = [
-    "energy",
-    "waste",
-    "supply_chain",
-    "operations",
-    "policy",
-  ]
-  const catNames: Record<Category, string> = {
-    energy: "Pahlawan Energi",
-    waste: "Pejuang Limbah",
-    supply_chain: "Master Rantai Pasok",
-    operations: "Ahli Operasional",
-    policy: "Pelopor Kebijakan",
-  }
-  const catEmoji: Record<Category, string> = {
-    energy: "\u26A1",
-    waste: "\u267B\uFE0F",
-    supply_chain: "\u{1F4E6}",
-    operations: "\u2699\uFE0F",
-    policy: "\u{1F4CB}",
-  }
-
-  for (const cat of categories) {
-    const catItems = items.filter((i) => i.category === cat)
-    const catCompleted = catItems.filter((i) => i.is_completed).length
-    achievements.push({
-      id: `cat-${cat}`,
-      emoji: catEmoji[cat],
-      title: catNames[cat],
-      unlocked: catItems.length > 0 && catCompleted === catItems.length,
-    })
-  }
-
-  return achievements
+const CO2_FALLBACK: Record<string, number> = {
+  high: 500,
+  medium: 200,
+  low: 50,
 }
 
 export default function RoadmapPage() {
@@ -115,9 +46,16 @@ export default function RoadmapPage() {
   const [loading, setLoading] = useState(true)
   const [categoryFilter, setCategoryFilter] = useState<"all" | Category>("all")
   const [sortBy, setSortBy] = useState<SortOption>("priority")
+  const [impactData, setImpactData] = useState<{
+    co2: number
+    trees: number
+  } | null>(null)
+  const { t } = useTranslation()
+  const d = t.dashboard.roadmap
+  const common = t.dashboard.common
 
   useEffect(() => {
-    async function fetchItems() {
+    async function fetchData() {
       const supabase = createClient()
       const {
         data: { user },
@@ -125,16 +63,52 @@ export default function RoadmapPage() {
 
       if (!user) return
 
-      const { data } = await supabase
-        .from("roadmap_items")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("sort_order", { ascending: true })
+      const [{ data: roadmapItems }, { data: roadmaps }] = await Promise.all([
+        supabase
+          .from("roadmap_items")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("sort_order", { ascending: true }),
+        supabase
+          .from("roadmaps")
+          .select("ai_generated_content")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+          .limit(1),
+      ])
 
-      setItems(data || [])
+      setItems(roadmapItems || [])
+
+      // Try to get AI-generated CO2 data, fallback to client-side estimation
+      const aiContent = roadmaps?.[0]?.ai_generated_content as {
+        estimated_co2_reduction_kg?: number
+        tree_equivalent?: number
+      } | null
+      if (
+        aiContent &&
+        typeof aiContent.estimated_co2_reduction_kg === "number"
+      ) {
+        setImpactData({
+          co2: aiContent.estimated_co2_reduction_kg,
+          trees:
+            aiContent.tree_equivalent ??
+            Math.round(aiContent.estimated_co2_reduction_kg / 22),
+        })
+      } else if (roadmapItems && roadmapItems.length > 0) {
+        // Client-side fallback based on estimated_impact
+        const totalCo2 = roadmapItems.reduce((sum, item) => {
+          const impact = item.estimated_impact ?? "low"
+          return sum + (CO2_FALLBACK[impact] ?? 50)
+        }, 0)
+        setImpactData({
+          co2: totalCo2,
+          trees: Math.round(totalCo2 / 22),
+        })
+      }
+
       setLoading(false)
     }
-    fetchItems()
+    fetchData()
   }, [])
 
   async function handleToggle(id: string, completed: boolean) {
@@ -160,7 +134,7 @@ export default function RoadmapPage() {
     )
 
     if (completed) {
-      toast.success("\u{1F389} +10 poin! Langkah selesai!")
+      toast.success(d.stepComplete)
     }
   }
 
@@ -188,7 +162,10 @@ export default function RoadmapPage() {
   const progressPercent =
     items.length > 0 ? (completedCount / items.length) * 100 : 0
 
-  const achievements = useMemo(() => computeAchievements(items), [items])
+  const achievements = useMemo(
+    () => computeAchievements(items, common.achievementNames),
+    [items, common.achievementNames]
+  )
   const unlockedCount = achievements.filter((a) => a.unlocked).length
 
   if (loading) {
@@ -211,9 +188,9 @@ export default function RoadmapPage() {
       <div className="p-6">
         <EmptyState
           icon={MapIcon}
-          title="Belum ada roadmap"
-          description="Selesaikan assessment dan generate skor untuk mendapatkan roadmap sustainability yang dipersonalisasi."
-          actionLabel="Mulai Assessment"
+          title={d.noRoadmap}
+          description={d.noRoadmapDesc}
+          actionLabel={d.startAssessment}
           actionHref="/dashboard/assessment"
         />
       </div>
@@ -223,25 +200,67 @@ export default function RoadmapPage() {
   return (
     <div className="space-y-6 p-6">
       <div>
-        <h1 className="text-2xl font-bold">Roadmap Sustainability</h1>
+        <h1 className="text-2xl font-bold">{d.title}</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          {completedCount} dari {items.length} langkah selesai {"\u2022"}{" "}
-          {"\u2B50"} {totalPoints} poin
+          {completedCount}/{items.length} {d.stepsCompleted} {"\u2022"}{" "}
+          {"\u2B50"} {totalPoints} {d.points}
         </p>
         <Progress value={progressPercent} className="mt-3 h-3" />
         <div className="mt-1 flex justify-between text-xs text-muted-foreground">
           <span>{Math.round(progressPercent)}%</span>
           <span>
-            {"\u{1F3C6}"} {unlockedCount}/{achievements.length} pencapaian
+            {"\u{1F3C6}"} {unlockedCount}/{achievements.length}{" "}
+            {d.achievementsCount}
           </span>
         </div>
       </div>
 
+      {impactData && (
+        <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
+          <CardHeader>
+            <CardTitle className="text-base">
+              {d.impactEstimator.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex items-center gap-3">
+                <div className="flex size-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/40">
+                  <Leaf className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-green-700 dark:text-green-400">
+                    {impactData.co2.toLocaleString()} kg
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {d.impactEstimator.co2Reduction}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex size-10 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/40">
+                  <TreePine className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-green-700 dark:text-green-400">
+                    {impactData.trees}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {d.impactEstimator.trees}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              {d.impactEstimator.annualEstimate}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">
-            {"\u{1F3C6}"} Pencapaian
-          </CardTitle>
+          <CardTitle className="text-base">{d.achievements}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-5">
@@ -258,10 +277,10 @@ export default function RoadmapPage() {
           onValueChange={(v) => setCategoryFilter(v as "all" | Category)}
         >
           <TabsList>
-            <TabsTrigger value="all">Semua</TabsTrigger>
-            {(Object.keys(CATEGORY_LABELS) as Category[]).map((cat) => (
+            <TabsTrigger value="all">{d.all}</TabsTrigger>
+            {(Object.keys(common.categories) as Category[]).map((cat) => (
               <TabsTrigger key={cat} value={cat}>
-                {CATEGORY_EMOJI[cat]} {CATEGORY_LABELS[cat]}
+                {CATEGORY_EMOJI[cat]} {common.categories[cat]}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -272,12 +291,12 @@ export default function RoadmapPage() {
           onValueChange={(v) => setSortBy(v as SortOption)}
         >
           <SelectTrigger className="w-44">
-            <SelectValue placeholder="Urutkan" />
+            <SelectValue placeholder={d.sortPlaceholder} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="priority">Prioritas</SelectItem>
-            <SelectItem value="impact">Dampak</SelectItem>
-            <SelectItem value="timeline">Timeline</SelectItem>
+            <SelectItem value="priority">{d.sort.priority}</SelectItem>
+            <SelectItem value="impact">{d.sort.impact}</SelectItem>
+            <SelectItem value="timeline">{d.sort.timeline}</SelectItem>
           </SelectContent>
         </Select>
       </div>

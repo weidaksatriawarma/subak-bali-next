@@ -16,6 +16,7 @@ import {
 } from "lucide-react"
 
 import type { Profile } from "@/types/database"
+import { useTranslation } from "@/lib/i18n/language-context"
 import {
   Sidebar,
   SidebarContent,
@@ -37,16 +38,6 @@ import {
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 
-const navItems = [
-  { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { title: "Assessment", href: "/dashboard/assessment", icon: ClipboardList },
-  { title: "Skor Saya", href: "/dashboard/score", icon: BarChart3 },
-  { title: "Roadmap", href: "/dashboard/roadmap", icon: Map },
-  { title: "AI Consultant", href: "/dashboard/chat", icon: MessageSquare },
-  { title: "Progress", href: "/dashboard/progress", icon: TrendingUp },
-  { title: "Pengaturan", href: "/dashboard/settings", icon: Settings },
-]
-
 interface AppSidebarProps {
   profile: Profile
 }
@@ -54,6 +45,26 @@ interface AppSidebarProps {
 export function AppSidebar({ profile }: AppSidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
+  const { t } = useTranslation()
+  const d = t.dashboard.sidebar
+
+  const navItems = [
+    { title: d.nav.dashboard, href: "/dashboard", icon: LayoutDashboard },
+    {
+      title: d.nav.assessment,
+      href: "/dashboard/assessment",
+      icon: ClipboardList,
+    },
+    { title: d.nav.myScore, href: "/dashboard/score", icon: BarChart3 },
+    { title: d.nav.roadmap, href: "/dashboard/roadmap", icon: Map },
+    {
+      title: d.nav.aiConsultant,
+      href: "/dashboard/chat",
+      icon: MessageSquare,
+    },
+    { title: d.nav.progress, href: "/dashboard/progress", icon: TrendingUp },
+    { title: d.nav.settings, href: "/dashboard/settings", icon: Settings },
+  ]
 
   const initials = profile.business_name
     .split(" ")
@@ -81,7 +92,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">GreenAdvisor</span>
                   <span className="truncate text-xs text-muted-foreground">
-                    Konsultan Berkelanjutan
+                    {d.subtitle}
                   </span>
                 </div>
               </Link>
@@ -151,12 +162,12 @@ export function AppSidebar({ profile }: AppSidebarProps) {
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard/settings">
                     <Settings />
-                    Pengaturan
+                    {d.settings}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut />
-                  Keluar
+                  {d.signOut}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

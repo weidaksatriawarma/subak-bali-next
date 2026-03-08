@@ -66,7 +66,11 @@ Generate 8-12 specific, actionable items.
 Prioritize low-cost, high-impact actions first.
 All text MUST be in Bahasa Indonesia.
 Consider Indonesian context: PLN grid, local waste management, Indonesian supply chains.
-Focus on actions a small ${INDUSTRY_LABELS[profile.industry]} business can realistically implement.`
+Focus on actions a small ${INDUSTRY_LABELS[profile.industry]} business can realistically implement.
+
+Also estimate the total annual CO₂ reduction in kg if all roadmap items are implemented.
+Use realistic estimates for Indonesian MSMEs (e.g., switching to LED saves ~200kg/year, waste segregation ~100kg/year).
+Set tree_equivalent = estimated_co2_reduction_kg / 22 (average CO₂ absorbed by one tree per year).`
 }
 
 export function buildChatSystemPrompt(
