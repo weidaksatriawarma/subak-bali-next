@@ -219,7 +219,7 @@ export function ScoreContent({
             <CardTitle>{d.totalScore}</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col items-center gap-2">
-            <span className="text-5xl">{labelInfo.emoji}</span>
+            <span className="text-8xl">{labelInfo.emoji}</span>
             <ScoreGauge score={data.totalScore} />
             <p className="text-lg font-bold">{labelInfo.label}</p>
             <p className="text-center text-sm text-muted-foreground">
