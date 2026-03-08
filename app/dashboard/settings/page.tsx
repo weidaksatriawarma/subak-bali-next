@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "sonner"
-import { Settings, LogOut, Trash2, ClipboardList } from "lucide-react"
+import { Settings, LogOut, Trash2, ClipboardList, Cookie } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -40,6 +40,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
+import { useCookieConsent } from "@/hooks/use-cookie-consent"
 import type { Industry, BusinessSize } from "@/types/database"
 
 const profileSchema = z.object({
@@ -65,6 +66,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [email, setEmail] = useState("")
+  const { status: cookieStatus, accept: acceptCookies, decline: declineCookies } = useCookieConsent()
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -370,6 +372,43 @@ export default function SettingsPage() {
           >
             Ambil Assessment Ulang
           </Button>
+        </CardContent>
+      </Card>
+
+      {/* Preferensi Cookie */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Cookie className="h-5 w-5" />
+            Preferensi Cookie
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-4 text-sm text-muted-foreground">
+            Cookie fungsional menyimpan preferensi tampilan Anda (bahasa, tema,
+            status sidebar) agar tetap tersimpan saat kembali berkunjung.
+          </p>
+          <div className="flex items-center gap-3">
+            <span className="text-sm">
+              Status:{" "}
+              <span className="font-medium">
+                {cookieStatus === "accepted"
+                  ? "Diterima"
+                  : cookieStatus === "declined"
+                    ? "Ditolak"
+                    : "Belum dipilih"}
+              </span>
+            </span>
+            {cookieStatus === "accepted" ? (
+              <Button variant="outline" size="sm" onClick={declineCookies}>
+                Tolak Cookie
+              </Button>
+            ) : (
+              <Button variant="outline" size="sm" onClick={acceptCookies}>
+                Terima Cookie
+              </Button>
+            )}
+          </div>
         </CardContent>
       </Card>
 

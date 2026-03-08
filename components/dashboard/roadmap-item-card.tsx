@@ -94,7 +94,7 @@ export function RoadmapItemCard({
           )}
         </div>
         <p className="text-sm text-muted-foreground">{item.description}</p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Badge variant={priorityVariant}>
             {common.priorities[item.priority]}
           </Badge>
@@ -131,31 +131,32 @@ export function RoadmapItemCard({
               </Tooltip>
             </TooltipProvider>
           )}
+          <div className="ml-auto">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-green-200 bg-green-50 text-green-700 hover:bg-green-100 dark:border-green-800 dark:bg-green-950 dark:text-green-300 dark:hover:bg-green-900"
+                    asChild
+                  >
+                    <Link
+                      href={`/dashboard/chat?prompt=${encodeURIComponent(`Jelaskan lebih detail cara mengimplementasikan langkah sustainability berikut: "${item.title}". ${item.description}`)}`}
+                    >
+                      <MessageSquare className="mr-1.5 h-4 w-4" />
+                      {rd.askAi}
+                    </Link>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{rd.askAiTooltip}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
       </div>
-
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="mr-6 shrink-0 self-center border-green-200 bg-green-50 text-green-700 hover:bg-green-100 dark:border-green-800 dark:bg-green-950 dark:text-green-300 dark:hover:bg-green-900"
-              asChild
-            >
-              <Link
-                href={`/dashboard/chat?prompt=${encodeURIComponent(`Jelaskan lebih detail cara mengimplementasikan langkah sustainability berikut: "${item.title}". ${item.description}`)}`}
-              >
-                <MessageSquare className="mr-1.5 h-4 w-4" />
-                {rd.askAi}
-              </Link>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{rd.askAiTooltip}</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
 
       {!item.is_mandatory && (
         <DropdownMenu>

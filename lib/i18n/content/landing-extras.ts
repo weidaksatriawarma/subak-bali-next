@@ -40,6 +40,7 @@ export interface LandingExtrasDictionary {
   cookieConsent: {
     text: string
     accept: string
+    decline: string
     learnMore: string
   }
   scrollToTop: string
@@ -194,6 +195,7 @@ const id: LandingExtrasDictionary = {
   cookieConsent: {
     text: "Kami menggunakan cookie untuk menyimpan preferensi tampilan Anda. Dengan melanjutkan, Anda menyetujui penggunaan cookie sesuai",
     accept: "Terima",
+    decline: "Tolak",
     learnMore: "Kebijakan Cookie",
   },
   scrollToTop: "Kembali ke atas",
@@ -348,6 +350,7 @@ const en: LandingExtrasDictionary = {
   cookieConsent: {
     text: "We use cookies to store your display preferences. By continuing, you agree to our cookie usage per our",
     accept: "Accept",
+    decline: "Decline",
     learnMore: "Cookie Policy",
   },
   scrollToTop: "Back to top",

@@ -31,6 +31,7 @@ import { Slider } from "@/components/ui/slider"
 import { Progress } from "@/components/ui/progress"
 import { IndustryQuestionsStep } from "@/components/forms/industry-questions-step"
 import { hasIndustryQuestions } from "@/lib/gamification/industry-questions"
+import { isFunctionalCookiesAllowed } from "@/lib/cookie-consent"
 import type {
   EnergySource,
   WasteManagement,
@@ -116,6 +117,7 @@ function loadDraft(): {
 }
 
 function saveDraft(values: Partial<AssessmentFormData>, step: number) {
+  if (!isFunctionalCookiesAllowed()) return
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ values, step }))
   } catch {}
