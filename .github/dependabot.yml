@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      timezone: "Asia/Makassar"
+    commit-message:
+      prefix: "chore(deps):"
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "automated"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore(ci):"
+    open-pull-requests-limit: 5
+    labels: ["ci", "automated"]
