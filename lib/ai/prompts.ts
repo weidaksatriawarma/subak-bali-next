@@ -1,17 +1,21 @@
 import type { Profile, Score, Assessment } from "@/types/database"
 import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
+import { sanitizeForPrompt } from "@/lib/security"
 
 export function buildScorePrompt(
   profile: Profile,
   assessment: Assessment
 ): string {
+  const name = sanitizeForPrompt(profile.business_name)
+  const location = sanitizeForPrompt(profile.location || "Indonesia")
+
   return `Analyze this Indonesian MSME sustainability assessment and generate scores (0-100) for each category.
 
 Business Profile:
-- Name: ${profile.business_name}
+- Name: ${name}
 - Industry: ${INDUSTRY_LABELS[profile.industry]}
 - Size: ${BUSINESS_SIZE_LABELS[profile.business_size]}
-- Location: ${profile.location || "Indonesia"}
+- Location: ${location}
 - Employees: ${profile.employee_count || "N/A"}
 
 Assessment Data:
@@ -48,12 +52,15 @@ export function buildRoadmapPrompt(
   scores: Score,
   assessment: Assessment
 ): string {
+  const name = sanitizeForPrompt(profile.business_name)
+  const location = sanitizeForPrompt(profile.location || "Indonesia")
+
   return `Generate a sustainability improvement roadmap for this Indonesian MSME.
 
-Business: ${profile.business_name}
+Business: ${name}
 Industry: ${INDUSTRY_LABELS[profile.industry]}
 Size: ${BUSINESS_SIZE_LABELS[profile.business_size]}
-Location: ${profile.location || "Indonesia"}
+Location: ${location}
 
 Current Scores:
 - Total: ${scores.total_score}/100
@@ -98,14 +105,20 @@ Score breakdown:
 - Kebijakan: ${score.policy_score}/100`
     : "Belum ada assessment sustainability."
 
+  const name = sanitizeForPrompt(profile.business_name)
+  const location = sanitizeForPrompt(profile.location || "Indonesia")
+  const description = profile.description
+    ? sanitizeForPrompt(profile.description, 500)
+    : ""
+
   return `You are GreenAdvisor, an AI sustainability consultant specializing in helping Indonesian MSMEs (UMKM) adopt environmentally friendly business practices.
 
 Context about this business:
-- Business name: ${profile.business_name}
+- Business name: ${name}
 - Industry: ${INDUSTRY_LABELS[profile.industry]}
 - Size: ${BUSINESS_SIZE_LABELS[profile.business_size]}
-- Location: ${profile.location || "Indonesia"}
-- Employees: ${profile.employee_count || "N/A"}
+- Location: ${location}
+- Employees: ${profile.employee_count || "N/A"}${description ? `\n- Description: ${description}` : ""}
 ${scoreContext}
 
 Your role:

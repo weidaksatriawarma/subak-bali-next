@@ -1,12 +1,23 @@
 import { generateText, Output, gateway } from "ai"
+import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
 import { ScoreSchema } from "@/lib/ai/schemas"
 import { buildScorePrompt } from "@/lib/ai/prompts"
+import { rateLimit, rateLimitResponse } from "@/lib/security"
+
+const ScoreRequestSchema = z.object({
+  assessment_id: z.string().uuid(),
+})
 
 export const maxDuration = 60
 
 export async function POST(req: Request) {
-  const { assessment_id } = await req.json()
+  const body = await req.json()
+  const parsed = ScoreRequestSchema.safeParse(body)
+  if (!parsed.success) {
+    return Response.json({ error: "Invalid request body" }, { status: 400 })
+  }
+  const { assessment_id } = parsed.data
 
   const supabase = await createClient()
   const {
@@ -16,6 +27,13 @@ export async function POST(req: Request) {
   if (!user) {
     return Response.json({ error: "Unauthorized" }, { status: 401 })
   }
+
+  // Rate limit: 5 requests per minute per user
+  const { success } = rateLimit(`score:${user.id}`, {
+    maxRequests: 5,
+    windowMs: 60_000,
+  })
+  if (!success) return rateLimitResponse()
 
   const [{ data: profile }, { data: assessment }] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", user.id).single(),

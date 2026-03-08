@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
+import { timingSafeEqual } from "@/lib/security"
 
 export async function POST(req: Request) {
   if (process.env.NODE_ENV !== "development" && process.env.SEED_SECRET) {
     try {
       const { secret } = await req.json()
-      if (secret !== process.env.SEED_SECRET) {
+      if (
+        typeof secret !== "string" ||
+        !timingSafeEqual(secret, process.env.SEED_SECRET)
+      ) {
         return NextResponse.json({ error: "Not found" }, { status: 404 })
       }
     } catch {
@@ -492,12 +496,6 @@ export async function POST(req: Request) {
     })
   } catch (error) {
     console.error("Seed error:", error)
-    return NextResponse.json(
-      {
-        error: "Failed to seed data",
-        details: error instanceof Error ? error.message : String(error),
-      },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: "Failed to seed data" }, { status: 500 })
   }
 }

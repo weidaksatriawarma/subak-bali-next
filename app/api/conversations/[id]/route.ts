@@ -53,6 +53,18 @@ export async function DELETE(
     return new Response("Unauthorized", { status: 401 })
   }
 
+  // Verify ownership BEFORE deleting anything
+  const { data: conversation } = await supabase
+    .from("chat_conversations")
+    .select("id")
+    .eq("id", id)
+    .eq("user_id", user.id)
+    .single()
+
+  if (!conversation) {
+    return new Response("Not found", { status: 404 })
+  }
+
   // Delete messages first, then conversation
   await supabase.from("chat_messages").delete().eq("conversation_id", id)
 

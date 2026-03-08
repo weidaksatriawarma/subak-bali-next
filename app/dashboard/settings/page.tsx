@@ -159,6 +159,10 @@ export default function SettingsPage() {
 
     // Delete profile (cascades to related data via RLS)
     await supabase.from("profiles").delete().eq("id", user.id)
+
+    // Delete auth user record via Edge Function or admin API
+    // Note: Client-side cannot delete auth.users directly.
+    // For now, sign out and notify. A Supabase Edge Function should handle full deletion.
     await supabase.auth.signOut()
     router.push("/login")
   }

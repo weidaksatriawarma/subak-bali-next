@@ -5,18 +5,30 @@ import {
   gateway,
   stepCountIs,
 } from "ai"
+import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
 import { buildChatSystemPrompt } from "@/lib/ai/prompts"
 import { createChatTools } from "@/lib/ai/tools"
+import { rateLimit, rateLimitResponse } from "@/lib/security"
 import type { Assessment } from "@/types/database"
+
+const ChatRequestSchema = z.object({
+  messages: z.array(z.any()).min(1),
+  conversationId: z.string().uuid().optional(),
+})
 
 export const maxDuration = 60
 
 export async function POST(req: Request) {
-  const {
-    messages,
-    conversationId,
-  }: { messages: UIMessage[]; conversationId?: string } = await req.json()
+  const body = await req.json()
+  const parsed = ChatRequestSchema.safeParse(body)
+  if (!parsed.success) {
+    return Response.json({ error: "Invalid request body" }, { status: 400 })
+  }
+  const { messages, conversationId } = parsed.data as {
+    messages: UIMessage[]
+    conversationId?: string
+  }
 
   const supabase = await createClient()
   const {
@@ -26,6 +38,13 @@ export async function POST(req: Request) {
   if (!user) {
     return new Response("Unauthorized", { status: 401 })
   }
+
+  // Rate limit: 20 requests per minute per user
+  const { success } = rateLimit(`chat:${user.id}`, {
+    maxRequests: 20,
+    windowMs: 60_000,
+  })
+  if (!success) return rateLimitResponse()
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -53,6 +72,20 @@ export async function POST(req: Request) {
 
   if (!profile) {
     return new Response("Profile not found", { status: 404 })
+  }
+
+  // Verify conversation ownership
+  if (conversationId) {
+    const { data: conv } = await supabase
+      .from("chat_conversations")
+      .select("id")
+      .eq("id", conversationId)
+      .eq("user_id", user.id)
+      .single()
+
+    if (!conv) {
+      return Response.json({ error: "Conversation not found" }, { status: 404 })
+    }
   }
 
   // Persist user message

@@ -51,8 +51,15 @@ export async function updateSession(request: NextRequest) {
     ) {
       return NextResponse.redirect(new URL("/dashboard", request.url))
     }
-  } catch {
-    // Allow request through if Supabase auth fails
+  } catch (error) {
+    console.error("Middleware auth error:", error)
+    // On auth failure for protected routes, redirect to login
+    if (
+      request.nextUrl.pathname.startsWith("/dashboard") ||
+      request.nextUrl.pathname.startsWith("/onboarding")
+    ) {
+      return NextResponse.redirect(new URL("/login", request.url))
+    }
   }
 
   return response

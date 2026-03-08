@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server"
+import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
+
+const CreateConversationSchema = z.object({
+  title: z.string().max(200).optional(),
+})
 
 export async function GET() {
   const supabase = await createClient()
@@ -34,11 +39,18 @@ export async function POST(req: Request) {
     return new Response("Unauthorized", { status: 401 })
   }
 
-  const { title } = await req.json()
+  const body = await req.json()
+  const parsed = CreateConversationSchema.safeParse(body)
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 })
+  }
 
   const { data, error } = await supabase
     .from("chat_conversations")
-    .insert({ user_id: user.id, title: title || "Percakapan Baru" })
+    .insert({
+      user_id: user.id,
+      title: parsed.data.title || "Percakapan Baru",
+    })
     .select()
     .single()
 

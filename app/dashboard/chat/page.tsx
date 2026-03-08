@@ -174,7 +174,9 @@ function useChatData(conversationId: string | null) {
           setInitialMessages(data.messages.map(dbToUIMessage))
         }
       })
-      .catch(() => {})
+      .catch((err) => {
+        console.error("Failed to load conversation messages:", err)
+      })
       .finally(() => {
         if (!cancelled) setMessagesLoading(false)
       })
@@ -214,7 +216,11 @@ function ChatPageContent() {
   }
 
   const handleDelete = async (id: string) => {
-    await fetch(`/api/conversations/${id}`, { method: "DELETE" })
+    const res = await fetch(`/api/conversations/${id}`, { method: "DELETE" })
+    if (!res.ok && res.status !== 204) {
+      console.error("Failed to delete conversation:", res.status)
+      return
+    }
     setConversations((prev) => prev.filter((c) => c.id !== id))
     if (conversationId === id) {
       router.push("/dashboard/chat")

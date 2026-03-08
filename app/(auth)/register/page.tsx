@@ -29,8 +29,18 @@ export default function RegisterPage() {
       return
     }
 
-    if (password.length < 6) {
-      setError("Kata sandi minimal 6 karakter")
+    if (password.length < 8) {
+      setError("Kata sandi minimal 8 karakter")
+      return
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      setError("Kata sandi harus mengandung minimal 1 huruf besar")
+      return
+    }
+
+    if (!/[0-9]/.test(password)) {
+      setError("Kata sandi harus mengandung minimal 1 angka")
       return
     }
 
@@ -94,7 +104,7 @@ export default function RegisterPage() {
               <Input
                 id="password"
                 type="password"
-                placeholder="Minimal 6 karakter"
+                placeholder="Minimal 8 karakter (huruf besar + angka)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10"
