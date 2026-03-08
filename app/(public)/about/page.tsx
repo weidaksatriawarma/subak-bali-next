@@ -4,7 +4,7 @@ import { AboutContent } from "./content"
 export const metadata: Metadata = {
   title: "Tentang Kami",
   description:
-    "Tentang GreenAdvisor dan Tim Subak Code — misi, visi, dan kontribusi SDG kami.",
+    "Tentang GreenAdvisor — misi, visi, dan kontribusi kami untuk sustainability UMKM Indonesia.",
 }
 
 export default function AboutPage() {

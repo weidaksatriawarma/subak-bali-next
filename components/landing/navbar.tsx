@@ -43,6 +43,7 @@ export function Navbar() {
     { label: t.navbar.howItWorks, href: "/#cara-kerja" },
     { label: t.navbar.faq, href: "/faq" },
     { label: t.navbar.about, href: "/about" },
+    { label: t.navbar.guide, href: "/panduan" },
   ]
 
   function isActive(href: string) {

@@ -29,6 +29,7 @@ export interface DashboardDictionary {
       simulator: string
       carbonFootprint: string
       compliance: string
+      help: string
     }
     settings: string
     signOut: string
@@ -329,6 +330,7 @@ export interface Dictionary {
     howItWorks: string
     faq: string
     about: string
+    guide: string
     login: string
     register: string
   }
@@ -373,6 +375,7 @@ const id: Dictionary = {
     howItWorks: "Cara Kerja",
     faq: "FAQ",
     about: "Tentang",
+    guide: "Panduan",
     login: "Masuk",
     register: "Daftar",
   },
@@ -494,6 +497,7 @@ const id: Dictionary = {
         simulator: "Simulator",
         carbonFootprint: "Jejak Karbon",
         compliance: "Kepatuhan",
+        help: "Bantuan",
       },
       settings: "Pengaturan",
       signOut: "Keluar",
@@ -864,6 +868,7 @@ const en: Dictionary = {
     howItWorks: "How It Works",
     faq: "FAQ",
     about: "About",
+    guide: "Guide",
     login: "Login",
     register: "Register",
   },
@@ -984,6 +989,7 @@ const en: Dictionary = {
         simulator: "Simulator",
         carbonFootprint: "Carbon Footprint",
         compliance: "Compliance",
+        help: "Help",
       },
       settings: "Settings",
       signOut: "Sign Out",

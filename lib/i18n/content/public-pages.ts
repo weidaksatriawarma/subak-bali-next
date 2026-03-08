@@ -1,17 +1,11 @@
 import type { Locale } from "../dictionaries"
 
-interface TeamMember {
-  name: string
-  role: string
-  bio: string
-  initials: string
-}
-
 export interface PublicPagesDictionary {
   about: {
     title: string
     heroHeading: string
     heroDescription: string
+    heroImageAlt: string
     mission: {
       title: string
       content: string
@@ -20,14 +14,17 @@ export interface PublicPagesDictionary {
       title: string
       content: string
     }
-    team: {
+    impact: {
       title: string
       subtitle: string
-      members: TeamMember[]
+      features: { title: string; description: string }[]
     }
-    competition: {
-      title: string
-      content: string[]
+    imageAlts: {
+      sustainability: string
+      market: string
+      greenTech: string
+      agriculture: string
+      forest: string
     }
     sdg: {
       title: string
@@ -63,6 +60,7 @@ const id: PublicPagesDictionary = {
     heroHeading: "Tentang GreenAdvisor",
     heroDescription:
       "Platform konsultan sustainability AI yang memberdayakan UMKM Indonesia untuk bisnis yang lebih hijau dan berkelanjutan.",
+    heroImageAlt: "Pemandangan sawah terasering Bali dari udara",
     mission: {
       title: "Misi Kami",
       content:
@@ -73,43 +71,33 @@ const id: PublicPagesDictionary = {
       content:
         "Menjadi platform konsultan sustainability AI terdepan di Asia Tenggara yang membantu jutaan UMKM bertransformasi menuju praktik bisnis yang ramah lingkungan dan berkelanjutan.",
     },
-    team: {
-      title: "Tim Kami",
+    impact: {
+      title: "Apa yang Kami Lakukan",
       subtitle:
-        "Tim Subak Code, membangun solusi untuk masa depan berkelanjutan",
-      members: [
+        "Solusi berbasis AI untuk membantu UMKM Indonesia menuju bisnis berkelanjutan",
+      features: [
         {
-          name: "Ahmad Rizky",
-          role: "Project Lead & Backend Developer",
-          bio: "Passionate tentang sustainable technology dan AI. Berpengalaman dalam membangun platform berbasis data untuk dampak sosial.",
-          initials: "AR",
+          title: "Analisis AI",
+          description:
+            "Penilaian sustainability AI yang dipersonalisasi untuk setiap bisnis",
         },
         {
-          name: "Siti Nurhaliza",
-          role: "Frontend Developer & UI/UX",
-          bio: "Fokus pada desain yang inklusif dan accessible. Pengalaman dalam membangun interface yang intuitif untuk pengguna Indonesia.",
-          initials: "SN",
+          title: "Kalkulasi Karbon",
+          description:
+            "Ukur dan lacak jejak karbon dengan faktor emisi Indonesia",
         },
         {
-          name: "Budi Prasetyo",
-          role: "AI/ML Engineer",
-          bio: "Spesialis dalam natural language processing dan generative AI. Membangun model AI yang relevan untuk konteks bisnis Indonesia.",
-          initials: "BP",
-        },
-        {
-          name: "Dewi Lestari",
-          role: "Sustainability Researcher",
-          bio: "Latar belakang di bidang ilmu lingkungan dan kebijakan publik. Memastikan rekomendasi AI selaras dengan standar sustainability internasional.",
-          initials: "DL",
+          title: "Kepatuhan Regulasi",
+          description: "Panduan regulasi POJK dan sustainability Indonesia",
         },
       ],
     },
-    competition: {
-      title: "PROXOCORIS 2026",
-      content: [
-        "GreenAdvisor dikembangkan sebagai proyek kompetisi PROXOCORIS 2026, sebuah kompetisi inovasi teknologi tingkat nasional yang berfokus pada solusi digital untuk pembangunan berkelanjutan.",
-        "Proyek ini bertujuan menunjukkan bagaimana teknologi AI dapat dimanfaatkan untuk mendemokratisasi akses terhadap konsultasi sustainability bagi 65 juta UMKM Indonesia.",
-      ],
+    imageAlts: {
+      sustainability: "Pasar tradisional Indonesia yang ramai",
+      market: "Pasar makanan Indonesia",
+      greenTech: "Turbin angin sebagai energi terbarukan",
+      agriculture: "Pertanian tropis Indonesia",
+      forest: "Hutan berkabut yang asri",
     },
     sdg: {
       title: "Kontribusi SDG",
@@ -166,6 +154,7 @@ const en: PublicPagesDictionary = {
     heroHeading: "About GreenAdvisor",
     heroDescription:
       "An AI sustainability consultant platform empowering Indonesian MSMEs for greener and more sustainable businesses.",
+    heroImageAlt: "Aerial view of Bali rice terraces",
     mission: {
       title: "Our Mission",
       content:
@@ -176,42 +165,33 @@ const en: PublicPagesDictionary = {
       content:
         "To become the leading AI sustainability consultant platform in Southeast Asia, helping millions of MSMEs transform toward environmentally friendly and sustainable business practices.",
     },
-    team: {
-      title: "Our Team",
-      subtitle: "Team Subak Code, building solutions for a sustainable future",
-      members: [
+    impact: {
+      title: "What We Do",
+      subtitle:
+        "AI-powered solutions to help Indonesian MSMEs build sustainable businesses",
+      features: [
         {
-          name: "Ahmad Rizky",
-          role: "Project Lead & Backend Developer",
-          bio: "Passionate about sustainable technology and AI. Experienced in building data-driven platforms for social impact.",
-          initials: "AR",
+          title: "AI Analysis",
+          description:
+            "Personalized AI sustainability assessment for each business",
         },
         {
-          name: "Siti Nurhaliza",
-          role: "Frontend Developer & UI/UX",
-          bio: "Focused on inclusive and accessible design. Experienced in building intuitive interfaces for Indonesian users.",
-          initials: "SN",
+          title: "Carbon Calculation",
+          description:
+            "Measure and track carbon footprint with Indonesian emission factors",
         },
         {
-          name: "Budi Prasetyo",
-          role: "AI/ML Engineer",
-          bio: "Specialist in natural language processing and generative AI. Building AI models relevant to the Indonesian business context.",
-          initials: "BP",
-        },
-        {
-          name: "Dewi Lestari",
-          role: "Sustainability Researcher",
-          bio: "Background in environmental science and public policy. Ensuring AI recommendations align with international sustainability standards.",
-          initials: "DL",
+          title: "Regulatory Compliance",
+          description: "POJK and Indonesian sustainability regulation guidance",
         },
       ],
     },
-    competition: {
-      title: "PROXOCORIS 2026",
-      content: [
-        "GreenAdvisor was developed as a PROXOCORIS 2026 competition project, a national technology innovation competition focused on digital solutions for sustainable development.",
-        "This project aims to demonstrate how AI technology can be leveraged to democratize access to sustainability consulting for 65 million Indonesian MSMEs.",
-      ],
+    imageAlts: {
+      sustainability: "Bustling Indonesian traditional market",
+      market: "Indonesian food market",
+      greenTech: "Wind turbines as renewable energy",
+      agriculture: "Tropical Indonesian agriculture",
+      forest: "Lush misty forest",
     },
     sdg: {
       title: "SDG Contribution",

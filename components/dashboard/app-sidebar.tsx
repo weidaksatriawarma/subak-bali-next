@@ -11,6 +11,7 @@ import {
   LogOut,
   Map,
   MessageSquare,
+  HelpCircle,
   MoreVertical,
   Settings,
   Shield,
@@ -81,6 +82,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
       icon: MessageSquare,
     },
     { title: d.nav.progress, href: "/dashboard/progress", icon: TrendingUp },
+    { title: d.nav.help, href: "/dashboard/help", icon: HelpCircle },
     { title: d.nav.settings, href: "/dashboard/settings", icon: Settings },
   ]
 
