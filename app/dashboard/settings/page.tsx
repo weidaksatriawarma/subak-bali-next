@@ -66,7 +66,11 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [email, setEmail] = useState("")
-  const { status: cookieStatus, accept: acceptCookies, decline: declineCookies } = useCookieConsent()
+  const {
+    status: cookieStatus,
+    accept: acceptCookies,
+    decline: declineCookies,
+  } = useCookieConsent()
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),

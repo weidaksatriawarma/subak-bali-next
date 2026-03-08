@@ -22,6 +22,5 @@ export function clearFunctionalStorage(): void {
   localStorage.removeItem("subakhijau-locale")
   localStorage.removeItem("theme")
   localStorage.removeItem("assessment-draft")
-  document.cookie =
-    "sidebar_state=; path=/; max-age=0"
+  document.cookie = "sidebar_state=; path=/; max-age=0"
 }

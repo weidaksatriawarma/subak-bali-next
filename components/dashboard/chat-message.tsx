@@ -1,10 +1,12 @@
 "use client"
 
+import { useState } from "react"
 import type { UIMessage } from "ai"
 import { isToolUIPart } from "ai"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
-import { User, Leaf, Loader2 } from "lucide-react"
+import { User, Leaf, Loader2, Copy, Check } from "lucide-react"
+import { toast } from "sonner"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 
@@ -143,6 +145,42 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
   )
 }
 
+function CopyButton({ message }: { message: UIMessage }) {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    const text = message.parts
+      ?.filter((p) => p.type === "text")
+      .map((p) => (p as { type: "text"; text: string }).text)
+      .join("\n\n")
+
+    if (!text) return
+
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+      toast.success("Disalin!")
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      toast.error("Gagal menyalin teks")
+    }
+  }
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="absolute top-1.5 right-1.5 rounded-md p-1 text-muted-foreground transition-colors hover:bg-background/80 hover:text-foreground md:opacity-0 md:group-hover:opacity-100"
+      aria-label="Salin pesan"
+    >
+      {copied ? (
+        <Check className="h-3.5 w-3.5 text-green-500" />
+      ) : (
+        <Copy className="h-3.5 w-3.5" />
+      )}
+    </button>
+  )
+}
+
 interface ChatMessageProps {
   message: UIMessage
 }
@@ -170,10 +208,13 @@ export function ChatMessage({ message }: ChatMessageProps) {
       </Avatar>
       <div
         className={cn(
-          "max-w-[90%] rounded-2xl px-3 py-2 text-sm sm:max-w-[80%] sm:px-4 sm:py-2.5",
-          isUser ? "bg-primary text-primary-foreground" : "bg-muted"
+          "max-w-[90%] rounded-2xl text-sm sm:max-w-[80%]",
+          isUser
+            ? "bg-primary px-3 py-2 text-primary-foreground sm:px-4 sm:py-2.5"
+            : "group relative bg-muted px-4 py-3 sm:px-5 sm:py-4"
         )}
       >
+        {!isUser && <CopyButton message={message} />}
         {message.parts?.map((part, i) => {
           if (part.type === "text") {
             if (isUser) {
@@ -186,7 +227,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
             return (
               <div
                 key={i}
-                className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                className="prose dark:prose-invert prose-p:my-2 prose-p:leading-relaxed prose-headings:mb-2 prose-headings:mt-4 prose-headings:font-semibold prose-h3:text-base prose-h4:text-sm prose-ul:my-2 prose-ol:my-2 prose-ul:space-y-1 prose-ol:space-y-1 prose-li:my-0 prose-strong:font-semibold prose-strong:text-foreground prose-pre:my-3 prose-hr:my-4 max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
               >
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {part.text}

@@ -282,6 +282,12 @@ export interface DashboardDictionary {
     level: string
     categoryBreakdown: string
   }
+  progress: {
+    last7Days: string
+    last30Days: string
+    allTime: string
+    noDataInRange: string
+  }
   gamification: {
     streak: {
       title: string
@@ -806,6 +812,12 @@ const id: Dictionary = {
       level: "Level",
       categoryBreakdown: "Rincian Kategori",
     },
+    progress: {
+      last7Days: "7 Hari Terakhir",
+      last30Days: "30 Hari Terakhir",
+      allTime: "Semua",
+      noDataInRange: "Tidak ada data skor dalam periode ini",
+    },
     gamification: {
       streak: {
         title: "Streak Mingguan",
@@ -1309,6 +1321,12 @@ const en: Dictionary = {
       assessmentDate: "Assessment Date",
       level: "Level",
       categoryBreakdown: "Category Breakdown",
+    },
+    progress: {
+      last7Days: "Last 7 Days",
+      last30Days: "Last 30 Days",
+      allTime: "All Time",
+      noDataInRange: "No score data in this period",
     },
     gamification: {
       streak: {
