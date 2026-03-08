@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useForm, type Resolver } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Loader2 } from "lucide-react"
+import { Info, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 
 import { createClient } from "@/lib/supabase/client"
@@ -265,6 +265,23 @@ export function AssessmentForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-2xl">
+      {step === 0 && (
+        <div className="mb-4 flex gap-3 rounded-lg border border-blue-200 bg-blue-50/50 px-4 py-3 dark:border-blue-900 dark:bg-blue-950/20">
+          <Info className="mt-0.5 h-5 w-5 shrink-0 text-blue-500" />
+          <div className="text-sm text-muted-foreground">
+            <p className="font-medium text-foreground">
+              Jawab dengan jujur dan apa adanya
+            </p>
+            <p>
+              Hasil assessment ini sepenuhnya bergantung pada keakuratan jawaban
+              Anda. Jawaban yang jujur akan menghasilkan skor yang lebih akurat
+              dan rekomendasi yang benar-benar sesuai dengan kondisi bisnis Anda.
+              Data Anda bersifat rahasia dan hanya digunakan untuk analisis
+              sustainability.
+            </p>
+          </div>
+        </div>
+      )}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
