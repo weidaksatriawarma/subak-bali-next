@@ -16,6 +16,8 @@ import {
   type CelebrationTrigger,
 } from "@/lib/gamification/celebrations"
 import { useTranslation } from "@/lib/i18n/language-context"
+import { useNotifications } from "@/hooks/use-notifications"
+import { createAchievementNotification } from "@/lib/notifications"
 import { Button } from "@/components/ui/button"
 
 interface CelebrationContextType {
@@ -58,11 +60,20 @@ export function CelebrationProvider({ children }: { children: ReactNode }) {
   const firedRef = useRef(false)
   const { t } = useTranslation()
   const g = t.dashboard.gamification
+  const { addNotification } = useNotifications()
 
-  const triggerCelebration = useCallback((trigger: CelebrationTrigger) => {
-    setActiveTrigger(trigger)
-    firedRef.current = false
-  }, [])
+  const triggerCelebration = useCallback(
+    (trigger: CelebrationTrigger) => {
+      setActiveTrigger(trigger)
+      firedRef.current = false
+
+      const content = getCelebrationContent(trigger)
+      addNotification(
+        createAchievementNotification(content.title, content.subtitle)
+      )
+    },
+    [addNotification]
+  )
 
   useEffect(() => {
     if (activeTrigger && !firedRef.current) {

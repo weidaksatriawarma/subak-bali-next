@@ -29,6 +29,7 @@ import { ScoreGauge } from "@/components/dashboard/score-gauge"
 
 import { ScoreRadarChart } from "@/components/dashboard/score-radar-chart"
 import { SDGBadges } from "@/components/dashboard/sdg-badges"
+import { BenchmarkCard } from "@/components/dashboard/benchmark-card"
 import { WhatsAppShare } from "@/components/dashboard/whatsapp-share"
 import { SustainabilityCertificate } from "@/components/dashboard/sustainability-certificate"
 import { IndustryRankBadge } from "@/components/dashboard/industry-rank-badge"
@@ -564,30 +565,11 @@ export function ScoreContent({
       )}
 
       {data.industryBenchmark !== null && (
-        <Card>
-          <CardHeader>
-            <CardTitle>{d.industryComparison}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">
-              {d.industryAverage} {data.industryLabel}:{" "}
-              <span className="font-semibold text-foreground">
-                {data.industryBenchmark}/100
-              </span>
-            </p>
-            <div className="mt-2">
-              {data.totalScore >= data.industryBenchmark ? (
-                <span className="text-sm font-medium text-green-600">
-                  {d.aboveAverage}
-                </span>
-              ) : (
-                <span className="text-sm font-medium text-orange-500">
-                  {d.belowAverage}
-                </span>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        <BenchmarkCard
+          userScore={data.totalScore}
+          industryBenchmark={data.industryBenchmark}
+          industryLabel={data.industryLabel}
+        />
       )}
 
       <div

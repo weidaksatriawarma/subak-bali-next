@@ -21,6 +21,10 @@ import { useTranslation } from "@/lib/i18n/language-context"
 import { AchievementBadge } from "@/components/dashboard/achievement-badge"
 import { StreakCounter } from "@/components/dashboard/streak-counter"
 import { IndustryRankBadge } from "@/components/dashboard/industry-rank-badge"
+import {
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/landing/motion-wrapper"
 import { computeAchievements } from "@/lib/achievements"
 import { computeWeeklyStreak } from "@/lib/gamification/streaks"
 import { CATEGORY_EMOJI } from "@/lib/constants"
@@ -255,7 +259,7 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
         </Card>
       )}
 
-      <Card>
+      <Card data-tour="score-card">
         <CardHeader>
           <CardTitle>{d.scoreTitle}</CardTitle>
           <CardDescription>{d.scoreDescription}</CardDescription>
@@ -438,29 +442,31 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
         </Card>
       )}
 
-      <div>
+      <div data-tour="quick-actions">
         <h2 className="mb-4 text-lg font-semibold">{d.quickActions}</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {quickActions.map((action) => (
-            <Link key={action.href} href={action.href}>
-              <Card className="h-full transition-colors hover:bg-muted/50">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <action.icon className="size-5" />
+            <StaggerItem key={action.href}>
+              <Link href={action.href}>
+                <Card className="h-full transition-colors hover:bg-muted/50">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <action.icon className="size-5" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-base">
+                          {action.title}
+                        </CardTitle>
+                        <CardDescription>{action.description}</CardDescription>
+                      </div>
                     </div>
-                    <div>
-                      <CardTitle className="text-base">
-                        {action.title}
-                      </CardTitle>
-                      <CardDescription>{action.description}</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-            </Link>
+                  </CardHeader>
+                </Card>
+              </Link>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </div>
   )

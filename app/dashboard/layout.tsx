@@ -5,6 +5,8 @@ import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { CelebrationProvider } from "@/components/dashboard/celebration-modal"
+import { OnboardingTour } from "@/components/dashboard/onboarding-tour"
+import { PageTransition } from "@/components/dashboard/page-transition"
 
 export default async function DashboardLayout({
   children,
@@ -36,8 +38,11 @@ export default async function DashboardLayout({
       <AppSidebar profile={profile} />
       <SidebarInset>
         <DashboardHeader />
-        <main className="animate-fade-in flex-1 p-4 pb-20 md:p-6 md:pb-6">
-          <CelebrationProvider>{children}</CelebrationProvider>
+        <main id="main-content" className="flex-1 p-4 pb-20 md:p-6 md:pb-6">
+          <CelebrationProvider>
+            <OnboardingTour />
+            <PageTransition>{children}</PageTransition>
+          </CelebrationProvider>
         </main>
         <BottomNav />
       </SidebarInset>

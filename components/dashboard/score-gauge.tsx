@@ -88,6 +88,8 @@ export function ScoreGauge({ score }: ScoreGaugeProps) {
     <svg
       viewBox="0 0 120 120"
       className="h-[100px] w-[100px] sm:h-[120px] sm:w-[120px]"
+      role="img"
+      aria-label={`Skor keberlanjutan: ${score} dari 100`}
     >
       {/* Background track */}
       <circle

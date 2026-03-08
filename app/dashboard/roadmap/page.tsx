@@ -6,6 +6,10 @@ import { useTranslation } from "@/lib/i18n/language-context"
 import { toast } from "sonner"
 import { MapIcon, Leaf, TreePine, Plus } from "lucide-react"
 import { useCelebration } from "@/components/dashboard/celebration-modal"
+import { useNotifications } from "@/hooks/use-notifications"
+import { createRoadmapNotification } from "@/lib/notifications"
+import { ExportButton } from "@/components/dashboard/export-button"
+import { exportToCSV, formatRoadmapForExport } from "@/lib/export"
 import {
   detectCelebration,
   type CelebrationState,
@@ -78,6 +82,7 @@ export default function RoadmapPage() {
   const d = t.dashboard.roadmap
   const common = t.dashboard.common
   const { triggerCelebration } = useCelebration()
+  const { addNotification } = useNotifications()
 
   useEffect(() => {
     async function fetchData() {
@@ -137,6 +142,11 @@ export default function RoadmapPage() {
 
     if (completed) {
       toast.success(d.stepComplete)
+
+      const completedItem = items.find((i) => i.id === id)
+      if (completedItem) {
+        addNotification(createRoadmapNotification(completedItem.title))
+      }
 
       const categories = [
         "energy",
@@ -391,20 +401,34 @@ export default function RoadmapPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">{d.title}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {completedCount}/{items.length} {d.stepsCompleted} {"\u2022"}{" "}
-          {"\u2B50"} {totalPoints} {d.points}
-        </p>
-        <Progress value={progressPercent} className="mt-3 h-3" />
-        <div className="mt-1 flex justify-between text-xs text-muted-foreground">
-          <span>{Math.round(progressPercent)}%</span>
-          <span>
-            {"\u{1F3C6}"} {unlockedCount}/{achievements.length}{" "}
-            {d.achievementsCount}
-          </span>
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold">{d.title}</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {completedCount}/{items.length} {d.stepsCompleted} {"\u2022"}{" "}
+            {"\u2B50"} {totalPoints} {d.points}
+          </p>
+          <Progress value={progressPercent} className="mt-3 h-3" />
+          <div className="mt-1 flex justify-between text-xs text-muted-foreground">
+            <span>{Math.round(progressPercent)}%</span>
+            <span>
+              {"\u{1F3C6}"} {unlockedCount}/{achievements.length}{" "}
+              {d.achievementsCount}
+            </span>
+          </div>
         </div>
+        <ExportButton
+          items={[
+            {
+              label: "Export CSV",
+              onClick: () =>
+                exportToCSV(
+                  formatRoadmapForExport(items),
+                  "roadmap-subakhijau.csv"
+                ),
+            },
+          ]}
+        />
       </div>
 
       {impactData && (

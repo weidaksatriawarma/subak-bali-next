@@ -7,7 +7,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "sonner"
-import { Settings, LogOut, Trash2, ClipboardList, Cookie } from "lucide-react"
+import {
+  Settings,
+  LogOut,
+  Trash2,
+  ClipboardList,
+  Cookie,
+  HelpCircle,
+} from "lucide-react"
+import { useTour } from "@/hooks/use-tour"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -71,6 +79,7 @@ export default function SettingsPage() {
     accept: acceptCookies,
     decline: declineCookies,
   } = useCookieConsent()
+  const { resetTour } = useTour()
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -413,6 +422,31 @@ export default function SettingsPage() {
               </Button>
             )}
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Bantuan */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <HelpCircle className="h-5 w-5" />
+            Bantuan
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="mb-4 text-sm text-muted-foreground">
+            Mulai ulang tur interaktif untuk melihat fitur-fitur utama
+            dashboard.
+          </p>
+          <Button
+            variant="outline"
+            onClick={() => {
+              resetTour()
+              router.push("/dashboard")
+            }}
+          >
+            Mulai Tour
+          </Button>
         </CardContent>
       </Card>
 

@@ -4,6 +4,7 @@ export interface SDGInfo {
   number: number
   color: string
   categories: Category[]
+  targets?: { code: string; description: { id: string; en: string } }[]
 }
 
 export interface SDGResult extends SDGInfo {

@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import QRCode from "qrcode"
-import { Printer } from "lucide-react"
+import { Printer, Download, Loader2 } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { SDGBadges } from "@/components/dashboard/sdg-badges"
@@ -76,6 +76,28 @@ export function ScoreReport({
   const d = t.dashboard.score.report
 
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
+  const [pdfLoading, setPdfLoading] = useState(false)
+
+  const handleDownloadPDF = useCallback(async () => {
+    setPdfLoading(true)
+    try {
+      const res = await fetch("/api/report/pdf")
+      if (!res.ok) throw new Error("PDF generation failed")
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = "laporan-sustainability-subakhijau.pdf"
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch {
+      // Silently fail — user can use print instead
+    } finally {
+      setPdfLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
     if (!certificateToken) return
@@ -106,15 +128,22 @@ export function ScoreReport({
       className="mx-auto max-w-3xl space-y-8"
       style={{ color: "#1f2937", background: "white" }}
     >
-      <div className="flex items-center justify-between">
-        <div />
+      <div className="flex items-center justify-end gap-2 print:hidden">
         <Button
-          onClick={() => window.print()}
-          className="print:hidden"
+          onClick={handleDownloadPDF}
           variant="outline"
+          disabled={pdfLoading}
         >
+          {pdfLoading ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Download className="mr-2 h-4 w-4" />
+          )}
+          Download PDF
+        </Button>
+        <Button onClick={() => window.print()} variant="outline">
           <Printer className="mr-2 h-4 w-4" />
-          Print / PDF
+          Print
         </Button>
       </div>
 

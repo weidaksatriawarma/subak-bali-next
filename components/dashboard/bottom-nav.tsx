@@ -47,7 +47,11 @@ export function BottomNav() {
   ]
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 border-t bg-background pb-[env(safe-area-inset-bottom)] md:hidden">
+    <nav
+      className="fixed inset-x-0 bottom-0 z-50 border-t bg-background pb-[env(safe-area-inset-bottom)] md:hidden"
+      role="navigation"
+      aria-label="Navigasi utama mobile"
+    >
       <div className="flex h-14 items-center justify-around">
         {navItems.map((item) => {
           const isActive = item.exact
@@ -57,6 +61,7 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
+              aria-current={isActive ? "page" : undefined}
               className={cn(
                 "flex flex-col items-center gap-0.5 px-2 py-1 text-[10px]",
                 isActive

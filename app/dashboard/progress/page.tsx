@@ -11,6 +11,8 @@ import {
   Award,
   Lock,
 } from "lucide-react"
+import { ExportButton } from "@/components/dashboard/export-button"
+import { exportToCSV, formatScoresForExport } from "@/lib/export"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
@@ -24,6 +26,11 @@ import type { RoadmapItem, Category } from "@/types/database"
 
 interface ScoreData {
   total_score: number
+  energy_score: number
+  waste_score: number
+  supply_chain_score: number
+  operations_score: number
+  policy_score: number
   created_at: string
 }
 
@@ -51,7 +58,9 @@ export default function ProgressPage() {
       const [{ data: scoresData }, { data: itemsData }] = await Promise.all([
         supabase
           .from("scores")
-          .select("total_score, created_at")
+          .select(
+            "total_score, energy_score, waste_score, supply_chain_score, operations_score, policy_score, created_at"
+          )
           .eq("user_id", user.id)
           .order("created_at", { ascending: true }),
         supabase.from("roadmap_items").select("*").eq("user_id", user.id),
@@ -176,13 +185,29 @@ export default function ProgressPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">
-          Progres Keberlanjutan
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Lacak perkembangan skor dan langkah-langkah yang telah diselesaikan
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Progres Keberlanjutan
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Lacak perkembangan skor dan langkah-langkah yang telah diselesaikan
+          </p>
+        </div>
+        {scores.length > 0 && (
+          <ExportButton
+            items={[
+              {
+                label: "Export Riwayat Skor",
+                onClick: () =>
+                  exportToCSV(
+                    formatScoresForExport(scores),
+                    "skor-subakhijau.csv"
+                  ),
+              },
+            ]}
+          />
+        )}
       </div>
 
       {/* Score History Chart */}

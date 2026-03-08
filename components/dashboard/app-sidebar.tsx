@@ -8,6 +8,7 @@ import {
   ClipboardList,
   FileText,
   Footprints,
+  Globe,
   LayoutDashboard,
   Leaf,
   LogOut,
@@ -52,6 +53,7 @@ interface NavItem {
   href: string
   icon: LucideIcon
   exact?: boolean
+  tourId?: string
 }
 
 interface NavGroup {
@@ -83,6 +85,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           title: d.nav.assessment,
           href: "/dashboard/assessment",
           icon: ClipboardList,
+          tourId: "assessment-link",
         },
       ],
     },
@@ -109,6 +112,11 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           title: d.nav.simulator,
           href: "/dashboard/simulator",
           icon: SlidersHorizontal,
+        },
+        {
+          title: "Dampak SDG",
+          href: "/dashboard/sdg",
+          icon: Globe,
         },
       ],
     },
@@ -140,6 +148,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           title: d.nav.aiConsultant,
           href: "/dashboard/chat",
           icon: MessageSquare,
+          tourId: "chat-link",
         },
         {
           title: d.nav.progress,
@@ -171,7 +180,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" aria-label="Navigasi sidebar">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -205,7 +214,11 @@ export function AppSidebar({ profile }: AppSidebarProps) {
                       isActive={isActive(item)}
                       tooltip={item.title}
                     >
-                      <Link href={item.href}>
+                      <Link
+                        href={item.href}
+                        data-tour={item.tourId}
+                        aria-current={isActive(item) ? "page" : undefined}
+                      >
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
