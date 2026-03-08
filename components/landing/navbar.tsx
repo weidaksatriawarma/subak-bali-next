@@ -28,15 +28,11 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  const navLink = (
-    <a
-      href="#cara-kerja"
-      onClick={() => setOpen(false)}
-      className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-    >
-      {t.navbar.howItWorks}
-    </a>
-  )
+  const navLinks = [
+    { label: t.navbar.howItWorks, href: "/#cara-kerja" },
+    { label: t.navbar.faq, href: "/faq" },
+    { label: t.navbar.about, href: "/about" },
+  ]
 
   return (
     <header
@@ -57,8 +53,16 @@ export function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden items-center gap-2 md:flex">
-          {navLink}
+        <div className="hidden items-center gap-4 md:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {link.label}
+            </Link>
+          ))}
           <div className="ml-2 flex items-center gap-1">
             <LanguageSwitcher />
             <ThemeToggle />
@@ -90,7 +94,16 @@ export function Navbar() {
                 </SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-4 px-4">
-                {navLink}
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
                 <Button
                   variant="outline"
                   asChild

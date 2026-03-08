@@ -1,25 +1,78 @@
 "use client"
 
-import { Leaf } from "lucide-react"
+import Link from "next/link"
+import { Leaf, MessageCircle, Mail, Instagram, Linkedin } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { useTranslation } from "@/lib/i18n/language-context"
+import { landingExtras } from "@/lib/i18n/content/landing-extras"
+
+const CONTACT_ICONS: Record<string, React.ElementType> = {
+  WhatsApp: MessageCircle,
+  Email: Mail,
+  Instagram: Instagram,
+  LinkedIn: Linkedin,
+}
 
 export function Footer() {
-  const { t } = useTranslation()
+  const { locale } = useTranslation()
+  const d = landingExtras[locale].footer
 
   return (
-    <footer className="px-4 pb-8 sm:px-6 lg:px-8">
-      <Separator className="mb-8" />
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 text-center text-sm text-muted-foreground">
-        <div className="flex items-center gap-2 text-foreground">
-          <Leaf className="size-5 text-primary" />
-          <span className="text-lg font-bold">GreenAdvisor</span>
+    <footer className="px-4 pt-16 pb-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Brand column */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <div className="mb-3 flex items-center gap-2 text-foreground">
+              <Leaf className="size-5 text-primary" />
+              <span className="text-lg font-bold">GreenAdvisor</span>
+            </div>
+            <p className="text-sm text-muted-foreground">{d.tagline}</p>
+          </div>
+
+          {/* Nav, Legal, Contact columns */}
+          {d.columns.map((column) => (
+            <div key={column.title}>
+              <h4 className="mb-3 text-sm font-semibold">{column.title}</h4>
+              <ul className="flex flex-col gap-2">
+                {column.links.map((link) => {
+                  const Icon = CONTACT_ICONS[link.label]
+                  return (
+                    <li key={link.label}>
+                      {link.external ? (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          {Icon && <Icon className="size-4" />}
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          {link.label}
+                        </Link>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ))}
         </div>
-        <p>{t.footer.madeFor}</p>
-        <p>{t.footer.team}</p>
-        <p>
-          &copy; {new Date().getFullYear()} GreenAdvisor. All rights reserved.
-        </p>
+
+        <Separator className="my-8" />
+
+        <div className="flex flex-col items-center gap-2 text-center text-xs text-muted-foreground sm:flex-row sm:justify-between">
+          <p>
+            &copy; {new Date().getFullYear()} {d.copyright}
+          </p>
+          <p>{d.madeFor}</p>
+        </div>
       </div>
     </footer>
   )

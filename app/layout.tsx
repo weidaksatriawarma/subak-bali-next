@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/lib/i18n/language-context"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
+import { CookieConsent } from "@/components/cookie-consent"
 import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
@@ -67,12 +68,40 @@ export default function RootLayout({
         inter.variable
       )}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "GreenAdvisor",
+              url: "https://greenadvisor.vercel.app",
+              description:
+                "AI-powered sustainability consultant for Indonesian MSMEs",
+              applicationCategory: "BusinessApplication",
+              operatingSystem: "Web",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "IDR",
+              },
+              creator: {
+                "@type": "Organization",
+                name: "Tim Subak Code",
+                url: "https://greenadvisor.vercel.app/about",
+              },
+            }),
+          }}
+        />
+      </head>
       <body>
         <ThemeProvider>
           <LanguageProvider>
             <TooltipProvider>
               {children}
               <Toaster />
+              <CookieConsent />
             </TooltipProvider>
           </LanguageProvider>
         </ThemeProvider>
