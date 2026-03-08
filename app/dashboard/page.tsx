@@ -37,7 +37,7 @@ export default async function DashboardPage() {
     supabase
       .from("roadmap_items")
       .select(
-        "id, is_completed, title, description, category, priority, estimated_cost, estimated_impact"
+        "id, is_completed, completed_at, title, description, category, priority, estimated_cost, estimated_impact"
       )
       .eq("user_id", user.id),
     supabase
@@ -97,9 +97,11 @@ export default async function DashboardPage() {
           estimated_cost: i.estimated_cost,
           estimated_impact: i.estimated_impact,
         })),
+        industry: profile?.industry ?? "other",
         roadmapItems: allItems.map((i) => ({
           is_completed: i.is_completed,
           category: i.category,
+          completed_at: i.completed_at ?? null,
         })),
         hasAssessment: !!assessment,
         hasScore: latestScore !== null,

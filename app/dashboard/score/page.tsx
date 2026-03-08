@@ -81,6 +81,8 @@ export default async function ScorePage() {
       }
       assessment={assessment ?? undefined}
       businessSize={profile?.business_size ?? "small"}
+      industry={profile?.industry ?? "other"}
+      certificateToken={score.certificate_token}
     />
   )
 }

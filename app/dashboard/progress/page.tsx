@@ -17,6 +17,8 @@ import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { EmptyState } from "@/components/shared/empty-state"
 import { ProgressChart } from "@/components/dashboard/progress-chart"
+import { StreakCounter } from "@/components/dashboard/streak-counter"
+import { computeWeeklyStreak } from "@/lib/gamification/streaks"
 import { CATEGORY_LABELS } from "@/lib/constants"
 import type { RoadmapItem, Category } from "@/types/database"
 
@@ -90,6 +92,8 @@ export default function ProgressPage() {
     )
   }
 
+  const streak = computeWeeklyStreak(items)
+
   const completedItems = items.filter((i) => i.is_completed)
   const incompleteItems = items.filter((i) => !i.is_completed)
   const completionPercent =
@@ -156,6 +160,18 @@ export default function ProgressPage() {
       description: "Mencapai skor total 80 atau lebih",
       unlocked: latestScore >= 80,
     },
+    {
+      id: "streak-4",
+      label: "4 Minggu Berturut-turut",
+      description: "Menyelesaikan langkah roadmap 4 minggu berturut-turut",
+      unlocked: streak.longestStreak >= 4,
+    },
+    {
+      id: "streak-8",
+      label: "8 Minggu Berturut-turut",
+      description: "Menyelesaikan langkah roadmap 8 minggu berturut-turut",
+      unlocked: streak.longestStreak >= 8,
+    },
   ]
 
   return (
@@ -181,6 +197,11 @@ export default function ProgressPage() {
           <ProgressChart scores={scores} />
         </CardContent>
       </Card>
+
+      {/* Streak Counter */}
+      {(streak.currentStreak > 0 || streak.longestStreak > 0) && (
+        <StreakCounter streak={streak} />
+      )}
 
       {/* Completion Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

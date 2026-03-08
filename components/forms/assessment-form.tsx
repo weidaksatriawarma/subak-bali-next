@@ -29,11 +29,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import { Progress } from "@/components/ui/progress"
+import { IndustryQuestionsStep } from "@/components/forms/industry-questions-step"
+import { hasIndustryQuestions } from "@/lib/gamification/industry-questions"
 import type {
   EnergySource,
   WasteManagement,
   PackagingType,
   TransportationType,
+  Industry,
 } from "@/types/database"
 
 const assessmentSchema = z.object({
@@ -127,6 +130,10 @@ export function AssessmentForm() {
   const draft = useRef(loadDraft())
   const [step, setStep] = useState(() => draft.current?.step ?? 0)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [industry, setIndustry] = useState<Industry>("other")
+  const [industryAnswers, setIndustryAnswers] = useState<
+    Record<string, unknown>
+  >({})
 
   const {
     register,
@@ -146,6 +153,23 @@ export function AssessmentForm() {
         `Draft assessment ditemukan. Melanjutkan dari langkah ${draft.current.step + 1}.`
       )
     }
+  }, [])
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const supabase = createClient()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("industry")
+        .eq("id", user.id)
+        .single()
+      if (profile) setIndustry(profile.industry as Industry)
+    }
+    fetchProfile()
   }, [])
 
   useEffect(() => {
@@ -185,9 +209,17 @@ export function AssessmentForm() {
     ],
   ]
 
+  const showIndustryStep = hasIndustryQuestions(industry)
+  const totalSteps = showIndustryStep ? STEPS.length + 1 : STEPS.length
+
   async function handleNext() {
+    // Industry questions step doesn't need form validation
+    if (step >= STEPS.length) {
+      setStep((s) => Math.min(s + 1, totalSteps - 1))
+      return
+    }
     const valid = await trigger(stepFields[step])
-    if (valid) setStep((s) => Math.min(s + 1, STEPS.length - 1))
+    if (valid) setStep((s) => Math.min(s + 1, totalSteps - 1))
   }
 
   function handlePrev() {
@@ -209,6 +241,7 @@ export function AssessmentForm() {
           user_id: user.id,
           status: "completed" as const,
           ...formData,
+          industry_answers: showIndustryStep ? industryAnswers : {},
         })
         .select()
         .single()
@@ -247,7 +280,7 @@ export function AssessmentForm() {
     }
   }
 
-  const progressValue = ((step + 1) / STEPS.length) * 100
+  const progressValue = ((step + 1) / totalSteps) * 100
 
   if (isSubmitting) {
     return (
@@ -275,9 +308,9 @@ export function AssessmentForm() {
             <p>
               Hasil assessment ini sepenuhnya bergantung pada keakuratan jawaban
               Anda. Jawaban yang jujur akan menghasilkan skor yang lebih akurat
-              dan rekomendasi yang benar-benar sesuai dengan kondisi bisnis Anda.
-              Data Anda bersifat rahasia dan hanya digunakan untuk analisis
-              sustainability.
+              dan rekomendasi yang benar-benar sesuai dengan kondisi bisnis
+              Anda. Data Anda bersifat rahasia dan hanya digunakan untuk
+              analisis sustainability.
             </p>
           </div>
         </div>
@@ -287,12 +320,19 @@ export function AssessmentForm() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle>
-                Langkah {step + 1}: {STEPS[step].title}
+                Langkah {step + 1}:{" "}
+                {step < STEPS.length
+                  ? STEPS[step].title
+                  : "Pertanyaan Industri"}
               </CardTitle>
-              <CardDescription>{STEPS[step].description}</CardDescription>
+              <CardDescription>
+                {step < STEPS.length
+                  ? STEPS[step].description
+                  : "Pertanyaan khusus untuk industri Anda"}
+              </CardDescription>
             </div>
             <span className="text-sm text-muted-foreground">
-              {step + 1}/{STEPS.length}
+              {step + 1}/{totalSteps}
             </span>
           </div>
           <Progress value={progressValue} className="mt-4" />
@@ -577,6 +617,16 @@ export function AssessmentForm() {
               </div>
             </>
           )}
+
+          {step === 5 && showIndustryStep && (
+            <IndustryQuestionsStep
+              industry={industry}
+              values={industryAnswers}
+              onChange={(id, value) =>
+                setIndustryAnswers((prev) => ({ ...prev, [id]: value }))
+              }
+            />
+          )}
         </CardContent>
 
         <div className="flex items-center justify-between px-6 pb-6">
@@ -589,7 +639,7 @@ export function AssessmentForm() {
             Sebelumnya
           </Button>
 
-          {step < STEPS.length - 1 ? (
+          {step < totalSteps - 1 ? (
             <Button type="button" onClick={handleNext}>
               Selanjutnya
             </Button>

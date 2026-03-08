@@ -4,7 +4,9 @@ import { useState, useCallback } from "react"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { Award, Loader2 } from "lucide-react"
-import type { Category } from "@/types/database"
+import { getIndustryRank } from "@/lib/gamification/industry-data"
+import QRCode from "qrcode"
+import type { Category, Industry } from "@/types/database"
 
 interface SustainabilityCertificateProps {
   businessName: string
@@ -12,6 +14,8 @@ interface SustainabilityCertificateProps {
   categoryScores: Record<Category, number>
   assessmentDate: string
   scoreLabel: string
+  industry?: Industry
+  certificateToken?: string
 }
 
 function getTierGradient(score: number): [string, string] {
@@ -101,6 +105,8 @@ export function SustainabilityCertificate({
   categoryScores,
   assessmentDate,
   scoreLabel,
+  industry,
+  certificateToken,
 }: SustainabilityCertificateProps) {
   const { t } = useTranslation()
   const d = t.dashboard.certificate
@@ -364,6 +370,14 @@ export function SustainabilityCertificate({
     ctx.font = "bold 20px Arial, Helvetica, sans-serif"
     ctx.fillText(badgeText, W / 2, badgeY)
 
+    // --- Industry rank name ---
+    if (industry && industry !== "other") {
+      const { rank } = getIndustryRank(industry, totalScore)
+      ctx.fillStyle = "rgba(255,255,255,0.6)"
+      ctx.font = "italic 16px Arial, Helvetica, sans-serif"
+      ctx.fillText(rank, W / 2, badgeY + 30)
+    }
+
     // --- Category mini bars ---
     const categoryKeys: Category[] = [
       "energy",
@@ -451,7 +465,32 @@ export function SustainabilityCertificate({
     ctx.lineTo(W / 2 + line3W / 2, line3Y)
     ctx.stroke()
 
+    // --- QR Code ---
+    if (certificateToken) {
+      try {
+        const qrUrl = `https://greenadvisor.vercel.app/verify/${certificateToken}`
+        const qrDataUrl = await QRCode.toDataURL(qrUrl, {
+          width: 120,
+          margin: 1,
+          color: { dark: "#FFFFFF", light: "#00000000" },
+        })
+        const qrImg = new Image()
+        qrImg.src = qrDataUrl
+        await new Promise((resolve) => {
+          qrImg.onload = resolve
+        })
+        ctx.drawImage(qrImg, W - 160, H - 160, 120, 120)
+        ctx.fillStyle = "rgba(255,255,255,0.4)"
+        ctx.font = "10px Arial, sans-serif"
+        ctx.textAlign = "center"
+        ctx.fillText("Scan to verify", W - 100, H - 30)
+      } catch {
+        // QR generation failed, skip silently
+      }
+    }
+
     // --- Footer ---
+    ctx.textAlign = "center"
     ctx.fillStyle = "rgba(255,255,255,0.4)"
     ctx.font = "12px Arial, Helvetica, sans-serif"
     ctx.fillText(
@@ -473,6 +512,8 @@ export function SustainabilityCertificate({
     categoryScores,
     assessmentDate,
     scoreLabel,
+    industry,
+    certificateToken,
     d,
     cats,
   ])

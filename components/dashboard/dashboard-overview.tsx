@@ -19,7 +19,10 @@ import {
 } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { AchievementBadge } from "@/components/dashboard/achievement-badge"
+import { StreakCounter } from "@/components/dashboard/streak-counter"
+import { IndustryRankBadge } from "@/components/dashboard/industry-rank-badge"
 import { computeAchievements } from "@/lib/achievements"
+import { computeWeeklyStreak } from "@/lib/gamification/streaks"
 import { CATEGORY_EMOJI } from "@/lib/constants"
 import {
   Card,
@@ -30,7 +33,12 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import type { DashboardDictionary } from "@/lib/i18n/dictionaries"
-import type { Category, EstimatedCost, EstimatedImpact } from "@/types/database"
+import type {
+  Category,
+  EstimatedCost,
+  EstimatedImpact,
+  Industry,
+} from "@/types/database"
 import type {
   CarbonFootprint,
   PotentialSavings,
@@ -111,7 +119,12 @@ interface OverviewData {
   completedRoadmap: number
   totalRoadmap: number
   quickWins: QuickWin[]
-  roadmapItems: { is_completed: boolean; category: Category }[]
+  industry: Industry
+  roadmapItems: {
+    is_completed: boolean
+    category: Category
+    completed_at: string | null
+  }[]
   hasAssessment: boolean
   hasScore: boolean
   hasRoadmap: boolean
@@ -131,13 +144,19 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
     data.hasAssessment && data.hasScore && data.hasRoadmap
   const showGettingStarted = !allStepsComplete
 
+  const streak = useMemo(
+    () => computeWeeklyStreak(data.roadmapItems),
+    [data.roadmapItems]
+  )
+
   const achievements = useMemo(
     () =>
       computeAchievements(
         data.roadmapItems,
-        t.dashboard.common.achievementNames
+        t.dashboard.common.achievementNames,
+        data.industry
       ),
-    [data.roadmapItems, t.dashboard.common.achievementNames]
+    [data.roadmapItems, t.dashboard.common.achievementNames, data.industry]
   )
   const unlockedAchievements = achievements.filter((a) => a.unlocked)
 
@@ -283,6 +302,14 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
           )}
         </CardContent>
       </Card>
+
+      {data.totalScore !== null && (
+        <IndustryRankBadge industry={data.industry} score={data.totalScore} />
+      )}
+
+      {(streak.currentStreak > 0 || streak.longestStreak > 0) && (
+        <StreakCounter streak={streak} />
+      )}
 
       {data.impact && (
         <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">

@@ -1,6 +1,7 @@
 import type { Achievement } from "@/components/dashboard/achievement-badge"
-import type { Category } from "@/types/database"
+import type { Category, Industry } from "@/types/database"
 import type { DashboardDictionary } from "@/lib/i18n/dictionaries"
+import { computeIndustryBadges } from "@/lib/gamification/industry-data"
 
 const CATEGORY_EMOJI_MAP: Record<Category, string> = {
   energy: "\u26A1",
@@ -12,7 +13,9 @@ const CATEGORY_EMOJI_MAP: Record<Category, string> = {
 
 export function computeAchievements(
   items: { is_completed: boolean; category: Category }[],
-  names: DashboardDictionary["common"]["achievementNames"]
+  names: DashboardDictionary["common"]["achievementNames"],
+  industry?: Industry,
+  categoryScores?: Record<Category, number>
 ): Achievement[] {
   const completed = items.filter((i) => i.is_completed).length
   const total = items.length
@@ -68,6 +71,18 @@ export function computeAchievements(
       title: names[cat],
       unlocked: catItems.length > 0 && catCompleted === catItems.length,
     })
+  }
+
+  if (industry && categoryScores) {
+    const industryBadges = computeIndustryBadges(industry, categoryScores)
+    for (const badge of industryBadges) {
+      achievements.push({
+        id: badge.id,
+        emoji: badge.emoji,
+        title: badge.name,
+        unlocked: true,
+      })
+    }
   }
 
   return achievements

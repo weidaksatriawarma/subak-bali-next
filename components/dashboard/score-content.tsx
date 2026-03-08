@@ -24,13 +24,27 @@ import { ScoreRadarChart } from "@/components/dashboard/score-radar-chart"
 import { SDGBadges } from "@/components/dashboard/sdg-badges"
 import { WhatsAppShare } from "@/components/dashboard/whatsapp-share"
 import { SustainabilityCertificate } from "@/components/dashboard/sustainability-certificate"
+import { IndustryRankBadge } from "@/components/dashboard/industry-rank-badge"
+import { AchievementCard } from "@/components/dashboard/achievement-card"
+import {
+  getIndustryRank,
+  getIndustryPercentile,
+  computeIndustryBadges,
+  INDUSTRY_BADGES,
+} from "@/lib/gamification/industry-data"
 import {
   calculateCarbonFootprint,
   calculatePotentialSavings,
   calculateRegulatoryCompliance,
 } from "@/lib/carbon"
 import type { DashboardDictionary } from "@/lib/i18n/dictionaries"
-import type { Assessment, BusinessSize } from "@/types/database"
+import { CATEGORY_EMOJI, getScoreBgColor } from "@/lib/constants"
+import type {
+  Assessment,
+  BusinessSize,
+  Category,
+  Industry,
+} from "@/types/database"
 
 interface ScoreLabelInfo {
   icon: LucideIcon
@@ -134,17 +148,33 @@ export function ScoreContent({
   previousScore,
   assessment,
   businessSize = "small",
+  industry = "other",
+  certificateToken,
 }: {
   data: ScoreData
   previousScore?: CategoryScores
   assessment?: Assessment
   businessSize?: BusinessSize
+  industry?: Industry
+  certificateToken?: string
 }) {
   const { t } = useTranslation()
   const d = t.dashboard.score
   const labels = t.dashboard.common.scoreLabels
   const cats = t.dashboard.common.categories
   const labelInfo = getScoreLabelInfoT(data.totalScore, labels)
+
+  const miniCategories: { key: Category; label: string; score: number }[] = [
+    { key: "energy", label: cats.energy, score: data.energyScore },
+    { key: "waste", label: cats.waste, score: data.wasteScore },
+    {
+      key: "supply_chain",
+      label: cats.supply_chain,
+      score: data.supplyChainScore,
+    },
+    { key: "operations", label: cats.operations, score: data.operationsScore },
+    { key: "policy", label: cats.policy, score: data.policyScore },
+  ]
 
   const summaryLines = data.aiSummary
     ? data.aiSummary.split("\n").filter((line: string) => line.trim())
@@ -179,6 +209,17 @@ export function ScoreContent({
         },
       ]
     : []
+
+  const categoryScoresRecord: Record<Category, number> = {
+    energy: data.energyScore,
+    waste: data.wasteScore,
+    supply_chain: data.supplyChainScore,
+    operations: data.operationsScore,
+    policy: data.policyScore,
+  }
+  const percentile = getIndustryPercentile(industry, data.totalScore)
+  const unlockedBadges = computeIndustryBadges(industry, categoryScoresRecord)
+  const allIndustryBadges = INDUSTRY_BADGES[industry]
 
   const carbonData = assessment ? calculateCarbonFootprint(assessment) : null
   const savingsData = calculatePotentialSavings(businessSize)
@@ -254,17 +295,65 @@ export function ScoreContent({
           <CardHeader>
             <CardTitle>{d.totalScore}</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center gap-2">
+          <CardContent className="flex flex-col items-center gap-4">
             <ScoreGauge score={data.totalScore} />
-            <div className={`rounded-full p-5 ${labelInfo.color}`}>
-              <labelInfo.icon
-                className={`h-16 w-16 ${labelInfo.iconColor}`}
-              />
+
+            {/* Compact tier badge */}
+            <div className="flex items-center gap-2">
+              <div className={`rounded-full p-1.5 ${labelInfo.color}`}>
+                <labelInfo.icon className={`h-5 w-5 ${labelInfo.iconColor}`} />
+              </div>
+              <div>
+                <p className="text-sm leading-tight font-bold">
+                  {labelInfo.label}
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  {labelInfo.description}
+                </p>
+              </div>
             </div>
-            <p className="text-lg font-bold">{labelInfo.label}</p>
-            <p className="text-center text-sm text-muted-foreground">
-              {labelInfo.description}
-            </p>
+
+            {/* Mini category bars */}
+            <div className="w-full space-y-2">
+              {miniCategories.map((cat) => (
+                <div key={cat.key} className="flex items-center gap-2 text-xs">
+                  <span className="flex w-24 items-center gap-1 truncate">
+                    <span>{CATEGORY_EMOJI[cat.key]}</span>
+                    <span className="truncate">{cat.label}</span>
+                  </span>
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className={`h-full rounded-full ${getScoreBgColor(cat.score)} animate-bar-grow`}
+                      style={
+                        {
+                          "--bar-width": `${cat.score}%`,
+                        } as React.CSSProperties
+                      }
+                    />
+                  </div>
+                  <span className="w-7 text-right font-medium">
+                    {cat.score}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Industry benchmark one-liner */}
+            {data.industryBenchmark !== null && (
+              <div className="flex w-full items-center gap-1.5 rounded-md border bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+                {data.totalScore >= data.industryBenchmark ? (
+                  <>
+                    <TrendingUp className="h-3.5 w-3.5 shrink-0 text-green-600" />
+                    <span>{d.aboveAverage}</span>
+                  </>
+                ) : (
+                  <>
+                    <TrendingDown className="h-3.5 w-3.5 shrink-0 text-orange-500" />
+                    <span>{d.belowAverage}</span>
+                  </>
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -285,6 +374,52 @@ export function ScoreContent({
           </CardContent>
         </Card>
       </div>
+
+      <IndustryRankBadge industry={industry} score={data.totalScore} />
+
+      {industry !== "other" && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Performa Industri</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Di atas{" "}
+              <span className="font-semibold text-foreground">
+                {percentile}%
+              </span>{" "}
+              perusahaan {data.industryLabel}
+            </p>
+            {allIndustryBadges.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-sm font-medium">Badge Industri</p>
+                <div className="flex flex-wrap gap-2">
+                  {allIndustryBadges.map((badge) => {
+                    const isUnlocked = unlockedBadges.some(
+                      (b) => b.id === badge.id
+                    )
+                    return (
+                      <div
+                        key={badge.id}
+                        className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm ${
+                          isUnlocked
+                            ? "border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950"
+                            : "border-muted bg-muted/30 opacity-50"
+                        }`}
+                      >
+                        <span>{badge.emoji}</span>
+                        <span className={isUnlocked ? "font-medium" : ""}>
+                          {badge.name}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardHeader>
@@ -460,17 +595,25 @@ export function ScoreContent({
           <SustainabilityCertificate
             businessName={data.businessName ?? ""}
             totalScore={data.totalScore}
-            categoryScores={{
-              energy: data.energyScore,
-              waste: data.wasteScore,
-              supply_chain: data.supplyChainScore,
-              operations: data.operationsScore,
-              policy: data.policyScore,
-            }}
+            categoryScores={categoryScoresRecord}
             assessmentDate={assessment.created_at}
             scoreLabel={labelInfo.label}
+            industry={industry}
+            certificateToken={certificateToken}
           />
         )}
+        <AchievementCard
+          businessName={data.businessName ?? ""}
+          totalScore={data.totalScore}
+          rankName={getIndustryRank(industry, data.totalScore).rank}
+          achievements={unlockedBadges.map((b) => ({
+            id: b.id,
+            emoji: b.emoji,
+            title: b.name,
+            unlocked: true,
+          }))}
+          streakWeeks={0}
+        />
         <Button asChild variant="outline">
           <Link href="/dashboard/score/report" target="_blank">
             <FileDown className="mr-2 h-4 w-4" />

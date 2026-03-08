@@ -12,6 +12,7 @@ import type {
   PackagingType,
   TransportationType,
 } from "@/types/database"
+import { getIndustryRank } from "@/lib/gamification/industry-data"
 
 export const INDUSTRY_LABELS: Record<Industry, string> = {
   fnb: "F&B (Makanan & Minuman)",
@@ -145,6 +146,15 @@ export function getScoreLabelInfo(score: number): ScoreLabelInfo {
 
 export function getScoreLabel(score: number): string {
   return getScoreLabelInfo(score).label
+}
+
+export function getIndustryScoreLabelInfo(
+  industry: Industry,
+  score: number
+): ScoreLabelInfo {
+  const { rank } = getIndustryRank(industry, score)
+  const base = getScoreLabelInfo(score)
+  return { ...base, label: rank }
 }
 
 export const CATEGORY_EMOJI: Record<Category, string> = {

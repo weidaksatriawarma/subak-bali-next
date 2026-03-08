@@ -85,6 +85,7 @@ export interface Assessment {
   has_sustainability_policy: boolean
   employee_sustainability_training: boolean
   community_engagement: boolean
+  industry_answers?: Record<string, unknown> | null
   created_at: string
   updated_at: string
 }
@@ -101,6 +102,7 @@ export interface Score {
   policy_score: number
   ai_summary: string | null
   industry_benchmark: number | null
+  certificate_token?: string
   created_at: string
 }
 

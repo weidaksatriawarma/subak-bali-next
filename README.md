@@ -281,15 +281,6 @@ GreenAdvisor menyertakan kalkulator karbon yang menggunakan **faktor emisi Indon
 | 📅 Demo | 10–14 Maret 2026 |
 | 🎤 Pitching | 5 April 2026 |
 
-### 📊 Kriteria Penilaian
-
-| Kriteria | Bobot |
-|----------|-------|
-| 🖥️ Live Demo | 30% |
-| 🎨 UI/UX | 20% |
-| 🎤 Presentasi | 25% |
-| 🌍 Relevansi & Dampak | 25% |
-
 ---
 
 ## 🌏 SDG Alignment

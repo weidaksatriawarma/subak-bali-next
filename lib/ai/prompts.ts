@@ -1,6 +1,7 @@
 import type { Profile, Score, Assessment } from "@/types/database"
 import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
 import { sanitizeForPrompt } from "@/lib/security"
+import { INDUSTRY_SCORING_WEIGHTS } from "@/lib/gamification/industry-data"
 
 export function buildScorePrompt(
   profile: Profile,
@@ -35,6 +36,14 @@ Assessment Data:
 - Employee training: ${assessment.employee_sustainability_training}
 - Community engagement: ${assessment.community_engagement}
 
+Industry-specific scoring weights for ${INDUSTRY_LABELS[profile.industry]}:
+- Energy: ${INDUSTRY_SCORING_WEIGHTS[profile.industry].energy * 100}%
+- Waste: ${INDUSTRY_SCORING_WEIGHTS[profile.industry].waste * 100}%
+- Supply Chain: ${INDUSTRY_SCORING_WEIGHTS[profile.industry].supply_chain * 100}%
+- Operations: ${INDUSTRY_SCORING_WEIGHTS[profile.industry].operations * 100}%
+- Policy: ${INDUSTRY_SCORING_WEIGHTS[profile.industry].policy * 100}%
+Weight the scores accordingly.
+${assessment.industry_answers ? `\nIndustry-specific answers: ${JSON.stringify(assessment.industry_answers)}` : ""}
 Score each category 0-100 based on Indonesian MSME standards.
 
 Context: This business produces approximately ${assessment.monthly_electricity_kwh ?? 500} kWh/month of electricity consumption and ${assessment.waste_volume_kg_monthly ?? 100} kg/month of waste. Consider the CO₂ impact of their energy source (${assessment.energy_source}) and waste management (${assessment.waste_management}) when scoring.

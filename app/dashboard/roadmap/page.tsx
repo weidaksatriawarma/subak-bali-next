@@ -5,6 +5,11 @@ import { createClient } from "@/lib/supabase/client"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { toast } from "sonner"
 import { MapIcon, Leaf, TreePine, Plus } from "lucide-react"
+import { useCelebration } from "@/components/dashboard/celebration-modal"
+import {
+  detectCelebration,
+  type CelebrationState,
+} from "@/lib/gamification/celebrations"
 import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -72,6 +77,7 @@ export default function RoadmapPage() {
   const { t } = useTranslation()
   const d = t.dashboard.roadmap
   const common = t.dashboard.common
+  const { triggerCelebration } = useCelebration()
 
   useEffect(() => {
     async function fetchData() {
@@ -131,6 +137,56 @@ export default function RoadmapPage() {
 
     if (completed) {
       toast.success(d.stepComplete)
+
+      const categories = [
+        "energy",
+        "waste",
+        "supply_chain",
+        "operations",
+        "policy",
+      ] as const
+      const getCategoriesCompleted = (itemList: typeof items) =>
+        categories.filter((cat) => {
+          const catItems = itemList.filter((i) => i.category === cat)
+          return catItems.length > 0 && catItems.every((i) => i.is_completed)
+        })
+
+      const prevCompleted = items.filter((i) => i.is_completed).length
+      const nextCompleted = prevCompleted + 1
+      const total = items.length
+
+      const nextItems = items.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              is_completed: true,
+              completed_at: new Date().toISOString(),
+            }
+          : item
+      )
+
+      const prevState: CelebrationState = {
+        completionPercent: total > 0 ? (prevCompleted / total) * 100 : 0,
+        completedCount: prevCompleted,
+        rankTier: 0,
+        unlockedBadgeCount: 0,
+        streakWeeks: 0,
+        categoriesCompleted: getCategoriesCompleted(items),
+      }
+
+      const nextState: CelebrationState = {
+        completionPercent: total > 0 ? (nextCompleted / total) * 100 : 0,
+        completedCount: nextCompleted,
+        rankTier: 0,
+        unlockedBadgeCount: 0,
+        streakWeeks: 0,
+        categoriesCompleted: getCategoriesCompleted(nextItems),
+      }
+
+      const trigger = detectCelebration(prevState, nextState)
+      if (trigger) {
+        triggerCelebration(trigger)
+      }
     }
   }
 

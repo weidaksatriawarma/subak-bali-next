@@ -269,6 +269,59 @@ export interface DashboardDictionary {
     level: string
     categoryBreakdown: string
   }
+  gamification: {
+    streak: {
+      title: string
+      weeksInRow: string
+      bestStreak: string
+      noStreak: string
+      milestone4: string
+      milestone8: string
+      milestone12: string
+    }
+    celebration: {
+      firstItem: { title: string; subtitle: string }
+      pct25: { title: string; subtitle: string }
+      pct50: { title: string; subtitle: string }
+      pct75: { title: string; subtitle: string }
+      pct100: { title: string; subtitle: string }
+      rankChange: { title: string; subtitle: string }
+      categoryMaster: { title: string; subtitle: string }
+      streakMilestone: { title: string; subtitle: string }
+      shareBtn: string
+      continueBtn: string
+    }
+    industryRank: {
+      title: string
+      yourRank: string
+    }
+    industryBadges: {
+      title: string
+      locked: string
+    }
+    percentile: {
+      template: string // "Di atas {percent}% perusahaan {industry}"
+    }
+    achievementCard: {
+      download: string
+      title: string
+    }
+    industryQuestions: {
+      title: string
+      description: string
+      skipInfo: string
+    }
+    verification: {
+      title: string
+      verifiedBy: string
+      score: string
+      level: string
+      assessmentDate: string
+      businessName: string
+      invalid: string
+      invalidDesc: string
+    }
+  }
 }
 
 export interface Dictionary {
@@ -745,6 +798,84 @@ const id: Dictionary = {
       level: "Level",
       categoryBreakdown: "Rincian Kategori",
     },
+    gamification: {
+      streak: {
+        title: "Streak Mingguan",
+        weeksInRow: "minggu berturut-turut",
+        bestStreak: "Streak terbaik",
+        noStreak: "Belum ada streak. Selesaikan langkah roadmap minggu ini!",
+        milestone4: "1 Bulan Konsisten!",
+        milestone8: "2 Bulan Konsisten!",
+        milestone12: "3 Bulan Konsisten!",
+      },
+      celebration: {
+        firstItem: {
+          title: "Langkah Pertama!",
+          subtitle: "Perjalanan sustainability Anda dimulai!",
+        },
+        pct25: {
+          title: "25% Selesai!",
+          subtitle: "Seperempat jalan menuju bisnis hijau!",
+        },
+        pct50: {
+          title: "Setengah Jalan!",
+          subtitle: "Luar biasa! Terus semangat!",
+        },
+        pct75: {
+          title: "75% Tercapai!",
+          subtitle: "Hampir sampai! Sedikit lagi!",
+        },
+        pct100: {
+          title: "100% Selesai!",
+          subtitle: "Champion Keberlanjutan! Luar biasa!",
+        },
+        rankChange: {
+          title: "Naik Level!",
+          subtitle: "Rank sustainability Anda meningkat!",
+        },
+        categoryMaster: {
+          title: "Kategori Tuntas!",
+          subtitle: "Semua langkah dalam satu kategori selesai!",
+        },
+        streakMilestone: {
+          title: "Streak Milestone!",
+          subtitle: "Konsistensi Anda luar biasa!",
+        },
+        shareBtn: "Bagikan",
+        continueBtn: "Lanjutkan",
+      },
+      industryRank: {
+        title: "Rank Industri",
+        yourRank: "Rank Anda",
+      },
+      industryBadges: {
+        title: "Badge Industri",
+        locked: "Terkunci",
+      },
+      percentile: {
+        template: "Di atas {percent}% perusahaan {industry}",
+      },
+      achievementCard: {
+        download: "Download Kartu Pencapaian",
+        title: "Kartu Pencapaian",
+      },
+      industryQuestions: {
+        title: "Pertanyaan Khusus Industri",
+        description: "Pertanyaan tambahan sesuai jenis industri Anda",
+        skipInfo: "Industri 'Lainnya' tidak memiliki pertanyaan tambahan",
+      },
+      verification: {
+        title: "Verifikasi Sertifikat",
+        verifiedBy: "Diverifikasi oleh GreenAdvisor",
+        score: "Skor Keberlanjutan",
+        level: "Level",
+        assessmentDate: "Tanggal Assessment",
+        businessName: "Nama Bisnis",
+        invalid: "Sertifikat Tidak Valid",
+        invalidDesc:
+          "Token verifikasi tidak ditemukan atau sudah tidak berlaku.",
+      },
+    },
   },
 }
 
@@ -1166,6 +1297,83 @@ const en: Dictionary = {
       assessmentDate: "Assessment Date",
       level: "Level",
       categoryBreakdown: "Category Breakdown",
+    },
+    gamification: {
+      streak: {
+        title: "Weekly Streak",
+        weeksInRow: "weeks in a row",
+        bestStreak: "Best streak",
+        noStreak: "No streak yet. Complete a roadmap step this week!",
+        milestone4: "1 Month Consistent!",
+        milestone8: "2 Months Consistent!",
+        milestone12: "3 Months Consistent!",
+      },
+      celebration: {
+        firstItem: {
+          title: "First Step!",
+          subtitle: "Your sustainability journey begins!",
+        },
+        pct25: {
+          title: "25% Complete!",
+          subtitle: "Quarter way to a green business!",
+        },
+        pct50: {
+          title: "Halfway There!",
+          subtitle: "Amazing! Keep it up!",
+        },
+        pct75: {
+          title: "75% Achieved!",
+          subtitle: "Almost there! Just a little more!",
+        },
+        pct100: {
+          title: "100% Complete!",
+          subtitle: "Sustainability Champion! Incredible!",
+        },
+        rankChange: {
+          title: "Level Up!",
+          subtitle: "Your sustainability rank has increased!",
+        },
+        categoryMaster: {
+          title: "Category Complete!",
+          subtitle: "All steps in one category are done!",
+        },
+        streakMilestone: {
+          title: "Streak Milestone!",
+          subtitle: "Your consistency is amazing!",
+        },
+        shareBtn: "Share",
+        continueBtn: "Continue",
+      },
+      industryRank: {
+        title: "Industry Rank",
+        yourRank: "Your Rank",
+      },
+      industryBadges: {
+        title: "Industry Badges",
+        locked: "Locked",
+      },
+      percentile: {
+        template: "Above {percent}% of {industry} businesses",
+      },
+      achievementCard: {
+        download: "Download Achievement Card",
+        title: "Achievement Card",
+      },
+      industryQuestions: {
+        title: "Industry-Specific Questions",
+        description: "Additional questions based on your industry type",
+        skipInfo: "'Other' industry has no additional questions",
+      },
+      verification: {
+        title: "Certificate Verification",
+        verifiedBy: "Verified by GreenAdvisor",
+        score: "Sustainability Score",
+        level: "Level",
+        assessmentDate: "Assessment Date",
+        businessName: "Business Name",
+        invalid: "Invalid Certificate",
+        invalidDesc: "Verification token not found or has expired.",
+      },
     },
   },
 }
