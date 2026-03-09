@@ -22,7 +22,8 @@
       "Bash(mkdir:*)",
       "Bash(npx tsx)",
       "Bash(npm ci:*)",
-      "Bash(npm config:*)"
+      "Bash(npm config:*)",
+      "Bash(rm:*)"
     ]
   }
 }

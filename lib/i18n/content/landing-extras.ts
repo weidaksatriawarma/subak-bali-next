@@ -25,6 +25,7 @@ export interface LandingExtrasDictionary {
     heading: string
     subheading: string
     items: FaqItem[]
+    bottomCta: string
   }
   trustBadges: {
     heading: string
@@ -50,6 +51,7 @@ const id: LandingExtrasDictionary = {
   faq: {
     heading: "Pertanyaan yang Sering Diajukan",
     subheading: "Jawaban untuk pertanyaan umum tentang Subak Hijau",
+    bottomCta: "Masih punya pertanyaan? Tanya AI kami!",
     items: [
       {
         question: "Apa itu Subak Hijau?",
@@ -205,6 +207,7 @@ const en: LandingExtrasDictionary = {
   faq: {
     heading: "Frequently Asked Questions",
     subheading: "Answers to common questions about Subak Hijau",
+    bottomCta: "Still have questions? Ask our AI!",
     items: [
       {
         question: "What is Subak Hijau?",

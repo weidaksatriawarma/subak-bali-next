@@ -2,8 +2,10 @@ import type { Metadata } from "next"
 import { Navbar } from "@/components/landing/navbar"
 import { Hero } from "@/components/landing/hero"
 import { Stats } from "@/components/landing/stats"
-import { TrustBadges } from "@/components/landing/trust-badges"
+import { ProductPreview } from "@/components/landing/product-preview"
 import { BentoGrid } from "@/components/landing/bento-grid"
+import { ComparisonSection } from "@/components/landing/comparison-section"
+import { TrustBadges } from "@/components/landing/trust-badges"
 import { CtaSection } from "@/components/landing/cta-section"
 import { FaqSection } from "@/components/landing/faq-section"
 import { Footer } from "@/components/landing/footer"
@@ -31,8 +33,10 @@ export default function Page() {
       <Navbar />
       <Hero />
       <Stats />
-      <TrustBadges />
+      <ProductPreview />
       <BentoGrid />
+      <ComparisonSection />
+      <TrustBadges />
       <CtaSection />
       <FaqSection />
       <Footer />

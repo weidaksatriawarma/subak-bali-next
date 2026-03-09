@@ -1,11 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
-import { ArrowRight, Leaf } from "lucide-react"
+import { ArrowRight, Leaf, Zap, Wallet, Factory } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { FadeInUp } from "@/components/landing/motion-wrapper"
+import { HeroDashboardMock } from "@/components/landing/hero-dashboard-mock"
 
 export function Hero() {
   const { t } = useTranslation()
@@ -50,24 +51,30 @@ export function Hero() {
                   asChild
                   className="h-12 px-8 text-base"
                 >
-                  <a href="#cara-kerja">{t.hero.learnMore}</a>
+                  <a href="#product-preview">{t.hero.learnMore}</a>
                 </Button>
+              </div>
+
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+                <Badge variant="secondary" className="gap-1.5 px-3 py-1">
+                  <Zap className="size-3.5" />
+                  {t.hero.speedBadge}
+                </Badge>
+                <Badge variant="secondary" className="gap-1.5 px-3 py-1">
+                  <Wallet className="size-3.5" />
+                  {t.hero.noCost}
+                </Badge>
+                <Badge variant="secondary" className="gap-1.5 px-3 py-1">
+                  <Factory className="size-3.5" />
+                  {t.hero.industries}
+                </Badge>
               </div>
             </FadeInUp>
           </div>
         </FadeInUp>
 
         <FadeInUp delay={0.3}>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl lg:aspect-square">
-            <Image
-              src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&q=80"
-              alt={t.hero.imageAlt}
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
+          <HeroDashboardMock />
         </FadeInUp>
       </div>
     </section>

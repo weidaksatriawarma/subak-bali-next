@@ -450,10 +450,14 @@ export function SDGDashboard({
         prompt={`Bisnis saya berkontribusi pada SDG ${sdgResults
           .filter((s) => s.avgScore > 0)
           .map((s) => s.number)
-          .join(", ")} (${sdgResults.filter((s) => s.avgScore > 0).length} dari ${sdgResults.length} relevan). Belum aktif: SDG ${sdgResults
+          .join(
+            ", "
+          )} (${sdgResults.filter((s) => s.avgScore > 0).length} dari ${sdgResults.length} relevan). Belum aktif: SDG ${sdgResults
           .filter((s) => s.avgScore === 0)
           .map((s) => s.number)
-          .join(", ")}. Bagaimana meningkatkan kontribusi SDG yang belum aktif?`}
+          .join(
+            ", "
+          )}. Bagaimana meningkatkan kontribusi SDG yang belum aktif?`}
       />
     </div>
   )

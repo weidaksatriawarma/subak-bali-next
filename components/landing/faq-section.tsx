@@ -1,11 +1,13 @@
 "use client"
 
+import { MessageSquare } from "lucide-react"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { Button } from "@/components/ui/button"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { landingExtras } from "@/lib/i18n/content/landing-extras"
 import { FadeInUp } from "@/components/landing/motion-wrapper"
@@ -38,6 +40,25 @@ export function FaqSection() {
               </AccordionItem>
             ))}
           </Accordion>
+        </FadeInUp>
+        <FadeInUp delay={0.2}>
+          <div className="mt-10 text-center">
+            <Button
+              variant="outline"
+              size="lg"
+              className="gap-2"
+              onClick={() => {
+                document
+                  .querySelector<HTMLButtonElement>(
+                    "[data-chat-widget-trigger]"
+                  )
+                  ?.click()
+              }}
+            >
+              <MessageSquare className="size-4" />
+              {d.bottomCta}
+            </Button>
+          </div>
         </FadeInUp>
       </div>
     </section>

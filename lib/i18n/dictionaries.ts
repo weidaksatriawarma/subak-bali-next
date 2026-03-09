@@ -403,6 +403,9 @@ export interface Dictionary {
     cta: string
     learnMore: string
     imageAlt: string
+    speedBadge: string
+    noCost: string
+    industries: string
   }
   stats: {
     items: StatItem[]
@@ -413,19 +416,46 @@ export interface Dictionary {
     steps: StepItem[]
     features: FeatureItem[]
   }
+  productPreview: {
+    heading: string
+    subheading: string
+    tabs: { score: string; roadmap: string; chat: string }
+    scoreTab: {
+      totalScore: string
+      benchmarkText: string
+      categories: { name: string; value: number }[]
+    }
+    roadmapTab: {
+      items: {
+        title: string
+        category: string
+        priority: string
+        cost: string
+        completed: boolean
+      }[]
+    }
+    chatTab: {
+      messages: { role: "user" | "assistant"; content: string }[]
+    }
+  }
+  comparison: {
+    heading: string
+    subheading: string
+    traditional: string
+    subakHijau: string
+    recommended: string
+    rows: { aspect: string; traditional: string; subakHijau: string }[]
+  }
   cta: {
     heading: string
     description: string
     button: string
+    secondaryButton: string
+    perks: { clock: string; wallet: string; shield: string }
   }
   footer: {
     madeFor: string
     team: string
-  }
-  socialProof: {
-    heading: string
-    subheading: string
-    items: { type: string; quote: string; metric: string }[]
   }
   dashboard: DashboardDictionary
 }
@@ -441,14 +471,17 @@ const id: Dictionary = {
   },
   hero: {
     badge: "AI-Powered Sustainability",
-    titleStart: "Konsultan Sustainability",
-    titleHighlight: "AI",
-    titleEnd: "untuk Bisnis Anda",
+    titleStart: "Jadikan Bisnis Anda",
+    titleHighlight: "Lebih Hijau",
+    titleEnd: "dalam 10 Menit",
     description:
       "Subak Hijau membantu UMKM Indonesia menilai, merencanakan, dan melacak strategi sustainability bisnis tanpa biaya konsultan mahal.",
     cta: "Mulai Gratis",
-    learnMore: "Pelajari Lebih Lanjut",
-    imageAlt: "Tropical green foliage representing sustainability",
+    learnMore: "Lihat Demo",
+    imageAlt: "Dashboard sustainability AI Subak Hijau",
+    speedBadge: "10 menit",
+    noCost: "100% Gratis",
+    industries: "6 Industri",
   },
   stats: {
     items: [
@@ -463,6 +496,10 @@ const id: Dictionary = {
       {
         value: "$5,000+",
         label: "biaya konsultan tradisional per sesi",
+      },
+      {
+        value: "10 Menit",
+        label: "untuk assessment lengkap",
       },
     ],
   },
@@ -508,40 +545,126 @@ const id: Dictionary = {
       },
     ],
   },
+  productPreview: {
+    heading: "Lihat Apa yang Anda Dapatkan",
+    subheading:
+      "Skor sustainability, roadmap aksi, dan konsultan AI — semua dalam satu platform",
+    tabs: { score: "Skor & Analisis", roadmap: "Roadmap AI", chat: "Chat Konsultan" },
+    scoreTab: {
+      totalScore: "78/100",
+      benchmarkText: "Di atas 72% perusahaan F&B",
+      categories: [
+        { name: "Energi", value: 82 },
+        { name: "Limbah", value: 75 },
+        { name: "Rantai Pasok", value: 70 },
+        { name: "Operasional", value: 85 },
+        { name: "Kebijakan", value: 68 },
+      ],
+    },
+    roadmapTab: {
+      items: [
+        {
+          title: "Ganti lampu ke LED hemat energi",
+          category: "Energi",
+          priority: "Tinggi",
+          cost: "Rendah",
+          completed: true,
+        },
+        {
+          title: "Pisahkan limbah organik & anorganik",
+          category: "Limbah",
+          priority: "Tinggi",
+          cost: "Gratis",
+          completed: true,
+        },
+        {
+          title: "Catat penggunaan listrik bulanan",
+          category: "Operasional",
+          priority: "Sedang",
+          cost: "Gratis",
+          completed: false,
+        },
+        {
+          title: "Pilih supplier lokal bersertifikat",
+          category: "Rantai Pasok",
+          priority: "Sedang",
+          cost: "Rendah",
+          completed: false,
+        },
+      ],
+    },
+    chatTab: {
+      messages: [
+        { role: "user", content: "Berapa emisi karbon warung saya?" },
+        {
+          role: "assistant",
+          content:
+            "Berdasarkan data Anda, estimasi emisi karbon warung Anda sekitar 2.4 ton CO₂/tahun. Ini berasal dari: listrik (45%), gas memasak (30%), limbah (25%). Menurut POJK 51/2017, UMKM perlu mulai melaporkan jejak karbon.",
+        },
+        { role: "user", content: "Bagaimana cara menguranginya?" },
+      ],
+    },
+  },
+  comparison: {
+    heading: "Konsultan Tradisional vs Subak Hijau",
+    subheading:
+      "Bandingkan pendekatan sustainability konvensional dengan solusi AI kami",
+    traditional: "Konsultan Tradisional",
+    subakHijau: "Subak Hijau",
+    recommended: "Rekomendasi",
+    rows: [
+      {
+        aspect: "Biaya",
+        traditional: "Rp 75 juta+/tahun",
+        subakHijau: "Gratis selamanya",
+      },
+      {
+        aspect: "Waktu",
+        traditional: "2-4 minggu",
+        subakHijau: "10-15 menit",
+      },
+      {
+        aspect: "Update",
+        traditional: "Manual, tahunan",
+        subakHijau: "Real-time AI",
+      },
+      {
+        aspect: "Personalisasi",
+        traditional: "Template umum",
+        subakHijau: "AI per industri",
+      },
+      {
+        aspect: "Tracking",
+        traditional: "Spreadsheet manual",
+        subakHijau: "Dashboard otomatis",
+      },
+      {
+        aspect: "Bahasa",
+        traditional: "English only",
+        subakHijau: "Indonesia + English",
+      },
+      {
+        aspect: "Regulasi",
+        traditional: "Riset sendiri",
+        subakHijau: "Database AI regulasi",
+      },
+    ],
+  },
   cta: {
     heading: "Mulai Assessment Gratis Sekarang",
     description:
-      "Bergabung dengan ribuan UMKM yang sudah memulai perjalanan sustainability mereka bersama Subak Hijau.",
-    button: "Daftar Sekarang",
+      "Hanya butuh 10 menit untuk skor sustainability, roadmap aksi, dan konsultan AI pribadi — semuanya gratis.",
+    button: "Mulai Gratis",
+    secondaryButton: "Lihat Demo ↑",
+    perks: {
+      clock: "10 menit setup",
+      wallet: "Tanpa biaya",
+      shield: "Data terenkripsi",
+    },
   },
   footer: {
     madeFor: "Dibuat untuk PROXOCORIS 2026",
     team: "Tim Subak Code",
-  },
-  socialProof: {
-    heading: "Dampak untuk UMKM Indonesia",
-    subheading:
-      "Lihat bagaimana Subak Hijau membantu pelaku usaha menjadi lebih berkelanjutan",
-    items: [
-      {
-        type: "Warung",
-        quote:
-          "Dengan roadmap Subak Hijau, kami berhasil mengurangi limbah makanan secara signifikan.",
-        metric: "Pengurangan limbah 40% dalam 3 bulan",
-      },
-      {
-        type: "Toko Retail",
-        quote:
-          "AI-nya kasih rekomendasi hemat listrik yang langsung bisa diterapkan.",
-        metric: "Hemat Rp 2 juta/bulan biaya listrik",
-      },
-      {
-        type: "Manufaktur",
-        quote:
-          "Laporan sustainability membantu kami mendapat kepercayaan buyer internasional.",
-        metric: "Berhasil mendapat sertifikasi Eco-Label",
-      },
-    ],
   },
   dashboard: {
     sidebar: {
@@ -1020,14 +1143,17 @@ const en: Dictionary = {
   },
   hero: {
     badge: "AI-Powered Sustainability",
-    titleStart: "Your",
-    titleHighlight: "AI",
-    titleEnd: "Sustainability Consultant",
+    titleStart: "Make Your Business",
+    titleHighlight: "Greener",
+    titleEnd: "in 10 Minutes",
     description:
       "Subak Hijau helps Indonesian MSMEs assess, plan, and track business sustainability strategies without expensive consultant fees.",
     cta: "Get Started Free",
-    learnMore: "Learn More",
-    imageAlt: "Tropical green foliage representing sustainability",
+    learnMore: "See Demo",
+    imageAlt: "Subak Hijau AI sustainability dashboard",
+    speedBadge: "10 minutes",
+    noCost: "100% Free",
+    industries: "6 Industries",
   },
   stats: {
     items: [
@@ -1042,6 +1168,10 @@ const en: Dictionary = {
       {
         value: "$5,000+",
         label: "traditional consultant cost per session",
+      },
+      {
+        value: "10 Min",
+        label: "for a complete assessment",
       },
     ],
   },
@@ -1087,39 +1217,126 @@ const en: Dictionary = {
       },
     ],
   },
+  productPreview: {
+    heading: "See What You Get",
+    subheading:
+      "Sustainability score, action roadmap, and AI consultant — all in one platform",
+    tabs: { score: "Score & Analysis", roadmap: "AI Roadmap", chat: "AI Consultant" },
+    scoreTab: {
+      totalScore: "78/100",
+      benchmarkText: "Above 72% of F&B businesses",
+      categories: [
+        { name: "Energy", value: 82 },
+        { name: "Waste", value: 75 },
+        { name: "Supply Chain", value: 70 },
+        { name: "Operations", value: 85 },
+        { name: "Policy", value: 68 },
+      ],
+    },
+    roadmapTab: {
+      items: [
+        {
+          title: "Switch to energy-efficient LED lighting",
+          category: "Energy",
+          priority: "High",
+          cost: "Low",
+          completed: true,
+        },
+        {
+          title: "Separate organic & inorganic waste",
+          category: "Waste",
+          priority: "High",
+          cost: "Free",
+          completed: true,
+        },
+        {
+          title: "Track monthly electricity usage",
+          category: "Operations",
+          priority: "Medium",
+          cost: "Free",
+          completed: false,
+        },
+        {
+          title: "Choose certified local suppliers",
+          category: "Supply Chain",
+          priority: "Medium",
+          cost: "Low",
+          completed: false,
+        },
+      ],
+    },
+    chatTab: {
+      messages: [
+        { role: "user", content: "What's my food stall's carbon footprint?" },
+        {
+          role: "assistant",
+          content:
+            "Based on your data, your estimated carbon emissions are about 2.4 tons CO₂/year. This comes from: electricity (45%), cooking gas (30%), waste (25%). Per POJK 51/2017, MSMEs should start reporting their carbon footprint.",
+        },
+        { role: "user", content: "How can I reduce it?" },
+      ],
+    },
+  },
+  comparison: {
+    heading: "Traditional Consultant vs Subak Hijau",
+    subheading:
+      "Compare conventional sustainability approaches with our AI solution",
+    traditional: "Traditional Consultant",
+    subakHijau: "Subak Hijau",
+    recommended: "Recommended",
+    rows: [
+      {
+        aspect: "Cost",
+        traditional: "Rp 75M+/year",
+        subakHijau: "Free forever",
+      },
+      {
+        aspect: "Time",
+        traditional: "2-4 weeks",
+        subakHijau: "10-15 minutes",
+      },
+      {
+        aspect: "Updates",
+        traditional: "Manual, yearly",
+        subakHijau: "Real-time AI",
+      },
+      {
+        aspect: "Personalization",
+        traditional: "Generic templates",
+        subakHijau: "AI per industry",
+      },
+      {
+        aspect: "Tracking",
+        traditional: "Manual spreadsheet",
+        subakHijau: "Auto dashboard",
+      },
+      {
+        aspect: "Language",
+        traditional: "English only",
+        subakHijau: "Indonesian + English",
+      },
+      {
+        aspect: "Regulations",
+        traditional: "Self-research",
+        subakHijau: "AI regulation database",
+      },
+    ],
+  },
   cta: {
     heading: "Start Your Free Assessment Now",
     description:
-      "Join thousands of MSMEs who have started their sustainability journey with Subak Hijau.",
-    button: "Register Now",
+      "Just 10 minutes for a sustainability score, action roadmap, and personal AI consultant — all completely free.",
+    button: "Start Free",
+    secondaryButton: "See Demo ↑",
+    perks: {
+      clock: "10 min setup",
+      wallet: "No cost",
+      shield: "Encrypted data",
+    },
   },
   footer: {
     madeFor: "Made for PROXOCORIS 2026",
     team: "Team Subak Code",
-  },
-  socialProof: {
-    heading: "Impact for Indonesian MSMEs",
-    subheading: "See how Subak Hijau helps businesses become more sustainable",
-    items: [
-      {
-        type: "Food Stall",
-        quote:
-          "With Subak Hijau's roadmap, we significantly reduced our food waste.",
-        metric: "40% waste reduction in 3 months",
-      },
-      {
-        type: "Retail Shop",
-        quote:
-          "The AI gave us energy-saving recommendations we could apply right away.",
-        metric: "Saved Rp 2M/month on electricity",
-      },
-      {
-        type: "Manufacturing",
-        quote:
-          "The sustainability report helped us gain trust from international buyers.",
-        metric: "Achieved Eco-Label certification",
-      },
-    ],
   },
   dashboard: {
     sidebar: {

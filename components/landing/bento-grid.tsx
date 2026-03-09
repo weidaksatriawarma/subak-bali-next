@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import {
   ClipboardList,
   Brain,
@@ -9,6 +8,15 @@ import {
   Gauge,
   Route,
   TrendingUp,
+  ChevronRight,
+  Zap,
+  Trash2,
+  Link2,
+  Settings,
+  FileText,
+  Check,
+  Bot,
+  User,
 } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
 import {
@@ -30,7 +38,7 @@ function FeatureCell({
   description: string
 }) {
   return (
-    <div className="flex h-full flex-col justify-center rounded-2xl border bg-card p-6 ring-1 ring-border transition-shadow hover:shadow-md">
+    <div className="flex h-full flex-col justify-center rounded-2xl border bg-card p-6 ring-1 ring-border transition-all hover:scale-[1.02] hover:shadow-md">
       <div className="mb-3 flex size-10 items-center justify-center rounded-lg bg-primary/10">
         <Icon className="size-5 text-primary" />
       </div>
@@ -38,6 +46,128 @@ function FeatureCell({
       <p className="text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
+    </div>
+  )
+}
+
+function ScoreIllustration() {
+  const categories = [
+    { icon: Zap, value: 82, color: "bg-chart-1" },
+    { icon: Trash2, value: 75, color: "bg-chart-2" },
+    { icon: Link2, value: 70, color: "bg-chart-3" },
+    { icon: Settings, value: 85, color: "bg-chart-4" },
+    { icon: FileText, value: 68, color: "bg-chart-5" },
+  ]
+
+  return (
+    <div className="flex h-full flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-primary/10 to-chart-2/10 p-6">
+      <svg className="mb-4 size-20" viewBox="0 0 80 80">
+        <circle
+          cx="40"
+          cy="40"
+          r="34"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="6"
+          className="text-muted/30"
+        />
+        <circle
+          cx="40"
+          cy="40"
+          r="34"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="6"
+          strokeDasharray={`${(78 / 100) * 213.6} 213.6`}
+          strokeLinecap="round"
+          className="text-primary"
+          transform="rotate(-90 40 40)"
+        />
+        <text
+          x="40"
+          y="44"
+          textAnchor="middle"
+          className="fill-foreground text-lg font-bold"
+          fontSize="16"
+        >
+          78
+        </text>
+      </svg>
+      <div className="flex gap-2">
+        {categories.map(({ icon: Icon }, i) => (
+          <div
+            key={i}
+            className="flex size-8 items-center justify-center rounded-md bg-card shadow-sm"
+          >
+            <Icon className="size-4 text-muted-foreground" />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function RoadmapIllustration() {
+  const items = [
+    { checked: true, text: "Ganti lampu LED" },
+    { checked: true, text: "Pisahkan limbah" },
+    { checked: false, text: "Catat listrik" },
+  ]
+
+  return (
+    <div className="flex h-full flex-col justify-center gap-3 rounded-2xl bg-gradient-to-br from-chart-2/10 to-primary/10 p-6">
+      {items.map((item, i) => (
+        <div
+          key={i}
+          className="flex items-center gap-3 rounded-lg bg-card/80 px-3 py-2 shadow-sm"
+        >
+          <div
+            className={`flex size-5 items-center justify-center rounded ${
+              item.checked
+                ? "bg-primary text-primary-foreground"
+                : "border border-muted-foreground/30"
+            }`}
+          >
+            {item.checked && <Check className="size-3" />}
+          </div>
+          <span
+            className={`text-sm ${
+              item.checked
+                ? "text-muted-foreground line-through"
+                : "text-foreground"
+            }`}
+          >
+            {item.text}
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function ChatIllustration() {
+  return (
+    <div className="flex h-full flex-col justify-center gap-3 rounded-2xl bg-gradient-to-br from-primary/10 to-chart-2/10 p-6">
+      <div className="flex justify-end">
+        <div className="flex items-start gap-2">
+          <div className="max-w-[70%] rounded-2xl rounded-tr-sm bg-primary px-3 py-2 text-xs text-primary-foreground">
+            Berapa emisi karbon warung saya?
+          </div>
+          <div className="flex size-6 items-center justify-center rounded-full bg-muted">
+            <User className="size-3 text-muted-foreground" />
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-start">
+        <div className="flex items-start gap-2">
+          <div className="flex size-6 items-center justify-center rounded-full bg-primary/10">
+            <Bot className="size-3 text-primary" />
+          </div>
+          <div className="max-w-[75%] rounded-2xl rounded-tl-sm bg-muted px-3 py-2 text-xs text-muted-foreground">
+            Estimasi emisi karbon Anda ~2.4 ton CO₂/tahun...
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -59,7 +189,6 @@ export function BentoGrid() {
   return (
     <section id="cara-kerja" className="px-4 py-16 sm:px-6 md:py-24 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        {/* Section header */}
         <FadeInUp>
           <div className="mb-8 text-center">
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -71,10 +200,10 @@ export function BentoGrid() {
           </div>
         </FadeInUp>
 
-        {/* Steps row */}
+        {/* Steps row with connectors */}
         <StaggerContainer className="mb-8 grid gap-4 sm:grid-cols-3">
-          {steps.map((item) => (
-            <StaggerItem key={item.step}>
+          {steps.map((item, i) => (
+            <StaggerItem key={item.step} className="relative">
               <div className="flex items-center gap-4 rounded-2xl border bg-card p-4 ring-1 ring-border">
                 <div className="relative flex-shrink-0">
                   <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10">
@@ -93,6 +222,11 @@ export function BentoGrid() {
                   </p>
                 </div>
               </div>
+              {i < steps.length - 1 && (
+                <div className="absolute top-1/2 -right-4 z-10 hidden -translate-y-1/2 text-muted-foreground/40 sm:block">
+                  <ChevronRight className="size-5" />
+                </div>
+              )}
             </StaggerItem>
           ))}
         </StaggerContainer>
@@ -102,15 +236,9 @@ export function BentoGrid() {
           className="grid gap-4 sm:grid-cols-2 lg:auto-rows-[200px] lg:grid-cols-3"
           staggerDelay={0.08}
         >
-          {/* Image: Solar panels — tall left */}
-          <StaggerItem className="relative overflow-hidden rounded-2xl sm:row-span-2">
-            <Image
-              src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80"
-              alt="Solar panels representing sustainable energy"
-              fill
-              className="object-cover"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
+          {/* Score illustration — tall left */}
+          <StaggerItem className="overflow-hidden rounded-2xl sm:row-span-2">
+            <ScoreIllustration />
           </StaggerItem>
 
           {/* Feature: AI Chat */}
@@ -128,15 +256,9 @@ export function BentoGrid() {
             <FeatureCell {...features[2]} />
           </StaggerItem>
 
-          {/* Image: Workspace — tall right */}
-          <StaggerItem className="relative overflow-hidden rounded-2xl sm:row-span-2">
-            <Image
-              src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80"
-              alt="Modern workspace representing business innovation"
-              fill
-              className="object-cover"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
+          {/* Roadmap illustration — tall right */}
+          <StaggerItem className="overflow-hidden rounded-2xl sm:row-span-2">
+            <RoadmapIllustration />
           </StaggerItem>
 
           {/* Feature: Tracking */}
@@ -144,15 +266,9 @@ export function BentoGrid() {
             <FeatureCell {...features[3]} />
           </StaggerItem>
 
-          {/* Image: Forest — wide bottom */}
-          <StaggerItem className="relative aspect-video overflow-hidden rounded-2xl sm:col-span-2 lg:col-span-3 lg:aspect-auto lg:h-[200px]">
-            <Image
-              src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80"
-              alt="Forest canopy representing nature and environment"
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
+          {/* Chat illustration — wide bottom */}
+          <StaggerItem className="overflow-hidden rounded-2xl sm:col-span-2 lg:col-span-3">
+            <ChatIllustration />
           </StaggerItem>
         </StaggerContainer>
       </div>

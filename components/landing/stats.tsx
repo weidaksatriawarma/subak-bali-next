@@ -1,6 +1,6 @@
 "use client"
 
-import { Building2, Heart, DollarSign } from "lucide-react"
+import { Building2, Heart, DollarSign, Clock } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { useTranslation } from "@/lib/i18n/language-context"
 import {
@@ -9,7 +9,7 @@ import {
   CountUp,
 } from "@/components/landing/motion-wrapper"
 
-const icons = [Building2, Heart, DollarSign]
+const icons = [Building2, Heart, DollarSign, Clock]
 
 export function Stats() {
   const { t } = useTranslation()
@@ -17,7 +17,7 @@ export function Stats() {
   return (
     <section className="px-4 py-16 sm:px-6 md:pt-24 md:pb-12 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        <StaggerContainer className="grid gap-6 sm:grid-cols-3">
+        <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {t.stats.items.map((stat, i) => {
             const Icon = icons[i]
             return (
@@ -29,7 +29,7 @@ export function Stats() {
                     </div>
                     <CountUp
                       value={stat.value}
-                      className="text-3xl font-bold tracking-tight text-foreground"
+                      className="text-4xl font-bold tracking-tight text-foreground"
                     />
                     <p className="text-sm text-muted-foreground">
                       {stat.label}
