@@ -20,7 +20,9 @@
       "Bash(python3:*)",
       "Bash(npm test:*)",
       "Bash(mkdir:*)",
-      "Bash(npx tsx)"
+      "Bash(npx tsx)",
+      "Bash(npm ci:*)",
+      "Bash(npm config:*)"
     ]
   }
 }
