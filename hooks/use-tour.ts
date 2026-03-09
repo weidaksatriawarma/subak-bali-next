@@ -7,6 +7,27 @@ const STORAGE_KEY = "subakhijau-tour-completed"
 let tourRunning = false
 let tourListeners: (() => void)[] = []
 
+let cachedShouldShow: boolean | null = null
+let shouldShowListeners: (() => void)[] = []
+
+function subscribeShouldShow(listener: () => void): () => void {
+  shouldShowListeners = [...shouldShowListeners, listener]
+  return () => {
+    shouldShowListeners = shouldShowListeners.filter((l) => l !== listener)
+  }
+}
+
+function getShouldShowSnapshot(): boolean {
+  if (cachedShouldShow === null) {
+    cachedShouldShow = !isTourCompleted()
+  }
+  return cachedShouldShow
+}
+
+function getServerShouldShowSnapshot(): boolean {
+  return false
+}
+
 function subscribeRunning(listener: () => void): () => void {
   tourListeners = [...tourListeners, listener]
   return () => {
@@ -42,7 +63,11 @@ export function useTour() {
     getServerRunningSnapshot
   )
 
-  const shouldShowTour = typeof window !== "undefined" && !isTourCompleted()
+  const shouldShowTour = useSyncExternalStore(
+    subscribeShouldShow,
+    getShouldShowSnapshot,
+    getServerShouldShowSnapshot
+  )
 
   const startTour = useCallback(() => {
     setRunning(true)

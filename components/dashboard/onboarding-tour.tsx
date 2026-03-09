@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Joyride, {
   type CallBackProps,
   type TooltipRenderProps,
@@ -65,9 +66,14 @@ function CustomTooltip({
 }
 
 export function OnboardingTour() {
+  const [mounted, setMounted] = useState(false)
   const { shouldShowTour, isRunning, completeTour } = useTour()
   const { locale } = useTranslation()
   const content = tourContent[locale]
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleCallback = (data: CallBackProps) => {
     const { status } = data
@@ -76,7 +82,7 @@ export function OnboardingTour() {
     }
   }
 
-  if (!shouldShowTour) {
+  if (!mounted || !shouldShowTour) {
     return null
   }
 

@@ -130,18 +130,19 @@ export function AiChatWidget({ variant }: AiChatWidgetProps) {
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState("")
   const [expandedItem, setExpandedItem] = useState<number | null>(null)
-  const [hasShownPulse, setHasShownPulse] = useState(() => {
-    if (typeof window === "undefined") return false
-    const key = `subakhijau-widget-seen-${variant}`
-    if (!sessionStorage.getItem(key)) {
-      sessionStorage.setItem(key, "1")
-      return true
-    }
-    return false
-  })
+  const [hasShownPulse, setHasShownPulse] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const panelRef = useRef<HTMLDivElement>(null)
+
+  // Check sessionStorage on mount to show pulse on first session visit
+  useEffect(() => {
+    const key = `subakhijau-widget-seen-${variant}`
+    if (!sessionStorage.getItem(key)) {
+      sessionStorage.setItem(key, "1")
+      setHasShownPulse(true)
+    }
+  }, [variant])
 
   // Determine locale from pathname or default to "id"
   const locale =
