@@ -150,7 +150,7 @@ export function AiChatWidget({ variant }: AiChatWidgetProps) {
   const suggestions =
     variant === "dashboard"
       ? ((DASHBOARD_SUGGESTIONS[pathname] ?? DEFAULT_SUGGESTIONS)[locale] ??
-          DEFAULT_SUGGESTIONS[locale])
+        DEFAULT_SUGGESTIONS[locale])
       : []
 
   const handleSend = () => {
@@ -176,8 +176,7 @@ export function AiChatWidget({ variant }: AiChatWidgetProps) {
     }
     if (open) {
       document.addEventListener("mousedown", handleClickOutside)
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside)
+      return () => document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [open])
 
@@ -317,6 +316,7 @@ export function AiChatWidget({ variant }: AiChatWidgetProps) {
 
       {/* FAB Button */}
       <button
+        data-chat-widget-trigger=""
         onClick={() => setOpen(!open)}
         className={cn(
           "flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-all hover:scale-105 hover:shadow-xl",

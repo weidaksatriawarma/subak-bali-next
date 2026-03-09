@@ -261,13 +261,13 @@ function CopyButton({ message }: { message: UIMessage }) {
   return (
     <button
       onClick={handleCopy}
-      className="absolute top-1.5 right-1.5 rounded-md p-1 text-muted-foreground transition-colors hover:bg-background/80 hover:text-foreground md:opacity-0 md:group-hover:opacity-100"
+      className="absolute -bottom-6 right-0 rounded-md p-1 text-muted-foreground/60 transition-all hover:text-foreground md:opacity-0 md:group-hover:opacity-100"
       aria-label="Salin pesan"
     >
       {copied ? (
-        <Check className="h-3.5 w-3.5 text-green-500" />
+        <Check className="h-3 w-3 text-green-500" />
       ) : (
-        <Copy className="h-3.5 w-3.5" />
+        <Copy className="h-3 w-3" />
       )}
     </button>
   )
@@ -283,81 +283,94 @@ export function ChatMessage({ message }: ChatMessageProps) {
   return (
     <div
       className={cn(
-        "flex items-start gap-2 py-3 sm:gap-3",
-        isUser && "flex-row-reverse"
+        "flex items-end gap-2.5 py-1.5 sm:gap-3",
+        isUser ? "flex-row-reverse" : "flex-row"
       )}
     >
-      <Avatar className="h-8 w-8 shrink-0">
+      <Avatar className="h-7 w-7 shrink-0 sm:h-8 sm:w-8">
         <AvatarFallback
           className={cn(
+            "text-xs",
             isUser
               ? "bg-primary text-primary-foreground"
-              : "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+              : "bg-gradient-to-br from-green-500 to-emerald-600 text-white"
           )}
         >
-          {isUser ? <User className="h-4 w-4" /> : <Leaf className="h-4 w-4" />}
+          {isUser ? (
+            <User className="h-3.5 w-3.5" />
+          ) : (
+            <Leaf className="h-3.5 w-3.5" />
+          )}
         </AvatarFallback>
       </Avatar>
-      <div
-        className={cn(
-          "max-w-[90%] rounded-2xl text-sm sm:max-w-[80%]",
-          isUser
-            ? "bg-primary px-3 py-2 text-primary-foreground sm:px-4 sm:py-2.5"
-            : "group relative bg-muted px-4 py-3 sm:px-5 sm:py-4"
+
+      <div className={cn("flex max-w-[85%] flex-col gap-1 sm:max-w-[75%]")}>
+        {!isUser && (
+          <span className="ml-1 text-[11px] font-medium text-muted-foreground">
+            Subak Hijau
+          </span>
         )}
-      >
-        {!isUser && <CopyButton message={message} />}
-        {message.parts?.map((part, i) => {
-          if (part.type === "text") {
-            if (isUser) {
-              return (
-                <span key={i} className="whitespace-pre-wrap">
-                  {part.text}
-                </span>
-              )
-            }
-            return (
-              <div
-                key={i}
-                className="prose dark:prose-invert prose-p:my-2 prose-p:leading-relaxed prose-headings:mb-2 prose-headings:mt-4 prose-headings:font-semibold prose-h3:text-base prose-h4:text-sm prose-ul:my-2 prose-ol:my-2 prose-ul:space-y-1 prose-ol:space-y-1 prose-li:my-0 prose-strong:font-semibold prose-strong:text-foreground prose-pre:my-0 prose-hr:my-4 prose-code:before:content-none prose-code:after:content-none prose-table:my-3 prose-table:w-full prose-thead:border-b prose-thead:border-border prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:text-xs prose-th:font-semibold prose-td:border-t prose-td:border-border prose-td:px-3 prose-td:py-2 prose-td:text-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
-              >
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={markdownComponents}
-                >
-                  {part.text}
-                </ReactMarkdown>
-              </div>
-            )
-          }
-          if (isToolUIPart(part)) {
-            if (part.state === "output-available" && part.output) {
-              return (
-                <ToolResultCard
-                  key={i}
-                  output={part.output as Record<string, unknown>}
-                />
-              )
-            }
-            // Tool is being called
-            if (
-              part.state === "input-streaming" ||
-              part.state === "input-available"
-            ) {
+        <div
+          className={cn(
+            "relative text-sm",
+            isUser
+              ? "rounded-2xl rounded-br-md bg-primary px-3.5 py-2.5 text-primary-foreground shadow-sm"
+              : "group rounded-2xl rounded-bl-md border border-border/50 bg-card px-4 py-3 shadow-sm sm:px-5 sm:py-3.5"
+          )}
+        >
+          {!isUser && <CopyButton message={message} />}
+          {message.parts?.map((part, i) => {
+            if (part.type === "text") {
+              if (isUser) {
+                return (
+                  <span key={i} className="whitespace-pre-wrap leading-relaxed">
+                    {part.text}
+                  </span>
+                )
+              }
               return (
                 <div
                   key={i}
-                  className="my-1 flex items-center gap-2 text-xs text-muted-foreground"
+                  className="prose dark:prose-invert prose-p:my-2 prose-p:leading-relaxed prose-headings:mb-2 prose-headings:mt-4 prose-headings:font-semibold prose-h3:text-base prose-h4:text-sm prose-ul:my-2 prose-ol:my-2 prose-ul:space-y-1 prose-ol:space-y-1 prose-li:my-0 prose-strong:font-semibold prose-strong:text-foreground prose-pre:my-0 prose-hr:my-4 prose-code:before:content-none prose-code:after:content-none prose-table:my-3 prose-table:w-full prose-thead:border-b prose-thead:border-border prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:text-xs prose-th:font-semibold prose-td:border-t prose-td:border-border prose-td:px-3 prose-td:py-2 prose-td:text-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                 >
-                  <TypingIndicator />
-                  <span>Menganalisis data...</span>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={markdownComponents}
+                  >
+                    {part.text}
+                  </ReactMarkdown>
                 </div>
               )
             }
+            if (isToolUIPart(part)) {
+              if (part.state === "output-available" && part.output) {
+                return (
+                  <ToolResultCard
+                    key={i}
+                    output={part.output as Record<string, unknown>}
+                  />
+                )
+              }
+              // Tool is being called
+              if (
+                part.state === "input-streaming" ||
+                part.state === "input-available"
+              ) {
+                return (
+                  <div
+                    key={i}
+                    className="my-1 flex items-center gap-2 text-xs text-muted-foreground"
+                  >
+                    <TypingIndicator />
+                    <span>Menganalisis data...</span>
+                  </div>
+                )
+              }
+              return null
+            }
             return null
-          }
-          return null
-        })}
+          })}
+        </div>
       </div>
     </div>
   )

@@ -50,7 +50,7 @@ export function ChatInput({
           }
         }
       }}
-      className="flex items-end gap-2"
+      className="flex items-end gap-2 rounded-xl border bg-card p-2 shadow-sm transition-shadow focus-within:shadow-md"
     >
       <Textarea
         ref={textareaRef}
@@ -61,9 +61,14 @@ export function ChatInput({
         placeholder="Ketik pesan Anda..."
         disabled={isLoading}
         rows={1}
-        className="max-h-24 min-h-[2.5rem] flex-1 resize-none"
+        className="max-h-24 min-h-[2.5rem] flex-1 resize-none border-0 bg-transparent shadow-none focus-visible:ring-0"
       />
-      <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
+      <Button
+        type="submit"
+        size="icon"
+        disabled={isLoading || !input.trim()}
+        className="h-9 w-9 shrink-0 rounded-lg"
+      >
         <Send className="h-4 w-4" />
         <span className="sr-only">Kirim</span>
       </Button>

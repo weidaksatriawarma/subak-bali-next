@@ -74,7 +74,7 @@ function ChatPanel({
         api: "/api/chat",
         body: () => ({ conversationId: activeConvIdRef.current }),
       }),
-    [],
+    []
   )
 
   const { messages, sendMessage, status } = useChat({
@@ -129,66 +129,75 @@ function ChatPanel({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-1 overflow-y-auto p-2 sm:p-4" ref={scrollRef}>
-        {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
-              <Leaf className="h-8 w-8 text-green-600 dark:text-green-400" />
+      <div
+        className="flex-1 overflow-y-auto bg-muted/30 px-3 py-4 sm:px-6 sm:py-6"
+        ref={scrollRef}
+      >
+        <div className="mx-auto max-w-2xl">
+          {messages.length === 0 && (
+            <div className="flex flex-col items-center justify-center gap-5 py-20 text-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg shadow-green-500/20">
+                <Leaf className="h-8 w-8 text-white" />
+              </div>
+              <div className="space-y-2">
+                <h2 className="text-xl font-semibold tracking-tight">
+                  Halo! Saya Subak Hijau
+                </h2>
+                <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+                  Konsultan sustainability AI Anda. Tanyakan apa saja tentang
+                  praktik bisnis berkelanjutan.
+                </p>
+              </div>
+              <div className="flex flex-wrap justify-center gap-2 pt-1">
+                {SUGGESTED_PROMPTS.map((prompt) => (
+                  <Badge
+                    key={prompt}
+                    variant="outline"
+                    className="cursor-pointer rounded-full px-4 py-2 text-sm transition-colors hover:border-primary/50 hover:bg-primary/5"
+                    onClick={() => handleSend(prompt)}
+                  >
+                    {prompt}
+                  </Badge>
+                ))}
+              </div>
             </div>
-            <div className="space-y-2">
-              <h2 className="text-xl font-semibold">Halo! Saya Subak Hijau</h2>
-              <p className="max-w-md text-sm text-muted-foreground">
-                Konsultan sustainability AI Anda. Tanyakan apa saja tentang
-                praktik bisnis berkelanjutan.
+          )}
+
+          <div className="space-y-1">
+            {messages.map((message) => (
+              <ChatMessage key={message.id} message={message} />
+            ))}
+          </div>
+
+          {status === "submitted" && (
+            <div className="flex items-center gap-2.5 px-11 py-3 text-sm text-muted-foreground">
+              <TypingIndicator />
+              <span>Subak Hijau sedang mengetik...</span>
+            </div>
+          )}
+
+          {status === "error" && (
+            <div className="mx-auto my-4 max-w-md rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-center text-sm">
+              <p className="font-medium text-destructive">
+                Gagal mendapat respons dari AI.
+              </p>
+              <p className="mt-1 text-muted-foreground">
+                Silakan coba kirim ulang pesan Anda.
               </p>
             </div>
-            <div className="flex flex-wrap justify-center gap-2 pt-2">
-              {SUGGESTED_PROMPTS.map((prompt) => (
-                <Badge
-                  key={prompt}
-                  variant="outline"
-                  className="cursor-pointer px-3 py-1.5 text-sm hover:bg-accent"
-                  onClick={() => handleSend(prompt)}
-                >
-                  {prompt}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="space-y-1">
-          {messages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
-          ))}
+          )}
         </div>
-
-        {status === "submitted" && (
-          <div className="flex items-center gap-2 py-3 text-sm text-muted-foreground">
-            <TypingIndicator />
-            <span>Subak Hijau sedang mengetik...</span>
-          </div>
-        )}
-
-        {status === "error" && (
-          <div className="mx-auto my-4 max-w-md rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-center text-sm">
-            <p className="font-medium text-destructive">
-              Gagal mendapat respons dari AI.
-            </p>
-            <p className="mt-1 text-muted-foreground">
-              Silakan coba kirim ulang pesan Anda.
-            </p>
-          </div>
-        )}
       </div>
 
-      <div className="border-t p-2 sm:p-4">
-        <ChatInput
-          input={input}
-          onInputChange={setInput}
-          onSubmit={() => handleSend()}
-          isLoading={isLoading}
-        />
+      <div className="border-t bg-background p-3 sm:p-4">
+        <div className="mx-auto max-w-2xl">
+          <ChatInput
+            input={input}
+            onInputChange={setInput}
+            onSubmit={() => handleSend()}
+            isLoading={isLoading}
+          />
+        </div>
       </div>
     </div>
   )
