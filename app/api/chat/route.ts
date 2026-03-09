@@ -102,6 +102,9 @@ export async function POST(req: Request) {
     }
   }
 
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 55_000)
+
   try {
     const result = streamText({
       model: gateway("anthropic/claude-sonnet-4-20250514"),
@@ -109,7 +112,12 @@ export async function POST(req: Request) {
       messages: await convertToModelMessages(messages),
       tools: createChatTools(assessment),
       stopWhen: stepCountIs(3),
+      abortSignal: controller.signal,
+      onError({ error }) {
+        console.error("[chat] streaming error:", error)
+      },
       async onFinish({ text }) {
+        clearTimeout(timeout)
         if (conversationId && text) {
           await supabase.from("chat_messages").insert({
             conversation_id: conversationId,
@@ -128,6 +136,7 @@ export async function POST(req: Request) {
 
     return result.toUIMessageStreamResponse()
   } catch {
+    clearTimeout(timeout)
     return new Response(
       "Layanan AI sedang tidak tersedia. Silakan coba lagi dalam beberapa saat.",
       { status: 503 }

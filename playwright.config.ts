@@ -12,9 +12,16 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   projects: [
+    { name: "setup", testMatch: /.*\.setup\.ts/ },
     {
-      name: "chromium",
-      use: { browserName: "chromium" },
+      name: "unauthenticated",
+      testMatch: /\b(auth|landing)\.spec\.ts$/,
+    },
+    {
+      name: "authenticated",
+      use: { storageState: "playwright/.auth/user.json" },
+      dependencies: ["setup"],
+      testIgnore: /\b(auth|landing)\.spec\.ts$/,
     },
   ],
   webServer: {

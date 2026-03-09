@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation"
 import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
 import type { UIMessage } from "ai"
+import { toast } from "sonner"
 import { Leaf, Loader2, History } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -62,6 +63,11 @@ function ChatPanel({
       body: { conversationId: activeConvId },
     }),
     messages: initialMessages.length > 0 ? initialMessages : undefined,
+    onError() {
+      toast.error(
+        "AI sedang tidak tersedia. Coba lagi dalam beberapa saat."
+      )
+    },
   })
 
   const isLoading = status === "streaming" || status === "submitted"
@@ -137,6 +143,17 @@ function ChatPanel({
           <div className="flex items-center gap-2 py-3 text-sm text-muted-foreground">
             <TypingIndicator />
             <span>Subak Hijau sedang mengetik...</span>
+          </div>
+        )}
+
+        {status === "error" && (
+          <div className="mx-auto my-4 max-w-md rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-center text-sm">
+            <p className="font-medium text-destructive">
+              Gagal mendapat respons dari AI.
+            </p>
+            <p className="mt-1 text-muted-foreground">
+              Silakan coba kirim ulang pesan Anda.
+            </p>
           </div>
         )}
       </div>

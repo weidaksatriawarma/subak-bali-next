@@ -65,15 +65,22 @@ export async function POST(req: Request) {
     )
   }
 
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 55_000)
+
   let roadmapData
   try {
     const result = await generateText({
       model: gateway("anthropic/claude-sonnet-4-20250514"),
       output: Output.object({ schema: RoadmapSchema }),
       prompt: buildRoadmapPrompt(profile, score, assessment),
+      abortSignal: controller.signal,
     })
+    clearTimeout(timeout)
     roadmapData = result.output
-  } catch {
+  } catch (err) {
+    clearTimeout(timeout)
+    console.error("[roadmap] generation error:", err)
     return Response.json(
       {
         error:

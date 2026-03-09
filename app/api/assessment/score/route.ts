@@ -49,15 +49,22 @@ export async function POST(req: Request) {
     return Response.json({ error: "Not found" }, { status: 404 })
   }
 
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 55_000)
+
   let scoreData
   try {
     const result = await generateText({
       model: gateway("anthropic/claude-sonnet-4-20250514"),
       output: Output.object({ schema: ScoreSchema }),
       prompt: buildScorePrompt(profile, assessment),
+      abortSignal: controller.signal,
     })
+    clearTimeout(timeout)
     scoreData = result.output
-  } catch {
+  } catch (err) {
+    clearTimeout(timeout)
+    console.error("[score] generation error:", err)
     return Response.json(
       {
         error:

@@ -1,10 +1,32 @@
 import type { Metadata } from "next"
+import dynamic from "next/dynamic"
 import { redirect } from "next/navigation"
 import { ClipboardList } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
 import { createClient } from "@/lib/supabase/server"
 import { EmptyState } from "@/components/shared/empty-state"
-import { SDGDashboard } from "@/components/dashboard/sdg-dashboard"
 import type { Score, Profile, Assessment, RoadmapItem } from "@/types/database"
+
+function SDGLoadingSkeleton() {
+  return (
+    <div className="space-y-6">
+      <Skeleton className="h-8 w-48" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <Skeleton key={i} className="h-48 w-full rounded-lg" />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const SDGDashboard = dynamic(
+  () =>
+    import("@/components/dashboard/sdg-dashboard").then(
+      (m) => m.SDGDashboard
+    ),
+  { loading: () => <SDGLoadingSkeleton /> }
+)
 
 export const metadata: Metadata = {
   title: "SDG Dashboard",

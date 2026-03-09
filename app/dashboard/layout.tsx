@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
@@ -6,9 +7,15 @@ import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
 import { CelebrationProvider } from "@/components/dashboard/celebration-modal"
 import { KeyboardShortcuts } from "@/components/dashboard/keyboard-shortcuts"
-import { OnboardingTour } from "@/components/dashboard/onboarding-tour"
 import { CommandPalette } from "@/components/dashboard/command-palette"
 import { PageTransition } from "@/components/dashboard/page-transition"
+
+const OnboardingTour = dynamic(
+  () =>
+    import("@/components/dashboard/onboarding-tour").then(
+      (m) => m.OnboardingTour
+    )
+)
 
 export default async function DashboardLayout({
   children,
