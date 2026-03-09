@@ -5,6 +5,7 @@ import { useTranslation } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { Download, Loader2 } from "lucide-react"
 import type { Achievement } from "@/components/dashboard/achievement-badge"
+import QRCode from "qrcode"
 
 interface AchievementCardProps {
   businessName: string
@@ -12,6 +13,7 @@ interface AchievementCardProps {
   rankName: string
   achievements: Achievement[]
   streakWeeks: number
+  certificateToken?: string
 }
 
 export function AchievementCard({
@@ -20,6 +22,7 @@ export function AchievementCard({
   rankName,
   achievements,
   streakWeeks,
+  certificateToken,
 }: AchievementCardProps) {
   const { t } = useTranslation()
   const g = t.dashboard.gamification
@@ -174,6 +177,26 @@ export function AchievementCard({
       ctx.fillText(g.streak.weeksInRow, W / 2, streakY + 40)
     }
 
+    // QR Code
+    if (certificateToken) {
+      try {
+        const qrUrl = `https://subakhijau.app/verify/${certificateToken}/achievement`
+        const qrDataUrl = await QRCode.toDataURL(qrUrl, {
+          width: 120,
+          margin: 1,
+          color: { dark: "#FFFFFF", light: "#00000000" },
+        })
+        const qrImg = new Image()
+        qrImg.src = qrDataUrl
+        await new Promise((resolve) => {
+          qrImg.onload = resolve
+        })
+        ctx.drawImage(qrImg, W - 160, H - 200, 120, 120)
+      } catch {
+        // QR generation failed, skip silently
+      }
+    }
+
     // Footer
     ctx.fillStyle = "rgba(255,255,255,0.3)"
     ctx.font = "22px Arial, sans-serif"
@@ -192,7 +215,15 @@ export function AchievementCard({
     link.click()
 
     setIsGenerating(false)
-  }, [businessName, totalScore, rankName, achievements, streakWeeks, g])
+  }, [
+    businessName,
+    totalScore,
+    rankName,
+    achievements,
+    streakWeeks,
+    certificateToken,
+    g,
+  ])
 
   return (
     <Button onClick={generateCard} variant="outline" disabled={isGenerating}>

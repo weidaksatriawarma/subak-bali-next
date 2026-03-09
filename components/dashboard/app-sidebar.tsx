@@ -125,12 +125,12 @@ export function AppSidebar({ profile }: AppSidebarProps) {
       items: [
         {
           title: d.nav.certificate,
-          href: "/dashboard/score#certificate",
+          href: "/dashboard/certificate",
           icon: Award,
         },
         {
           title: d.nav.achievementCard,
-          href: "/dashboard/score#achievement-card",
+          href: "/dashboard/achievement",
           icon: Trophy,
         },
         {

@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Award, Loader2 } from "lucide-react"
 import { getIndustryRank } from "@/lib/gamification/industry-data"
 import QRCode from "qrcode"
+import {
+  getTierGradient,
+  getTierName,
+  drawRoundedRect,
+  truncateText,
+  drawLeafDecoration,
+} from "@/lib/certificate-utils"
 import type { Category, Industry } from "@/types/database"
 
 interface SustainabilityCertificateProps {
@@ -16,87 +23,6 @@ interface SustainabilityCertificateProps {
   scoreLabel: string
   industry?: Industry
   certificateToken?: string
-}
-
-function getTierGradient(score: number): [string, string] {
-  if (score >= 80) return ["#059669", "#047857"] // Emerald
-  if (score >= 60) return ["#d97706", "#b45309"] // Gold/Amber
-  if (score >= 30) return ["#6b7280", "#4b5563"] // Silver/Gray
-  return ["#92400e", "#78350f"] // Bronze
-}
-
-function getTierName(score: number): string {
-  if (score >= 80) return "EMERALD"
-  if (score >= 60) return "GOLD"
-  if (score >= 30) return "SILVER"
-  return "BRONZE"
-}
-
-function drawRoundedRect(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  r: number
-) {
-  ctx.beginPath()
-  ctx.moveTo(x + r, y)
-  ctx.lineTo(x + w - r, y)
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r)
-  ctx.lineTo(x + w, y + h - r)
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h)
-  ctx.lineTo(x + r, y + h)
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r)
-  ctx.lineTo(x, y + r)
-  ctx.quadraticCurveTo(x, y, x + r, y)
-  ctx.closePath()
-}
-
-function truncateText(
-  ctx: CanvasRenderingContext2D,
-  text: string,
-  maxWidth: number
-): string {
-  if (ctx.measureText(text).width <= maxWidth) return text
-  let truncated = text
-  while (
-    ctx.measureText(truncated + "...").width > maxWidth &&
-    truncated.length > 0
-  ) {
-    truncated = truncated.slice(0, -1)
-  }
-  return truncated + "..."
-}
-
-function drawLeafDecoration(
-  ctx: CanvasRenderingContext2D,
-  cx: number,
-  cy: number,
-  size: number,
-  alpha: number
-) {
-  ctx.save()
-  ctx.globalAlpha = alpha
-  ctx.fillStyle = "rgba(255,255,255,0.15)"
-  ctx.translate(cx, cy)
-
-  // Simple leaf shape using bezier curves
-  ctx.beginPath()
-  ctx.moveTo(0, -size)
-  ctx.bezierCurveTo(size * 0.6, -size * 0.6, size * 0.8, size * 0.2, 0, size)
-  ctx.bezierCurveTo(-size * 0.8, size * 0.2, -size * 0.6, -size * 0.6, 0, -size)
-  ctx.fill()
-
-  // Leaf vein
-  ctx.strokeStyle = "rgba(255,255,255,0.08)"
-  ctx.lineWidth = 1
-  ctx.beginPath()
-  ctx.moveTo(0, -size * 0.8)
-  ctx.lineTo(0, size * 0.8)
-  ctx.stroke()
-
-  ctx.restore()
 }
 
 export function SustainabilityCertificate({
