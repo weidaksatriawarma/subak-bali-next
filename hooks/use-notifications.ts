@@ -33,8 +33,10 @@ function getSnapshot(): AppNotification[] {
   return cachedNotifications
 }
 
+const EMPTY_ARRAY: AppNotification[] = []
+
 function getServerSnapshot(): AppNotification[] {
-  return []
+  return EMPTY_ARRAY
 }
 
 function subscribe(listener: () => void): () => void {
