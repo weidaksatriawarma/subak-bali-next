@@ -322,7 +322,9 @@ export function ScoreContent({
           <CardContent className="space-y-4">
             {/* Hero — Gauge + Tier Badge */}
             <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:gap-4">
-              <ScoreGauge score={data.totalScore} />
+              <div className="animate-score-pulse">
+                <ScoreGauge score={data.totalScore} />
+              </div>
               <div
                 className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 ${labelInfo.color}`}
               >

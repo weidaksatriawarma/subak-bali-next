@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Copy, Check } from "lucide-react"
 import QRCode from "qrcode"
@@ -54,8 +55,9 @@ export function ShareActions({
       await navigator.clipboard.writeText(shareUrl)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
+      toast.success("Link berhasil disalin!")
     } catch {
-      // Clipboard API not available
+      toast.error("Gagal menyalin link")
     }
   }
 

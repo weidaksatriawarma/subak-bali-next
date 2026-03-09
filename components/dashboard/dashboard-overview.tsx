@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useState, useCallback, useMemo } from "react"
 import Link from "next/link"
 import {
   ClipboardList,
@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   Circle,
   ArrowRight,
+  FileDown,
   Leaf,
   Banknote,
   Shield,
@@ -17,14 +18,17 @@ import {
   Trees,
   type LucideIcon,
 } from "lucide-react"
+import { toast } from "sonner"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { AchievementBadge } from "@/components/dashboard/achievement-badge"
 import { StreakCounter } from "@/components/dashboard/streak-counter"
 import { IndustryRankBadge } from "@/components/dashboard/industry-rank-badge"
 import {
+  FadeInUp,
   StaggerContainer,
   StaggerItem,
 } from "@/components/landing/motion-wrapper"
+import { ProgressRing } from "@/components/dashboard/progress-ring"
 import { computeAchievements } from "@/lib/achievements"
 import { computeWeeklyStreak } from "@/lib/gamification/streaks"
 import { CATEGORY_EMOJI } from "@/lib/constants"
@@ -132,6 +136,7 @@ interface OverviewData {
   hasAssessment: boolean
   hasScore: boolean
   hasRoadmap: boolean
+  hasCertificate: boolean
   impact?: ImpactData | null
 }
 
@@ -163,6 +168,51 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
     [data.roadmapItems, t.dashboard.common.achievementNames, data.industry]
   )
   const unlockedAchievements = achievements.filter((a) => a.unlocked)
+
+  // Journey progress: 5 steps
+  const journeySteps = [
+    true,
+    data.hasAssessment,
+    data.hasScore,
+    data.hasRoadmap,
+    data.hasCertificate,
+  ]
+  const completedSteps = journeySteps.filter(Boolean).length
+  const journeyProgress = (completedSteps / journeySteps.length) * 100
+
+  const journeyCta = !data.hasAssessment
+    ? { label: "Mulai Assessment", href: "/dashboard/assessment" }
+    : !data.hasScore
+      ? { label: "Lihat Skor", href: "/dashboard/score" }
+      : !data.hasRoadmap
+        ? { label: "Buat Roadmap", href: "/dashboard/roadmap" }
+        : !data.hasCertificate
+          ? { label: "Lihat Sertifikat", href: "/dashboard/certificate" }
+          : null
+
+  const [isDownloading, setIsDownloading] = useState(false)
+
+  const handleDownloadPDF = useCallback(async () => {
+    setIsDownloading(true)
+    try {
+      const res = await fetch("/api/report/pdf")
+      if (!res.ok) throw new Error("Download failed")
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = "laporan-sustainability-subakhijau.pdf"
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(url)
+      toast.success("Laporan PDF berhasil diunduh!")
+    } catch {
+      toast.error("Gagal mengunduh laporan PDF")
+    } finally {
+      setIsDownloading(false)
+    }
+  }, [])
 
   const quickActions: {
     title: string
@@ -211,12 +261,40 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">
-          {d.welcome} {data.businessName}!
-        </h1>
-        <p className="text-muted-foreground">{d.subtitle}</p>
-      </div>
+      <FadeInUp>
+        <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-transparent">
+          <CardContent className="flex items-center gap-6 pt-6">
+            <ProgressRing progress={journeyProgress} size={80} />
+            <div className="flex-1">
+              <h1 className="text-2xl font-bold tracking-tight">
+                {d.welcome} {data.businessName}!
+              </h1>
+              <p className="text-sm text-muted-foreground">{d.subtitle}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {journeyCta && (
+                  <Button asChild size="sm">
+                    <Link href={journeyCta.href}>
+                      {journeyCta.label}
+                      <ArrowRight className="ml-1 h-3 w-3" />
+                    </Link>
+                  </Button>
+                )}
+                {data.hasScore && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleDownloadPDF}
+                    disabled={isDownloading}
+                  >
+                    <FileDown className="mr-1 h-3 w-3" />
+                    {isDownloading ? "Mengunduh..." : "Download Laporan PDF"}
+                  </Button>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </FadeInUp>
 
       {showGettingStarted && (
         <Card className="border-primary/30 bg-primary/5">

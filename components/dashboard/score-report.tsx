@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import { toast } from "sonner"
 import QRCode from "qrcode"
 import { Printer, Download, Loader2 } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
@@ -92,8 +93,9 @@ export function ScoreReport({
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
+      toast.success("Laporan PDF berhasil diunduh!")
     } catch {
-      // Silently fail — user can use print instead
+      toast.error("Gagal mengunduh laporan PDF")
     } finally {
       setPdfLoading(false)
     }

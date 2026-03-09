@@ -565,7 +565,7 @@ const id: Dictionary = {
       groups: {
         main: "Utama",
         analysis: "Analisis",
-        results: "Hasil",
+        results: "Hasil & Dukungan",
         support: "Dukungan",
       },
       settings: "Pengaturan",
@@ -1143,7 +1143,7 @@ const en: Dictionary = {
       groups: {
         main: "Main",
         analysis: "Analysis",
-        results: "Results",
+        results: "Results & Support",
         support: "Support",
       },
       settings: "Settings",

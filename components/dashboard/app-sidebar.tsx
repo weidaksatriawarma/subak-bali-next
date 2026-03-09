@@ -5,16 +5,17 @@ import { usePathname } from "next/navigation"
 import {
   Award,
   BarChart3,
+  ChevronRight,
   ClipboardList,
   FileText,
   Footprints,
   Globe,
+  HelpCircle,
   LayoutDashboard,
   Leaf,
   LogOut,
   Map,
   MessageSquare,
-  HelpCircle,
   MoreVertical,
   Settings,
   Shield,
@@ -27,6 +28,11 @@ import type { LucideIcon } from "lucide-react"
 import type { Profile } from "@/types/database"
 import { useTranslation } from "@/lib/i18n/language-context"
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -37,6 +43,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -54,6 +63,7 @@ interface NavItem {
   icon: LucideIcon
   exact?: boolean
   tourId?: string
+  children?: NavItem[]
 }
 
 interface NavGroup {
@@ -97,27 +107,30 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           href: "/dashboard/score",
           icon: BarChart3,
           exact: true,
+          children: [
+            {
+              title: d.nav.carbonFootprint,
+              href: "/dashboard/carbon",
+              icon: Footprints,
+            },
+            {
+              title: d.nav.compliance,
+              href: "/dashboard/compliance",
+              icon: Shield,
+            },
+            {
+              title: d.nav.simulator,
+              href: "/dashboard/simulator",
+              icon: SlidersHorizontal,
+            },
+            {
+              title: "Dampak SDG",
+              href: "/dashboard/sdg",
+              icon: Globe,
+            },
+          ],
         },
-        {
-          title: d.nav.carbonFootprint,
-          href: "/dashboard/carbon",
-          icon: Footprints,
-        },
-        {
-          title: d.nav.compliance,
-          href: "/dashboard/compliance",
-          icon: Shield,
-        },
-        {
-          title: d.nav.simulator,
-          href: "/dashboard/simulator",
-          icon: SlidersHorizontal,
-        },
-        {
-          title: "Dampak SDG",
-          href: "/dashboard/sdg",
-          icon: Globe,
-        },
+        { title: d.nav.roadmap, href: "/dashboard/roadmap", icon: Map },
       ],
     },
     {
@@ -127,23 +140,19 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           title: d.nav.certificate,
           href: "/dashboard/certificate",
           icon: Award,
+          children: [
+            {
+              title: d.nav.achievementCard,
+              href: "/dashboard/achievement",
+              icon: Trophy,
+            },
+            {
+              title: d.nav.report,
+              href: "/dashboard/score/report",
+              icon: FileText,
+            },
+          ],
         },
-        {
-          title: d.nav.achievementCard,
-          href: "/dashboard/achievement",
-          icon: Trophy,
-        },
-        {
-          title: d.nav.report,
-          href: "/dashboard/score/report",
-          icon: FileText,
-        },
-        { title: d.nav.roadmap, href: "/dashboard/roadmap", icon: Map },
-      ],
-    },
-    {
-      label: d.groups.support,
-      items: [
         {
           title: d.nav.aiConsultant,
           href: "/dashboard/chat",
@@ -155,7 +164,6 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           href: "/dashboard/progress",
           icon: TrendingUp,
         },
-        { title: d.nav.help, href: "/dashboard/help", icon: HelpCircle },
       ],
     },
   ]
@@ -177,6 +185,12 @@ export function AppSidebar({ profile }: AppSidebarProps) {
     if (item.href.includes("#")) return false
     if (item.exact) return pathname === item.href
     return pathname === item.href
+  }
+
+  function isChildActive(item: NavItem) {
+    return (
+      item.children?.some((child) => pathname.startsWith(child.href)) ?? false
+    )
   }
 
   return (
@@ -207,24 +221,63 @@ export function AppSidebar({ profile }: AppSidebarProps) {
             <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {group.items.map((item) => (
-                  <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton
+                {group.items.map((item) =>
+                  item.children ? (
+                    <Collapsible
+                      key={item.href}
                       asChild
-                      isActive={isActive(item)}
-                      tooltip={item.title}
+                      defaultOpen={isActive(item) || isChildActive(item)}
+                      className="group/collapsible"
                     >
-                      <Link
-                        href={item.href}
-                        data-tour={item.tourId}
-                        aria-current={isActive(item) ? "page" : undefined}
+                      <SidebarMenuItem>
+                        <CollapsibleTrigger asChild>
+                          <SidebarMenuButton
+                            isActive={isActive(item) || isChildActive(item)}
+                            tooltip={item.title}
+                          >
+                            <item.icon />
+                            <span>{item.title}</span>
+                            <ChevronRight className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                          </SidebarMenuButton>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent>
+                          <SidebarMenuSub>
+                            {item.children.map((child) => (
+                              <SidebarMenuSubItem key={child.href}>
+                                <SidebarMenuSubButton
+                                  asChild
+                                  isActive={pathname.startsWith(child.href)}
+                                >
+                                  <Link href={child.href}>
+                                    <child.icon />
+                                    <span>{child.title}</span>
+                                  </Link>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            ))}
+                          </SidebarMenuSub>
+                        </CollapsibleContent>
+                      </SidebarMenuItem>
+                    </Collapsible>
+                  ) : (
+                    <SidebarMenuItem key={item.href}>
+                      <SidebarMenuButton
+                        asChild
+                        isActive={isActive(item)}
+                        tooltip={item.title}
                       >
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                        <Link
+                          href={item.href}
+                          data-tour={item.tourId}
+                          aria-current={isActive(item) ? "page" : undefined}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -266,6 +319,12 @@ export function AppSidebar({ profile }: AppSidebarProps) {
                 align="end"
                 sideOffset={4}
               >
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/help">
+                    <HelpCircle />
+                    {d.nav.help}
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard/settings">
                     <Settings />

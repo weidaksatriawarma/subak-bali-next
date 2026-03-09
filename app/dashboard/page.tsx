@@ -111,6 +111,7 @@ export default async function DashboardPage() {
         hasAssessment: !!assessment,
         hasScore: latestScore !== null,
         hasRoadmap: totalRoadmap > 0,
+        hasCertificate: !!latestScore?.certificate_token,
         impact,
       }}
     />

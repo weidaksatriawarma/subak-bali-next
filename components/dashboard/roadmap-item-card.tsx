@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { toast } from "sonner"
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
@@ -60,6 +61,9 @@ export function RoadmapItemCard({
     if (checked) {
       setJustCompleted(true)
       setTimeout(() => setJustCompleted(false), 500)
+      toast.success("Langkah berhasil diselesaikan!")
+      if (typeof navigator !== "undefined" && navigator.vibrate)
+        navigator.vibrate(50)
     }
     onToggle(item.id, checked)
   }
@@ -67,9 +71,9 @@ export function RoadmapItemCard({
   return (
     <Card
       className={cn(
-        "relative flex items-start gap-4 p-4 transition-all",
+        "relative flex items-start gap-4 p-4 transition-all transition-colors duration-500",
         item.is_completed && "opacity-60",
-        justCompleted && "animate-check-bounce"
+        justCompleted && "animate-check-bounce bg-green-50 dark:bg-green-950/30"
       )}
     >
       <Checkbox
