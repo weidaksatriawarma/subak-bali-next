@@ -36,16 +36,14 @@ test.describe("Score Report & Pages", () => {
     await page.goto("/dashboard/settings")
     await expect(page.locator("form").first()).toBeVisible({ timeout: 10_000 })
     // Should show seeded business name in form input
-    await expect(
-      page.locator("input[value='Warung Hijau Bali']")
-    ).toBeVisible()
+    await expect(page.locator("input[value='Warung Hijau Bali']")).toBeVisible()
   })
 
   test("help page shows FAQ and regulations sections", async ({ page }) => {
     await page.goto("/dashboard/help")
-    await expect(
-      page.getByText(/FAQ|pertanyaan|bantuan/i).first()
-    ).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByText(/FAQ|pertanyaan|bantuan/i).first()).toBeVisible(
+      { timeout: 10_000 }
+    )
     await expect(
       page.getByText(/regulasi|glosarium|glossary/i).first()
     ).toBeVisible()

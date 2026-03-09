@@ -64,9 +64,7 @@ function ChatPanel({
     }),
     messages: initialMessages.length > 0 ? initialMessages : undefined,
     onError() {
-      toast.error(
-        "AI sedang tidak tersedia. Coba lagi dalam beberapa saat."
-      )
+      toast.error("AI sedang tidak tersedia. Coba lagi dalam beberapa saat.")
     },
   })
 

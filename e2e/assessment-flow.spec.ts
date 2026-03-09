@@ -12,9 +12,9 @@ test.describe("Assessment Flow", () => {
   test("score page shows AI summary text", async ({ page }) => {
     await page.goto("/dashboard/score")
     // AI summary from seeded data
-    await expect(
-      page.getByText(/transformasi luar biasa/i)
-    ).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByText(/transformasi luar biasa/i)).toBeVisible({
+      timeout: 10_000,
+    })
   })
 
   test("score page shows industry benchmark comparison", async ({ page }) => {
@@ -31,9 +31,7 @@ test.describe("Assessment Flow", () => {
     await expect(
       page.getByText("Optimalkan penggunaan panel surya")
     ).toBeVisible({ timeout: 10_000 })
-    await expect(
-      page.getByText("Bangun area kompos terstruktur")
-    ).toBeVisible()
+    await expect(page.getByText("Bangun area kompos terstruktur")).toBeVisible()
   })
 
   test("roadmap progress shows completed items", async ({ page }) => {
@@ -46,8 +44,8 @@ test.describe("Assessment Flow", () => {
   test("carbon page loads and shows metrics", async ({ page }) => {
     await page.goto("/dashboard/carbon")
     // Carbon calculator page should load with CO₂ data
-    await expect(
-      page.getByText(/CO₂|karbon|carbon/i).first()
-    ).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByText(/CO₂|karbon|carbon/i).first()).toBeVisible({
+      timeout: 10_000,
+    })
   })
 })

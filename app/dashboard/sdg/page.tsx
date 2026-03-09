@@ -22,9 +22,7 @@ function SDGLoadingSkeleton() {
 
 const SDGDashboard = dynamic(
   () =>
-    import("@/components/dashboard/sdg-dashboard").then(
-      (m) => m.SDGDashboard
-    ),
+    import("@/components/dashboard/sdg-dashboard").then((m) => m.SDGDashboard),
   { loading: () => <SDGLoadingSkeleton /> }
 )
 

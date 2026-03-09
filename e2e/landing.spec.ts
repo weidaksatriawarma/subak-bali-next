@@ -21,7 +21,9 @@ test.describe("Landing Page", () => {
   test("CTA button has correct href", async ({ page }) => {
     await page.goto("/")
     // Main CTA should link to register
-    const ctaLink = page.getByRole("link", { name: /mulai|daftar|register/i }).first()
+    const ctaLink = page
+      .getByRole("link", { name: /mulai|daftar|register/i })
+      .first()
     await expect(ctaLink).toBeVisible()
     await expect(ctaLink).toHaveAttribute("href", /register/)
   })
@@ -29,7 +31,9 @@ test.describe("Landing Page", () => {
   test("language switcher works", async ({ page }) => {
     await page.goto("/")
     // Find language toggle button
-    const langToggle = page.getByRole("button", { name: /EN|ID|bahasa|language/i }).first()
+    const langToggle = page
+      .getByRole("button", { name: /EN|ID|bahasa|language/i })
+      .first()
     if (await langToggle.isVisible()) {
       await langToggle.click()
       // Page content should change language

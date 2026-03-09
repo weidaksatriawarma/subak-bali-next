@@ -10,11 +10,8 @@ import { KeyboardShortcuts } from "@/components/dashboard/keyboard-shortcuts"
 import { CommandPalette } from "@/components/dashboard/command-palette"
 import { PageTransition } from "@/components/dashboard/page-transition"
 
-const OnboardingTour = dynamic(
-  () =>
-    import("@/components/dashboard/onboarding-tour").then(
-      (m) => m.OnboardingTour
-    )
+const OnboardingTour = dynamic(() =>
+  import("@/components/dashboard/onboarding-tour").then((m) => m.OnboardingTour)
 )
 
 export default async function DashboardLayout({

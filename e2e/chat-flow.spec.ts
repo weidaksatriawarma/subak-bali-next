@@ -4,17 +4,17 @@ test.describe("Chat Flow", () => {
   test("chat page renders with conversation sidebar", async ({ page }) => {
     await page.goto("/dashboard/chat")
     // Desktop sidebar or mobile header should be present
-    await expect(
-      page.getByText(/Subak Hijau/i).first()
-    ).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByText(/Subak Hijau/i).first()).toBeVisible({
+      timeout: 10_000,
+    })
   })
 
   test("seeded conversations are visible", async ({ page }) => {
     await page.goto("/dashboard/chat")
     // Seeded conversation title should appear
-    await expect(
-      page.getByText("Strategi Pengurangan Limbah")
-    ).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByText("Strategi Pengurangan Limbah")).toBeVisible({
+      timeout: 10_000,
+    })
   })
 
   test("click conversation loads messages", async ({ page }) => {
@@ -23,17 +23,15 @@ test.describe("Chat Flow", () => {
     await expect(conv).toBeVisible({ timeout: 10_000 })
     await conv.click()
     // Messages from seeded data should load
-    await expect(
-      page.getByText(/limbah plastik/i).first()
-    ).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByText(/limbah plastik/i).first()).toBeVisible({
+      timeout: 10_000,
+    })
   })
 
   test("new conversation button works", async ({ page }) => {
     await page.goto("/dashboard/chat")
     // Look for new chat button
-    const newChatBtn = page
-      .getByRole("button", { name: /baru|new/i })
-      .first()
+    const newChatBtn = page.getByRole("button", { name: /baru|new/i }).first()
     if (await newChatBtn.isVisible()) {
       await newChatBtn.click()
       // Should show empty chat state
