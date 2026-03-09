@@ -14,7 +14,7 @@ import type { Assessment } from "@/types/database"
 
 const ChatRequestSchema = z.object({
   messages: z.array(z.any()).min(1),
-  conversationId: z.string().uuid().optional(),
+  conversationId: z.string().uuid().nullish(),
 })
 
 export const maxDuration = 60
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
   }
   const { messages, conversationId } = parsed.data as {
     messages: UIMessage[]
-    conversationId?: string
+    conversationId?: string | null
   }
 
   const supabase = await createClient()

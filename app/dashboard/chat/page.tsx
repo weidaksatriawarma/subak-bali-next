@@ -1,6 +1,13 @@
 "use client"
 
-import { Suspense, useState, useRef, useEffect, useCallback } from "react"
+import {
+  Suspense,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
@@ -56,14 +63,25 @@ function ChatPanel({
   const [input, setInput] = useState("")
   const [activeConvId, setActiveConvId] = useState(conversationId)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
+
+  const activeConvIdRef = useRef(activeConvId)
+  activeConvIdRef.current = activeConvId
+
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: "/api/chat",
+        body: () => ({ conversationId: activeConvIdRef.current }),
+      }),
+    [],
+  )
 
   const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({
-      api: "/api/chat",
-      body: { conversationId: activeConvId },
-    }),
+    transport,
     messages: initialMessages.length > 0 ? initialMessages : undefined,
-    onError() {
+    onError(error) {
+      if (error.name === "AbortError") return
       toast.error("AI sedang tidak tersedia. Coba lagi dalam beberapa saat.")
     },
   })
@@ -77,6 +95,13 @@ function ChatPanel({
     }
   }, [messages])
 
+  // Defer URL update until streaming completes to avoid remounting mid-request
+  useEffect(() => {
+    if (status === "ready" && activeConvId && activeConvId !== conversationId) {
+      router.replace(`/dashboard/chat?id=${activeConvId}`, { scroll: false })
+    }
+  }, [status, activeConvId, conversationId, router])
+
   const handleSend = async (text?: string) => {
     const messageText = text || input
     if (!messageText.trim()) return
@@ -87,6 +112,7 @@ function ChatPanel({
       const newId = await onFirstMessage(messageText)
       if (newId) {
         setActiveConvId(newId)
+        activeConvIdRef.current = newId
       }
     }
 
@@ -276,7 +302,6 @@ function ChatPageContent() {
 
     const conv: ChatConversation = await res.json()
     setConversations((prev) => [conv, ...prev])
-    router.replace(`/dashboard/chat?id=${conv.id}`, { scroll: false })
     return conv.id
   }
 
