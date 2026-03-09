@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
@@ -10,22 +9,7 @@ import { KeyboardShortcuts } from "@/components/dashboard/keyboard-shortcuts"
 import { CommandPalette } from "@/components/dashboard/command-palette"
 import { PageTransition } from "@/components/dashboard/page-transition"
 import { AiChatWidget } from "@/components/shared/ai-chat-widget"
-
-const OnboardingTour = dynamic(() =>
-  import("@/components/dashboard/onboarding-tour").then((m) => m.OnboardingTour)
-)
-
-const OnboardingCarousel = dynamic(() =>
-  import("@/components/dashboard/onboarding-carousel").then(
-    (m) => m.OnboardingCarousel
-  )
-)
-
-const JourneyChecklist = dynamic(() =>
-  import("@/components/dashboard/journey-checklist").then(
-    (m) => m.JourneyChecklist
-  )
-)
+import { OnboardingWidgets } from "@/components/dashboard/onboarding-client"
 
 export default async function DashboardLayout({
   children,
@@ -89,15 +73,13 @@ export default async function DashboardLayout({
         <DashboardHeader />
         <main id="main-content" className="flex-1 p-4 pb-20 md:p-6 md:pb-6">
           <CelebrationProvider>
-            <OnboardingCarousel />
-            <OnboardingTour />
+            <OnboardingWidgets journeyData={journeyData} />
             <CommandPalette />
             <KeyboardShortcuts />
             <PageTransition>{children}</PageTransition>
           </CelebrationProvider>
         </main>
         <BottomSheetNav />
-        <JourneyChecklist {...journeyData} />
         <AiChatWidget variant="dashboard" />
       </SidebarInset>
     </SidebarProvider>
