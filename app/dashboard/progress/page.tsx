@@ -20,6 +20,8 @@ import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { EmptyState } from "@/components/shared/empty-state"
+import { AskAiCard } from "@/components/shared/ask-ai-card"
+import { useTranslation } from "@/lib/i18n/language-context"
 import dynamic from "next/dynamic"
 
 const ProgressChart = dynamic(
@@ -57,6 +59,7 @@ interface Milestone {
 }
 
 export default function ProgressPage() {
+  const { t } = useTranslation()
   const [scores, setScores] = useState<ScoreData[]>([])
   const [items, setItems] = useState<RoadmapItem[]>([])
   const [businessSize, setBusinessSize] = useState<BusinessSize>("small")
@@ -401,6 +404,13 @@ export default function ProgressPage() {
           </div>
         </CardContent>
       </Card>
+
+      <AskAiCard
+        title={t.dashboard.askAiCard.progress.title}
+        description={t.dashboard.askAiCard.progress.description}
+        buttonLabel={t.dashboard.askAiCard.button}
+        prompt={`Skor terbaru ${latestScore}/100, ${completedItems.length} dari ${items.length} langkah selesai (${completionPercent}%), streak ${streak.currentStreak} minggu. Analisis progres dan sarankan cara mempercepat peningkatan.`}
+      />
     </div>
   )
 }

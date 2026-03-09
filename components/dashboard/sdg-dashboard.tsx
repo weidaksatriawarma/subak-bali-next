@@ -17,6 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useTranslation } from "@/lib/i18n/language-context"
+import { AskAiCard } from "@/components/shared/ask-ai-card"
 import {
   Zap,
   Trash2,
@@ -143,7 +144,7 @@ export function SDGDashboard({
   roadmapItems,
   businessSize,
 }: SDGDashboardProps) {
-  const { locale } = useTranslation()
+  const { locale, t } = useTranslation()
   const [activeSDGFilter, setActiveSDGFilter] = useState<string>("all")
 
   const sdgResults = computeSDGScores(score)
@@ -441,6 +442,19 @@ export function SDGDashboard({
           })}
         </div>
       </section>
+
+      <AskAiCard
+        title={t.dashboard.askAiCard.sdg.title}
+        description={t.dashboard.askAiCard.sdg.description}
+        buttonLabel={t.dashboard.askAiCard.button}
+        prompt={`Bisnis saya berkontribusi pada SDG ${sdgResults
+          .filter((s) => s.avgScore > 0)
+          .map((s) => s.number)
+          .join(", ")} (${sdgResults.filter((s) => s.avgScore > 0).length} dari ${sdgResults.length} relevan). Belum aktif: SDG ${sdgResults
+          .filter((s) => s.avgScore === 0)
+          .map((s) => s.number)
+          .join(", ")}. Bagaimana meningkatkan kontribusi SDG yang belum aktif?`}
+      />
     </div>
   )
 }

@@ -3,13 +3,11 @@
 import { useState, useCallback } from "react"
 import Link from "next/link"
 import {
-  ArrowRight,
   BarChart3,
   BookOpen,
   Calculator,
   ExternalLink,
   Lightbulb,
-  MessageCircle,
   Rocket,
   ScrollText,
   Search,
@@ -37,6 +35,7 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useTranslation } from "@/lib/i18n/language-context"
+import { AskAiCard } from "@/components/shared/ask-ai-card"
 import { tutorialContent } from "@/lib/i18n/content/tutorial"
 import { knowledgeBase } from "@/lib/i18n/content/knowledge-base"
 import { FadeInUp } from "@/components/landing/motion-wrapper"
@@ -179,31 +178,21 @@ export function HelpContent() {
 
       {/* ── AI Chat CTA Banner ────────────────────────────────── */}
       <FadeInUp>
-        <Card className="mb-8 border-primary/20 bg-primary/5">
-          <CardContent className="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-left">
-            <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
-              <MessageCircle className="size-6 text-primary" />
-            </div>
-            <div className="flex-1">
-              <p className="font-medium">
-                {locale === "id"
-                  ? "Butuh jawaban cepat? Tanya AI Consultant kami!"
-                  : "Need a quick answer? Ask our AI Consultant!"}
-              </p>
-              <p className="mt-0.5 text-sm text-muted-foreground">
-                {locale === "id"
-                  ? "AI kami dilengkapi kalkulator CO\u2082, lookup regulasi, dan benchmark industri."
-                  : "Our AI comes with a CO\u2082 calculator, regulation lookup, and industry benchmarks."}
-              </p>
-            </div>
-            <Button asChild className="shrink-0 gap-1.5">
-              <Link href="/dashboard/chat">
-                {locale === "id" ? "Mulai Chat" : "Start Chat"}
-                <ArrowRight className="size-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+        <AskAiCard
+          title={
+            locale === "id"
+              ? "Butuh jawaban cepat? Tanya AI Consultant kami!"
+              : "Need a quick answer? Ask our AI Consultant!"
+          }
+          description={
+            locale === "id"
+              ? "AI kami dilengkapi kalkulator CO\u2082, lookup regulasi, dan benchmark industri."
+              : "Our AI comes with a CO\u2082 calculator, regulation lookup, and industry benchmarks."
+          }
+          prompt=""
+          buttonLabel={locale === "id" ? "Mulai Chat" : "Start Chat"}
+          className="mb-8"
+        />
       </FadeInUp>
 
       {/* ── FAQ Accordion Sections ────────────────────────────── */}

@@ -28,6 +28,7 @@ import {
   calculateCarbonFootprint,
   calculatePotentialSavings,
 } from "@/lib/carbon"
+import { AskAiCard } from "@/components/shared/ask-ai-card"
 import type { Assessment, BusinessSize } from "@/types/database"
 
 // ─── Constants ──────────────────────────────────────────────────
@@ -480,6 +481,13 @@ export function CarbonContent({
           </div>
         </CardContent>
       </Card>
+
+      <AskAiCard
+        title={t.dashboard.askAiCard.carbon.title}
+        description={t.dashboard.askAiCard.carbon.description}
+        buttonLabel={t.dashboard.askAiCard.button}
+        prompt={`Jejak karbon bisnis saya ${carbonData.totalCO2.toLocaleString("id-ID")} kg CO₂/tahun. Energi ${carbonData.energyCO2.toLocaleString("id-ID")} kg, Limbah ${carbonData.wasteCO2.toLocaleString("id-ID")} kg, Transportasi ${carbonData.transportCO2.toLocaleString("id-ID")} kg. Berikan strategi konkret untuk mengurangi emisi terbesar.`}
+      />
     </div>
   )
 }

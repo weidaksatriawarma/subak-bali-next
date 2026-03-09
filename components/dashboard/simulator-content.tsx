@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { RotateCcw } from "lucide-react"
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts"
+import { AskAiCard } from "@/components/shared/ask-ai-card"
 import type { Assessment } from "@/types/database"
 
 interface SimulatorContentProps {
@@ -450,6 +451,13 @@ export function SimulatorContent({
           </CardContent>
         </Card>
       )}
+
+      <AskAiCard
+        title={t.dashboard.askAiCard.simulator.title}
+        description={t.dashboard.askAiCard.simulator.description}
+        buttonLabel={t.dashboard.askAiCard.button}
+        prompt={`Skor saat ini ${baseScore}/100, bisa naik ke ${allOnScore}/100 jika semua perubahan diterapkan. Ada ${availableScenarios.length} skenario tersedia. Bantu prioritaskan yang paling berdampak dan mudah.`}
+      />
     </div>
   )
 }

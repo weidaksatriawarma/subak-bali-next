@@ -61,6 +61,7 @@ import {
 } from "@/lib/carbon"
 import type { DashboardDictionary } from "@/lib/i18n/dictionaries"
 import { CATEGORY_EMOJI, getScoreBgColor } from "@/lib/constants"
+import { AskAiCard } from "@/components/shared/ask-ai-card"
 import type {
   Assessment,
   BusinessSize,
@@ -620,6 +621,7 @@ export function ScoreContent({
               unlocked: true,
             }))}
             streakWeeks={0}
+            certificateToken={certificateToken}
           />
         </div>
         <Button asChild variant="outline">
@@ -634,6 +636,12 @@ export function ScoreContent({
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
+        <AskAiCard
+          title={t.dashboard.askAiCard.score.title}
+          description={t.dashboard.askAiCard.score.description}
+          buttonLabel={t.dashboard.askAiCard.button}
+          prompt={`Skor sustainability saya ${data.totalScore}/100. Energi ${data.energyScore}, Limbah ${data.wasteScore}, Rantai Pasok ${data.supplyChainScore}, Operasional ${data.operationsScore}, Kebijakan ${data.policyScore}. Kategori mana yang harus saya prioritaskan?`}
+        />
       </div>
     </div>
   )

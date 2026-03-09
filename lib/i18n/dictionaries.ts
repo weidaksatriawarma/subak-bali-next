@@ -341,6 +341,48 @@ export interface DashboardDictionary {
       invalidDesc: string
     }
   }
+  certificatePage: {
+    title: string
+    subtitle: string
+    downloadPng: string
+    downloadPdf: string
+    shareLink: string
+    copyLink: string
+    linkCopied: string
+    shareWhatsApp: string
+    scanToVerify: string
+    noScore: string
+    noScoreDesc: string
+    viewAchievement: string
+  }
+  achievementPage: {
+    title: string
+    subtitle: string
+    downloadPng: string
+    shareLink: string
+    copyLink: string
+    linkCopied: string
+    shareWhatsApp: string
+    scanToVerify: string
+    noScore: string
+    noScoreDesc: string
+    viewCertificate: string
+  }
+  askAiCard: {
+    button: string
+    score: { title: string; description: string }
+    carbon: { title: string; description: string }
+    compliance: { title: string; description: string }
+    progress: { title: string; description: string }
+    simulator: { title: string; description: string }
+    sdg: { title: string; description: string }
+  }
+  chatWidget: {
+    title: string
+    placeholder: string
+    openFullChat: string
+    suggestedTitle: string
+  }
 }
 
 export interface Dictionary {
@@ -896,6 +938,74 @@ const id: Dictionary = {
           "Token verifikasi tidak ditemukan atau sudah tidak berlaku.",
       },
     },
+    certificatePage: {
+      title: "Sertifikat Keberlanjutan",
+      subtitle: "Preview dan download sertifikat sustainability bisnis Anda",
+      downloadPng: "Download PNG",
+      downloadPdf: "Download Laporan PDF",
+      shareLink: "Bagikan Sertifikat",
+      copyLink: "Salin Link",
+      linkCopied: "Link disalin!",
+      shareWhatsApp: "WhatsApp",
+      scanToVerify: "Scan untuk verifikasi",
+      noScore: "Belum ada skor",
+      noScoreDesc:
+        "Lengkapi assessment terlebih dahulu untuk mendapatkan sertifikat.",
+      viewAchievement: "Lihat Kartu Pencapaian",
+    },
+    achievementPage: {
+      title: "Kartu Pencapaian",
+      subtitle: "Preview dan download kartu pencapaian sustainability Anda",
+      downloadPng: "Download PNG",
+      shareLink: "Bagikan Pencapaian",
+      copyLink: "Salin Link",
+      linkCopied: "Link disalin!",
+      shareWhatsApp: "WhatsApp",
+      scanToVerify: "Scan untuk verifikasi",
+      noScore: "Belum ada skor",
+      noScoreDesc:
+        "Lengkapi assessment terlebih dahulu untuk melihat pencapaian.",
+      viewCertificate: "Lihat Sertifikat",
+    },
+    askAiCard: {
+      button: "Tanya AI",
+      score: {
+        title: "Ingin meningkatkan skor Anda?",
+        description:
+          "Tanya AI Consultant untuk saran personal berdasarkan skor sustainability Anda.",
+      },
+      carbon: {
+        title: "Butuh strategi kurangi emisi?",
+        description:
+          "AI Consultant bisa bantu analisis jejak karbon dan beri rekomendasi pengurangan emisi.",
+      },
+      compliance: {
+        title: "Perlu bantuan kepatuhan regulasi?",
+        description:
+          "Tanya AI tentang langkah konkret untuk memenuhi regulasi yang belum terpenuhi.",
+      },
+      progress: {
+        title: "Ingin mempercepat progres?",
+        description:
+          "AI Consultant bisa analisis progres dan sarankan cara meningkatkan skor lebih cepat.",
+      },
+      simulator: {
+        title: "Bingung pilih skenario mana?",
+        description:
+          "AI Consultant bisa bantu prioritaskan perubahan yang paling berdampak dan mudah diterapkan.",
+      },
+      sdg: {
+        title: "Ingin kontribusi SDG lebih besar?",
+        description:
+          "Tanya AI tentang cara meningkatkan kontribusi pada SDG yang belum aktif.",
+      },
+    },
+    chatWidget: {
+      title: "AI Consultant",
+      placeholder: "Ketik pertanyaan...",
+      openFullChat: "Buka Chat Lengkap",
+      suggestedTitle: "Saran pertanyaan:",
+    },
   },
 }
 
@@ -1404,6 +1514,72 @@ const en: Dictionary = {
         invalid: "Invalid Certificate",
         invalidDesc: "Verification token not found or has expired.",
       },
+    },
+    certificatePage: {
+      title: "Sustainability Certificate",
+      subtitle: "Preview and download your business sustainability certificate",
+      downloadPng: "Download PNG",
+      downloadPdf: "Download PDF Report",
+      shareLink: "Share Certificate",
+      copyLink: "Copy Link",
+      linkCopied: "Link copied!",
+      shareWhatsApp: "WhatsApp",
+      scanToVerify: "Scan to verify",
+      noScore: "No score yet",
+      noScoreDesc: "Complete an assessment first to get your certificate.",
+      viewAchievement: "View Achievement Card",
+    },
+    achievementPage: {
+      title: "Achievement Card",
+      subtitle: "Preview and download your sustainability achievement card",
+      downloadPng: "Download PNG",
+      shareLink: "Share Achievement",
+      copyLink: "Copy Link",
+      linkCopied: "Link copied!",
+      shareWhatsApp: "WhatsApp",
+      scanToVerify: "Scan to verify",
+      noScore: "No score yet",
+      noScoreDesc: "Complete an assessment first to view your achievements.",
+      viewCertificate: "View Certificate",
+    },
+    askAiCard: {
+      button: "Ask AI",
+      score: {
+        title: "Want to improve your score?",
+        description:
+          "Ask the AI Consultant for personalized advice based on your sustainability score.",
+      },
+      carbon: {
+        title: "Need strategies to reduce emissions?",
+        description:
+          "The AI Consultant can help analyze your carbon footprint and recommend reductions.",
+      },
+      compliance: {
+        title: "Need help with regulatory compliance?",
+        description:
+          "Ask AI about concrete steps to meet the regulations you haven't fulfilled yet.",
+      },
+      progress: {
+        title: "Want to accelerate your progress?",
+        description:
+          "The AI Consultant can analyze your progress and suggest ways to improve faster.",
+      },
+      simulator: {
+        title: "Not sure which scenario to pick?",
+        description:
+          "The AI Consultant can help prioritize the changes with the most impact and easiest to implement.",
+      },
+      sdg: {
+        title: "Want to contribute more to SDGs?",
+        description:
+          "Ask AI about how to increase your contribution to inactive SDGs.",
+      },
+    },
+    chatWidget: {
+      title: "AI Consultant",
+      placeholder: "Type a question...",
+      openFullChat: "Open Full Chat",
+      suggestedTitle: "Suggested questions:",
     },
   },
 }

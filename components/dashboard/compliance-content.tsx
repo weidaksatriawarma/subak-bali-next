@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, XCircle, Shield, AlertTriangle } from "lucide-react"
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts"
+import { AskAiCard } from "@/components/shared/ask-ai-card"
 import type { Assessment } from "@/types/database"
 
 const RECOMMENDATIONS: Record<string, { id: string; en: string }> = {
@@ -273,6 +274,16 @@ export function ComplianceContent({ assessment }: { assessment: Assessment }) {
           </div>
         </CardContent>
       </Card>
+
+      <AskAiCard
+        title={t.dashboard.askAiCard.compliance.title}
+        description={t.dashboard.askAiCard.compliance.description}
+        buttonLabel={t.dashboard.askAiCard.button}
+        prompt={`Kepatuhan regulasi saya ${compliance.overallPercent}% (${metCount} dari ${totalCount} kriteria). Belum terpenuhi: ${compliance.unmet
+          .slice(0, 3)
+          .map((u) => u.label)
+          .join(", ")}. Jelaskan langkah konkret untuk memenuhinya.`}
+      />
     </div>
   )
 }

@@ -8,6 +8,7 @@ import { CtaSection } from "@/components/landing/cta-section"
 import { FaqSection } from "@/components/landing/faq-section"
 import { Footer } from "@/components/landing/footer"
 import { ScrollToTop } from "@/components/landing/scroll-to-top"
+import { AiChatWidget } from "@/components/shared/ai-chat-widget"
 import { landingExtras } from "@/lib/i18n/content/landing-extras"
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function Page() {
       <FaqSection />
       <Footer />
       <ScrollToTop />
+      <AiChatWidget variant="homepage" />
 
       <script
         type="application/ld+json"

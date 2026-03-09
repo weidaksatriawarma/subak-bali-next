@@ -9,6 +9,7 @@ import { CelebrationProvider } from "@/components/dashboard/celebration-modal"
 import { KeyboardShortcuts } from "@/components/dashboard/keyboard-shortcuts"
 import { CommandPalette } from "@/components/dashboard/command-palette"
 import { PageTransition } from "@/components/dashboard/page-transition"
+import { AiChatWidget } from "@/components/shared/ai-chat-widget"
 
 const OnboardingTour = dynamic(() =>
   import("@/components/dashboard/onboarding-tour").then((m) => m.OnboardingTour)
@@ -53,6 +54,7 @@ export default async function DashboardLayout({
           </CelebrationProvider>
         </main>
         <BottomNav />
+        <AiChatWidget variant="dashboard" />
       </SidebarInset>
     </SidebarProvider>
   )
