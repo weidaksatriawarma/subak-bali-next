@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useSyncExternalStore } from "react"
 import Joyride, {
   type CallBackProps,
   type TooltipRenderProps,
@@ -17,6 +17,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+
+const subscribe = () => () => {}
 
 function CustomTooltip({
   backProps,
@@ -66,14 +68,14 @@ function CustomTooltip({
 }
 
 export function OnboardingTour() {
-  const [mounted, setMounted] = useState(false)
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false
+  )
   const { shouldShowTour, isRunning, completeTour } = useTour()
   const { locale } = useTranslation()
   const content = tourContent[locale]
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const handleCallback = (data: CallBackProps) => {
     const { status } = data

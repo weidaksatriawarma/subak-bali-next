@@ -72,6 +72,7 @@ export function ShareActions({
       {qrDataUrl && (
         <div className="flex flex-col items-center gap-2">
           <div className="rounded-lg border bg-white p-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={qrDataUrl} alt="QR Code" className="h-40 w-40" />
           </div>
           <p className="text-xs text-muted-foreground">{labels.scanToVerify}</p>

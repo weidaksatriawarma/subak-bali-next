@@ -181,6 +181,7 @@ export function CertificatePreview({
             {cert.footer}
           </p>
           {qrDataUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={qrDataUrl}
               alt="QR"

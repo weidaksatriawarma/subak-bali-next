@@ -145,6 +145,7 @@ export function AchievementPreview({
 
       {/* Footer with QR */}
       <div className="absolute inset-x-0 bottom-4 flex flex-col items-center gap-2 px-6">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         {qrDataUrl && <img src={qrDataUrl} alt="QR" className="h-12 w-12" />}
         <p className="text-[10px] text-white/30">subakhijau.app</p>
       </div>
