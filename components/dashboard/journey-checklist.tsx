@@ -5,6 +5,7 @@ import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
 import { CheckCircle2, Circle, ChevronUp, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/lib/i18n/language-context"
 
 interface JourneyChecklistProps {
   hasAssessment: boolean
@@ -21,6 +22,8 @@ export function JourneyChecklist({
   hasRoadmap,
   hasCertificate,
 }: JourneyChecklistProps) {
+  const { t } = useTranslation()
+  const jc = t.dashboard.journeyChecklist
   const [expanded, setExpanded] = useState(false)
   const [dismissed, setDismissed] = useState(true)
 
@@ -30,16 +33,16 @@ export function JourneyChecklist({
   }, [])
 
   const steps = [
-    { label: "Lengkapi Profil", done: true, href: "/dashboard/settings" },
+    { label: jc.completeProfile, done: true, href: "/dashboard/settings" },
     {
-      label: "Isi Assessment",
+      label: jc.fillAssessment,
       done: hasAssessment,
       href: "/dashboard/assessment",
     },
-    { label: "Lihat Skor", done: hasScore, href: "/dashboard/score" },
-    { label: "Buat Roadmap", done: hasRoadmap, href: "/dashboard/roadmap" },
+    { label: jc.viewScore, done: hasScore, href: "/dashboard/score" },
+    { label: jc.createRoadmap, done: hasRoadmap, href: "/dashboard/roadmap" },
     {
-      label: "Dapatkan Sertifikat",
+      label: jc.getCertificate,
       done: hasCertificate,
       href: "/dashboard/certificate",
     },
@@ -61,7 +64,7 @@ export function JourneyChecklist({
             className="mb-2 w-72 rounded-xl border bg-background p-4 shadow-lg"
           >
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-sm font-semibold">Perjalanan Anda</h3>
+              <h3 className="text-sm font-semibold">{jc.title}</h3>
               <button
                 onClick={() => {
                   localStorage.setItem(DISMISSED_KEY, "true")
@@ -104,7 +107,9 @@ export function JourneyChecklist({
         size="sm"
         className="rounded-full shadow-lg"
       >
-        <span className="mr-1">Langkah {completedCount}/5</span>
+        <span className="mr-1">
+          {jc.stepCount} {completedCount}/5
+        </span>
         <ChevronUp
           className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`}
         />

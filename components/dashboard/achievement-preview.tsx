@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import QRCode from "qrcode"
+import { useTranslation } from "@/lib/i18n/language-context"
 import type { Achievement } from "@/components/dashboard/achievement-badge"
 
 interface AchievementPreviewProps {
@@ -23,6 +24,9 @@ export function AchievementPreview({
   streakWeeks,
   certificateToken,
 }: AchievementPreviewProps) {
+  const { t } = useTranslation()
+  const ap = t.dashboard.achievementPage
+  const g = t.dashboard.gamification
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
   const progress = (totalScore / 100) * CIRCUMFERENCE
   const unlockedBadges = achievements.filter((a) => a.unlocked).slice(0, 6)
@@ -46,7 +50,7 @@ export function AchievementPreview({
         <p className="text-[10px] font-semibold tracking-[0.3em] text-white/50 uppercase">
           SUBAK HIJAU
         </p>
-        <h2 className="mt-2 text-xl font-bold">Kartu Pencapaian</h2>
+        <h2 className="mt-2 text-xl font-bold">{g.achievementCard.title}</h2>
         <div className="mx-auto mt-2 h-px w-32 bg-white/20" />
       </div>
 
@@ -108,7 +112,7 @@ export function AchievementPreview({
       {/* Badge grid */}
       {unlockedBadges.length > 0 && (
         <div className="mt-4">
-          <p className="text-center text-sm text-white/50">Pencapaian</p>
+          <p className="text-center text-sm text-white/50">{ap.achievementsLabel}</p>
           <div className="mt-2 grid grid-cols-3 gap-2">
             {unlockedBadges.map((badge) => (
               <div
@@ -133,7 +137,7 @@ export function AchievementPreview({
           <p className="text-3xl">
             {"\uD83D\uDD25"} {streakWeeks}
           </p>
-          <p className="text-xs text-white/50">minggu berturut-turut</p>
+          <p className="text-xs text-white/50">{g.streak.weeksInRow}</p>
         </div>
       )}
 

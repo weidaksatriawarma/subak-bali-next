@@ -33,6 +33,7 @@ export interface DashboardDictionary {
       certificate: string
       achievementCard: string
       report: string
+      sdgImpact: string
     }
     groups: {
       main: string
@@ -42,6 +43,7 @@ export interface DashboardDictionary {
     }
     settings: string
     signOut: string
+    ariaLabel: string
   }
   overview: {
     welcome: string
@@ -131,6 +133,18 @@ export interface DashboardDictionary {
       priority: string
       impact: string
       footer: string
+      carbonTitle: string
+      co2Year: string
+      potentialSavingsMonth: string
+      treeEquivalentText: string
+      complianceTitle: string
+      compliant: string
+      nonCompliant: string
+      aboveAverage: string
+      belowAverage: string
+      scanToVerify: string
+      downloadPdf: string
+      pdfPrint: string
     }
   }
   roadmap: {
@@ -169,6 +183,7 @@ export interface DashboardDictionary {
     mandatoryTooltip: string
     askAi: string
     askAiTooltip: string
+    stepCompletedToast: string
     userAdded: string
     itemAdded: string
     itemUpdated: string
@@ -225,6 +240,14 @@ export interface DashboardDictionary {
       operations: string
       policy: string
     }
+    industryLabels: {
+      fnb: string
+      retail: string
+      manufacturing: string
+      services: string
+      agriculture: string
+      other: string
+    }
   }
   carbon: {
     title: string
@@ -269,6 +292,8 @@ export interface DashboardDictionary {
     couldIncrease: string
     to: string
     reset: string
+    changeScenarios: string
+    allAchieved: string
     noAssessment: string
     noAssessmentDesc: string
     startAssessment: string
@@ -287,6 +312,41 @@ export interface DashboardDictionary {
     last30Days: string
     allTime: string
     noDataInRange: string
+    title: string
+    subtitle: string
+    exportScoreHistory: string
+    scoreHistory: string
+    totalSteps: string
+    completed: string
+    inProgress: string
+    completionPercent: string
+    categoryProgress: string
+    recentCompletions: string
+    milestones: string
+    analyticsTitle: string
+    estSavingsMonth: string
+    estCO2Reduced: string
+    estROI: string
+    estSavingsPerCategory: string
+    perMonth: string
+    months: string
+    emptyTitle: string
+    emptyDescription: string
+    startAssessment: string
+    milestoneFirstAssessment: string
+    milestoneFirstAssessmentDesc: string
+    milestoneScore50: string
+    milestoneScore50Desc: string
+    milestone5Steps: string
+    milestone5StepsDesc: string
+    milestoneScore80: string
+    milestoneScore80Desc: string
+    milestoneStreak4: string
+    milestoneStreak4Desc: string
+    milestoneStreak8: string
+    milestoneStreak8Desc: string
+    chartScore: string
+    chartDateLabel: string
   }
   gamification: {
     streak: {
@@ -367,6 +427,15 @@ export interface DashboardDictionary {
     noScore: string
     noScoreDesc: string
     viewCertificate: string
+    previewCardTitle: string
+    shareTitle: string
+    achievementsLabel: string
+    canvasAchievements: string
+    canvasFooter: string
+    downloadSuccess: string
+    downloadError: string
+    copySuccess: string
+    copyError: string
   }
   askAiCard: {
     button: string
@@ -382,6 +451,165 @@ export interface DashboardDictionary {
     placeholder: string
     openFullChat: string
     suggestedTitle: string
+  }
+  bottomSheet: {
+    more: string
+    moreMenu: string
+    ariaLabel: string
+  }
+  journeyChecklist: {
+    title: string
+    stepCount: string
+    completeProfile: string
+    fillAssessment: string
+    viewScore: string
+    createRoadmap: string
+    getCertificate: string
+  }
+  chatMessage: {
+    carbonFootprint: string
+    kgCo2Year: string
+    equivalent: string
+    treesYear: string
+    industryBenchmark: string
+    average: string
+    top: string
+    requirements: string
+    codeCopied: string
+    codeCopyFail: string
+    copied: string
+    copy: string
+    messageCopied: string
+    messageCopyFail: string
+    copyMessage: string
+    analyzing: string
+  }
+  chatHistory: {
+    newConversation: string
+    deleteTitle: string
+    deleteDescription: string
+    cancel: string
+    delete: string
+    empty: string
+    justNow: string
+    minutesAgo: string
+    hoursAgo: string
+    daysAgo: string
+  }
+  chatPage: {
+    greeting: string
+    greetingDesc: string
+    typing: string
+    errorTitle: string
+    errorRetry: string
+    historyTitle: string
+    suggestedPrompts: string[]
+    aiUnavailable: string
+    headerTitle: string
+  }
+  chatInput: {
+    placeholder: string
+    send: string
+  }
+  commandPalette: {
+    searchPlaceholder: string
+    noResults: string
+    navigation: string
+    actions: string
+    switchToLight: string
+    switchToDark: string
+  }
+  keyboardShortcuts: {
+    title: string
+    openCommandPalette: string
+    toggleDarkMode: string
+    toggleSidebar: string
+    showShortcuts: string
+  }
+  comparison: {
+    title: string
+    subtitle: string
+    emptyTitle: string
+    emptyDescription: string
+    startAssessment: string
+    totalScore: string
+    overallChange: string
+    first: string
+    latest: string
+    points: string
+    biggestImprovement: string
+    categoryComparison: string
+  }
+  certificatePreview: {
+    title: string
+    issuedTo: string
+    dateLabel: string
+    footer: string
+  }
+  settings: {
+    title: string
+    subtitle: string
+    businessProfile: string
+    businessName: string
+    businessNamePlaceholder: string
+    industryType: string
+    industryPlaceholder: string
+    businessSize: string
+    businessSizePlaceholder: string
+    employeeCount: string
+    employeePlaceholder: string
+    location: string
+    locationPlaceholder: string
+    description: string
+    descriptionPlaceholder: string
+    saving: string
+    saveChanges: string
+    saveSuccess: string
+    saveError: string
+    assessment: string
+    assessmentDesc: string
+    retakeAssessment: string
+    cookiePreferences: string
+    cookieDesc: string
+    cookieStatus: string
+    cookieAccepted: string
+    cookieDeclined: string
+    cookieNotChosen: string
+    acceptCookies: string
+    declineCookies: string
+    helpTitle: string
+    helpDesc: string
+    startTour: string
+    account: string
+    email: string
+    signOut: string
+    deleteAccount: string
+    deleteAccountTitle: string
+    deleteAccountDesc: string
+    cancelBtn: string
+    confirmDelete: string
+    validationBusinessName: string
+  }
+  assessmentPage: {
+    title: string
+    description: string
+  }
+  scorePage: {
+    emptyTitle: string
+    emptyDescription: string
+    startAssessment: string
+  }
+  benchmark: {
+    title: string
+    percentileAbove: string
+    percentileBelow: string
+    of: string
+    avg: string
+    avgFull: string
+    yourScore: string
+    difference: string
+    pts: string
+    ariaLabel: string
   }
 }
 
@@ -670,12 +898,12 @@ const id: Dictionary = {
     sidebar: {
       subtitle: "Konsultan Berkelanjutan",
       nav: {
-        dashboard: "Dashboard",
-        assessment: "Assessment",
+        dashboard: "Beranda",
+        assessment: "Asesmen",
         myScore: "Skor Saya",
-        roadmap: "Roadmap",
-        aiConsultant: "AI Consultant",
-        progress: "Progress",
+        roadmap: "Peta Jalan",
+        aiConsultant: "Konsultan AI",
+        progress: "Progres",
         settings: "Pengaturan",
         simulator: "Simulator",
         carbonFootprint: "Jejak Karbon",
@@ -684,6 +912,7 @@ const id: Dictionary = {
         certificate: "Sertifikat",
         achievementCard: "Kartu Pencapaian",
         report: "Laporan",
+        sdgImpact: "Dampak SDG",
       },
       groups: {
         main: "Utama",
@@ -693,6 +922,7 @@ const id: Dictionary = {
       },
       settings: "Pengaturan",
       signOut: "Keluar",
+      ariaLabel: "Navigasi sidebar",
     },
     overview: {
       welcome: "Selamat datang,",
@@ -796,6 +1026,18 @@ const id: Dictionary = {
         impact: "Dampak",
         footer:
           "Generated by Subak Hijau, Konsultan AI Sustainability untuk UMKM Indonesia",
+        carbonTitle: "Jejak Karbon & Dampak Lingkungan",
+        co2Year: "CO₂/tahun",
+        potentialSavingsMonth: "potensi hemat/bulan",
+        treeEquivalentText: "pohon per tahun untuk menyerap emisi",
+        complianceTitle: "Kepatuhan Regulasi",
+        compliant: "Terpenuhi",
+        nonCompliant: "Belum Terpenuhi",
+        aboveAverage: "di atas rata-rata",
+        belowAverage: "di bawah rata-rata",
+        scanToVerify: "Scan untuk verifikasi",
+        downloadPdf: "Download PDF",
+        pdfPrint: "Print",
       },
     },
     roadmap: {
@@ -840,6 +1082,7 @@ const id: Dictionary = {
       mandatoryTooltip: "Langkah wajib dari AI, tidak bisa dihapus",
       askAi: "Tanya AI",
       askAiTooltip: "Tanyakan langkah ini ke AI Consultant",
+      stepCompletedToast: "Langkah berhasil diselesaikan!",
       userAdded: "Manual",
       itemAdded: "Langkah berhasil ditambahkan!",
       itemUpdated: "Langkah berhasil diperbarui!",
@@ -915,6 +1158,14 @@ const id: Dictionary = {
         operations: "Ahli Operasional",
         policy: "Pelopor Kebijakan",
       },
+      industryLabels: {
+        fnb: "F&B (Makanan & Minuman)",
+        retail: "Ritel",
+        manufacturing: "Manufaktur",
+        services: "Jasa",
+        agriculture: "Pertanian",
+        other: "Lainnya",
+      },
     },
     carbon: {
       title: "Jejak Karbon",
@@ -963,6 +1214,8 @@ const id: Dictionary = {
       couldIncrease: "menjadi",
       to: "\u2192",
       reset: "Reset Semua",
+      changeScenarios: "Skenario Perubahan",
+      allAchieved: "Semua skenario sudah tercapai! Luar biasa!",
       noAssessment: "Belum ada data",
       noAssessmentDesc:
         "Lengkapi assessment dan generate skor terlebih dahulu untuk menggunakan simulator.",
@@ -982,6 +1235,45 @@ const id: Dictionary = {
       last30Days: "30 Hari Terakhir",
       allTime: "Semua",
       noDataInRange: "Tidak ada data skor dalam periode ini",
+      title: "Progres Keberlanjutan",
+      subtitle:
+        "Lacak perkembangan skor dan langkah-langkah yang telah diselesaikan",
+      exportScoreHistory: "Export Riwayat Skor",
+      scoreHistory: "Riwayat Skor",
+      totalSteps: "Total Langkah",
+      completed: "Selesai",
+      inProgress: "Dalam Proses",
+      completionPercent: "Persentase Selesai",
+      categoryProgress: "Progres per Kategori",
+      recentCompletions: "Langkah Terakhir Diselesaikan",
+      milestones: "Pencapaian",
+      analyticsTitle: "Analitik Dampak Keberlanjutan",
+      estSavingsMonth: "estimasi hemat/bulan",
+      estCO2Reduced: "estimasi CO₂ berkurang",
+      estROI: "estimasi ROI balik modal",
+      estSavingsPerCategory: "Estimasi penghematan per kategori",
+      perMonth: "/bulan",
+      months: "bulan",
+      emptyTitle: "Belum ada data progres",
+      emptyDescription:
+        "Selesaikan assessment untuk mulai melacak progres keberlanjutan usaha Anda.",
+      startAssessment: "Mulai Assessment",
+      milestoneFirstAssessment: "Assessment Pertama",
+      milestoneFirstAssessmentDesc: "Menyelesaikan assessment pertama",
+      milestoneScore50: "Skor 50+",
+      milestoneScore50Desc: "Mencapai skor total 50 atau lebih",
+      milestone5Steps: "5 Langkah Selesai",
+      milestone5StepsDesc: "Menyelesaikan 5 langkah roadmap",
+      milestoneScore80: "Skor 80+",
+      milestoneScore80Desc: "Mencapai skor total 80 atau lebih",
+      milestoneStreak4: "4 Minggu Berturut-turut",
+      milestoneStreak4Desc:
+        "Menyelesaikan langkah roadmap 4 minggu berturut-turut",
+      milestoneStreak8: "8 Minggu Berturut-turut",
+      milestoneStreak8Desc:
+        "Menyelesaikan langkah roadmap 8 minggu berturut-turut",
+      chartScore: "Skor",
+      chartDateLabel: "Tanggal:",
     },
     gamification: {
       streak: {
@@ -1089,6 +1381,16 @@ const id: Dictionary = {
       noScoreDesc:
         "Lengkapi assessment terlebih dahulu untuk melihat pencapaian.",
       viewCertificate: "Lihat Sertifikat",
+      previewCardTitle: "Preview Kartu",
+      shareTitle: "Bagikan Pencapaian",
+      achievementsLabel: "Pencapaian",
+      canvasAchievements: "Pencapaian",
+      canvasFooter:
+        "AI Sustainability Consultant untuk UMKM Indonesia",
+      downloadSuccess: "Achievement card berhasil diunduh!",
+      downloadError: "Gagal mengunduh achievement card",
+      copySuccess: "Link berhasil disalin!",
+      copyError: "Gagal menyalin link",
     },
     askAiCard: {
       button: "Tanya AI",
@@ -1128,6 +1430,180 @@ const id: Dictionary = {
       placeholder: "Ketik pertanyaan...",
       openFullChat: "Buka Chat Lengkap",
       suggestedTitle: "Saran pertanyaan:",
+    },
+    bottomSheet: {
+      more: "Lainnya",
+      moreMenu: "Menu Lainnya",
+      ariaLabel: "Navigasi utama mobile",
+    },
+    journeyChecklist: {
+      title: "Perjalanan Anda",
+      stepCount: "Langkah",
+      completeProfile: "Lengkapi Profil",
+      fillAssessment: "Isi Assessment",
+      viewScore: "Lihat Skor",
+      createRoadmap: "Buat Roadmap",
+      getCertificate: "Dapatkan Sertifikat",
+    },
+    chatMessage: {
+      carbonFootprint: "Jejak Karbon",
+      kgCo2Year: "kg CO₂/tahun",
+      equivalent: "Setara",
+      treesYear: "pohon/tahun",
+      industryBenchmark: "Benchmark Industri",
+      average: "Rata-rata",
+      top: "Top",
+      requirements: "Persyaratan",
+      codeCopied: "Kode disalin!",
+      codeCopyFail: "Gagal menyalin kode",
+      copied: "Disalin",
+      copy: "Salin",
+      messageCopied: "Disalin!",
+      messageCopyFail: "Gagal menyalin teks",
+      copyMessage: "Salin pesan",
+      analyzing: "Menganalisis data...",
+    },
+    chatHistory: {
+      newConversation: "Percakapan Baru",
+      deleteTitle: "Hapus percakapan?",
+      deleteDescription:
+        "Percakapan ini akan dihapus secara permanen dan tidak dapat dikembalikan.",
+      cancel: "Batal",
+      delete: "Hapus",
+      empty: "Belum ada percakapan",
+      justNow: "Baru saja",
+      minutesAgo: "menit lalu",
+      hoursAgo: "jam lalu",
+      daysAgo: "hari lalu",
+    },
+    chatPage: {
+      greeting: "Halo! Saya Subak Hijau",
+      greetingDesc:
+        "Konsultan sustainability AI Anda. Tanyakan apa saja tentang praktik bisnis berkelanjutan.",
+      typing: "Subak Hijau sedang mengetik...",
+      errorTitle: "Gagal mendapat respons dari AI.",
+      errorRetry: "Silakan coba kirim ulang pesan Anda.",
+      historyTitle: "Riwayat Chat",
+      suggestedPrompts: [
+        "Bagaimana cara mengurangi limbah plastik?",
+        "Tips hemat energi untuk UMKM",
+        "Apa itu ekonomi sirkular?",
+      ],
+      aiUnavailable:
+        "AI sedang tidak tersedia. Coba lagi dalam beberapa saat.",
+      headerTitle: "Subak Hijau Chat",
+    },
+    chatInput: {
+      placeholder: "Ketik pesan Anda...",
+      send: "Kirim",
+    },
+    commandPalette: {
+      searchPlaceholder: "Ketik perintah atau cari...",
+      noResults: "Tidak ditemukan.",
+      navigation: "Navigasi",
+      actions: "Aksi",
+      switchToLight: "Beralih ke Mode Terang",
+      switchToDark: "Beralih ke Mode Gelap",
+    },
+    keyboardShortcuts: {
+      title: "Keyboard Shortcuts",
+      openCommandPalette: "Buka Command Palette",
+      toggleDarkMode: "Toggle dark/light mode",
+      toggleSidebar: "Toggle sidebar",
+      showShortcuts: "Tampilkan keyboard shortcuts",
+    },
+    comparison: {
+      title: "Perbandingan Skor",
+      subtitle: "Assessment pertama vs terbaru",
+      emptyTitle: "Belum Cukup Data untuk Perbandingan",
+      emptyDescription:
+        "Selesaikan minimal 2 assessment untuk melihat perbandingan skor Anda dari waktu ke waktu.",
+      startAssessment: "Mulai Assessment",
+      totalScore: "Skor Total",
+      overallChange: "Perubahan skor keseluruhan",
+      first: "Pertama",
+      latest: "Terbaru",
+      points: "poin",
+      biggestImprovement: "Peningkatan Terbesar",
+      categoryComparison: "Perbandingan per Kategori",
+    },
+    certificatePreview: {
+      title: "SERTIFIKAT KEBERLANJUTAN",
+      issuedTo: "Diberikan kepada",
+      dateLabel: "Tanggal",
+      footer: "Subak Hijau — AI Sustainability untuk UMKM",
+    },
+    settings: {
+      title: "Pengaturan",
+      subtitle: "Kelola profil bisnis dan akun Anda",
+      businessProfile: "Profil Bisnis",
+      businessName: "Nama Bisnis",
+      businessNamePlaceholder: "Contoh: Warung Makan Sederhana",
+      industryType: "Jenis Industri",
+      industryPlaceholder: "Pilih jenis industri",
+      businessSize: "Ukuran Bisnis",
+      businessSizePlaceholder: "Pilih ukuran bisnis",
+      employeeCount: "Jumlah Karyawan",
+      employeePlaceholder: "Contoh: 10",
+      location: "Lokasi (Kota/Provinsi)",
+      locationPlaceholder: "Contoh: Denpasar, Bali",
+      description: "Deskripsi Singkat Bisnis",
+      descriptionPlaceholder: "Ceritakan sedikit tentang bisnis Anda...",
+      saving: "Menyimpan...",
+      saveChanges: "Simpan Perubahan",
+      saveSuccess: "Profil berhasil diperbarui",
+      saveError: "Gagal menyimpan perubahan",
+      assessment: "Assessment",
+      assessmentDesc:
+        "Ambil assessment ulang untuk memperbarui skor keberlanjutan Anda berdasarkan kondisi terkini.",
+      retakeAssessment: "Ambil Assessment Ulang",
+      cookiePreferences: "Preferensi Cookie",
+      cookieDesc:
+        "Cookie fungsional menyimpan preferensi tampilan Anda (bahasa, tema, status sidebar) agar tetap tersimpan saat kembali berkunjung.",
+      cookieStatus: "Status",
+      cookieAccepted: "Diterima",
+      cookieDeclined: "Ditolak",
+      cookieNotChosen: "Belum dipilih",
+      acceptCookies: "Terima Cookie",
+      declineCookies: "Tolak Cookie",
+      helpTitle: "Bantuan",
+      helpDesc:
+        "Mulai ulang tur interaktif untuk melihat fitur-fitur utama dashboard.",
+      startTour: "Mulai Tour",
+      account: "Akun",
+      email: "Email",
+      signOut: "Keluar",
+      deleteAccount: "Hapus Akun",
+      deleteAccountTitle: "Hapus Akun?",
+      deleteAccountDesc:
+        "Tindakan ini tidak dapat dibatalkan. Semua data Anda akan dihapus.",
+      cancelBtn: "Batal",
+      confirmDelete: "Ya, Hapus Akun",
+      validationBusinessName: "Nama bisnis minimal 2 karakter",
+    },
+    assessmentPage: {
+      title: "Assessment Sustainability",
+      description:
+        "Jawab pertanyaan berikut untuk menilai tingkat sustainability bisnis Anda.",
+    },
+    scorePage: {
+      emptyTitle: "Belum ada assessment",
+      emptyDescription:
+        "Lengkapi assessment terlebih dahulu untuk mendapatkan skor keberlanjutan usaha Anda.",
+      startAssessment: "Mulai Assessment",
+    },
+    benchmark: {
+      title: "Benchmark Industri",
+      percentileAbove: "di atas",
+      percentileBelow: "di bawah",
+      of: "perusahaan",
+      avg: "Rata²",
+      avgFull: "Rata-rata industri",
+      yourScore: "Skor Anda",
+      difference: "Selisih",
+      pts: "poin",
+      ariaLabel:
+        "Perbandingan benchmark: Skor Anda {userScore}, Rata-rata industri {benchmark}",
     },
   },
 }
@@ -1356,6 +1832,7 @@ const en: Dictionary = {
         certificate: "Certificate",
         achievementCard: "Achievement Card",
         report: "Report",
+        sdgImpact: "SDG Impact",
       },
       groups: {
         main: "Main",
@@ -1365,6 +1842,7 @@ const en: Dictionary = {
       },
       settings: "Settings",
       signOut: "Sign Out",
+      ariaLabel: "Sidebar navigation",
     },
     overview: {
       welcome: "Welcome,",
@@ -1467,6 +1945,18 @@ const en: Dictionary = {
         impact: "Impact",
         footer:
           "Generated by Subak Hijau, AI Sustainability Consultant for Indonesian MSMEs",
+        carbonTitle: "Carbon Footprint & Environmental Impact",
+        co2Year: "CO₂/year",
+        potentialSavingsMonth: "potential savings/month",
+        treeEquivalentText: "trees per year to absorb emissions",
+        complianceTitle: "Regulatory Compliance",
+        compliant: "Compliant",
+        nonCompliant: "Non-Compliant",
+        aboveAverage: "above average",
+        belowAverage: "below average",
+        scanToVerify: "Scan to verify",
+        downloadPdf: "Download PDF",
+        pdfPrint: "Print",
       },
     },
     roadmap: {
@@ -1511,6 +2001,7 @@ const en: Dictionary = {
       mandatoryTooltip: "Required AI-generated step, cannot be deleted",
       askAi: "Ask AI",
       askAiTooltip: "Ask AI Consultant about this step",
+      stepCompletedToast: "Step completed successfully!",
       userAdded: "Manual",
       itemAdded: "Step added successfully!",
       itemUpdated: "Step updated successfully!",
@@ -1586,6 +2077,14 @@ const en: Dictionary = {
         operations: "Operations Expert",
         policy: "Policy Pioneer",
       },
+      industryLabels: {
+        fnb: "F&B (Food & Beverage)",
+        retail: "Retail",
+        manufacturing: "Manufacturing",
+        services: "Services",
+        agriculture: "Agriculture",
+        other: "Other",
+      },
     },
     carbon: {
       title: "Carbon Footprint",
@@ -1635,6 +2134,8 @@ const en: Dictionary = {
       couldIncrease: "to",
       to: "\u2192",
       reset: "Reset All",
+      changeScenarios: "Change Scenarios",
+      allAchieved: "All scenarios already achieved! Amazing!",
       noAssessment: "No data yet",
       noAssessmentDesc:
         "Complete an assessment and generate a score first to use the simulator.",
@@ -1654,6 +2155,44 @@ const en: Dictionary = {
       last30Days: "Last 30 Days",
       allTime: "All Time",
       noDataInRange: "No score data in this period",
+      title: "Sustainability Progress",
+      subtitle: "Track your score trends and completed steps",
+      exportScoreHistory: "Export Score History",
+      scoreHistory: "Score History",
+      totalSteps: "Total Steps",
+      completed: "Completed",
+      inProgress: "In Progress",
+      completionPercent: "Completion Rate",
+      categoryProgress: "Progress by Category",
+      recentCompletions: "Recently Completed Steps",
+      milestones: "Milestones",
+      analyticsTitle: "Sustainability Impact Analytics",
+      estSavingsMonth: "est. savings/month",
+      estCO2Reduced: "est. CO₂ reduced",
+      estROI: "est. ROI payback",
+      estSavingsPerCategory: "Estimated savings by category",
+      perMonth: "/month",
+      months: "months",
+      emptyTitle: "No progress data yet",
+      emptyDescription:
+        "Complete an assessment to start tracking your sustainability progress.",
+      startAssessment: "Start Assessment",
+      milestoneFirstAssessment: "First Assessment",
+      milestoneFirstAssessmentDesc: "Completed your first assessment",
+      milestoneScore50: "Score 50+",
+      milestoneScore50Desc: "Reached a total score of 50 or higher",
+      milestone5Steps: "5 Steps Done",
+      milestone5StepsDesc: "Completed 5 roadmap steps",
+      milestoneScore80: "Score 80+",
+      milestoneScore80Desc: "Reached a total score of 80 or higher",
+      milestoneStreak4: "4 Weeks in a Row",
+      milestoneStreak4Desc:
+        "Completed roadmap steps 4 weeks in a row",
+      milestoneStreak8: "8 Weeks in a Row",
+      milestoneStreak8Desc:
+        "Completed roadmap steps 8 weeks in a row",
+      chartScore: "Score",
+      chartDateLabel: "Date:",
     },
     gamification: {
       streak: {
@@ -1758,6 +2297,15 @@ const en: Dictionary = {
       noScore: "No score yet",
       noScoreDesc: "Complete an assessment first to view your achievements.",
       viewCertificate: "View Certificate",
+      previewCardTitle: "Card Preview",
+      shareTitle: "Share Achievement",
+      achievementsLabel: "Achievements",
+      canvasAchievements: "Achievements",
+      canvasFooter: "AI Sustainability Consultant for Indonesian MSMEs",
+      downloadSuccess: "Achievement card downloaded!",
+      downloadError: "Failed to download achievement card",
+      copySuccess: "Link copied!",
+      copyError: "Failed to copy link",
     },
     askAiCard: {
       button: "Ask AI",
@@ -1797,6 +2345,179 @@ const en: Dictionary = {
       placeholder: "Type a question...",
       openFullChat: "Open Full Chat",
       suggestedTitle: "Suggested questions:",
+    },
+    bottomSheet: {
+      more: "More",
+      moreMenu: "More Menu",
+      ariaLabel: "Mobile main navigation",
+    },
+    journeyChecklist: {
+      title: "Your Journey",
+      stepCount: "Step",
+      completeProfile: "Complete Profile",
+      fillAssessment: "Fill Assessment",
+      viewScore: "View Score",
+      createRoadmap: "Create Roadmap",
+      getCertificate: "Get Certificate",
+    },
+    chatMessage: {
+      carbonFootprint: "Carbon Footprint",
+      kgCo2Year: "kg CO₂/year",
+      equivalent: "Equivalent to",
+      treesYear: "trees/year",
+      industryBenchmark: "Industry Benchmark",
+      average: "Average",
+      top: "Top",
+      requirements: "Requirements",
+      codeCopied: "Code copied!",
+      codeCopyFail: "Failed to copy code",
+      copied: "Copied",
+      copy: "Copy",
+      messageCopied: "Copied!",
+      messageCopyFail: "Failed to copy text",
+      copyMessage: "Copy message",
+      analyzing: "Analyzing data...",
+    },
+    chatHistory: {
+      newConversation: "New Conversation",
+      deleteTitle: "Delete conversation?",
+      deleteDescription:
+        "This conversation will be permanently deleted and cannot be recovered.",
+      cancel: "Cancel",
+      delete: "Delete",
+      empty: "No conversations yet",
+      justNow: "Just now",
+      minutesAgo: "min ago",
+      hoursAgo: "hr ago",
+      daysAgo: "days ago",
+    },
+    chatPage: {
+      greeting: "Hi! I'm Subak Hijau",
+      greetingDesc:
+        "Your AI sustainability consultant. Ask me anything about sustainable business practices.",
+      typing: "Subak Hijau is typing...",
+      errorTitle: "Failed to get AI response.",
+      errorRetry: "Please try resending your message.",
+      historyTitle: "Chat History",
+      suggestedPrompts: [
+        "How to reduce plastic waste?",
+        "Energy saving tips for MSMEs",
+        "What is circular economy?",
+      ],
+      aiUnavailable: "AI is currently unavailable. Please try again shortly.",
+      headerTitle: "Subak Hijau Chat",
+    },
+    chatInput: {
+      placeholder: "Type your message...",
+      send: "Send",
+    },
+    commandPalette: {
+      searchPlaceholder: "Type a command or search...",
+      noResults: "No results found.",
+      navigation: "Navigation",
+      actions: "Actions",
+      switchToLight: "Switch to Light Mode",
+      switchToDark: "Switch to Dark Mode",
+    },
+    keyboardShortcuts: {
+      title: "Keyboard Shortcuts",
+      openCommandPalette: "Open Command Palette",
+      toggleDarkMode: "Toggle dark/light mode",
+      toggleSidebar: "Toggle sidebar",
+      showShortcuts: "Show keyboard shortcuts",
+    },
+    comparison: {
+      title: "Score Comparison",
+      subtitle: "First vs latest assessment",
+      emptyTitle: "Not Enough Data for Comparison",
+      emptyDescription:
+        "Complete at least 2 assessments to see your score comparison over time.",
+      startAssessment: "Start Assessment",
+      totalScore: "Total Score",
+      overallChange: "Overall score change",
+      first: "First",
+      latest: "Latest",
+      points: "points",
+      biggestImprovement: "Biggest Improvement",
+      categoryComparison: "Category Comparison",
+    },
+    certificatePreview: {
+      title: "SUSTAINABILITY CERTIFICATE",
+      issuedTo: "Issued to",
+      dateLabel: "Date",
+      footer: "Subak Hijau — AI Sustainability for MSMEs",
+    },
+    settings: {
+      title: "Settings",
+      subtitle: "Manage your business profile and account",
+      businessProfile: "Business Profile",
+      businessName: "Business Name",
+      businessNamePlaceholder: "e.g., Green Café",
+      industryType: "Industry Type",
+      industryPlaceholder: "Select industry type",
+      businessSize: "Business Size",
+      businessSizePlaceholder: "Select business size",
+      employeeCount: "Employee Count",
+      employeePlaceholder: "e.g., 10",
+      location: "Location (City/Province)",
+      locationPlaceholder: "e.g., Denpasar, Bali",
+      description: "Brief Business Description",
+      descriptionPlaceholder: "Tell us a bit about your business...",
+      saving: "Saving...",
+      saveChanges: "Save Changes",
+      saveSuccess: "Profile updated successfully",
+      saveError: "Failed to save changes",
+      assessment: "Assessment",
+      assessmentDesc:
+        "Retake the assessment to update your sustainability score based on current conditions.",
+      retakeAssessment: "Retake Assessment",
+      cookiePreferences: "Cookie Preferences",
+      cookieDesc:
+        "Functional cookies save your display preferences (language, theme, sidebar state) so they persist when you return.",
+      cookieStatus: "Status",
+      cookieAccepted: "Accepted",
+      cookieDeclined: "Declined",
+      cookieNotChosen: "Not chosen",
+      acceptCookies: "Accept Cookies",
+      declineCookies: "Decline Cookies",
+      helpTitle: "Help",
+      helpDesc:
+        "Restart the interactive tour to see the main dashboard features.",
+      startTour: "Start Tour",
+      account: "Account",
+      email: "Email",
+      signOut: "Sign Out",
+      deleteAccount: "Delete Account",
+      deleteAccountTitle: "Delete Account?",
+      deleteAccountDesc:
+        "This action cannot be undone. All your data will be deleted.",
+      cancelBtn: "Cancel",
+      confirmDelete: "Yes, Delete Account",
+      validationBusinessName: "Business name must be at least 2 characters",
+    },
+    assessmentPage: {
+      title: "Sustainability Assessment",
+      description:
+        "Answer the following questions to assess your business sustainability level.",
+    },
+    scorePage: {
+      emptyTitle: "No assessment yet",
+      emptyDescription:
+        "Complete an assessment first to get your business sustainability score.",
+      startAssessment: "Start Assessment",
+    },
+    benchmark: {
+      title: "Industry Benchmark",
+      percentileAbove: "above",
+      percentileBelow: "below",
+      of: "of",
+      avg: "Avg",
+      avgFull: "Industry Avg",
+      yourScore: "Your Score",
+      difference: "Difference",
+      pts: "pts",
+      ariaLabel:
+        "Benchmark comparison: Your score {userScore}, Industry average {benchmark}",
     },
   },
 }

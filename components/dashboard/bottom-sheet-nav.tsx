@@ -22,6 +22,7 @@ import {
   Settings,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/lib/i18n/language-context"
 import {
   Sheet,
   SheetContent,
@@ -36,64 +37,6 @@ interface NavItem {
   exact?: boolean
 }
 
-const mainItems: NavItem[] = [
-  {
-    href: "/dashboard",
-    icon: LayoutDashboard,
-    label: "Dashboard",
-    exact: true,
-  },
-  {
-    href: "/dashboard/assessment",
-    icon: ClipboardList,
-    label: "Assessment",
-  },
-  {
-    href: "/dashboard/chat",
-    icon: MessageSquare,
-    label: "AI Chat",
-  },
-  {
-    href: "/dashboard/score",
-    icon: BarChart3,
-    label: "Skor",
-  },
-]
-
-const moreItems: NavItem[] = [
-  { href: "/dashboard/roadmap", icon: Map, label: "Roadmap" },
-  {
-    href: "/dashboard/carbon-footprint",
-    icon: Footprints,
-    label: "Jejak Karbon",
-  },
-  {
-    href: "/dashboard/compliance",
-    icon: ShieldCheck,
-    label: "Kepatuhan",
-  },
-  {
-    href: "/dashboard/simulator",
-    icon: FlaskConical,
-    label: "Simulator",
-  },
-  { href: "/dashboard/sdg-impact", icon: Globe, label: "Dampak SDG" },
-  {
-    href: "/dashboard/certificate",
-    icon: Award,
-    label: "Sertifikat",
-  },
-  {
-    href: "/dashboard/achievements",
-    icon: Trophy,
-    label: "Achievement",
-  },
-  { href: "/dashboard/report", icon: FileText, label: "Laporan" },
-  { href: "/dashboard/progress", icon: TrendingUp, label: "Progres" },
-  { href: "/dashboard/help", icon: HelpCircle, label: "Bantuan" },
-  { href: "/dashboard/settings", icon: Settings, label: "Pengaturan" },
-]
-
 function isActive(pathname: string, href: string, exact?: boolean) {
   return exact ? pathname === href : pathname.startsWith(href)
 }
@@ -101,13 +44,74 @@ function isActive(pathname: string, href: string, exact?: boolean) {
 export function BottomSheetNav() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const { t } = useTranslation()
+  const nav = t.dashboard.sidebar.nav
+  const bs = t.dashboard.bottomSheet
+
+  const mainItems: NavItem[] = [
+    {
+      href: "/dashboard",
+      icon: LayoutDashboard,
+      label: nav.dashboard,
+      exact: true,
+    },
+    {
+      href: "/dashboard/assessment",
+      icon: ClipboardList,
+      label: nav.assessment,
+    },
+    {
+      href: "/dashboard/chat",
+      icon: MessageSquare,
+      label: nav.aiConsultant,
+    },
+    {
+      href: "/dashboard/score",
+      icon: BarChart3,
+      label: nav.myScore,
+    },
+  ]
+
+  const moreItems: NavItem[] = [
+    { href: "/dashboard/roadmap", icon: Map, label: nav.roadmap },
+    {
+      href: "/dashboard/carbon-footprint",
+      icon: Footprints,
+      label: nav.carbonFootprint,
+    },
+    {
+      href: "/dashboard/compliance",
+      icon: ShieldCheck,
+      label: nav.compliance,
+    },
+    {
+      href: "/dashboard/simulator",
+      icon: FlaskConical,
+      label: nav.simulator,
+    },
+    { href: "/dashboard/sdg-impact", icon: Globe, label: nav.sdgImpact },
+    {
+      href: "/dashboard/certificate",
+      icon: Award,
+      label: nav.certificate,
+    },
+    {
+      href: "/dashboard/achievements",
+      icon: Trophy,
+      label: nav.achievementCard,
+    },
+    { href: "/dashboard/report", icon: FileText, label: nav.report },
+    { href: "/dashboard/progress", icon: TrendingUp, label: nav.progress },
+    { href: "/dashboard/help", icon: HelpCircle, label: nav.help },
+    { href: "/dashboard/settings", icon: Settings, label: nav.settings },
+  ]
 
   return (
     <>
       <nav
         className="fixed inset-x-0 bottom-0 z-50 border-t bg-background pb-[env(safe-area-inset-bottom)] md:hidden"
         role="navigation"
-        aria-label="Navigasi utama mobile"
+        aria-label={bs.ariaLabel}
       >
         <div className="flex h-14 items-center justify-around">
           {mainItems.map((item) => {
@@ -137,7 +141,7 @@ export function BottomSheetNav() {
             )}
           >
             <MoreHorizontal className="h-5 w-5" />
-            <span>Lainnya</span>
+            <span>{bs.more}</span>
           </button>
         </div>
       </nav>
@@ -145,7 +149,7 @@ export function BottomSheetNav() {
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="bottom" className="rounded-t-2xl px-4 pt-4 pb-8">
           <SheetHeader className="px-0">
-            <SheetTitle>Menu Lainnya</SheetTitle>
+            <SheetTitle>{bs.moreMenu}</SheetTitle>
           </SheetHeader>
           <div className="mt-4 grid grid-cols-4 gap-4">
             {moreItems.map((item) => {

@@ -124,7 +124,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
               icon: SlidersHorizontal,
             },
             {
-              title: "Dampak SDG",
+              title: d.nav.sdgImpact,
               href: "/dashboard/sdg",
               icon: Globe,
             },
@@ -194,7 +194,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
   }
 
   return (
-    <Sidebar collapsible="icon" aria-label="Navigasi sidebar">
+    <Sidebar collapsible="icon" aria-label={d.ariaLabel}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -307,7 +307,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
                       {profile.business_name}
                     </span>
                     <span className="truncate text-xs text-muted-foreground">
-                      {profile.industry}
+                      {t.dashboard.common.industryLabels[profile.industry] ?? profile.industry}
                     </span>
                   </div>
                   <MoreVertical className="ml-auto size-4" />

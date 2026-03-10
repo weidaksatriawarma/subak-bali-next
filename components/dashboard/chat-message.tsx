@@ -10,9 +10,23 @@ import { User, Leaf, Copy, Check, ExternalLink } from "lucide-react"
 import { toast } from "sonner"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/lib/i18n/language-context"
 
 function ToolResultCard({ output }: { output: Record<string, unknown> }) {
+  const { t } = useTranslation()
+  const cm = t.dashboard.chatMessage
+  const categories = t.dashboard.common.categories
   const type = output.type as string
+
+  // Map camelCase keys from tool output to underscore keys in i18n
+  const categoryLabels: Record<string, string> = {
+    energy: categories.energy,
+    waste: categories.waste,
+    supplyChain: categories.supply_chain,
+    supply_chain: categories.supply_chain,
+    operations: categories.operations,
+    policy: categories.policy,
+  }
 
   if (type === "carbon_calculation") {
     const breakdown = output.breakdown as {
@@ -23,10 +37,10 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
     return (
       <div className="my-2 rounded-lg border bg-green-50/50 p-3 dark:bg-green-950/20">
         <p className="mb-2 text-xs font-semibold text-green-700 uppercase dark:text-green-400">
-          Jejak Karbon
+          {cm.carbonFootprint}
         </p>
         <p className="mb-2 text-lg font-bold text-green-700 dark:text-green-400">
-          {(output.totalCO2 as number).toLocaleString("id-ID")} kg CO₂/tahun
+          {(output.totalCO2 as number).toLocaleString("id-ID")} {cm.kgCo2Year}
         </p>
         <div className="mb-2 space-y-1">
           {breakdown.map((b) => (
@@ -47,7 +61,7 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
           ))}
         </div>
         <p className="text-xs text-muted-foreground">
-          Setara {output.treeEquivalent as number} pohon/tahun
+          {cm.equivalent} {output.treeEquivalent as number} {cm.treesYear}
         </p>
       </div>
     )
@@ -77,7 +91,7 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
             <p className="mb-1 text-sm font-medium">{reg.name}</p>
             <p className="mb-2 text-xs text-muted-foreground">{reg.summary}</p>
             <div className="text-xs">
-              <p className="font-medium">Persyaratan:</p>
+              <p className="font-medium">{cm.requirements}:</p>
               <ul className="ml-3 list-disc text-muted-foreground">
                 {reg.requirements.slice(0, 3).map((r, i) => (
                   <li key={i}>{r}</li>
@@ -96,25 +110,18 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
       topPerformerScore: number
       categoryAverages: Record<string, number>
     }
-    const categoryLabels: Record<string, string> = {
-      energy: "Energi",
-      waste: "Limbah",
-      supplyChain: "Rantai Pasok",
-      operations: "Operasional",
-      policy: "Kebijakan",
-    }
     return (
       <div className="my-2 rounded-lg border bg-purple-50/50 p-3 dark:bg-purple-950/20">
         <p className="mb-2 text-xs font-semibold text-purple-700 uppercase dark:text-purple-400">
-          Benchmark Industri
+          {cm.industryBenchmark}
         </p>
         <div className="mb-2 flex gap-4 text-sm">
           <div>
-            <span className="text-muted-foreground">Rata-rata: </span>
+            <span className="text-muted-foreground">{cm.average}: </span>
             <span className="font-bold">{benchmark.averageScore}/100</span>
           </div>
           <div>
-            <span className="text-muted-foreground">Top: </span>
+            <span className="text-muted-foreground">{cm.top}: </span>
             <span className="font-bold">{benchmark.topPerformerScore}/100</span>
           </div>
         </div>
@@ -148,15 +155,17 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
 
 function CodeBlock({ language, code }: { language: string; code: string }) {
   const [copied, setCopied] = useState(false)
+  const { t } = useTranslation()
+  const cm = t.dashboard.chatMessage
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code)
       setCopied(true)
-      toast.success("Kode disalin!")
+      toast.success(cm.codeCopied)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      toast.error("Gagal menyalin kode")
+      toast.error(cm.codeCopyFail)
     }
   }
 
@@ -171,12 +180,12 @@ function CodeBlock({ language, code }: { language: string; code: string }) {
           {copied ? (
             <>
               <Check className="h-3 w-3" />
-              Disalin
+              {cm.copied}
             </>
           ) : (
             <>
               <Copy className="h-3 w-3" />
-              Salin
+              {cm.copy}
             </>
           )}
         </button>
@@ -239,6 +248,8 @@ const markdownComponents: Components = {
 
 function CopyButton({ message }: { message: UIMessage }) {
   const [copied, setCopied] = useState(false)
+  const { t } = useTranslation()
+  const cm = t.dashboard.chatMessage
 
   const handleCopy = async () => {
     const text = message.parts
@@ -251,10 +262,10 @@ function CopyButton({ message }: { message: UIMessage }) {
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
-      toast.success("Disalin!")
+      toast.success(cm.messageCopied)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      toast.error("Gagal menyalin teks")
+      toast.error(cm.messageCopyFail)
     }
   }
 
@@ -262,7 +273,7 @@ function CopyButton({ message }: { message: UIMessage }) {
     <button
       onClick={handleCopy}
       className="absolute -bottom-6 right-0 rounded-md p-1 text-muted-foreground/60 transition-all hover:text-foreground md:opacity-0 md:group-hover:opacity-100"
-      aria-label="Salin pesan"
+      aria-label={cm.copyMessage}
     >
       {copied ? (
         <Check className="h-3 w-3 text-green-500" />
@@ -278,6 +289,8 @@ interface ChatMessageProps {
 }
 
 export function ChatMessage({ message }: ChatMessageProps) {
+  const { t } = useTranslation()
+  const cm = t.dashboard.chatMessage
   const isUser = message.role === "user"
 
   return (
@@ -362,7 +375,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                     className="my-1 flex items-center gap-2 text-xs text-muted-foreground"
                   >
                     <TypingIndicator />
-                    <span>Menganalisis data...</span>
+                    <span>{cm.analyzing}</span>
                   </div>
                 )
               }

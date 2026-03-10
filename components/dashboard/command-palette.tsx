@@ -29,6 +29,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
+import { useTranslation } from "@/lib/i18n/language-context"
 
 interface CommandAction {
   id: string
@@ -42,6 +43,9 @@ export function CommandPalette() {
   const [open, setOpen] = useState(false)
   const router = useRouter()
   const { resolvedTheme, setTheme } = useTheme()
+  const { t } = useTranslation()
+  const nav = t.dashboard.sidebar.nav
+  const cp = t.dashboard.commandPalette
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -64,98 +68,98 @@ export function CommandPalette() {
     () => [
       {
         id: "dashboard",
-        label: "Dashboard",
+        label: nav.dashboard,
         icon: LayoutDashboard,
         action: () => navigate("/dashboard"),
         keywords: "beranda home",
       },
       {
         id: "assessment",
-        label: "Assessment",
+        label: nav.assessment,
         icon: ClipboardList,
         action: () => navigate("/dashboard/assessment"),
         keywords: "penilaian evaluasi",
       },
       {
         id: "score",
-        label: "Skor Saya",
+        label: nav.myScore,
         icon: BarChart3,
         action: () => navigate("/dashboard/score"),
-        keywords: "nilai score",
+        keywords: "nilai score skor",
       },
       {
         id: "carbon",
-        label: "Jejak Karbon",
+        label: nav.carbonFootprint,
         icon: Footprints,
         action: () => navigate("/dashboard/carbon"),
-        keywords: "carbon footprint emisi",
+        keywords: "carbon footprint emisi jejak karbon",
       },
       {
         id: "compliance",
-        label: "Kepatuhan Regulasi",
+        label: nav.compliance,
         icon: Shield,
         action: () => navigate("/dashboard/compliance"),
-        keywords: "pojk regulasi peraturan",
+        keywords: "pojk regulasi peraturan kepatuhan",
       },
       {
         id: "simulator",
-        label: "Simulator Aksi",
+        label: nav.simulator,
         icon: SlidersHorizontal,
         action: () => navigate("/dashboard/simulator"),
-        keywords: "simulasi what-if",
+        keywords: "simulasi what-if aksi",
       },
       {
         id: "sdg",
-        label: "Dampak SDG",
+        label: nav.sdgImpact,
         icon: Globe,
         action: () => navigate("/dashboard/sdg"),
-        keywords: "sustainable development goals",
+        keywords: "sustainable development goals dampak",
       },
       {
         id: "roadmap",
-        label: "Roadmap",
+        label: nav.roadmap,
         icon: Map,
         action: () => navigate("/dashboard/roadmap"),
         keywords: "rencana plan langkah",
       },
       {
         id: "report",
-        label: "Laporan",
+        label: nav.report,
         icon: FileText,
         action: () => navigate("/dashboard/score/report"),
-        keywords: "pdf download cetak",
+        keywords: "pdf download cetak laporan",
       },
       {
         id: "chat",
-        label: "AI Konsultan",
+        label: nav.aiConsultant,
         icon: MessageSquare,
         action: () => navigate("/dashboard/chat"),
-        keywords: "chat percakapan tanya",
+        keywords: "chat percakapan tanya konsultan",
       },
       {
         id: "progress",
-        label: "Progres",
+        label: nav.progress,
         icon: TrendingUp,
         action: () => navigate("/dashboard/progress"),
-        keywords: "perkembangan tracking",
+        keywords: "perkembangan tracking progres",
       },
       {
         id: "help",
-        label: "Bantuan",
+        label: nav.help,
         icon: HelpCircle,
         action: () => navigate("/dashboard/help"),
-        keywords: "faq panduan",
+        keywords: "faq panduan bantuan",
       },
       {
         id: "settings",
-        label: "Pengaturan",
+        label: nav.settings,
         icon: Settings,
         action: () => navigate("/dashboard/settings"),
-        keywords: "profil akun",
+        keywords: "profil akun pengaturan",
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [nav]
   )
 
   const themeActions: CommandAction[] = useMemo(
@@ -163,9 +167,7 @@ export function CommandPalette() {
       {
         id: "toggle-theme",
         label:
-          resolvedTheme === "dark"
-            ? "Beralih ke Mode Terang"
-            : "Beralih ke Mode Gelap",
+          resolvedTheme === "dark" ? cp.switchToLight : cp.switchToDark,
         icon: resolvedTheme === "dark" ? Sun : Moon,
         action: () => {
           setTheme(resolvedTheme === "dark" ? "light" : "dark")
@@ -174,15 +176,15 @@ export function CommandPalette() {
         keywords: "tema dark light mode",
       },
     ],
-    [resolvedTheme, setTheme]
+    [resolvedTheme, setTheme, cp]
   )
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Ketik perintah atau cari..." />
+      <CommandInput placeholder={cp.searchPlaceholder} />
       <CommandList>
-        <CommandEmpty>Tidak ditemukan.</CommandEmpty>
-        <CommandGroup heading="Navigasi">
+        <CommandEmpty>{cp.noResults}</CommandEmpty>
+        <CommandGroup heading={cp.navigation}>
           {navItems.map((item) => (
             <CommandItem
               key={item.id}
@@ -195,7 +197,7 @@ export function CommandPalette() {
           ))}
         </CommandGroup>
         <CommandSeparator />
-        <CommandGroup heading="Aksi">
+        <CommandGroup heading={cp.actions}>
           {themeActions.map((item) => (
             <CommandItem key={item.id} onSelect={item.action}>
               <item.icon className="mr-2 h-4 w-4" />

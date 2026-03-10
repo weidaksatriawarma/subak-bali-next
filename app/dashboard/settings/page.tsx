@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -16,6 +16,7 @@ import {
   HelpCircle,
 } from "lucide-react"
 import { useTour } from "@/hooks/use-tour"
+import { useTranslation } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -50,24 +51,27 @@ import {
 import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
 import { useCookieConsent } from "@/hooks/use-cookie-consent"
 import type { Industry, BusinessSize } from "@/types/database"
+import type { Resolver } from "react-hook-form"
 
-const profileSchema = z.object({
-  business_name: z.string().min(2, "Nama bisnis minimal 2 karakter"),
-  industry: z.enum([
-    "fnb",
-    "retail",
-    "manufacturing",
-    "services",
-    "agriculture",
-    "other",
-  ]),
-  business_size: z.enum(["micro", "small", "medium"]),
-  employee_count: z.number().min(1).optional(),
-  location: z.string().optional(),
-  description: z.string().optional(),
-})
+function getProfileSchema(validationMsg: string) {
+  return z.object({
+    business_name: z.string().min(2, validationMsg),
+    industry: z.enum([
+      "fnb",
+      "retail",
+      "manufacturing",
+      "services",
+      "agriculture",
+      "other",
+    ]),
+    business_size: z.enum(["micro", "small", "medium"]),
+    employee_count: z.number().min(1).optional(),
+    location: z.string().optional(),
+    description: z.string().optional(),
+  })
+}
 
-type ProfileFormValues = z.infer<typeof profileSchema>
+type ProfileFormValues = z.infer<ReturnType<typeof getProfileSchema>>
 
 export default function SettingsPage() {
   const router = useRouter()
@@ -80,9 +84,16 @@ export default function SettingsPage() {
     decline: declineCookies,
   } = useCookieConsent()
   const { resetTour } = useTour()
+  const { t } = useTranslation()
+  const s = t.dashboard.settings
+
+  const profileSchema = useMemo(
+    () => getProfileSchema(s.validationBusinessName),
+    [s.validationBusinessName]
+  )
 
   const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileSchema),
+    resolver: zodResolver(profileSchema) as Resolver<ProfileFormValues>,
     defaultValues: {
       business_name: "",
       industry: undefined,
@@ -151,11 +162,11 @@ export default function SettingsPage() {
     setSaving(false)
 
     if (error) {
-      toast.error("Gagal menyimpan perubahan")
+      toast.error(s.saveError)
       return
     }
 
-    toast.success("Profil berhasil diperbarui")
+    toast.success(s.saveSuccess)
   }
 
   async function handleSignOut() {
@@ -196,10 +207,8 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Pengaturan</h1>
-        <p className="text-sm text-muted-foreground">
-          Kelola profil bisnis dan akun Anda
-        </p>
+        <h1 className="text-2xl font-bold tracking-tight">{s.title}</h1>
+        <p className="text-sm text-muted-foreground">{s.subtitle}</p>
       </div>
 
       {/* Profil Bisnis */}
@@ -207,7 +216,7 @@ export default function SettingsPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Settings className="h-5 w-5" />
-            Profil Bisnis
+            {s.businessProfile}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -224,10 +233,10 @@ export default function SettingsPage() {
                 name="business_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nama Bisnis</FormLabel>
+                    <FormLabel>{s.businessName}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Contoh: Warung Makan Sederhana"
+                        placeholder={s.businessNamePlaceholder}
                         {...field}
                       />
                     </FormControl>
@@ -242,14 +251,14 @@ export default function SettingsPage() {
                   name="industry"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Jenis Industri</FormLabel>
+                      <FormLabel>{s.industryType}</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Pilih jenis industri" />
+                            <SelectValue placeholder={s.industryPlaceholder} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -275,14 +284,16 @@ export default function SettingsPage() {
                   name="business_size"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Ukuran Bisnis</FormLabel>
+                      <FormLabel>{s.businessSize}</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Pilih ukuran bisnis" />
+                            <SelectValue
+                              placeholder={s.businessSizePlaceholder}
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -309,12 +320,12 @@ export default function SettingsPage() {
                 name="employee_count"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Jumlah Karyawan</FormLabel>
+                    <FormLabel>{s.employeeCount}</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         min={1}
-                        placeholder="Contoh: 10"
+                        placeholder={s.employeePlaceholder}
                         {...field}
                         value={field.value ?? ""}
                       />
@@ -329,9 +340,12 @@ export default function SettingsPage() {
                 name="location"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Lokasi (Kota/Provinsi)</FormLabel>
+                    <FormLabel>{s.location}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Contoh: Denpasar, Bali" {...field} />
+                      <Input
+                        placeholder={s.locationPlaceholder}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -343,10 +357,10 @@ export default function SettingsPage() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Deskripsi Singkat Bisnis</FormLabel>
+                    <FormLabel>{s.description}</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Ceritakan sedikit tentang bisnis Anda..."
+                        placeholder={s.descriptionPlaceholder}
                         rows={3}
                         {...field}
                       />
@@ -358,7 +372,7 @@ export default function SettingsPage() {
 
               <div className="flex justify-end">
                 <Button type="submit" disabled={saving}>
-                  {saving ? "Menyimpan..." : "Simpan Perubahan"}
+                  {saving ? s.saving : s.saveChanges}
                 </Button>
               </div>
             </form>
@@ -371,19 +385,18 @@ export default function SettingsPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <ClipboardList className="h-5 w-5" />
-            Assessment
+            {s.assessment}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="mb-4 text-sm text-muted-foreground">
-            Ambil assessment ulang untuk memperbarui skor keberlanjutan Anda
-            berdasarkan kondisi terkini.
+            {s.assessmentDesc}
           </p>
           <Button
             variant="outline"
             onClick={() => router.push("/dashboard/assessment")}
           >
-            Ambil Assessment Ulang
+            {s.retakeAssessment}
           </Button>
         </CardContent>
       </Card>
@@ -393,32 +406,29 @@ export default function SettingsPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Cookie className="h-5 w-5" />
-            Preferensi Cookie
+            {s.cookiePreferences}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="mb-4 text-sm text-muted-foreground">
-            Cookie fungsional menyimpan preferensi tampilan Anda (bahasa, tema,
-            status sidebar) agar tetap tersimpan saat kembali berkunjung.
-          </p>
+          <p className="mb-4 text-sm text-muted-foreground">{s.cookieDesc}</p>
           <div className="flex items-center gap-3">
             <span className="text-sm">
-              Status:{" "}
+              {s.cookieStatus}:{" "}
               <span className="font-medium">
                 {cookieStatus === "accepted"
-                  ? "Diterima"
+                  ? s.cookieAccepted
                   : cookieStatus === "declined"
-                    ? "Ditolak"
-                    : "Belum dipilih"}
+                    ? s.cookieDeclined
+                    : s.cookieNotChosen}
               </span>
             </span>
             {cookieStatus === "accepted" ? (
               <Button variant="outline" size="sm" onClick={declineCookies}>
-                Tolak Cookie
+                {s.declineCookies}
               </Button>
             ) : (
               <Button variant="outline" size="sm" onClick={acceptCookies}>
-                Terima Cookie
+                {s.acceptCookies}
               </Button>
             )}
           </div>
@@ -430,14 +440,11 @@ export default function SettingsPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5" />
-            Bantuan
+            {s.helpTitle}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="mb-4 text-sm text-muted-foreground">
-            Mulai ulang tur interaktif untuk melihat fitur-fitur utama
-            dashboard.
-          </p>
+          <p className="mb-4 text-sm text-muted-foreground">{s.helpDesc}</p>
           <Button
             variant="outline"
             onClick={() => {
@@ -445,7 +452,7 @@ export default function SettingsPage() {
               router.push("/dashboard")
             }}
           >
-            Mulai Tour
+            {s.startTour}
           </Button>
         </CardContent>
       </Card>
@@ -453,39 +460,38 @@ export default function SettingsPage() {
       {/* Akun */}
       <Card>
         <CardHeader>
-          <CardTitle>Akun</CardTitle>
+          <CardTitle>{s.account}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <p className="text-sm text-muted-foreground">Email</p>
+            <p className="text-sm text-muted-foreground">{s.email}</p>
             <p className="text-sm font-medium">{email}</p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button variant="outline" onClick={handleSignOut}>
               <LogOut className="mr-2 h-4 w-4" />
-              Keluar
+              {s.signOut}
             </Button>
 
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button variant="destructive">
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Hapus Akun
+                  {s.deleteAccount}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Hapus Akun?</AlertDialogTitle>
+                  <AlertDialogTitle>{s.deleteAccountTitle}</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Tindakan ini tidak dapat dibatalkan. Semua data Anda akan
-                    dihapus.
+                    {s.deleteAccountDesc}
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Batal</AlertDialogCancel>
+                  <AlertDialogCancel>{s.cancelBtn}</AlertDialogCancel>
                   <AlertDialogAction onClick={handleDeleteAccount}>
-                    Ya, Hapus Akun
+                    {s.confirmDelete}
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

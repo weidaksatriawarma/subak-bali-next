@@ -61,7 +61,7 @@ export function RoadmapItemCard({
     if (checked) {
       setJustCompleted(true)
       setTimeout(() => setJustCompleted(false), 500)
-      toast.success("Langkah berhasil diselesaikan!")
+      toast.success(rd.stepCompletedToast)
       if (typeof navigator !== "undefined" && navigator.vibrate)
         navigator.vibrate(50)
     }

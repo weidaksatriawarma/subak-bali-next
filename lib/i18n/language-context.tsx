@@ -29,14 +29,14 @@ function subscribe(callback: () => void) {
 
 function getSnapshot(): Locale {
   if (!isFunctionalCookiesAllowed()) {
-    return transientLocale ?? "id"
+    return transientLocale ?? "en"
   }
   const stored = localStorage.getItem(STORAGE_KEY)
-  return stored === "en" || stored === "id" ? stored : "id"
+  return stored === "en" || stored === "id" ? stored : "en"
 }
 
 function getServerSnapshot(): Locale {
-  return "id"
+  return "en"
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {

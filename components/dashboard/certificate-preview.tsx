@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import QRCode from "qrcode"
 import { getTierBgClass, getTierName } from "@/lib/certificate-utils"
+import { useTranslation } from "@/lib/i18n/language-context"
 import type { Category } from "@/types/database"
 
 interface CertificatePreviewProps {
@@ -23,14 +24,6 @@ const categoryKeys: Category[] = [
   "policy",
 ]
 
-const categoryLabelsMap: Record<Category, string> = {
-  energy: "Energi",
-  waste: "Limbah",
-  supply_chain: "Rantai Pasok",
-  operations: "Operasional",
-  policy: "Kebijakan",
-}
-
 const CIRCUMFERENCE = 2 * Math.PI * 68
 
 export function CertificatePreview({
@@ -42,6 +35,10 @@ export function CertificatePreview({
   industryRank,
   certificateToken,
 }: CertificatePreviewProps) {
+  const { locale, t } = useTranslation()
+  const cert = t.dashboard.certificatePreview
+  const categories = t.dashboard.common.categories
+
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
   const tierName = getTierName(totalScore)
   const bgClass = getTierBgClass(totalScore)
@@ -59,11 +56,14 @@ export function CertificatePreview({
       .catch(() => {})
   }, [certificateToken])
 
-  const dateStr = new Date(assessmentDate).toLocaleDateString("id-ID", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const dateStr = new Date(assessmentDate).toLocaleDateString(
+    locale === "en" ? "en-US" : "id-ID",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    },
+  )
 
   return (
     <div
@@ -79,16 +79,14 @@ export function CertificatePreview({
           <p className="text-[10px] font-semibold tracking-[0.3em] text-white/50 uppercase sm:text-xs">
             SUBAK HIJAU
           </p>
-          <h2 className="mt-1 text-sm font-bold sm:text-xl">
-            SERTIFIKAT KEBERLANJUTAN
-          </h2>
+          <h2 className="mt-1 text-sm font-bold sm:text-xl">{cert.title}</h2>
           <div className="mx-auto mt-1.5 h-px w-32 bg-gradient-to-r from-transparent via-white/50 to-transparent sm:w-48" />
         </div>
 
         {/* Issued to */}
         <div className="text-center">
           <p className="text-[10px] text-white/60 italic sm:text-sm">
-            Diberikan kepada
+            {cert.issuedTo}
           </p>
           <p className="mt-0.5 text-base font-bold sm:mt-1 sm:text-2xl">
             {businessName}
@@ -168,7 +166,7 @@ export function CertificatePreview({
                 />
               </div>
               <span className="text-[7px] text-white/60 sm:text-[10px]">
-                {categoryLabelsMap[cat]}
+                {categories[cat]}
               </span>
             </div>
           ))}
@@ -177,10 +175,10 @@ export function CertificatePreview({
         {/* Footer */}
         <div className="flex w-full items-end justify-between">
           <p className="text-[8px] text-white/40 sm:text-[10px]">
-            Tanggal: {dateStr}
+            {cert.dateLabel}: {dateStr}
           </p>
           <p className="hidden text-[8px] text-white/30 sm:block sm:text-[10px]">
-            Subak Hijau — AI Sustainability untuk UMKM
+            {cert.footer}
           </p>
           {qrDataUrl && (
             <img

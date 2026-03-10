@@ -20,11 +20,11 @@ const fontMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://subakhijau.app"),
   title: {
-    default: "Subak Hijau — Konsultan Sustainability AI untuk UMKM Indonesia",
+    default: "Subak Hijau — AI Sustainability Consultant for Indonesian MSMEs",
     template: "%s | Subak Hijau",
   },
   description:
-    "Subak Hijau membantu UMKM Indonesia menilai dampak lingkungan, mendapatkan skor sustainability, dan roadmap AI untuk bisnis yang lebih hijau.",
+    "Subak Hijau helps Indonesian MSMEs assess environmental impact, get sustainability scores, and AI roadmaps for a greener business.",
   keywords: [
     "sustainability",
     "UMKM",
@@ -37,18 +37,18 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Tim Subak Code" }],
   openGraph: {
-    title: "Subak Hijau — Konsultan Sustainability AI untuk UMKM Indonesia",
+    title: "Subak Hijau — AI Sustainability Consultant for Indonesian MSMEs",
     description:
-      "Membantu 65 juta UMKM Indonesia menilai, merencanakan, dan melacak strategi sustainability bisnis dengan AI.",
+      "Helping 65 million Indonesian MSMEs assess, plan, and track business sustainability strategies with AI.",
     siteName: "Subak Hijau",
-    locale: "id_ID",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Subak Hijau — Konsultan Sustainability AI untuk UMKM Indonesia",
+    title: "Subak Hijau — AI Sustainability Consultant for Indonesian MSMEs",
     description:
-      "Membantu 65 juta UMKM Indonesia menilai, merencanakan, dan melacak strategi sustainability bisnis dengan AI.",
+      "Helping 65 million Indonesian MSMEs assess, plan, and track business sustainability strategies with AI.",
   },
   robots: {
     index: true,
@@ -63,7 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="id"
+      lang="en"
       suppressHydrationWarning
       className={cn(
         "antialiased",
@@ -114,7 +114,7 @@ export default function RootLayout({
               url: "https://subakhijau.app",
               logo: "https://subakhijau.app/icons/icon-512x512.png",
               description:
-                "Konsultan sustainability AI untuk UMKM Indonesia yang lebih hijau.",
+                "AI sustainability consultant for greener Indonesian MSMEs.",
               contactPoint: {
                 "@type": "ContactPoint",
                 contactType: "customer service",
@@ -125,12 +125,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:shadow-lg focus:ring-2 focus:ring-ring"
         >
-          Langsung ke konten utama
+          Skip to main content
         </a>
         <ThemeProvider>
           <LanguageProvider>

@@ -27,6 +27,7 @@ export function AchievementCard({
 }: AchievementCardProps) {
   const { t } = useTranslation()
   const g = t.dashboard.gamification
+  const ap = t.dashboard.achievementPage
   const [isGenerating, setIsGenerating] = useState(false)
 
   const generateCard = useCallback(async () => {
@@ -131,7 +132,7 @@ export function AchievementCard({
       if (unlockedBadges.length > 0) {
         ctx.fillStyle = "rgba(255,255,255,0.6)"
         ctx.font = "28px Arial, sans-serif"
-        ctx.fillText("Pencapaian", W / 2, 860)
+        ctx.fillText(ap.canvasAchievements, W / 2, 860)
 
         const cols = Math.min(unlockedBadges.length, 3)
         const badgeSize = 120
@@ -203,11 +204,7 @@ export function AchievementCard({
       ctx.font = "22px Arial, sans-serif"
       ctx.fillText("subakhijau.app", W / 2, H - 120)
       ctx.font = "18px Arial, sans-serif"
-      ctx.fillText(
-        "AI Sustainability Consultant untuk UMKM Indonesia",
-        W / 2,
-        H - 80
-      )
+      ctx.fillText(ap.canvasFooter, W / 2, H - 80)
 
       // Download
       const link = document.createElement("a")
@@ -215,9 +212,9 @@ export function AchievementCard({
       link.href = canvas.toDataURL("image/png")
       link.click()
 
-      toast.success("Achievement card berhasil diunduh!")
+      toast.success(ap.downloadSuccess)
     } catch {
-      toast.error("Gagal mengunduh achievement card")
+      toast.error(ap.downloadError)
     } finally {
       setIsGenerating(false)
     }
@@ -229,6 +226,7 @@ export function AchievementCard({
     streakWeeks,
     certificateToken,
     g,
+    ap,
   ])
 
   return (

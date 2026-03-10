@@ -30,16 +30,11 @@ import {
 } from "@/components/dashboard/chat-message"
 import { ChatInput } from "@/components/dashboard/chat-input"
 import { ChatHistory } from "@/components/dashboard/chat-history"
+import { useTranslation } from "@/lib/i18n/language-context"
 import type {
   ChatConversation,
   ChatMessage as DBChatMessage,
 } from "@/types/database"
-
-const SUGGESTED_PROMPTS = [
-  "Bagaimana cara mengurangi limbah plastik?",
-  "Tips hemat energi untuk UMKM",
-  "Apa itu ekonomi sirkular?",
-]
 
 function dbToUIMessage(msg: DBChatMessage): UIMessage {
   return {
@@ -64,6 +59,8 @@ function ChatPanel({
   const [activeConvId, setActiveConvId] = useState(conversationId)
   const scrollRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
+  const { t } = useTranslation()
+  const cp = t.dashboard.chatPage
 
   const activeConvIdRef = useRef(activeConvId)
   activeConvIdRef.current = activeConvId
@@ -82,7 +79,7 @@ function ChatPanel({
     messages: initialMessages.length > 0 ? initialMessages : undefined,
     onError(error) {
       if (error.name === "AbortError") return
-      toast.error("AI sedang tidak tersedia. Coba lagi dalam beberapa saat.")
+      toast.error(cp.aiUnavailable)
     },
   })
 
@@ -141,15 +138,14 @@ function ChatPanel({
               </div>
               <div className="space-y-2">
                 <h2 className="text-xl font-semibold tracking-tight">
-                  Halo! Saya Subak Hijau
+                  {cp.greeting}
                 </h2>
                 <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-                  Konsultan sustainability AI Anda. Tanyakan apa saja tentang
-                  praktik bisnis berkelanjutan.
+                  {cp.greetingDesc}
                 </p>
               </div>
               <div className="flex flex-wrap justify-center gap-2 pt-1">
-                {SUGGESTED_PROMPTS.map((prompt) => (
+                {cp.suggestedPrompts.map((prompt) => (
                   <Badge
                     key={prompt}
                     variant="outline"
@@ -172,17 +168,17 @@ function ChatPanel({
           {status === "submitted" && (
             <div className="flex items-center gap-2.5 px-11 py-3 text-sm text-muted-foreground">
               <TypingIndicator />
-              <span>Subak Hijau sedang mengetik...</span>
+              <span>{cp.typing}</span>
             </div>
           )}
 
           {status === "error" && (
             <div className="mx-auto my-4 max-w-md rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-center text-sm">
               <p className="font-medium text-destructive">
-                Gagal mendapat respons dari AI.
+                {cp.errorTitle}
               </p>
               <p className="mt-1 text-muted-foreground">
-                Silakan coba kirim ulang pesan Anda.
+                {cp.errorRetry}
               </p>
             </div>
           )}
@@ -266,6 +262,8 @@ function ChatPageContent() {
   const conversationId = searchParams.get("id")
   const initialPromptRef = useRef(searchParams.get("prompt"))
   const [sheetOpen, setSheetOpen] = useState(false)
+  const { t } = useTranslation()
+  const cp = t.dashboard.chatPage
 
   useEffect(() => {
     if (initialPromptRef.current) {
@@ -356,13 +354,13 @@ function ChatPageContent() {
             </SheetTrigger>
             <SheetContent side="left" className="w-72 p-0">
               <SheetHeader className="border-b px-3 py-3">
-                <SheetTitle>Riwayat Chat</SheetTitle>
+                <SheetTitle>{cp.historyTitle}</SheetTitle>
               </SheetHeader>
               {historyPanel}
             </SheetContent>
           </Sheet>
           <span className="ml-2 text-sm font-medium text-muted-foreground">
-            Subak Hijau Chat
+            {cp.headerTitle}
           </span>
         </div>
 

@@ -34,7 +34,8 @@ export function BenchmarkCard({
   industryBenchmark,
   industryLabel,
 }: BenchmarkCardProps) {
-  const { locale } = useTranslation()
+  const { locale, t } = useTranslation()
+  const bm = t.dashboard.benchmark
   const delta = userScore - industryBenchmark
   const above = delta >= 0
   const percentile = getPercentileEstimate(userScore, industryBenchmark)
@@ -54,7 +55,7 @@ export function BenchmarkCard({
           ) : (
             <Minus className="size-5 text-muted-foreground" />
           )}
-          {locale === "en" ? "Industry Benchmark" : "Benchmark Industri"}
+          {bm.title}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -62,19 +63,19 @@ export function BenchmarkCard({
         <p className="text-sm">
           {locale === "en" ? (
             <>
-              Your score is{" "}
+              {bm.yourScore} is{" "}
               <span className="font-bold" style={{ color: barColor }}>
-                {above ? "above" : "below"} {percentile}%
+                {above ? bm.percentileAbove : bm.percentileBelow} {percentile}%
               </span>{" "}
-              of {industryLabel} businesses
+              {bm.of} {industryLabel} businesses
             </>
           ) : (
             <>
-              Skor Anda{" "}
+              {bm.yourScore}{" "}
               <span className="font-bold" style={{ color: barColor }}>
-                di {above ? "atas" : "bawah"} {percentile}%
+                {above ? bm.percentileAbove : bm.percentileBelow} {percentile}%
               </span>{" "}
-              perusahaan {industryLabel}
+              {bm.of} {industryLabel}
             </>
           )}
         </p>
@@ -86,9 +87,9 @@ export function BenchmarkCard({
             className="w-full"
             role="img"
             aria-label={
-              locale === "en"
-                ? `Benchmark comparison: Your score ${userScore}, Industry average ${industryBenchmark}`
-                : `Perbandingan benchmark: Skor Anda ${userScore}, Rata-rata industri ${industryBenchmark}`
+              bm.ariaLabel
+                .replace("{userScore}", String(userScore))
+                .replace("{benchmark}", String(industryBenchmark))
             }
           >
             {/* Gradient bar background */}
@@ -135,7 +136,7 @@ export function BenchmarkCard({
               fontSize="9"
               fontWeight="500"
             >
-              {locale === "en" ? "Avg" : "Rata²"}
+              {bm.avg}
             </text>
 
             {/* User score marker (pin shape) */}
@@ -175,7 +176,7 @@ export function BenchmarkCard({
         <div className="grid grid-cols-3 gap-3">
           <div className="rounded-lg bg-muted/50 p-3 text-center">
             <p className="text-xs text-muted-foreground">
-              {locale === "en" ? "Industry Avg" : "Rata-rata industri"}
+              {bm.avgFull}
             </p>
             <p className="mt-1 text-lg font-bold">
               {industryBenchmark}
@@ -186,7 +187,7 @@ export function BenchmarkCard({
           </div>
           <div className="rounded-lg bg-muted/50 p-3 text-center">
             <p className="text-xs text-muted-foreground">
-              {locale === "en" ? "Your Score" : "Skor Anda"}
+              {bm.yourScore}
             </p>
             <p className="mt-1 text-lg font-bold">
               {userScore}
@@ -197,14 +198,14 @@ export function BenchmarkCard({
           </div>
           <div className="rounded-lg bg-muted/50 p-3 text-center">
             <p className="text-xs text-muted-foreground">
-              {locale === "en" ? "Difference" : "Selisih"}
+              {bm.difference}
             </p>
             <p className="mt-1 text-lg font-bold" style={{ color: barColor }}>
               {delta > 0 ? "+" : ""}
               {delta}
               <span className="text-xs font-normal text-muted-foreground">
                 {" "}
-                {locale === "en" ? "pts" : "poin"}
+                {bm.pts}
               </span>
             </p>
           </div>

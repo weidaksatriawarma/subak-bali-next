@@ -21,7 +21,8 @@ type Range = "7d" | "30d" | "all"
 
 export function ProgressChart({ scores }: ProgressChartProps) {
   const [range, setRange] = useState<Range>("all")
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
+  const prg = t.dashboard.progress
 
   const now = new Date()
   const filteredScores = scores.filter((s) => {
@@ -32,7 +33,7 @@ export function ProgressChart({ scores }: ProgressChartProps) {
   })
 
   const data = filteredScores.map((s) => ({
-    date: new Date(s.created_at).toLocaleDateString("id-ID", {
+    date: new Date(s.created_at).toLocaleDateString(locale === "id" ? "id-ID" : "en-US", {
       day: "2-digit",
       month: "short",
     }),
@@ -71,8 +72,8 @@ export function ProgressChart({ scores }: ProgressChartProps) {
             />
             <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
             <Tooltip
-              formatter={(value) => [`${value}`, "Skor"]}
-              labelFormatter={(label) => `Tanggal: ${label}`}
+              formatter={(value) => [`${value}`, prg.chartScore]}
+              labelFormatter={(label) => `${prg.chartDateLabel} ${label}`}
             />
             <Line
               type="monotone"

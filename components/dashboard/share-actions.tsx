@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { toast } from "sonner"
+import { useTranslation } from "@/lib/i18n/language-context"
 import { Button } from "@/components/ui/button"
 import { Copy, Check } from "lucide-react"
 import QRCode from "qrcode"
@@ -37,6 +38,8 @@ export function ShareActions({
   shareDescription,
   labels,
 }: ShareActionsProps) {
+  const { t } = useTranslation()
+  const ap = t.dashboard.achievementPage
   const [copied, setCopied] = useState(false)
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
 
@@ -55,9 +58,9 @@ export function ShareActions({
       await navigator.clipboard.writeText(shareUrl)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-      toast.success("Link berhasil disalin!")
+      toast.success(ap.copySuccess)
     } catch {
-      toast.error("Gagal menyalin link")
+      toast.error(ap.copyError)
     }
   }
 

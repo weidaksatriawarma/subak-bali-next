@@ -355,7 +355,7 @@ export function SimulatorContent({
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg">
-            {locale === "id" ? "Skenario Perubahan" : "Change Scenarios"}
+            {sim.changeScenarios}
           </CardTitle>
           {activeToggles.size > 0 && (
             <Button
@@ -372,9 +372,7 @@ export function SimulatorContent({
         <CardContent>
           {availableScenarios.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              {locale === "id"
-                ? "Semua skenario sudah tercapai! Luar biasa!"
-                : "All scenarios already achieved! Amazing!"}
+              {sim.allAchieved}
             </p>
           ) : (
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">

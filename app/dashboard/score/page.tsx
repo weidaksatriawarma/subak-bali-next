@@ -1,8 +1,7 @@
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
-import { ClipboardList } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
-import { EmptyState } from "@/components/shared/empty-state"
+import { ScoreEmptyState } from "@/components/dashboard/score-empty-state"
 import { ScoreContent } from "@/components/dashboard/score-content"
 import { INDUSTRY_LABELS } from "@/lib/constants"
 import type { Score, Profile, Assessment } from "@/types/database"
@@ -46,13 +45,7 @@ export default async function ScorePage() {
   if (!score) {
     return (
       <div className="flex flex-1 items-center justify-center">
-        <EmptyState
-          icon={ClipboardList}
-          title="Belum ada assessment"
-          description="Lengkapi assessment terlebih dahulu untuk mendapatkan skor keberlanjutan usaha Anda."
-          actionLabel="Mulai Assessment"
-          actionHref="/dashboard/assessment"
-        />
+        <ScoreEmptyState />
       </div>
     )
   }

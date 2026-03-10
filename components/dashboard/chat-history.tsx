@@ -16,22 +16,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/lib/i18n/language-context"
 import type { ChatConversation } from "@/types/database"
-
-function formatRelativeDate(dateStr: string) {
-  const date = new Date(dateStr)
-  const now = new Date()
-  const diffMs = now.getTime() - date.getTime()
-  const diffMins = Math.floor(diffMs / 60000)
-  const diffHours = Math.floor(diffMs / 3600000)
-  const diffDays = Math.floor(diffMs / 86400000)
-
-  if (diffMins < 1) return "Baru saja"
-  if (diffMins < 60) return `${diffMins} menit lalu`
-  if (diffHours < 24) return `${diffHours} jam lalu`
-  if (diffDays < 7) return `${diffDays} hari lalu`
-  return date.toLocaleDateString("id-ID", { day: "numeric", month: "short" })
-}
 
 interface ChatHistoryProps {
   conversations: ChatConversation[]
@@ -48,12 +34,33 @@ export function ChatHistory({
   onDelete,
   className,
 }: ChatHistoryProps) {
+  const { locale, t } = useTranslation()
+  const ch = t.dashboard.chatHistory
+
+  function formatRelativeDate(dateStr: string) {
+    const date = new Date(dateStr)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMs / 3600000)
+    const diffDays = Math.floor(diffMs / 86400000)
+
+    if (diffMins < 1) return ch.justNow
+    if (diffMins < 60) return `${diffMins} ${ch.minutesAgo}`
+    if (diffHours < 24) return `${diffHours} ${ch.hoursAgo}`
+    if (diffDays < 7) return `${diffDays} ${ch.daysAgo}`
+    return date.toLocaleDateString(locale === "en" ? "en-US" : "id-ID", {
+      day: "numeric",
+      month: "short",
+    })
+  }
+
   return (
     <div className={cn("flex h-full flex-col", className)}>
       <div className="p-3">
         <Button onClick={onNewChat} className="w-full" size="sm">
           <Plus className="mr-2 h-4 w-4" />
-          Percakapan Baru
+          {ch.newConversation}
         </Button>
       </div>
 
@@ -93,16 +100,15 @@ export function ChatHistory({
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Hapus percakapan?</AlertDialogTitle>
+                    <AlertDialogTitle>{ch.deleteTitle}</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Percakapan ini akan dihapus secara permanen dan tidak
-                      dapat dikembalikan.
+                      {ch.deleteDescription}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Batal</AlertDialogCancel>
+                    <AlertDialogCancel>{ch.cancel}</AlertDialogCancel>
                     <AlertDialogAction onClick={() => onDelete(conv.id)}>
-                      Hapus
+                      {ch.delete}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
@@ -112,7 +118,7 @@ export function ChatHistory({
 
           {conversations.length === 0 && (
             <p className="px-3 py-8 text-center text-sm text-muted-foreground">
-              Belum ada percakapan
+              {ch.empty}
             </p>
           )}
         </div>

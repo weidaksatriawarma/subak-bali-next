@@ -37,7 +37,6 @@ const ProgressChart = dynamic(
 )
 import { StreakCounter } from "@/components/dashboard/streak-counter"
 import { computeWeeklyStreak } from "@/lib/gamification/streaks"
-import { CATEGORY_LABELS } from "@/lib/constants"
 import { calculatePotentialSavings } from "@/lib/carbon"
 import type { RoadmapItem, Category, BusinessSize } from "@/types/database"
 
@@ -59,7 +58,9 @@ interface Milestone {
 }
 
 export default function ProgressPage() {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
+  const prg = t.dashboard.progress
+  const cats = t.dashboard.common.categories
   const [scores, setScores] = useState<ScoreData[]>([])
   const [items, setItems] = useState<RoadmapItem[]>([])
   const [businessSize, setBusinessSize] = useState<BusinessSize>("small")
@@ -118,9 +119,9 @@ export default function ProgressPage() {
       <div>
         <EmptyState
           icon={TrendingUp}
-          title="Belum ada data progres"
-          description="Selesaikan assessment untuk mulai melacak progres keberlanjutan usaha Anda."
-          actionLabel="Mulai Assessment"
+          title={prg.emptyTitle}
+          description={prg.emptyDescription}
+          actionLabel={prg.startAssessment}
           actionHref="/dashboard/assessment"
         />
       </div>
@@ -153,7 +154,7 @@ export default function ProgressPage() {
         : 0
     return {
       category: cat,
-      label: CATEGORY_LABELS[cat],
+      label: cats[cat],
       completed: catCompleted,
       total: catItems.length,
       percent,
@@ -173,38 +174,38 @@ export default function ProgressPage() {
   const milestones: Milestone[] = [
     {
       id: "first-assessment",
-      label: "Assessment Pertama",
-      description: "Menyelesaikan assessment pertama",
+      label: prg.milestoneFirstAssessment,
+      description: prg.milestoneFirstAssessmentDesc,
       unlocked: scores.length >= 1,
     },
     {
       id: "score-50",
-      label: "Skor 50+",
-      description: "Mencapai skor total 50 atau lebih",
+      label: prg.milestoneScore50,
+      description: prg.milestoneScore50Desc,
       unlocked: latestScore >= 50,
     },
     {
       id: "five-steps",
-      label: "5 Langkah Selesai",
-      description: "Menyelesaikan 5 langkah roadmap",
+      label: prg.milestone5Steps,
+      description: prg.milestone5StepsDesc,
       unlocked: completedItems.length >= 5,
     },
     {
       id: "score-80",
-      label: "Skor 80+",
-      description: "Mencapai skor total 80 atau lebih",
+      label: prg.milestoneScore80,
+      description: prg.milestoneScore80Desc,
       unlocked: latestScore >= 80,
     },
     {
       id: "streak-4",
-      label: "4 Minggu Berturut-turut",
-      description: "Menyelesaikan langkah roadmap 4 minggu berturut-turut",
+      label: prg.milestoneStreak4,
+      description: prg.milestoneStreak4Desc,
       unlocked: streak.longestStreak >= 4,
     },
     {
       id: "streak-8",
-      label: "8 Minggu Berturut-turut",
-      description: "Menyelesaikan langkah roadmap 8 minggu berturut-turut",
+      label: prg.milestoneStreak8,
+      description: prg.milestoneStreak8Desc,
       unlocked: streak.longestStreak >= 8,
     },
   ]
@@ -214,17 +215,17 @@ export default function ProgressPage() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">
-            Progres Keberlanjutan
+            {prg.title}
           </h1>
           <p className="text-sm text-muted-foreground">
-            Lacak perkembangan skor dan langkah-langkah yang telah diselesaikan
+            {prg.subtitle}
           </p>
         </div>
         {scores.length > 0 && (
           <ExportButton
             items={[
               {
-                label: "Export Riwayat Skor",
+                label: prg.exportScoreHistory,
                 onClick: () =>
                   exportToCSV(
                     formatScoresForExport(scores),
@@ -241,7 +242,7 @@ export default function ProgressPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            Riwayat Skor
+            {prg.scoreHistory}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -262,7 +263,7 @@ export default function ProgressPage() {
               <ListChecks className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Total Langkah</p>
+              <p className="text-sm text-muted-foreground">{prg.totalSteps}</p>
               <p className="text-2xl font-bold">{items.length}</p>
             </div>
           </CardContent>
@@ -273,7 +274,7 @@ export default function ProgressPage() {
               <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Selesai</p>
+              <p className="text-sm text-muted-foreground">{prg.completed}</p>
               <p className="text-2xl font-bold">{completedItems.length}</p>
             </div>
           </CardContent>
@@ -284,7 +285,7 @@ export default function ProgressPage() {
               <Clock className="h-5 w-5 text-orange-600 dark:text-orange-400" />
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">Dalam Proses</p>
+              <p className="text-sm text-muted-foreground">{prg.inProgress}</p>
               <p className="text-2xl font-bold">{incompleteItems.length}</p>
             </div>
           </CardContent>
@@ -296,7 +297,7 @@ export default function ProgressPage() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">
-                Persentase Selesai
+                {prg.completionPercent}
               </p>
               <p className="text-2xl font-bold">{completionPercent}%</p>
             </div>
@@ -308,7 +309,7 @@ export default function ProgressPage() {
       {items.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Progres per Kategori</CardTitle>
+            <CardTitle>{prg.categoryProgress}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {categoryProgress.map((cp) => (
@@ -330,7 +331,7 @@ export default function ProgressPage() {
       {recentCompletions.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Langkah Terakhir Diselesaikan</CardTitle>
+            <CardTitle>{prg.recentCompletions}</CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-3">
@@ -341,7 +342,7 @@ export default function ProgressPage() {
                     <p className="text-sm font-medium">{item.title}</p>
                     <p className="text-xs text-muted-foreground">
                       {new Date(item.completed_at!).toLocaleDateString(
-                        "id-ID",
+                        locale === "id" ? "id-ID" : "en-US",
                         {
                           day: "numeric",
                           month: "long",
@@ -351,7 +352,7 @@ export default function ProgressPage() {
                     </p>
                   </div>
                   <Badge variant="secondary" className="ml-auto shrink-0">
-                    {CATEGORY_LABELS[item.category]}
+                    {cats[item.category]}
                   </Badge>
                 </li>
               ))}
@@ -366,6 +367,7 @@ export default function ProgressPage() {
           completedItems={completedItems}
           scores={scores}
           businessSize={businessSize}
+          locale={locale}
         />
       )}
 
@@ -374,7 +376,7 @@ export default function ProgressPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Award className="h-5 w-5" />
-            Pencapaian
+            {prg.milestones}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -419,11 +421,16 @@ function SustainabilityAnalytics({
   completedItems,
   scores,
   businessSize,
+  locale,
 }: {
   completedItems: RoadmapItem[]
   scores: ScoreData[]
   businessSize: BusinessSize
+  locale: string
 }) {
+  const { t } = useTranslation()
+  const prg = t.dashboard.progress
+  const cats = t.dashboard.common.categories
   // Calculate completed categories for savings estimation
   const completedCategories: Record<string, number> = {}
   for (const item of completedItems) {
@@ -461,7 +468,7 @@ function SustainabilityAnalytics({
     <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
       <CardHeader>
         <CardTitle className="text-base">
-          Analitik Dampak Keberlanjutan
+          {prg.analyticsTitle}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -475,7 +482,7 @@ function SustainabilityAnalytics({
                 Rp {(savings.monthlySavingsRp / 1_000_000).toFixed(1)} jt
               </p>
               <p className="text-xs text-muted-foreground">
-                estimasi hemat/bulan
+                {prg.estSavingsMonth}
               </p>
             </div>
           </div>
@@ -486,11 +493,11 @@ function SustainabilityAnalytics({
             <div>
               <p className="text-lg font-bold text-green-700 dark:text-green-400">
                 {estimatedCO2ReductionKg > 0
-                  ? `${estimatedCO2ReductionKg.toLocaleString("id-ID")} kg`
+                  ? `${estimatedCO2ReductionKg.toLocaleString(locale === "id" ? "id-ID" : "en-US")} kg`
                   : "—"}
               </p>
               <p className="text-xs text-muted-foreground">
-                estimasi CO₂ berkurang
+                {prg.estCO2Reduced}
               </p>
             </div>
           </div>
@@ -500,10 +507,10 @@ function SustainabilityAnalytics({
             </div>
             <div>
               <p className="text-lg font-bold text-amber-700 dark:text-amber-400">
-                {roiMonths > 0 ? `${roiMonths} bulan` : "—"}
+                {roiMonths > 0 ? `${roiMonths} ${prg.months}` : "—"}
               </p>
               <p className="text-xs text-muted-foreground">
-                estimasi ROI balik modal
+                {prg.estROI}
               </p>
             </div>
           </div>
@@ -512,7 +519,7 @@ function SustainabilityAnalytics({
         {savings.byCategory.length > 0 && (
           <div className="mt-4 space-y-2">
             <p className="text-xs font-medium text-muted-foreground">
-              Estimasi penghematan per kategori
+              {prg.estSavingsPerCategory}
             </p>
             {savings.byCategory
               .filter((c) => c.savingsRp > 0)
@@ -521,10 +528,10 @@ function SustainabilityAnalytics({
                   key={c.category}
                   className="flex items-center justify-between text-sm"
                 >
-                  <span>{CATEGORY_LABELS[c.category as Category]}</span>
+                  <span>{cats[c.category as Category]}</span>
                   <span className="font-medium">
-                    Rp {c.savingsRp.toLocaleString("id-ID")}
-                    /bulan
+                    Rp {c.savingsRp.toLocaleString(locale === "id" ? "id-ID" : "en-US")}
+                    {prg.perMonth}
                   </span>
                 </div>
               ))}

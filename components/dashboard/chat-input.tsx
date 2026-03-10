@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { useTranslation } from "@/lib/i18n/language-context"
 
 interface ChatInputProps {
   input: string
@@ -18,6 +19,8 @@ export function ChatInput({
   onSubmit,
   isLoading,
 }: ChatInputProps) {
+  const { t } = useTranslation()
+  const ci = t.dashboard.chatInput
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const handleInput = () => {
@@ -58,7 +61,7 @@ export function ChatInput({
         onChange={(e) => onInputChange(e.target.value)}
         onInput={handleInput}
         onKeyDown={handleKeyDown}
-        placeholder="Ketik pesan Anda..."
+        placeholder={ci.placeholder}
         disabled={isLoading}
         rows={1}
         className="max-h-24 min-h-[2.5rem] flex-1 resize-none border-0 bg-transparent shadow-none focus-visible:ring-0"
@@ -70,7 +73,7 @@ export function ChatInput({
         className="h-9 w-9 shrink-0 rounded-lg"
       >
         <Send className="h-4 w-4" />
-        <span className="sr-only">Kirim</span>
+        <span className="sr-only">{ci.send}</span>
       </Button>
     </form>
   )

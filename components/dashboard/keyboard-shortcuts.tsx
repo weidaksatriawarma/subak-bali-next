@@ -7,21 +7,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { useTranslation } from "@/lib/i18n/language-context"
 
 interface Shortcut {
   keys: string[]
   description: string
 }
 
-const shortcuts: Shortcut[] = [
-  { keys: ["Ctrl", "K"], description: "Buka Command Palette" },
-  { keys: ["D"], description: "Toggle dark/light mode" },
-  { keys: ["Ctrl", "B"], description: "Toggle sidebar" },
-  { keys: ["?"], description: "Tampilkan keyboard shortcuts" },
-]
-
 export function KeyboardShortcuts() {
   const [open, setOpen] = useState(false)
+  const { t } = useTranslation()
+  const ks = t.dashboard.keyboardShortcuts
+
+  const shortcuts: Shortcut[] = [
+    { keys: ["Ctrl", "K"], description: ks.openCommandPalette },
+    { keys: ["D"], description: ks.toggleDarkMode },
+    { keys: ["Ctrl", "B"], description: ks.toggleSidebar },
+    { keys: ["?"], description: ks.showShortcuts },
+  ]
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -48,7 +51,7 @@ export function KeyboardShortcuts() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>Keyboard Shortcuts</DialogTitle>
+          <DialogTitle>{ks.title}</DialogTitle>
         </DialogHeader>
         <div className="space-y-2">
           {shortcuts.map((s) => (

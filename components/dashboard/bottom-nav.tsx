@@ -16,6 +16,7 @@ export function BottomNav() {
   const pathname = usePathname()
   const { t } = useTranslation()
   const d = t.dashboard.sidebar.nav
+  const bs = t.dashboard.bottomSheet
 
   const navItems = [
     {
@@ -50,7 +51,7 @@ export function BottomNav() {
     <nav
       className="fixed inset-x-0 bottom-0 z-50 border-t bg-background pb-[env(safe-area-inset-bottom)] md:hidden"
       role="navigation"
-      aria-label="Navigasi utama mobile"
+      aria-label={bs.ariaLabel}
     >
       <div className="flex h-14 items-center justify-around">
         {navItems.map((item) => {

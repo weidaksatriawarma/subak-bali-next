@@ -73,8 +73,9 @@ export function ScoreReport({
   businessSize = "small",
   certificateToken,
 }: ScoreReportProps) {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   const d = t.dashboard.score.report
+  const carb = t.dashboard.carbon
 
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
   const [pdfLoading, setPdfLoading] = useState(false)
@@ -93,13 +94,13 @@ export function ScoreReport({
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
-      toast.success("Laporan PDF berhasil diunduh!")
+      toast.success(d.downloadPdf + " ✓")
     } catch {
-      toast.error("Gagal mengunduh laporan PDF")
+      toast.error(d.downloadPdf + " ✗")
     } finally {
       setPdfLoading(false)
     }
-  }, [])
+  }, [d])
 
   useEffect(() => {
     if (!certificateToken) return
@@ -119,11 +120,14 @@ export function ScoreReport({
     ? score.aiSummary.split("\n").filter((l) => l.trim())
     : []
 
-  const today = new Date().toLocaleDateString("id-ID", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
+  const today = new Date().toLocaleDateString(
+    locale === "id" ? "id-ID" : "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  )
 
   return (
     <div
@@ -141,11 +145,11 @@ export function ScoreReport({
           ) : (
             <Download className="mr-2 h-4 w-4" />
           )}
-          Download PDF
+          {d.downloadPdf}
         </Button>
         <Button onClick={() => window.print()} variant="outline">
           <Printer className="mr-2 h-4 w-4" />
-          Print
+          {d.pdfPrint}
         </Button>
       </div>
 
@@ -224,7 +228,7 @@ export function ScoreReport({
                   className="mb-4 text-lg font-bold"
                   style={{ color: "#111827" }}
                 >
-                  Jejak Karbon & Dampak Lingkungan
+                  {d.carbonTitle}
                 </h2>
                 <div
                   className="grid grid-cols-3 gap-4 rounded-lg border p-4"
@@ -235,10 +239,10 @@ export function ScoreReport({
                       className="text-2xl font-bold"
                       style={{ color: "#16a34a" }}
                     >
-                      {carbon.totalCO2.toLocaleString("id-ID")} kg
+                      {carbon.totalCO2.toLocaleString(locale === "id" ? "id-ID" : "en-US")} kg
                     </p>
                     <p className="text-xs" style={{ color: "#6b7280" }}>
-                      CO₂/tahun
+                      {d.co2Year}
                     </p>
                   </div>
                   <div className="text-center">
@@ -249,7 +253,7 @@ export function ScoreReport({
                       Rp {(savings.monthlySavingsRp / 1_000_000).toFixed(1)} jt
                     </p>
                     <p className="text-xs" style={{ color: "#6b7280" }}>
-                      potensi hemat/bulan
+                      {d.potentialSavingsMonth}
                     </p>
                   </div>
                   <div className="text-center">
@@ -266,18 +270,17 @@ export function ScoreReport({
                 </div>
                 <div className="mt-3 space-y-1">
                   <p className="text-sm" style={{ color: "#374151" }}>
-                    Energi: {carbon.energyCO2.toLocaleString("id-ID")} kg
+                    {carb.energyLabel}: {carbon.energyCO2.toLocaleString(locale === "id" ? "id-ID" : "en-US")} kg
                     {" \u2022 "}
-                    Limbah: {carbon.wasteCO2.toLocaleString("id-ID")} kg
+                    {carb.wasteLabel}: {carbon.wasteCO2.toLocaleString(locale === "id" ? "id-ID" : "en-US")} kg
                     {" \u2022 "}
-                    Transportasi: {carbon.transportCO2.toLocaleString(
-                      "id-ID"
+                    {carb.transportLabel}: {carbon.transportCO2.toLocaleString(
+                      locale === "id" ? "id-ID" : "en-US"
                     )}{" "}
                     kg
                   </p>
                   <p className="text-xs" style={{ color: "#6b7280" }}>
-                    Setara {carbon.treeEquivalent} pohon per tahun untuk
-                    menyerap emisi
+                    {carbon.treeEquivalent} {d.treeEquivalentText}
                   </p>
                 </div>
               </div>
@@ -288,7 +291,7 @@ export function ScoreReport({
                   className="mb-3 text-lg font-bold"
                   style={{ color: "#111827" }}
                 >
-                  Kepatuhan Regulasi ({compliance.framework})
+                  {d.complianceTitle} ({compliance.framework})
                 </h2>
                 <div className="grid gap-2 sm:grid-cols-2">
                   {compliance.met.length > 0 && (
@@ -297,7 +300,7 @@ export function ScoreReport({
                         className="mb-1 text-sm font-medium"
                         style={{ color: "#16a34a" }}
                       >
-                        Terpenuhi ({compliance.met.length})
+                        {d.compliant} ({compliance.met.length})
                       </p>
                       <ul className="space-y-0.5">
                         {compliance.met.map((item) => (
@@ -318,7 +321,7 @@ export function ScoreReport({
                         className="mb-1 text-sm font-medium"
                         style={{ color: "#dc2626" }}
                       >
-                        Belum Terpenuhi ({compliance.unmet.length})
+                        {d.nonCompliant} ({compliance.unmet.length})
                       </p>
                       <ul className="space-y-0.5">
                         {compliance.unmet.map((item) => (
@@ -379,8 +382,8 @@ export function ScoreReport({
             }}
           >
             {score.totalScore >= score.industryBenchmark
-              ? `+${score.totalScore - score.industryBenchmark} di atas rata-rata`
-              : `${score.totalScore - score.industryBenchmark} di bawah rata-rata`}
+              ? `+${score.totalScore - score.industryBenchmark} ${d.aboveAverage}`
+              : `${score.totalScore - score.industryBenchmark} ${d.belowAverage}`}
           </p>
         </div>
       )}
@@ -457,7 +460,7 @@ export function ScoreReport({
                 width={80}
                 height={80}
               />
-              <span className="text-[10px]">Scan untuk verifikasi</span>
+              <span className="text-[10px]">{d.scanToVerify}</span>
             </div>
           </div>
         ) : (
