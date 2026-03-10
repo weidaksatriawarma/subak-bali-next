@@ -82,9 +82,7 @@ export function ComparisonContent({
                 </p>
               </div>
               <Button asChild>
-                <Link href="/dashboard/assessment">
-                  {comp.startAssessment}
-                </Link>
+                <Link href="/dashboard/assessment">{comp.startAssessment}</Link>
               </Button>
             </CardContent>
           </Card>

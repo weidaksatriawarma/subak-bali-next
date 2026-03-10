@@ -777,7 +777,11 @@ const id: Dictionary = {
     heading: "Lihat Apa yang Anda Dapatkan",
     subheading:
       "Skor sustainability, roadmap aksi, dan konsultan AI — semua dalam satu platform",
-    tabs: { score: "Skor & Analisis", roadmap: "Roadmap AI", chat: "Chat Konsultan" },
+    tabs: {
+      score: "Skor & Analisis",
+      roadmap: "Roadmap AI",
+      chat: "Chat Konsultan",
+    },
     scoreTab: {
       totalScore: "78/100",
       benchmarkText: "Di atas 72% perusahaan F&B",
@@ -1385,8 +1389,7 @@ const id: Dictionary = {
       shareTitle: "Bagikan Pencapaian",
       achievementsLabel: "Pencapaian",
       canvasAchievements: "Pencapaian",
-      canvasFooter:
-        "AI Sustainability Consultant untuk UMKM Indonesia",
+      canvasFooter: "AI Sustainability Consultant untuk UMKM Indonesia",
       downloadSuccess: "Achievement card berhasil diunduh!",
       downloadError: "Gagal mengunduh achievement card",
       copySuccess: "Link berhasil disalin!",
@@ -1489,8 +1492,7 @@ const id: Dictionary = {
         "Tips hemat energi untuk UMKM",
         "Apa itu ekonomi sirkular?",
       ],
-      aiUnavailable:
-        "AI sedang tidak tersedia. Coba lagi dalam beberapa saat.",
+      aiUnavailable: "AI sedang tidak tersedia. Coba lagi dalam beberapa saat.",
       headerTitle: "Subak Hijau Chat",
     },
     chatInput: {
@@ -1697,7 +1699,11 @@ const en: Dictionary = {
     heading: "See What You Get",
     subheading:
       "Sustainability score, action roadmap, and AI consultant — all in one platform",
-    tabs: { score: "Score & Analysis", roadmap: "AI Roadmap", chat: "AI Consultant" },
+    tabs: {
+      score: "Score & Analysis",
+      roadmap: "AI Roadmap",
+      chat: "AI Consultant",
+    },
     scoreTab: {
       totalScore: "78/100",
       benchmarkText: "Above 72% of F&B businesses",
@@ -2186,11 +2192,9 @@ const en: Dictionary = {
       milestoneScore80: "Score 80+",
       milestoneScore80Desc: "Reached a total score of 80 or higher",
       milestoneStreak4: "4 Weeks in a Row",
-      milestoneStreak4Desc:
-        "Completed roadmap steps 4 weeks in a row",
+      milestoneStreak4Desc: "Completed roadmap steps 4 weeks in a row",
       milestoneStreak8: "8 Weeks in a Row",
-      milestoneStreak8Desc:
-        "Completed roadmap steps 8 weeks in a row",
+      milestoneStreak8Desc: "Completed roadmap steps 8 weeks in a row",
       chartScore: "Score",
       chartDateLabel: "Date:",
     },

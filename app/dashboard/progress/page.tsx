@@ -214,12 +214,8 @@ export default function ProgressPage() {
     <div className="space-y-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            {prg.title}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {prg.subtitle}
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight">{prg.title}</h1>
+          <p className="text-sm text-muted-foreground">{prg.subtitle}</p>
         </div>
         {scores.length > 0 && (
           <ExportButton
@@ -467,9 +463,7 @@ function SustainabilityAnalytics({
   return (
     <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
       <CardHeader>
-        <CardTitle className="text-base">
-          {prg.analyticsTitle}
-        </CardTitle>
+        <CardTitle className="text-base">{prg.analyticsTitle}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4 sm:grid-cols-3">
@@ -509,9 +503,7 @@ function SustainabilityAnalytics({
               <p className="text-lg font-bold text-amber-700 dark:text-amber-400">
                 {roiMonths > 0 ? `${roiMonths} ${prg.months}` : "—"}
               </p>
-              <p className="text-xs text-muted-foreground">
-                {prg.estROI}
-              </p>
+              <p className="text-xs text-muted-foreground">{prg.estROI}</p>
             </div>
           </div>
         </div>
@@ -530,7 +522,10 @@ function SustainabilityAnalytics({
                 >
                   <span>{cats[c.category as Category]}</span>
                   <span className="font-medium">
-                    Rp {c.savingsRp.toLocaleString(locale === "id" ? "id-ID" : "en-US")}
+                    Rp{" "}
+                    {c.savingsRp.toLocaleString(
+                      locale === "id" ? "id-ID" : "en-US"
+                    )}
                     {prg.perMonth}
                   </span>
                 </div>

@@ -91,7 +91,7 @@ export function HeroDashboardMock() {
   const gauge = prefersReduced ? gaugeReduced : gaugeVariants
 
   return (
-    <div className="aspect-[4/3] lg:aspect-square w-full relative">
+    <div className="relative aspect-[4/3] w-full lg:aspect-square">
       {/* Decorative glow behind the dashboard */}
       <div className="absolute inset-0 rounded-2xl bg-primary/5 blur-3xl" />
 
@@ -142,9 +142,7 @@ export function HeroDashboardMock() {
                 </svg>
                 {/* Center score text */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-2xl font-bold text-foreground">
-                    78
-                  </span>
+                  <span className="text-2xl font-bold text-foreground">78</span>
                   <span className="text-[10px] text-muted-foreground">
                     / 100
                   </span>
@@ -152,8 +150,8 @@ export function HeroDashboardMock() {
               </div>
 
               <div className="flex items-center gap-1">
-                <div className="h-1.5 w-1.5 rounded-full bg-chart-2 animate-pulse" />
-                <span className="text-[10px] text-chart-2 font-medium">
+                <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-chart-2" />
+                <span className="text-[10px] font-medium text-chart-2">
                   +5 dari bulan lalu
                 </span>
               </div>
@@ -179,10 +177,7 @@ export function HeroDashboardMock() {
               </motion.div>
 
               <div className="flex flex-col items-center gap-1">
-                <Badge
-                  variant="secondary"
-                  className="text-[10px] px-2 py-0.5"
-                >
+                <Badge variant="secondary" className="px-2 py-0.5 text-[10px]">
                   Chef Sustainability
                 </Badge>
                 <div className="flex items-center gap-0.5">
@@ -221,7 +216,7 @@ export function HeroDashboardMock() {
                         {cat.label}
                       </span>
                     </div>
-                    <span className="text-[10px] font-semibold tabular-nums text-foreground">
+                    <span className="text-[10px] font-semibold text-foreground tabular-nums">
                       {cat.value}%
                     </span>
                   </div>
@@ -271,7 +266,7 @@ export function HeroDashboardMock() {
                   </span>
                   <Badge
                     variant="outline"
-                    className="text-[9px] px-1.5 py-0 h-4"
+                    className="h-4 px-1.5 py-0 text-[9px]"
                   >
                     Asisten
                   </Badge>

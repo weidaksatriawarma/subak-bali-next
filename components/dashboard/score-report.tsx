@@ -239,7 +239,10 @@ export function ScoreReport({
                       className="text-2xl font-bold"
                       style={{ color: "#16a34a" }}
                     >
-                      {carbon.totalCO2.toLocaleString(locale === "id" ? "id-ID" : "en-US")} kg
+                      {carbon.totalCO2.toLocaleString(
+                        locale === "id" ? "id-ID" : "en-US"
+                      )}{" "}
+                      kg
                     </p>
                     <p className="text-xs" style={{ color: "#6b7280" }}>
                       {d.co2Year}
@@ -270,11 +273,20 @@ export function ScoreReport({
                 </div>
                 <div className="mt-3 space-y-1">
                   <p className="text-sm" style={{ color: "#374151" }}>
-                    {carb.energyLabel}: {carbon.energyCO2.toLocaleString(locale === "id" ? "id-ID" : "en-US")} kg
+                    {carb.energyLabel}:{" "}
+                    {carbon.energyCO2.toLocaleString(
+                      locale === "id" ? "id-ID" : "en-US"
+                    )}{" "}
+                    kg
                     {" \u2022 "}
-                    {carb.wasteLabel}: {carbon.wasteCO2.toLocaleString(locale === "id" ? "id-ID" : "en-US")} kg
+                    {carb.wasteLabel}:{" "}
+                    {carbon.wasteCO2.toLocaleString(
+                      locale === "id" ? "id-ID" : "en-US"
+                    )}{" "}
+                    kg
                     {" \u2022 "}
-                    {carb.transportLabel}: {carbon.transportCO2.toLocaleString(
+                    {carb.transportLabel}:{" "}
+                    {carbon.transportCO2.toLocaleString(
                       locale === "id" ? "id-ID" : "en-US"
                     )}{" "}
                     kg

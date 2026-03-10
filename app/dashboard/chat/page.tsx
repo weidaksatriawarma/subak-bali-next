@@ -174,12 +174,8 @@ function ChatPanel({
 
           {status === "error" && (
             <div className="mx-auto my-4 max-w-md rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-center text-sm">
-              <p className="font-medium text-destructive">
-                {cp.errorTitle}
-              </p>
-              <p className="mt-1 text-muted-foreground">
-                {cp.errorRetry}
-              </p>
+              <p className="font-medium text-destructive">{cp.errorTitle}</p>
+              <p className="mt-1 text-muted-foreground">{cp.errorRetry}</p>
             </div>
           )}
         </div>

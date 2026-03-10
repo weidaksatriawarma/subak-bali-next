@@ -166,8 +166,7 @@ export function CommandPalette() {
     () => [
       {
         id: "toggle-theme",
-        label:
-          resolvedTheme === "dark" ? cp.switchToLight : cp.switchToDark,
+        label: resolvedTheme === "dark" ? cp.switchToLight : cp.switchToDark,
         icon: resolvedTheme === "dark" ? Sun : Moon,
         action: () => {
           setTheme(resolvedTheme === "dark" ? "light" : "dark")

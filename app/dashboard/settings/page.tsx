@@ -342,10 +342,7 @@ export default function SettingsPage() {
                   <FormItem>
                     <FormLabel>{s.location}</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder={s.locationPlaceholder}
-                        {...field}
-                      />
+                      <Input placeholder={s.locationPlaceholder} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -307,7 +307,8 @@ export function AppSidebar({ profile }: AppSidebarProps) {
                       {profile.business_name}
                     </span>
                     <span className="truncate text-xs text-muted-foreground">
-                      {t.dashboard.common.industryLabels[profile.industry] ?? profile.industry}
+                      {t.dashboard.common.industryLabels[profile.industry] ??
+                        profile.industry}
                     </span>
                   </div>
                   <MoreVertical className="ml-auto size-4" />

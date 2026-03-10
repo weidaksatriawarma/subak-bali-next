@@ -112,7 +112,9 @@ export function AchievementPreview({
       {/* Badge grid */}
       {unlockedBadges.length > 0 && (
         <div className="mt-4">
-          <p className="text-center text-sm text-white/50">{ap.achievementsLabel}</p>
+          <p className="text-center text-sm text-white/50">
+            {ap.achievementsLabel}
+          </p>
           <div className="mt-2 grid grid-cols-3 gap-2">
             {unlockedBadges.map((badge) => (
               <div

@@ -62,7 +62,7 @@ export function CertificatePreview({
       year: "numeric",
       month: "long",
       day: "numeric",
-    },
+    }
   )
 
   return (

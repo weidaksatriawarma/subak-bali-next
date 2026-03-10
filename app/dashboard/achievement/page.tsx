@@ -35,9 +35,10 @@ export default async function AchievementPage() {
     ])
 
   const score = scores?.[0] ?? null
-  const rank = score && profile
-    ? getIndustryRank(profile.industry, score.total_score).rank
-    : ""
+  const rank =
+    score && profile
+      ? getIndustryRank(profile.industry, score.total_score).rank
+      : ""
   const items = roadmapItems ?? []
 
   return (

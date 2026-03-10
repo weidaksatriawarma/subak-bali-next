@@ -86,11 +86,9 @@ export function BenchmarkCard({
             viewBox="0 0 320 60"
             className="w-full"
             role="img"
-            aria-label={
-              bm.ariaLabel
-                .replace("{userScore}", String(userScore))
-                .replace("{benchmark}", String(industryBenchmark))
-            }
+            aria-label={bm.ariaLabel
+              .replace("{userScore}", String(userScore))
+              .replace("{benchmark}", String(industryBenchmark))}
           >
             {/* Gradient bar background */}
             <defs>
@@ -175,9 +173,7 @@ export function BenchmarkCard({
         {/* Info cards */}
         <div className="grid grid-cols-3 gap-3">
           <div className="rounded-lg bg-muted/50 p-3 text-center">
-            <p className="text-xs text-muted-foreground">
-              {bm.avgFull}
-            </p>
+            <p className="text-xs text-muted-foreground">{bm.avgFull}</p>
             <p className="mt-1 text-lg font-bold">
               {industryBenchmark}
               <span className="text-xs font-normal text-muted-foreground">
@@ -186,9 +182,7 @@ export function BenchmarkCard({
             </p>
           </div>
           <div className="rounded-lg bg-muted/50 p-3 text-center">
-            <p className="text-xs text-muted-foreground">
-              {bm.yourScore}
-            </p>
+            <p className="text-xs text-muted-foreground">{bm.yourScore}</p>
             <p className="mt-1 text-lg font-bold">
               {userScore}
               <span className="text-xs font-normal text-muted-foreground">
@@ -197,9 +191,7 @@ export function BenchmarkCard({
             </p>
           </div>
           <div className="rounded-lg bg-muted/50 p-3 text-center">
-            <p className="text-xs text-muted-foreground">
-              {bm.difference}
-            </p>
+            <p className="text-xs text-muted-foreground">{bm.difference}</p>
             <p className="mt-1 text-lg font-bold" style={{ color: barColor }}>
               {delta > 0 ? "+" : ""}
               {delta}

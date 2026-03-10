@@ -272,7 +272,7 @@ function CopyButton({ message }: { message: UIMessage }) {
   return (
     <button
       onClick={handleCopy}
-      className="absolute -bottom-6 right-0 rounded-md p-1 text-muted-foreground/60 transition-all hover:text-foreground md:opacity-0 md:group-hover:opacity-100"
+      className="absolute right-0 -bottom-6 rounded-md p-1 text-muted-foreground/60 transition-all hover:text-foreground md:opacity-0 md:group-hover:opacity-100"
       aria-label={cm.copyMessage}
     >
       {copied ? (
@@ -336,7 +336,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
             if (part.type === "text") {
               if (isUser) {
                 return (
-                  <span key={i} className="whitespace-pre-wrap leading-relaxed">
+                  <span key={i} className="leading-relaxed whitespace-pre-wrap">
                     {part.text}
                   </span>
                 )

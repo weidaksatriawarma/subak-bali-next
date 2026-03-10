@@ -354,9 +354,7 @@ export function SimulatorContent({
       {/* Scenario Toggles */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-lg">
-            {sim.changeScenarios}
-          </CardTitle>
+          <CardTitle className="text-lg">{sim.changeScenarios}</CardTitle>
           {activeToggles.size > 0 && (
             <Button
               variant="ghost"

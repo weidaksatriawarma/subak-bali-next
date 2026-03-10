@@ -2,13 +2,7 @@
 
 import { useRef } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
-import {
-  BarChart3,
-  Bot,
-  CheckCircle2,
-  TrendingUp,
-  Zap,
-} from "lucide-react"
+import { BarChart3, Bot, CheckCircle2, TrendingUp, Zap } from "lucide-react"
 import { useTranslation } from "@/lib/i18n/language-context"
 import {
   FadeInUp,
@@ -263,16 +257,10 @@ export function ProductPreview() {
                               {item.title}
                             </p>
                             <div className="mt-2 flex flex-wrap gap-1.5">
-                              <Badge
-                                variant="default"
-                                className="text-[10px]"
-                              >
+                              <Badge variant="default" className="text-[10px]">
                                 {item.category}
                               </Badge>
-                              <Badge
-                                variant="outline"
-                                className="text-[10px]"
-                              >
+                              <Badge variant="outline" className="text-[10px]">
                                 {item.priority}
                               </Badge>
                               <Badge

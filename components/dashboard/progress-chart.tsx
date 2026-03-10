@@ -33,10 +33,13 @@ export function ProgressChart({ scores }: ProgressChartProps) {
   })
 
   const data = filteredScores.map((s) => ({
-    date: new Date(s.created_at).toLocaleDateString(locale === "id" ? "id-ID" : "en-US", {
-      day: "2-digit",
-      month: "short",
-    }),
+    date: new Date(s.created_at).toLocaleDateString(
+      locale === "id" ? "id-ID" : "en-US",
+      {
+        day: "2-digit",
+        month: "short",
+      }
+    ),
     score: s.total_score,
   }))
 
