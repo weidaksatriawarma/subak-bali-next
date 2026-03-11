@@ -23,6 +23,13 @@ test.describe("Public pages", () => {
   test("capture landing page", async ({ page }) => {
     await page.goto(`${BASE_URL}/`)
     await page.waitForLoadState("networkidle")
+
+    // Dismiss cookie consent banner
+    await page.evaluate(() =>
+      localStorage.setItem("subakhijau-cookie-consent", "accepted")
+    )
+    await page.reload()
+    await page.waitForLoadState("networkidle")
     await page.waitForTimeout(1500)
 
     await page.screenshot({
@@ -39,6 +46,14 @@ test.describe("Authenticated pages", () => {
   )
 
   test.beforeEach(async ({ page }) => {
+    // Pre-set localStorage to dismiss cookie consent and onboarding tour
+    await page.goto(BASE_URL)
+    await page.evaluate(() => {
+      localStorage.setItem("subakhijau-tour-completed", "true")
+      localStorage.setItem("subakhijau-onboarding-carousel-done", "true")
+      localStorage.setItem("subakhijau-cookie-consent", "accepted")
+    })
+
     // Navigate to login page
     await page.goto(`${BASE_URL}/login`)
     await page.waitForLoadState("networkidle")
