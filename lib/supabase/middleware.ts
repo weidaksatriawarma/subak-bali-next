@@ -35,6 +35,18 @@ export async function updateSession(request: NextRequest) {
     return response
   }
 
+  // Track cookies set by Supabase so we can forward them on redirects
+  let supabaseCookies: { name: string; value: string; options: object }[] = []
+
+  // Helper: create a redirect that preserves auth cookies
+  function redirect(url: URL): NextResponse {
+    const r = NextResponse.redirect(url)
+    supabaseCookies.forEach(({ name, value, options }) =>
+      r.cookies.set(name, value, options)
+    )
+    return r
+  }
+
   try {
     const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
@@ -42,6 +54,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
+          supabaseCookies = cookiesToSet
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           )
@@ -59,12 +72,12 @@ export async function updateSession(request: NextRequest) {
 
     // Protect dashboard routes
     if (request.nextUrl.pathname.startsWith("/dashboard") && !user) {
-      return NextResponse.redirect(new URL("/login", request.url))
+      return redirect(new URL("/login", request.url))
     }
 
     // Protect onboarding route
     if (request.nextUrl.pathname.startsWith("/onboarding") && !user) {
-      return NextResponse.redirect(new URL("/login", request.url))
+      return redirect(new URL("/login", request.url))
     }
 
     // Redirect logged-in users away from auth pages
@@ -73,7 +86,7 @@ export async function updateSession(request: NextRequest) {
         request.nextUrl.pathname === "/register") &&
       user
     ) {
-      return NextResponse.redirect(new URL("/dashboard", request.url))
+      return redirect(new URL("/dashboard", request.url))
     }
   } catch (error) {
     const message =
@@ -84,7 +97,7 @@ export async function updateSession(request: NextRequest) {
       request.nextUrl.pathname.startsWith("/dashboard") ||
       request.nextUrl.pathname.startsWith("/onboarding")
     ) {
-      return NextResponse.redirect(new URL("/login", request.url))
+      return redirect(new URL("/login", request.url))
     }
   }
 

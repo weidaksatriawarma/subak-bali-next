@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Mail, Lock, Chrome } from "lucide-react"
 
@@ -16,9 +16,15 @@ import { Separator } from "@/components/ui/separator"
 export function LoginForm() {
   const { t } = useTranslation()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const urlError = searchParams.get("error")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(
+    urlError === "auth_failed"
+      ? "Autentikasi gagal. Silakan coba lagi."
+      : null
+  )
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
 

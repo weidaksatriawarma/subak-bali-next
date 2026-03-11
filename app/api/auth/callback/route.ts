@@ -19,21 +19,11 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient()
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      if (data.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("id")
-          .eq("id", data.user.id)
-          .single()
-
-        if (!profile) {
-          return NextResponse.redirect(`${origin}/onboarding`)
-        }
-      }
       return NextResponse.redirect(`${origin}${next}`)
     }
+    console.error("[auth callback]", error.message)
   }
 
   return NextResponse.redirect(`${origin}/login?error=auth_failed`)
