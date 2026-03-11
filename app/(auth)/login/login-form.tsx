@@ -102,7 +102,9 @@ export function LoginForm() {
 
         <div className="relative my-6 flex items-center">
           <Separator className="flex-1" />
-          <span className="px-3 text-sm text-muted-foreground">{t.auth.or}</span>
+          <span className="px-3 text-sm text-muted-foreground">
+            {t.auth.or}
+          </span>
           <Separator className="flex-1" />
         </div>
 
