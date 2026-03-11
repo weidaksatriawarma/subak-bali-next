@@ -87,11 +87,11 @@ export const PACKAGING_TYPE_LABELS: Record<PackagingType, string> = {
 }
 
 export const TRANSPORTATION_TYPE_LABELS: Record<TransportationType, string> = {
-  gasoline: "Bensin",
-  electric: "Listrik",
-  hybrid: "Hybrid",
-  bicycle: "Sepeda",
-  none: "Tidak Ada",
+  gasoline: "Kendaraan Bensin/Solar",
+  electric: "Kendaraan Listrik",
+  hybrid: "Kendaraan Hybrid",
+  bicycle: "Sepeda/Jalan Kaki",
+  none: "Tidak Menggunakan Kendaraan",
 }
 
 export interface ScoreLabelInfo {

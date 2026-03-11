@@ -104,7 +104,7 @@ function ComplianceGauge({ percent }: { percent: number }) {
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius="55%"
+            innerRadius="60%"
             outerRadius="78%"
             startAngle={90}
             endAngle={-270}
@@ -119,7 +119,7 @@ function ComplianceGauge({ percent }: { percent: number }) {
             y="43%"
             textAnchor="middle"
             dominantBaseline="middle"
-            className="fill-foreground text-4xl font-bold"
+            className="fill-foreground text-3xl font-bold"
           >
             {displayPercent}%
           </text>

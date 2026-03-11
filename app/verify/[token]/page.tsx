@@ -2,7 +2,7 @@ import { cache } from "react"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import type { Metadata } from "next"
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient } from "@/lib/supabase/public"
 import { getScoreLabel } from "@/lib/constants"
 import { getIndustryRank } from "@/lib/gamification/industry-data"
 import { CheckCircle2, Shield, Trophy } from "lucide-react"
@@ -20,35 +20,25 @@ function getTierColor(score: number): string {
 }
 
 const getCertificateData = cache(async (token: string) => {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
-  const { data: score } = await supabase
-    .from("scores")
-    .select(
-      "total_score, energy_score, waste_score, supply_chain_score, operations_score, policy_score, created_at, user_id, certificate_token"
-    )
-    .eq("certificate_token", token)
-    .single()
+  const { data } = await supabase.rpc("get_public_certificate", {
+    p_token: token,
+  })
 
-  if (!score) return null
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("business_name, industry")
-    .eq("id", score.user_id)
-    .single()
+  if (!data) return null
 
   return {
-    totalScore: score.total_score,
-    energyScore: score.energy_score,
-    wasteScore: score.waste_score,
-    supplyChainScore: score.supply_chain_score,
-    operationsScore: score.operations_score,
-    policyScore: score.policy_score,
-    createdAt: score.created_at,
-    businessName: profile?.business_name ?? "Bisnis",
-    industry: (profile?.industry ?? "other") as Industry,
-    certificateToken: score.certificate_token,
+    totalScore: data.total_score as number,
+    energyScore: data.energy_score as number,
+    wasteScore: data.waste_score as number,
+    supplyChainScore: data.supply_chain_score as number,
+    operationsScore: data.operations_score as number,
+    policyScore: data.policy_score as number,
+    createdAt: data.created_at as string,
+    businessName: (data.business_name as string) ?? "Bisnis",
+    industry: ((data.industry as string) ?? "other") as Industry,
+    certificateToken: data.certificate_token as string,
   }
 })
 

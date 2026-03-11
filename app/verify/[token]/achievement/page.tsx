@@ -2,7 +2,7 @@ import { cache } from "react"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import type { Metadata } from "next"
-import { createClient } from "@/lib/supabase/server"
+import { createPublicClient } from "@/lib/supabase/public"
 import { getIndustryRank } from "@/lib/gamification/industry-data"
 import { computeAchievements } from "@/lib/achievements"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button"
 import { CheckCircle2, Shield, Award } from "lucide-react"
 import { AchievementPreview } from "@/components/dashboard/achievement-preview"
 import { AchievementCard } from "@/components/dashboard/achievement-card"
-import type { Industry, Category, RoadmapItem } from "@/types/database"
+import { ShareActions } from "@/components/dashboard/share-actions"
+import type { Industry, Category } from "@/types/database"
 
 const achievementNames = {
   first: "Langkah Pertama",
@@ -26,42 +27,25 @@ const achievementNames = {
 }
 
 const getAchievementData = cache(async (token: string) => {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
-  const { data: score } = await supabase
-    .from("scores")
-    .select(
-      "total_score, energy_score, waste_score, supply_chain_score, operations_score, policy_score, created_at, user_id, certificate_token"
-    )
-    .eq("certificate_token", token)
-    .single()
+  const { data } = await supabase.rpc("get_public_achievement", {
+    p_token: token,
+  })
 
-  if (!score) return null
+  if (!data) return null
 
-  const [{ data: profile }, { data: roadmapItems }] = await Promise.all([
-    supabase
-      .from("profiles")
-      .select("business_name, industry")
-      .eq("id", score.user_id)
-      .single(),
-    supabase
-      .from("roadmap_items")
-      .select("*")
-      .eq("user_id", score.user_id)
-      .returns<RoadmapItem[]>(),
-  ])
-
-  const industry = (profile?.industry ?? "other") as Industry
+  const industry = ((data.industry as string) ?? "other") as Industry
   const categoryScores: Record<Category, number> = {
-    energy: score.energy_score,
-    waste: score.waste_score,
-    supply_chain: score.supply_chain_score,
-    operations: score.operations_score,
-    policy: score.policy_score,
+    energy: data.energy_score as number,
+    waste: data.waste_score as number,
+    supply_chain: data.supply_chain_score as number,
+    operations: data.operations_score as number,
+    policy: data.policy_score as number,
   }
 
-  const { rank } = getIndustryRank(industry, score.total_score)
-  const items = roadmapItems ?? []
+  const { rank } = getIndustryRank(industry, data.total_score as number)
+  const items = (data.roadmap_items as { is_completed: boolean; category: Category }[]) ?? []
   const achievements = computeAchievements(
     items.map((i) => ({ is_completed: i.is_completed, category: i.category })),
     achievementNames,
@@ -70,12 +54,12 @@ const getAchievementData = cache(async (token: string) => {
   )
 
   return {
-    totalScore: score.total_score,
-    businessName: profile?.business_name ?? "Bisnis",
+    totalScore: data.total_score as number,
+    businessName: (data.business_name as string) ?? "Bisnis",
     industry,
     rank,
     achievements,
-    certificateToken: score.certificate_token,
+    certificateToken: data.certificate_token as string,
   }
 })
 
@@ -122,6 +106,8 @@ export default async function VerifyAchievementPage({
   if (!data) {
     notFound()
   }
+
+  const shareUrl = `https://subakhijau.app/verify/${token}/achievement`
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-green-50 to-emerald-50 p-4 dark:from-green-950/20 dark:to-emerald-950/20">
@@ -172,6 +158,18 @@ export default async function VerifyAchievementPage({
                 </Link>
               </Button>
             </div>
+
+            <ShareActions
+              shareUrl={shareUrl}
+              shareTitle={`🏆 ${data.businessName} meraih rank ${data.rank}!`}
+              shareDescription={`Skor sustainability ${data.totalScore}/100 di Subak Hijau`}
+              labels={{
+                copyLink: "Salin Link",
+                linkCopied: "Link disalin!",
+                shareWhatsApp: "WhatsApp",
+                scanToVerify: "Scan untuk verifikasi",
+              }}
+            />
 
             <p className="text-center text-xs text-muted-foreground">
               Subak Hijau — AI Sustainability Consultant untuk UMKM Indonesia

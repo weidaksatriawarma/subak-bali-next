@@ -593,6 +593,16 @@ export interface DashboardDictionary {
   assessmentPage: {
     title: string
     description: string
+    retakeGate: {
+      title: string
+      subtitle: string
+      lastScore: string
+      outOf100: string
+      lastDate: string
+      warning: string
+      viewResults: string
+      startNew: string
+    }
   }
   scorePage: {
     emptyTitle: string
@@ -1587,6 +1597,18 @@ const id: Dictionary = {
       title: "Assessment Sustainability",
       description:
         "Jawab pertanyaan berikut untuk menilai tingkat sustainability bisnis Anda.",
+      retakeGate: {
+        title: "Anda Sudah Memiliki Assessment",
+        subtitle:
+          "Memulai assessment baru akan menggantikan hasil sebelumnya termasuk skor, roadmap, dan sertifikat.",
+        lastScore: "Skor Terakhir",
+        outOf100: "dari 100",
+        lastDate: "Tanggal Assessment",
+        warning:
+          "Perhatian: Assessment baru akan menghapus skor, roadmap, dan sertifikat yang sudah ada.",
+        viewResults: "Lihat Hasil",
+        startNew: "Mulai Assessment Baru",
+      },
     },
     scorePage: {
       emptyTitle: "Belum ada assessment",
@@ -2503,6 +2525,18 @@ const en: Dictionary = {
       title: "Sustainability Assessment",
       description:
         "Answer the following questions to assess your business sustainability level.",
+      retakeGate: {
+        title: "You Already Have an Assessment",
+        subtitle:
+          "Starting a new assessment will replace your previous results including score, roadmap, and certificate.",
+        lastScore: "Last Score",
+        outOf100: "out of 100",
+        lastDate: "Assessment Date",
+        warning:
+          "Warning: A new assessment will overwrite your existing score, roadmap, and certificate.",
+        viewResults: "View Results",
+        startNew: "Start New Assessment",
+      },
     },
     scorePage: {
       emptyTitle: "No assessment yet",

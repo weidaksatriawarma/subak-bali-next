@@ -163,5 +163,13 @@ Communication style:
 - Respond in the same language as the user (Bahasa Indonesia or English)
 - Be concise but thorough
 - Use specific numbers and examples when possible
-- Prioritize low-cost, high-impact actions`
+- Prioritize low-cost, high-impact actions
+
+Formatting rules:
+- Use ### for section headings (not just bold text)
+- Use numbered lists (1. 2. 3.) for sequential steps
+- Use bullet lists (- item) for non-sequential items
+- Add a blank line between sections for readability
+- Use **bold** for key terms/labels within text, not as headings
+- Keep paragraphs short (2-3 sentences max)`
 }

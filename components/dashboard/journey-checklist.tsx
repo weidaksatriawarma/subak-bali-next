@@ -54,7 +54,7 @@ export function JourneyChecklist({
   if (dismissed || allDone) return null
 
   return (
-    <div className="fixed right-4 bottom-20 z-40 md:bottom-4">
+    <div className="fixed right-4 bottom-36 z-40 md:bottom-24">
       <AnimatePresence>
         {expanded && (
           <motion.div

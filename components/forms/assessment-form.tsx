@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation"
 import { useForm, type Resolver } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Info, Loader2 } from "lucide-react"
+import { Info, Loader2, Check, Circle } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 import { toast } from "sonner"
 
 import { createClient } from "@/lib/supabase/client"
@@ -87,10 +88,24 @@ const STEPS = [
   { title: "Pengelolaan Limbah", description: "Cara Anda mengelola limbah" },
   { title: "Rantai Pasok", description: "Sumber bahan baku dan kemasan" },
   { title: "Operasional", description: "Praktik operasional harian" },
-  { title: "Kebijakan", description: "Kebijakan sustainability bisnis" },
+  { title: "Kebijakan", description: "Kebijakan ramah lingkungan bisnis" },
 ]
 
 const STORAGE_KEY = "assessment-draft"
+
+const PROCESSING_STEPS = [
+  { id: "save", label: "Menyimpan data assessment" },
+  { id: "score", label: "Menghitung skor keberlanjutan" },
+  { id: "roadmap", label: "Membuat roadmap perbaikan" },
+  { id: "done", label: "Mempersiapkan hasil" },
+] as const
+
+const PROCESSING_SUBTITLES: Record<string, string> = {
+  save: "Menyimpan jawaban Anda ke database...",
+  score: "AI sedang menganalisis praktik bisnis Anda...",
+  roadmap: "AI sedang menyusun rekomendasi untuk bisnis Anda...",
+  done: "Sebentar lagi selesai...",
+}
 
 const DEFAULT_VALUES: Partial<AssessmentFormData> = {
   uses_energy_efficient_equipment: false,
@@ -108,6 +123,7 @@ function loadDraft(): {
   values: Partial<AssessmentFormData>
   step: number
 } | null {
+  if (typeof window === "undefined") return null
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
@@ -144,7 +160,7 @@ export function AssessmentForm() {
   const router = useRouter()
   const draft = useRef(loadDraft())
   const [step, setStep] = useState(() => draft.current?.step ?? 0)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [currentProcessingStep, setCurrentProcessingStep] = useState(-1)
   const [industry, setIndustry] = useState<Industry>("other")
   const [industryAnswers, setIndustryAnswers] = useState<
     Record<string, unknown>
@@ -242,7 +258,7 @@ export function AssessmentForm() {
   }
 
   async function onSubmit(formData: AssessmentFormData) {
-    setIsSubmitting(true)
+    setCurrentProcessingStep(0)
     try {
       const supabase = createClient()
       const {
@@ -279,6 +295,7 @@ export function AssessmentForm() {
 
       if (error || !assessment) throw error
 
+      setCurrentProcessingStep(1)
       const scoreRes = await fetch("/api/assessment/score", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -289,6 +306,7 @@ export function AssessmentForm() {
         throw new Error("Gagal menghasilkan skor")
       }
 
+      setCurrentProcessingStep(2)
       const roadmapRes = await fetch("/api/assessment/roadmap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -299,10 +317,11 @@ export function AssessmentForm() {
         throw new Error("Gagal menghasilkan roadmap")
       }
 
+      setCurrentProcessingStep(3)
       clearDraft()
       router.push("/dashboard/score")
     } catch (err) {
-      setIsSubmitting(false)
+      setCurrentProcessingStep(-1)
       toast.error(
         err instanceof Error
           ? err.message
@@ -313,14 +332,75 @@ export function AssessmentForm() {
 
   const progressValue = ((step + 1) / totalSteps) * 100
 
-  if (isSubmitting) {
+  if (currentProcessingStep >= 0) {
+    const progressValue =
+      ((currentProcessingStep + 1) / PROCESSING_STEPS.length) * 100
+    const activeStep = PROCESSING_STEPS[currentProcessingStep]
+
     return (
       <Card className="mx-auto max-w-2xl">
-        <CardContent className="flex flex-col items-center gap-4 py-16">
-          <Loader2 className="size-8 animate-spin text-primary" />
-          <p className="text-lg font-medium">Menganalisis assessment Anda...</p>
-          <p className="text-sm text-muted-foreground">
-            AI sedang menghitung skor dan membuat roadmap sustainability
+        <CardContent className="flex flex-col gap-6 py-10">
+          <div className="space-y-3 text-center">
+            <p className="text-lg font-medium">
+              Menganalisis Assessment Anda
+            </p>
+            <Progress value={progressValue} className="mx-auto max-w-sm" />
+          </div>
+
+          <div className="space-y-3">
+            {PROCESSING_STEPS.map((s, i) => {
+              const isCompleted = i < currentProcessingStep
+              const isActive = i === currentProcessingStep
+              return (
+                <div key={s.id} className="flex items-center gap-3">
+                  <AnimatePresence mode="wait">
+                    {isCompleted ? (
+                      <motion.div
+                        key="check"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 20,
+                        }}
+                        className="flex size-6 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/50"
+                      >
+                        <Check className="size-4 text-green-600 dark:text-green-400" />
+                      </motion.div>
+                    ) : isActive ? (
+                      <motion.div
+                        key="loader"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                      >
+                        <Loader2 className="size-6 animate-spin text-primary" />
+                      </motion.div>
+                    ) : (
+                      <Circle className="size-6 text-muted-foreground/40" />
+                    )}
+                  </AnimatePresence>
+                  <span
+                    className={
+                      isCompleted
+                        ? "text-muted-foreground line-through"
+                        : isActive
+                          ? "font-medium text-foreground"
+                          : "text-muted-foreground/60"
+                    }
+                  >
+                    {s.label}
+                    {isActive && "..."}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+
+          <p className="text-center text-sm text-muted-foreground">
+            {activeStep
+              ? PROCESSING_SUBTITLES[activeStep.id]
+              : "Mohon tunggu..."}
           </p>
         </CardContent>
       </Card>
@@ -509,7 +589,7 @@ export function AssessmentForm() {
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="supplier_sustainability_check">
-                  Mengecek Sustainability Supplier?
+                  Memilih Pemasok Ramah Lingkungan?
                 </Label>
                 <Switch
                   id="supplier_sustainability_check"
@@ -557,7 +637,7 @@ export function AssessmentForm() {
           {step === 3 && (
             <>
               <div className="flex items-center justify-between">
-                <Label htmlFor="water_conservation">Konservasi Air?</Label>
+                <Label htmlFor="water_conservation">Menghemat Penggunaan Air?</Label>
                 <Switch
                   id="water_conservation"
                   checked={watch("water_conservation")}
@@ -567,7 +647,7 @@ export function AssessmentForm() {
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="digital_operations">
-                  Operasional Digital/Paperless?
+                  Sudah Beralih ke Sistem Digital (Tanpa Kertas)?
                 </Label>
                 <Switch
                   id="digital_operations"
@@ -577,7 +657,7 @@ export function AssessmentForm() {
               </div>
 
               <div className="space-y-3">
-                <Label>Transportasi Utama</Label>
+                <Label>Transportasi Utama Bisnis (Pengiriman/Operasional)</Label>
                 <RadioGroup
                   value={transportationType}
                   onValueChange={(v) =>
@@ -614,7 +694,7 @@ export function AssessmentForm() {
             <>
               <div className="flex items-center justify-between">
                 <Label htmlFor="has_sustainability_policy">
-                  Memiliki Kebijakan Sustainability Tertulis?
+                  Memiliki Kebijakan Ramah Lingkungan Tertulis?
                 </Label>
                 <Switch
                   id="has_sustainability_policy"
@@ -627,7 +707,7 @@ export function AssessmentForm() {
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="employee_sustainability_training">
-                  Training Sustainability untuk Karyawan?
+                  Melatih Karyawan tentang Praktik Ramah Lingkungan?
                 </Label>
                 <Switch
                   id="employee_sustainability_training"
@@ -640,7 +720,7 @@ export function AssessmentForm() {
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="community_engagement">
-                  Keterlibatan dengan Komunitas/Lingkungan?
+                  Aktif Terlibat dalam Kegiatan Lingkungan Sekitar?
                 </Label>
                 <Switch
                   id="community_engagement"
