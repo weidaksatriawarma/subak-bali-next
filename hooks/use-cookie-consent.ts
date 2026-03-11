@@ -1,11 +1,10 @@
 "use client"
 
-import { useCallback, useSyncExternalStore } from "react"
+import { useCallback, useMemo, useSyncExternalStore } from "react"
 import {
   type ConsentDetails,
   getConsentDetails,
   setConsentDetails,
-  hasRespondedToConsent,
   clearFunctionalStorage,
   clearAnalyticsStorage,
   CONSENT_KEY,
@@ -16,32 +15,25 @@ function subscribe(callback: () => void) {
   return () => window.removeEventListener("storage", callback)
 }
 
-function getDetailsSnapshot(): ConsentDetails | null {
-  return getConsentDetails()
+// Return the raw string so useSyncExternalStore can compare with Object.is()
+function getRawSnapshot(): string | null {
+  if (typeof window === "undefined") return null
+  return localStorage.getItem(CONSENT_KEY)
 }
 
-function getRespondedSnapshot(): boolean {
-  return hasRespondedToConsent()
-}
-
-function getServerDetails(): ConsentDetails | null {
+function getServerSnapshot(): string | null {
   return null
-}
-function getServerResponded(): boolean {
-  return false
 }
 
 export function useCookieConsent() {
-  const details = useSyncExternalStore(
-    subscribe,
-    getDetailsSnapshot,
-    getServerDetails
-  )
-  const hasResponded = useSyncExternalStore(
-    subscribe,
-    getRespondedSnapshot,
-    getServerResponded
-  )
+  const raw = useSyncExternalStore(subscribe, getRawSnapshot, getServerSnapshot)
+
+  const hasResponded = raw !== null
+
+  const details = useMemo<ConsentDetails | null>(() => {
+    if (raw === null) return null
+    return getConsentDetails()
+  }, [raw])
 
   const acceptAll = useCallback(() => {
     setConsentDetails({ functional: true, analytics: true })
