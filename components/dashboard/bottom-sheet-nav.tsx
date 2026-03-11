@@ -75,7 +75,7 @@ export function BottomSheetNav() {
   const moreItems: NavItem[] = [
     { href: "/dashboard/roadmap", icon: Map, label: nav.roadmap },
     {
-      href: "/dashboard/carbon-footprint",
+      href: "/dashboard/carbon",
       icon: Footprints,
       label: nav.carbonFootprint,
     },
@@ -89,18 +89,18 @@ export function BottomSheetNav() {
       icon: FlaskConical,
       label: nav.simulator,
     },
-    { href: "/dashboard/sdg-impact", icon: Globe, label: nav.sdgImpact },
+    { href: "/dashboard/sdg", icon: Globe, label: nav.sdgImpact },
     {
       href: "/dashboard/certificate",
       icon: Award,
       label: nav.certificate,
     },
     {
-      href: "/dashboard/achievements",
+      href: "/dashboard/achievement",
       icon: Trophy,
       label: nav.achievementCard,
     },
-    { href: "/dashboard/report", icon: FileText, label: nav.report },
+    { href: "/dashboard/score/report", icon: FileText, label: nav.report },
     { href: "/dashboard/progress", icon: TrendingUp, label: nav.progress },
     { href: "/dashboard/help", icon: HelpCircle, label: nav.help },
     { href: "/dashboard/settings", icon: Settings, label: nav.settings },

@@ -9,7 +9,7 @@ const SVG_PATH = path.resolve("public/icons/icon-192x192.svg")
 const OUTPUT_DIR = path.resolve("public/icons")
 
 async function main() {
-  const sizes = [192, 512]
+  const sizes = [180, 192, 512]
 
   for (const size of sizes) {
     const output = path.join(OUTPUT_DIR, `icon-${size}x${size}.png`)

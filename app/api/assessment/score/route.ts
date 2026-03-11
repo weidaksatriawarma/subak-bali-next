@@ -12,7 +12,12 @@ const ScoreRequestSchema = z.object({
 export const maxDuration = 60
 
 export async function POST(req: Request) {
-  const body = await req.json()
+  let body
+  try {
+    body = await req.json()
+  } catch {
+    return Response.json({ error: "Invalid JSON" }, { status: 400 })
+  }
   const parsed = ScoreRequestSchema.safeParse(body)
   if (!parsed.success) {
     return Response.json({ error: "Invalid request body" }, { status: 400 })
@@ -96,7 +101,10 @@ export async function POST(req: Request) {
     .single()
 
   if (error) {
-    return Response.json({ error: error.message }, { status: 500 })
+    return Response.json(
+      { error: "Gagal menyimpan skor" },
+      { status: 500 }
+    )
   }
 
   return Response.json(score)

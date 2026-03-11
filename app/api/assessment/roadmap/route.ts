@@ -12,7 +12,12 @@ const RoadmapRequestSchema = z.object({
 export const maxDuration = 60
 
 export async function POST(req: Request) {
-  const body = await req.json()
+  let body
+  try {
+    body = await req.json()
+  } catch {
+    return Response.json({ error: "Invalid JSON" }, { status: 400 })
+  }
   const parsed = RoadmapRequestSchema.safeParse(body)
   if (!parsed.success) {
     return Response.json({ error: "Invalid request body" }, { status: 400 })
@@ -110,7 +115,7 @@ export async function POST(req: Request) {
 
   if (roadmapError || !roadmap) {
     return Response.json(
-      { error: roadmapError?.message ?? "Failed to save roadmap" },
+      { error: "Gagal menyimpan roadmap" },
       { status: 500 }
     )
   }
@@ -135,7 +140,10 @@ export async function POST(req: Request) {
     .insert(items)
 
   if (itemsError) {
-    return Response.json({ error: itemsError.message }, { status: 500 })
+    return Response.json(
+      { error: "Gagal menyimpan item roadmap" },
+      { status: 500 }
+    )
   }
 
   return Response.json({ roadmap, items: roadmapData.items })

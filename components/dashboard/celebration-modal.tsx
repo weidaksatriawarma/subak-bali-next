@@ -10,7 +10,6 @@ import {
   type ReactNode,
 } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import confetti from "canvas-confetti"
 import {
   getCelebrationContent,
   type CelebrationTrigger,
@@ -32,11 +31,13 @@ export function useCelebration() {
   return useContext(CelebrationContext)
 }
 
-function fireConfetti() {
+async function fireConfetti() {
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches
   if (prefersReducedMotion) return
+
+  const confetti = (await import("canvas-confetti")).default
 
   const defaults = {
     startVelocity: 30,

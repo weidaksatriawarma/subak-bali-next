@@ -13,19 +13,24 @@ import { rateLimit, rateLimitResponse } from "@/lib/security"
 import type { Assessment } from "@/types/database"
 
 const ChatRequestSchema = z.object({
-  messages: z.array(z.any()).min(1),
+  messages: z.array(z.record(z.string(), z.unknown())).min(1),
   conversationId: z.string().uuid().nullish(),
 })
 
 export const maxDuration = 60
 
 export async function POST(req: Request) {
-  const body = await req.json()
+  let body
+  try {
+    body = await req.json()
+  } catch {
+    return Response.json({ error: "Invalid JSON" }, { status: 400 })
+  }
   const parsed = ChatRequestSchema.safeParse(body)
   if (!parsed.success) {
     return Response.json({ error: "Invalid request body" }, { status: 400 })
   }
-  const { messages, conversationId } = parsed.data as {
+  const { messages, conversationId } = parsed.data as unknown as {
     messages: UIMessage[]
     conversationId?: string | null
   }
@@ -135,8 +140,9 @@ export async function POST(req: Request) {
     })
 
     return result.toUIMessageStreamResponse()
-  } catch {
+  } catch (err) {
     clearTimeout(timeout)
+    console.error("[chat] error:", err)
     return new Response(
       "Layanan AI sedang tidak tersedia. Silakan coba lagi dalam beberapa saat.",
       { status: 503 }

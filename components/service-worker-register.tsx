@@ -16,15 +16,15 @@ export function ServiceWorkerRegister() {
                   newWorker.state === "activated" &&
                   navigator.serviceWorker.controller
                 ) {
-                  console.log("[SW] New version available")
+                  if (process.env.NODE_ENV === "development") {
+                    console.log("[SW] New version available")
+                  }
                 }
               })
             }
           })
         })
-        .catch((err) => {
-          console.error("[SW] Registration failed:", err)
-        })
+        .catch(() => {})
     }
   }, [])
 

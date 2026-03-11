@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
+import { rateLimit, rateLimitResponse } from "@/lib/security"
 import { renderToBuffer } from "@react-pdf/renderer"
 import { ScoreReportPDF } from "@/lib/pdf/score-report-pdf"
 import {
@@ -20,6 +21,13 @@ export async function GET() {
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
+
+  // Rate limit: 5 requests per minute per user
+  const { success } = rateLimit(`pdf:${user.id}`, {
+    maxRequests: 5,
+    windowMs: 60_000,
+  })
+  if (!success) return rateLimitResponse()
 
   // Fetch all required data in parallel
   const [

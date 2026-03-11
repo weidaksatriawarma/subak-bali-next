@@ -106,6 +106,10 @@ export default function SettingsPage() {
   })
 
   useEffect(() => {
+    document.title = "Pengaturan | Subak Hijau"
+  }, [])
+
+  useEffect(() => {
     async function fetchProfile() {
       const supabase = createClient()
       const {

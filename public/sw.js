@@ -1,4 +1,5 @@
-const CACHE_NAME = "subakhijau-v1"
+// IMPORTANT: Bump version on each deploy to invalidate old caches
+const CACHE_NAME = "subakhijau-v2"
 const STATIC_ASSETS = ["/", "/dashboard", "/manifest.json"]
 const OFFLINE_URL = "/offline.html"
 

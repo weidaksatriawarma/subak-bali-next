@@ -67,6 +67,10 @@ export default function ProgressPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    document.title = "Progress | Subak Hijau"
+  }, [])
+
+  useEffect(() => {
     async function fetchData() {
       const supabase = createClient()
       const {

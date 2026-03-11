@@ -85,6 +85,10 @@ export default function RoadmapPage() {
   const { addNotification } = useNotifications()
 
   useEffect(() => {
+    document.title = "Roadmap | Subak Hijau"
+  }, [])
+
+  useEffect(() => {
     async function fetchData() {
       const supabase = createClient()
       const {

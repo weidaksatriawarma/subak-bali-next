@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
+import { rateLimit, rateLimitResponse } from "@/lib/security"
 
 export async function GET(
   _req: Request,
@@ -14,6 +15,12 @@ export async function GET(
   if (!user) {
     return new Response("Unauthorized", { status: 401 })
   }
+
+  const { success } = rateLimit(`conversation:${user.id}`, {
+    maxRequests: 30,
+    windowMs: 60_000,
+  })
+  if (!success) return rateLimitResponse()
 
   const { data: conversation, error: convError } = await supabase
     .from("chat_conversations")
@@ -33,7 +40,10 @@ export async function GET(
     .order("created_at", { ascending: true })
 
   if (msgError) {
-    return NextResponse.json({ error: msgError.message }, { status: 500 })
+    return NextResponse.json(
+      { error: "Gagal memuat pesan" },
+      { status: 500 }
+    )
   }
 
   return NextResponse.json({ conversation, messages })
@@ -52,6 +62,12 @@ export async function DELETE(
   if (!user) {
     return new Response("Unauthorized", { status: 401 })
   }
+
+  const { success } = rateLimit(`conversation:${user.id}`, {
+    maxRequests: 30,
+    windowMs: 60_000,
+  })
+  if (!success) return rateLimitResponse()
 
   // Verify ownership BEFORE deleting anything
   const { data: conversation } = await supabase
@@ -75,7 +91,10 @@ export async function DELETE(
     .eq("user_id", user.id)
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json(
+      { error: "Gagal menghapus percakapan" },
+      { status: 500 }
+    )
   }
 
   return new Response(null, { status: 204 })
