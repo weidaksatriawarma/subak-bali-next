@@ -121,7 +121,7 @@ export default function RootLayout({
               contactPoint: {
                 "@type": "ContactPoint",
                 contactType: "customer service",
-                email: "hello@subakhijau.app",
+                email: "weida@dewataai.com",
                 availableLanguage: ["Indonesian", "English"],
               },
             }),

@@ -180,12 +180,12 @@ const id: LandingExtrasDictionary = {
         links: [
           {
             label: "WhatsApp",
-            href: "https://wa.me/6281234567890",
+            href: "https://wa.me/6285179755016",
             external: true,
           },
           {
             label: "Email",
-            href: "mailto:hello@subakhijau.app",
+            href: "mailto:weida@dewataai.com",
             external: true,
           },
         ],
@@ -336,12 +336,12 @@ const en: LandingExtrasDictionary = {
         links: [
           {
             label: "WhatsApp",
-            href: "https://wa.me/6281234567890",
+            href: "https://wa.me/6285179755016",
             external: true,
           },
           {
             label: "Email",
-            href: "mailto:hello@subakhijau.app",
+            href: "mailto:weida@dewataai.com",
             external: true,
           },
         ],

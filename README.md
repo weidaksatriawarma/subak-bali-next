@@ -486,7 +486,8 @@ Subak Hijau bisa di-install sebagai aplikasi native di smartphone dan desktop:
 | 📅 Demo | 10–14 Maret 2026 |
 | 🎤 Pitching | 5 April 2026 |
 | 🌐 Domain | subakhijau.app |
-| 📧 Email | hello@subakhijau.app |
+| 📧 Email | weida@dewataai.com |
+| 📱 WhatsApp | +62 851-7975-5016 (Weida - Dewata Tech) |
 
 ---
 

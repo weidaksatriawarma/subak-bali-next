@@ -135,7 +135,7 @@ const id: PublicPagesDictionary = {
     },
     email: {
       label: "Email",
-      value: "hello@subakhijau.app",
+      value: "weida@dewataai.com",
     },
     social: {
       title: "Media Sosial",
@@ -227,7 +227,7 @@ const en: PublicPagesDictionary = {
     },
     email: {
       label: "Email",
-      value: "hello@subakhijau.app",
+      value: "weida@dewataai.com",
     },
     social: {
       title: "Social Media",

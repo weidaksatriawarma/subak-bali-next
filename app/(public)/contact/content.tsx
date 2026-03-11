@@ -33,7 +33,7 @@ export function ContactContent() {
             </p>
             <Button asChild className="bg-green-600 hover:bg-green-700">
               <a
-                href="https://wa.me/6281234567890"
+                href="https://wa.me/6285179755016"
                 target="_blank"
                 rel="noopener noreferrer"
               >
