@@ -51,7 +51,7 @@ export function AssessmentRetakeGate({
         <CardContent className="space-y-6">
           {previousScore !== null && (
             <div className="flex flex-col items-center gap-2">
-              <p className="text-muted-foreground text-sm font-medium">
+              <p className="text-sm font-medium text-muted-foreground">
                 {gate.lastScore}
               </p>
               <ScoreGauge score={previousScore} />
@@ -60,13 +60,13 @@ export function AssessmentRetakeGate({
 
           {formattedDate && (
             <div className="text-center">
-              <p className="text-muted-foreground text-sm">
+              <p className="text-sm text-muted-foreground">
                 {gate.lastDate}: {formattedDate}
               </p>
             </div>
           )}
 
-          <div className="bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-200 flex items-start gap-3 rounded-lg p-3">
+          <div className="flex items-start gap-3 rounded-lg bg-amber-50 p-3 text-amber-900 dark:bg-amber-950 dark:text-amber-200">
             <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
             <p className="text-sm">{gate.warning}</p>
           </div>

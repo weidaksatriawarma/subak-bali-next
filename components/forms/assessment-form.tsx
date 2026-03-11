@@ -341,9 +341,7 @@ export function AssessmentForm() {
       <Card className="mx-auto max-w-2xl">
         <CardContent className="flex flex-col gap-6 py-10">
           <div className="space-y-3 text-center">
-            <p className="text-lg font-medium">
-              Menganalisis Assessment Anda
-            </p>
+            <p className="text-lg font-medium">Menganalisis Assessment Anda</p>
             <Progress value={progressValue} className="mx-auto max-w-sm" />
           </div>
 
@@ -637,7 +635,9 @@ export function AssessmentForm() {
           {step === 3 && (
             <>
               <div className="flex items-center justify-between">
-                <Label htmlFor="water_conservation">Menghemat Penggunaan Air?</Label>
+                <Label htmlFor="water_conservation">
+                  Menghemat Penggunaan Air?
+                </Label>
                 <Switch
                   id="water_conservation"
                   checked={watch("water_conservation")}
@@ -657,7 +657,9 @@ export function AssessmentForm() {
               </div>
 
               <div className="space-y-3">
-                <Label>Transportasi Utama Bisnis (Pengiriman/Operasional)</Label>
+                <Label>
+                  Transportasi Utama Bisnis (Pengiriman/Operasional)
+                </Label>
                 <RadioGroup
                   value={transportationType}
                   onValueChange={(v) =>

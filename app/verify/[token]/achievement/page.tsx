@@ -45,7 +45,9 @@ const getAchievementData = cache(async (token: string) => {
   }
 
   const { rank } = getIndustryRank(industry, data.total_score as number)
-  const items = (data.roadmap_items as { is_completed: boolean; category: Category }[]) ?? []
+  const items =
+    (data.roadmap_items as { is_completed: boolean; category: Category }[]) ??
+    []
   const achievements = computeAchievements(
     items.map((i) => ({ is_completed: i.is_completed, category: i.category })),
     achievementNames,

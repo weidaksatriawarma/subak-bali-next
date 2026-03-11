@@ -237,7 +237,7 @@ const markdownComponents: Components = {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-0.5 text-green-600 underline underline-offset-2 decoration-green-500/40 transition-colors hover:text-green-700 hover:decoration-green-500 dark:text-green-400 dark:hover:text-green-300"
+      className="inline-flex items-center gap-0.5 text-green-600 underline decoration-green-500/40 underline-offset-2 transition-colors hover:text-green-700 hover:decoration-green-500 dark:text-green-400 dark:hover:text-green-300"
       {...props}
     >
       {children}
@@ -344,7 +344,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
               return (
                 <div
                   key={i}
-                  className="prose prose-sm dark:prose-invert prose-p:my-3 prose-p:leading-relaxed prose-headings:mb-3 prose-headings:mt-6 prose-headings:font-semibold prose-headings:text-foreground prose-h3:text-base prose-h3:border-b prose-h3:border-border/50 prose-h3:pb-2 prose-h4:text-sm prose-ul:my-3 prose-ol:my-3 prose-ul:space-y-1.5 prose-ol:space-y-1.5 prose-li:my-0.5 prose-strong:font-semibold prose-strong:text-foreground prose-a:text-green-600 prose-a:underline prose-a:underline-offset-2 prose-a:decoration-green-500/40 hover:prose-a:decoration-green-500 dark:prose-a:text-green-400 prose-pre:my-0 prose-hr:my-4 prose-code:before:content-none prose-code:after:content-none prose-blockquote:border-l-2 prose-blockquote:border-primary/30 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:my-3 prose-table:my-3 prose-table:w-full prose-thead:border-b prose-thead:border-border prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:text-xs prose-th:font-semibold prose-td:border-t prose-td:border-border prose-td:px-3 prose-td:py-2 prose-td:text-sm max-w-none [&_li]:marker:text-green-600 dark:[&_li]:marker:text-green-400 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                  className="prose prose-sm max-w-none dark:prose-invert prose-headings:mt-6 prose-headings:mb-3 prose-headings:font-semibold prose-headings:text-foreground prose-h3:border-b prose-h3:border-border/50 prose-h3:pb-2 prose-h3:text-base prose-h4:text-sm prose-p:my-3 prose-p:leading-relaxed prose-a:text-green-600 prose-a:underline prose-a:decoration-green-500/40 prose-a:underline-offset-2 hover:prose-a:decoration-green-500 dark:prose-a:text-green-400 prose-blockquote:my-3 prose-blockquote:border-l-2 prose-blockquote:border-primary/30 prose-blockquote:pl-4 prose-blockquote:italic prose-strong:font-semibold prose-strong:text-foreground prose-code:before:content-none prose-code:after:content-none prose-pre:my-0 prose-ol:my-3 prose-ol:space-y-1.5 prose-ul:my-3 prose-ul:space-y-1.5 prose-li:my-0.5 prose-table:my-3 prose-table:w-full prose-thead:border-b prose-thead:border-border prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:text-xs prose-th:font-semibold prose-td:border-t prose-td:border-border prose-td:px-3 prose-td:py-2 prose-td:text-sm prose-hr:my-4 [&_li]:marker:text-green-600 dark:[&_li]:marker:text-green-400 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                 >
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
