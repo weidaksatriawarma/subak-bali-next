@@ -56,8 +56,7 @@ test.describe("Authenticated pages", () => {
   })
 
   test("capture dashboard page", async ({ page }) => {
-    await page.goto(`${BASE_URL}/dashboard`)
-    await page.waitForLoadState("networkidle")
+    // beforeEach already lands on /dashboard after login — just wait for content
     await page.waitForTimeout(2000)
 
     await page.screenshot({
