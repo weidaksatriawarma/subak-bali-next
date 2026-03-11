@@ -31,6 +31,11 @@ export interface PublicPagesDictionary {
       subtitle: string
       goals: { number: number; title: string; description: string }[]
     }
+    team: {
+      title: string
+      subtitle: string
+      members: { name: string }[]
+    }
   }
   contact: {
     title: string
@@ -120,6 +125,15 @@ const id: PublicPagesDictionary = {
           description:
             "Membantu UMKM mengukur dan mengurangi jejak karbon melalui estimasi CO\u2082 dan roadmap aksi.",
         },
+      ],
+    },
+    team: {
+      title: "Tim Kami",
+      subtitle: "Tim Subak Code di balik platform ini",
+      members: [
+        { name: "Anak Agung Gde Weida Ksatriawarma" },
+        { name: "Arya Ngurah Intaran" },
+        { name: "Isa Rohmadan" },
       ],
     },
   },
@@ -212,6 +226,15 @@ const en: PublicPagesDictionary = {
           description:
             "Helping MSMEs measure and reduce their carbon footprint through CO\u2082 estimates and action roadmaps.",
         },
+      ],
+    },
+    team: {
+      title: "Our Team",
+      subtitle: "The Subak Code team behind this platform",
+      members: [
+        { name: "Anak Agung Gde Weida Ksatriawarma" },
+        { name: "Arya Ngurah Intaran" },
+        { name: "Isa Rohmadan" },
       ],
     },
   },

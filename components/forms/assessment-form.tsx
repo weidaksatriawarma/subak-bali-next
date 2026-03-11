@@ -10,12 +10,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { toast } from "sonner"
 
 import { createClient } from "@/lib/supabase/client"
-import {
-  ENERGY_SOURCE_LABELS,
-  WASTE_MANAGEMENT_LABELS,
-  PACKAGING_TYPE_LABELS,
-  TRANSPORTATION_TYPE_LABELS,
-} from "@/lib/constants"
+import { useTranslation } from "@/lib/i18n/language-context"
+import { assessmentContent } from "@/lib/i18n/content/assessment"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -40,6 +36,7 @@ import type {
   TransportationType,
   Industry,
 } from "@/types/database"
+import type { Locale } from "@/lib/i18n/dictionaries"
 
 const assessmentSchema = z.object({
   energy_source: z.enum([
@@ -83,28 +80,10 @@ const assessmentSchema = z.object({
 
 type AssessmentFormData = z.infer<typeof assessmentSchema>
 
-const STEPS = [
-  { title: "Energi", description: "Penggunaan energi bisnis Anda" },
-  { title: "Pengelolaan Limbah", description: "Cara Anda mengelola limbah" },
-  { title: "Rantai Pasok", description: "Sumber bahan baku dan kemasan" },
-  { title: "Operasional", description: "Praktik operasional harian" },
-  { title: "Kebijakan", description: "Kebijakan ramah lingkungan bisnis" },
-]
-
 const STORAGE_KEY = "assessment-draft"
 
-const PROCESSING_STEPS = [
-  { id: "save", label: "Menyimpan data assessment" },
-  { id: "score", label: "Menghitung skor keberlanjutan" },
-  { id: "roadmap", label: "Membuat roadmap perbaikan" },
-  { id: "done", label: "Mempersiapkan hasil" },
-] as const
-
-const PROCESSING_SUBTITLES: Record<string, string> = {
-  save: "Menyimpan jawaban Anda ke database...",
-  score: "AI sedang menganalisis praktik bisnis Anda...",
-  roadmap: "AI sedang menyusun rekomendasi untuk bisnis Anda...",
-  done: "Sebentar lagi selesai...",
+function getFormContent(locale: Locale) {
+  return assessmentContent[locale].form
 }
 
 const DEFAULT_VALUES: Partial<AssessmentFormData> = {
@@ -158,6 +137,8 @@ function clearDraft() {
 
 export function AssessmentForm() {
   const router = useRouter()
+  const { locale } = useTranslation()
+  const a = getFormContent(locale)
   const draft = useRef(loadDraft())
   const [step, setStep] = useState(() => draft.current?.step ?? 0)
   const [currentProcessingStep, setCurrentProcessingStep] = useState(-1)
@@ -181,10 +162,10 @@ export function AssessmentForm() {
   useEffect(() => {
     if (draft.current) {
       toast.info(
-        `Draft assessment ditemukan. Melanjutkan dari langkah ${draft.current.step + 1}.`
+        a.toasts.draftFound.replace("{step}", String(draft.current.step + 1))
       )
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     async function fetchProfile() {
@@ -241,11 +222,11 @@ export function AssessmentForm() {
   ]
 
   const showIndustryStep = hasIndustryQuestions(industry)
-  const totalSteps = showIndustryStep ? STEPS.length + 1 : STEPS.length
+  const totalSteps = showIndustryStep ? a.steps.length + 1 : a.steps.length
 
   async function handleNext() {
     // Industry questions step doesn't need form validation
-    if (step >= STEPS.length) {
+    if (step >= a.steps.length) {
       setStep((s) => Math.min(s + 1, totalSteps - 1))
       return
     }
@@ -303,7 +284,7 @@ export function AssessmentForm() {
       })
 
       if (!scoreRes.ok) {
-        throw new Error("Gagal menghasilkan skor")
+        throw new Error(a.errors.scoreFailed)
       }
 
       setCurrentProcessingStep(2)
@@ -314,7 +295,7 @@ export function AssessmentForm() {
       })
 
       if (!roadmapRes.ok) {
-        throw new Error("Gagal menghasilkan roadmap")
+        throw new Error(a.errors.roadmapFailed)
       }
 
       setCurrentProcessingStep(3)
@@ -322,31 +303,28 @@ export function AssessmentForm() {
       router.push("/dashboard/score")
     } catch (err) {
       setCurrentProcessingStep(-1)
-      toast.error(
-        err instanceof Error
-          ? err.message
-          : "Terjadi kesalahan. Silakan coba lagi."
-      )
+      toast.error(err instanceof Error ? err.message : a.errors.generic)
     }
   }
 
   const progressValue = ((step + 1) / totalSteps) * 100
 
   if (currentProcessingStep >= 0) {
+    const processingSteps = a.processing.steps
     const progressValue =
-      ((currentProcessingStep + 1) / PROCESSING_STEPS.length) * 100
-    const activeStep = PROCESSING_STEPS[currentProcessingStep]
+      ((currentProcessingStep + 1) / processingSteps.length) * 100
+    const activeStep = processingSteps[currentProcessingStep]
 
     return (
       <Card className="mx-auto max-w-2xl">
         <CardContent className="flex flex-col gap-6 py-10">
           <div className="space-y-3 text-center">
-            <p className="text-lg font-medium">Menganalisis Assessment Anda</p>
+            <p className="text-lg font-medium">{a.processing.heading}</p>
             <Progress value={progressValue} className="mx-auto max-w-sm" />
           </div>
 
           <div className="space-y-3">
-            {PROCESSING_STEPS.map((s, i) => {
+            {processingSteps.map((s, i) => {
               const isCompleted = i < currentProcessingStep
               const isActive = i === currentProcessingStep
               return (
@@ -396,9 +374,7 @@ export function AssessmentForm() {
           </div>
 
           <p className="text-center text-sm text-muted-foreground">
-            {activeStep
-              ? PROCESSING_SUBTITLES[activeStep.id]
-              : "Mohon tunggu..."}
+            {activeStep ? activeStep.subtitle : a.processing.pleaseWait}
           </p>
         </CardContent>
       </Card>
@@ -411,16 +387,8 @@ export function AssessmentForm() {
         <div className="mb-4 flex gap-3 rounded-lg border border-blue-200 bg-blue-50/50 px-4 py-3 dark:border-blue-900 dark:bg-blue-950/20">
           <Info className="mt-0.5 h-5 w-5 shrink-0 text-blue-500" />
           <div className="text-sm text-muted-foreground">
-            <p className="font-medium text-foreground">
-              Jawab dengan jujur dan apa adanya
-            </p>
-            <p>
-              Hasil assessment ini sepenuhnya bergantung pada keakuratan jawaban
-              Anda. Jawaban yang jujur akan menghasilkan skor yang lebih akurat
-              dan rekomendasi yang benar-benar sesuai dengan kondisi bisnis
-              Anda. Data Anda bersifat rahasia dan hanya digunakan untuk
-              analisis sustainability.
-            </p>
+            <p className="font-medium text-foreground">{a.intro.heading}</p>
+            <p>{a.intro.description}</p>
           </div>
         </div>
       )}
@@ -429,15 +397,15 @@ export function AssessmentForm() {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle>
-                Langkah {step + 1}:{" "}
-                {step < STEPS.length
-                  ? STEPS[step].title
-                  : "Pertanyaan Industri"}
+                {a.stepLabel} {step + 1}:{" "}
+                {step < a.steps.length
+                  ? a.steps[step].title
+                  : a.industryQuestionsTitle}
               </CardTitle>
               <CardDescription>
-                {step < STEPS.length
-                  ? STEPS[step].description
-                  : "Pertanyaan khusus untuk industri Anda"}
+                {step < a.steps.length
+                  ? a.steps[step].description
+                  : a.industryQuestionsDesc}
               </CardDescription>
             </div>
             <span className="text-sm text-muted-foreground">
@@ -451,14 +419,14 @@ export function AssessmentForm() {
           {step === 0 && (
             <>
               <div className="space-y-3">
-                <Label>Sumber Energi Utama</Label>
+                <Label>{a.fields.energySource}</Label>
                 <RadioGroup
                   value={energySource}
                   onValueChange={(v) =>
                     setValue("energy_source", v as EnergySource)
                   }
                 >
-                  {Object.entries(ENERGY_SOURCE_LABELS).map(
+                  {Object.entries(a.energySourceLabels).map(
                     ([value, label]) => (
                       <div key={value} className="flex items-center gap-2">
                         <RadioGroupItem value={value} id={`energy-${value}`} />
@@ -474,28 +442,28 @@ export function AssessmentForm() {
                 </RadioGroup>
                 {errors.energy_source && (
                   <p className="text-sm text-destructive">
-                    Pilih sumber energi
+                    {a.errors.energySource}
                   </p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="monthly_electricity_kwh">
-                  Estimasi Penggunaan Listrik Bulanan (kWh)
+                  {a.fields.monthlyElectricity}
                 </Label>
                 <Input
                   id="monthly_electricity_kwh"
                   type="number"
                   min={0}
                   max={100000}
-                  placeholder="Contoh: 500"
+                  placeholder={a.fields.monthlyElectricityPlaceholder}
                   {...register("monthly_electricity_kwh")}
                 />
               </div>
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="uses_energy_efficient_equipment">
-                  Menggunakan Peralatan Hemat Energi?
+                  {a.fields.energyEfficient}
                 </Label>
                 <Switch
                   id="uses_energy_efficient_equipment"
@@ -511,14 +479,14 @@ export function AssessmentForm() {
           {step === 1 && (
             <>
               <div className="space-y-3">
-                <Label>Cara Pengelolaan Limbah</Label>
+                <Label>{a.fields.wasteManagement}</Label>
                 <RadioGroup
                   value={wasteManagement}
                   onValueChange={(v) =>
                     setValue("waste_management", v as WasteManagement)
                   }
                 >
-                  {Object.entries(WASTE_MANAGEMENT_LABELS).map(
+                  {Object.entries(a.wasteManagementLabels).map(
                     ([value, label]) => (
                       <div key={value} className="flex items-center gap-2">
                         <RadioGroupItem value={value} id={`waste-${value}`} />
@@ -534,14 +502,14 @@ export function AssessmentForm() {
                 </RadioGroup>
                 {errors.waste_management && (
                   <p className="text-sm text-destructive">
-                    Pilih cara pengelolaan limbah
+                    {a.errors.wasteManagement}
                   </p>
                 )}
               </div>
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="plastic_reduction_efforts">
-                  Upaya Pengurangan Plastik?
+                  {a.fields.plasticReduction}
                 </Label>
                 <Switch
                   id="plastic_reduction_efforts"
@@ -554,14 +522,14 @@ export function AssessmentForm() {
 
               <div className="space-y-2">
                 <Label htmlFor="waste_volume_kg_monthly">
-                  Estimasi Volume Limbah Bulanan (kg)
+                  {a.fields.wasteVolume}
                 </Label>
                 <Input
                   id="waste_volume_kg_monthly"
                   type="number"
                   min={0}
                   max={50000}
-                  placeholder="Contoh: 50"
+                  placeholder={a.fields.wasteVolumePlaceholder}
                   {...register("waste_volume_kg_monthly")}
                 />
               </div>
@@ -572,7 +540,7 @@ export function AssessmentForm() {
             <>
               <div className="space-y-3">
                 <Label>
-                  Persentase Bahan Baku Lokal: {localSourcingPercentage}%
+                  {a.fields.localSourcing}: {localSourcingPercentage}%
                 </Label>
                 <Slider
                   min={0}
@@ -587,7 +555,7 @@ export function AssessmentForm() {
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="supplier_sustainability_check">
-                  Memilih Pemasok Ramah Lingkungan?
+                  {a.fields.supplierSustainability}
                 </Label>
                 <Switch
                   id="supplier_sustainability_check"
@@ -599,14 +567,14 @@ export function AssessmentForm() {
               </div>
 
               <div className="space-y-3">
-                <Label>Jenis Kemasan Utama</Label>
+                <Label>{a.fields.packagingType}</Label>
                 <RadioGroup
                   value={packagingType}
                   onValueChange={(v) =>
                     setValue("packaging_type", v as PackagingType)
                   }
                 >
-                  {Object.entries(PACKAGING_TYPE_LABELS).map(
+                  {Object.entries(a.packagingTypeLabels).map(
                     ([value, label]) => (
                       <div key={value} className="flex items-center gap-2">
                         <RadioGroupItem
@@ -625,7 +593,7 @@ export function AssessmentForm() {
                 </RadioGroup>
                 {errors.packaging_type && (
                   <p className="text-sm text-destructive">
-                    Pilih jenis kemasan
+                    {a.errors.packagingType}
                   </p>
                 )}
               </div>
@@ -636,7 +604,7 @@ export function AssessmentForm() {
             <>
               <div className="flex items-center justify-between">
                 <Label htmlFor="water_conservation">
-                  Menghemat Penggunaan Air?
+                  {a.fields.waterConservation}
                 </Label>
                 <Switch
                   id="water_conservation"
@@ -647,7 +615,7 @@ export function AssessmentForm() {
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="digital_operations">
-                  Sudah Beralih ke Sistem Digital (Tanpa Kertas)?
+                  {a.fields.digitalOperations}
                 </Label>
                 <Switch
                   id="digital_operations"
@@ -657,16 +625,14 @@ export function AssessmentForm() {
               </div>
 
               <div className="space-y-3">
-                <Label>
-                  Transportasi Utama Bisnis (Pengiriman/Operasional)
-                </Label>
+                <Label>{a.fields.transportationType}</Label>
                 <RadioGroup
                   value={transportationType}
                   onValueChange={(v) =>
                     setValue("transportation_type", v as TransportationType)
                   }
                 >
-                  {Object.entries(TRANSPORTATION_TYPE_LABELS).map(
+                  {Object.entries(a.transportationTypeLabels).map(
                     ([value, label]) => (
                       <div key={value} className="flex items-center gap-2">
                         <RadioGroupItem
@@ -685,7 +651,7 @@ export function AssessmentForm() {
                 </RadioGroup>
                 {errors.transportation_type && (
                   <p className="text-sm text-destructive">
-                    Pilih jenis transportasi
+                    {a.errors.transportationType}
                   </p>
                 )}
               </div>
@@ -696,7 +662,7 @@ export function AssessmentForm() {
             <>
               <div className="flex items-center justify-between">
                 <Label htmlFor="has_sustainability_policy">
-                  Memiliki Kebijakan Ramah Lingkungan Tertulis?
+                  {a.fields.sustainabilityPolicy}
                 </Label>
                 <Switch
                   id="has_sustainability_policy"
@@ -709,7 +675,7 @@ export function AssessmentForm() {
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="employee_sustainability_training">
-                  Melatih Karyawan tentang Praktik Ramah Lingkungan?
+                  {a.fields.employeeTraining}
                 </Label>
                 <Switch
                   id="employee_sustainability_training"
@@ -722,7 +688,7 @@ export function AssessmentForm() {
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="community_engagement">
-                  Aktif Terlibat dalam Kegiatan Lingkungan Sekitar?
+                  {a.fields.communityEngagement}
                 </Label>
                 <Switch
                   id="community_engagement"
@@ -751,15 +717,15 @@ export function AssessmentForm() {
             onClick={handlePrev}
             disabled={step === 0}
           >
-            Sebelumnya
+            {a.nav.previous}
           </Button>
 
           {step < totalSteps - 1 ? (
             <Button type="button" onClick={handleNext}>
-              Selanjutnya
+              {a.nav.next}
             </Button>
           ) : (
-            <Button type="submit">Kirim Assessment</Button>
+            <Button type="submit">{a.nav.submit}</Button>
           )}
         </div>
       </Card>

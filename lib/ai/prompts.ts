@@ -2,7 +2,11 @@ import type { Locale } from "@/lib/i18n/dictionaries"
 import type { Profile, Score, Assessment } from "@/types/database"
 import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
 import { sanitizeForPrompt, sanitizeObjectForPrompt } from "@/lib/security"
-import { INDUSTRY_SCORING_WEIGHTS } from "@/lib/gamification/industry-data"
+import {
+  INDUSTRY_SCORING_WEIGHTS,
+  INDUSTRY_RANKS,
+  getIndustryRank,
+} from "@/lib/gamification/industry-data"
 
 export function buildScorePrompt(
   profile: Profile,
@@ -64,13 +68,24 @@ export function buildRoadmapPrompt(
 ): string {
   const name = sanitizeForPrompt(profile.business_name)
   const location = sanitizeForPrompt(profile.location || "Indonesia")
+  const description = profile.description
+    ? sanitizeForPrompt(profile.description, 500)
+    : ""
+  const weights = INDUSTRY_SCORING_WEIGHTS[profile.industry]
+  const { rank, tier } = getIndustryRank(profile.industry, scores.total_score)
+  const ranks = INDUSTRY_RANKS[profile.industry]
+  const nextTier = Math.min(tier + 1, 4)
+  const nextRank = tier < 4 ? ranks[nextTier] : rank
+  const nextThreshold = [20, 40, 60, 80, 100][nextTier]
 
   return `Generate a sustainability improvement roadmap for this Indonesian MSME.
 
-Business: ${name}
-Industry: ${INDUSTRY_LABELS[profile.industry]}
-Size: ${BUSINESS_SIZE_LABELS[profile.business_size]}
-Location: ${location}
+Business Profile:
+- Name: ${name}
+- Industry: ${INDUSTRY_LABELS[profile.industry]}
+- Size: ${BUSINESS_SIZE_LABELS[profile.business_size]}
+- Location: ${location}
+- Employees: ${profile.employee_count || "N/A"}${description ? `\n- Description: ${description}` : ""}
 
 Current Scores:
 - Total: ${scores.total_score}/100
@@ -79,6 +94,18 @@ Current Scores:
 - Rantai Pasok: ${scores.supply_chain_score}/100
 - Operasional: ${scores.operations_score}/100
 - Kebijakan: ${scores.policy_score}/100
+${scores.ai_summary ? `\nAI Assessment Summary:\n${scores.ai_summary}` : ""}
+${scores.industry_benchmark != null ? `\nIndustry Benchmark: Scored above ${scores.industry_benchmark}% of ${INDUSTRY_LABELS[profile.industry]} businesses in Indonesia` : ""}
+
+Current Rank: ${rank} (tier ${tier + 1}/5)${tier < 4 ? `\nNext Rank: ${nextRank} (need score ${nextThreshold}+)` : ""}
+
+Industry-specific priority weights for ${INDUSTRY_LABELS[profile.industry]}:
+- Energy: ${weights.energy * 100}%
+- Waste: ${weights.waste * 100}%
+- Supply Chain: ${weights.supply_chain * 100}%
+- Operations: ${weights.operations * 100}%
+- Policy: ${weights.policy * 100}%
+Prioritize roadmap items in categories with higher weights for this industry.
 
 Assessment Data:
 - Energy source: ${assessment.energy_source}
@@ -96,12 +123,17 @@ Assessment Data:
 - Sustainability policy: ${assessment.has_sustainability_policy}
 - Employee training: ${assessment.employee_sustainability_training}
 - Community engagement: ${assessment.community_engagement}
+${assessment.industry_answers ? `\nIndustry-specific answers: ${JSON.stringify(sanitizeObjectForPrompt(assessment.industry_answers as Record<string, unknown>))}` : ""}
 
 Generate 8-12 specific, actionable items.
 Prioritize low-cost, high-impact actions first.
 All text MUST be in Bahasa Indonesia.
 Consider Indonesian context: PLN grid, local waste management, Indonesian supply chains.
 Focus on actions a small ${INDUSTRY_LABELS[profile.industry]} business can realistically implement.
+- Use employee count to scale recommendations (larger = more impactful energy/waste actions, smaller = focus on low-cost wins)${description ? "\n- Consider the business description for more targeted, context-specific advice" : ""}
+- Focus more effort on categories with higher industry weights
+- Include at least 1-2 items specifically addressing industry-specific gaps from the assessment answers
+- Reference the AI summary strengths/weaknesses when prioritizing items
 
 For each item, estimate estimated_savings_rp (monthly savings in Rupiah). Use realistic ranges:
 - Energy efficiency: Rp 200,000–800,000/month depending on business size

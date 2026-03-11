@@ -1,11 +1,11 @@
 "use client"
 
 import {
-  INDUSTRY_QUESTIONS,
   hasIndustryQuestions,
   type IndustryQuestion,
 } from "@/lib/gamification/industry-questions"
 import { useTranslation } from "@/lib/i18n/language-context"
+import { getLocalizedIndustryQuestions } from "@/lib/i18n/content/assessment"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -23,7 +23,7 @@ export function IndustryQuestionsStep({
   values,
   onChange,
 }: IndustryQuestionsStepProps) {
-  const { t } = useTranslation()
+  const { locale, t } = useTranslation()
   const g = t.dashboard.gamification.industryQuestions
 
   if (!hasIndustryQuestions(industry)) {
@@ -34,7 +34,7 @@ export function IndustryQuestionsStep({
     )
   }
 
-  const questions = INDUSTRY_QUESTIONS[industry]
+  const questions = getLocalizedIndustryQuestions(locale, industry)
 
   return (
     <div className="space-y-6">

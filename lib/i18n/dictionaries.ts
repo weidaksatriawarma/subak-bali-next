@@ -73,6 +73,11 @@ export interface DashboardDictionary {
       title: string
       viewAll: string
     }
+    impactTitle: string
+    estCo2Year: string
+    estSavingsMonth: string
+    estCompliance: string
+    impactDisclaimer: string
     gettingStarted: {
       title: string
       subtitle: string
@@ -108,6 +113,7 @@ export interface DashboardDictionary {
       change: string
     }
     impactTitle: string
+    impactDisclaimer: string
     categoryBreakdown: string
     downloadReport: string
     sdg: {
@@ -145,6 +151,7 @@ export interface DashboardDictionary {
       scanToVerify: string
       downloadPdf: string
       pdfPrint: string
+      estimateDisclaimer: string
     }
   }
   roadmap: {
@@ -269,6 +276,9 @@ export interface DashboardDictionary {
     kgYear: string
     trees: string
     rpMonth: string
+    estimateDisclaimer: string
+    emissionComparisonLower: string
+    emissionComparisonHigher: string
   }
   compliance: {
     title: string
@@ -278,6 +288,7 @@ export interface DashboardDictionary {
     compliant: string
     nonCompliant: string
     recommendation: string
+    selfAssessedNote: string
     noAssessment: string
     noAssessmentDesc: string
     startAssessment: string
@@ -294,6 +305,7 @@ export interface DashboardDictionary {
     reset: string
     changeScenarios: string
     allAchieved: string
+    projectionNote: string
     noAssessment: string
     noAssessmentDesc: string
     startAssessment: string
@@ -620,6 +632,7 @@ export interface DashboardDictionary {
     difference: string
     pts: string
     ariaLabel: string
+    estimateNote: string
   }
 }
 
@@ -1063,6 +1076,8 @@ const id: Dictionary = {
         change: "Perubahan",
       },
       impactTitle: "\u{1F33F} Dampak Lingkungan Bisnis Anda",
+      impactDisclaimer:
+        "* Estimasi berdasarkan data assessment, bukan pengukuran aktual",
       categoryBreakdown: "Detail Kategori",
       downloadReport: "Download Laporan",
       sdg: {
@@ -1252,6 +1267,12 @@ const id: Dictionary = {
       kgYear: "kg CO₂/tahun",
       trees: "pohon",
       rpMonth: "Rp/bulan",
+      estimateDisclaimer:
+        "* Angka adalah estimasi berdasarkan data assessment, bukan pengukuran aktual.",
+      emissionComparisonLower:
+        "Estimasi emisi bisnis Anda {percent}% lebih rendah dari rata-rata industri!",
+      emissionComparisonHigher:
+        "Estimasi emisi bisnis Anda {percent}% lebih tinggi dari rata-rata industri.",
     },
     compliance: {
       title: "Kepatuhan Regulasi",
@@ -1262,6 +1283,8 @@ const id: Dictionary = {
       compliant: "Terpenuhi",
       nonCompliant: "Belum Terpenuhi",
       recommendation: "Rekomendasi",
+      selfAssessedNote:
+        "* Berdasarkan self-assessment, bukan hasil audit resmi",
       noAssessment: "Belum ada data",
       noAssessmentDesc:
         "Lengkapi assessment untuk melihat status kepatuhan regulasi bisnis Anda.",
@@ -1280,6 +1303,7 @@ const id: Dictionary = {
       reset: "Reset Semua",
       changeScenarios: "Skenario Perubahan",
       allAchieved: "Semua skenario sudah tercapai! Luar biasa!",
+      projectionNote: "* Proyeksi simulasi, hasil aktual dapat berbeda",
       noAssessment: "Belum ada data",
       noAssessmentDesc:
         "Lengkapi assessment dan generate skor terlebih dahulu untuk menggunakan simulator.",

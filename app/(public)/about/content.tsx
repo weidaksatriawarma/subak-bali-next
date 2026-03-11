@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Brain, Footprints, Scale } from "lucide-react"
+import { Brain, Footprints, Scale, Users } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { publicPagesContent } from "@/lib/i18n/content/public-pages"
@@ -234,6 +234,32 @@ export function AboutContent() {
             </p>
           </div>
         </StaggerItem>
+      </StaggerContainer>
+
+      {/* Team Section */}
+      <FadeInUp>
+        <div className="mb-8 mt-16 text-center">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            {d.team.title}
+          </h2>
+          <p className="mt-3 text-muted-foreground">{d.team.subtitle}</p>
+        </div>
+      </FadeInUp>
+
+      <StaggerContainer
+        className="grid gap-4 sm:grid-cols-3"
+        staggerDelay={0.08}
+      >
+        {d.team.members.map((member) => (
+          <StaggerItem key={member.name}>
+            <div className="flex flex-col items-center rounded-2xl border bg-card p-6 ring-1 ring-border">
+              <div className="mb-4 flex size-14 items-center justify-center rounded-full bg-primary/10">
+                <Users className="size-7 text-primary" />
+              </div>
+              <p className="text-center font-semibold">{member.name}</p>
+            </div>
+          </StaggerItem>
+        ))}
       </StaggerContainer>
     </div>
   )
