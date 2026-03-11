@@ -49,11 +49,13 @@ function ChatPanel({
   initialMessages,
   onFirstMessage,
   initialPrompt,
+  onInitialPromptConsumed,
 }: {
   conversationId: string | null
   initialMessages: UIMessage[]
   onFirstMessage: (text: string) => Promise<string | null>
   initialPrompt?: string | null
+  onInitialPromptConsumed?: () => void
 }) {
   const [input, setInput] = useState("")
   const [activeConvId, setActiveConvId] = useState(conversationId)
@@ -120,6 +122,7 @@ function ChatPanel({
     if (initialPrompt && !hasAutoSent.current) {
       hasAutoSent.current = true
       handleSend(initialPrompt)
+      onInitialPromptConsumed?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -254,14 +257,16 @@ function ChatPageContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const conversationId = searchParams.get("id")
-  const initialPromptRef = useRef(searchParams.get("prompt"))
+  const [initialPrompt, setInitialPrompt] = useState<string | null>(
+    () => searchParams.get("prompt")
+  )
   const [sheetOpen, setSheetOpen] = useState(false)
   const { t } = useTranslation()
   const cp = t.dashboard.chatPage
 
   useEffect(() => {
     document.title = "AI Consultant | Subak Hijau"
-    if (initialPromptRef.current) {
+    if (initialPrompt) {
       router.replace("/dashboard/chat", { scroll: false })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -370,7 +375,8 @@ function ChatPageContent() {
               conversationId={conversationId}
               initialMessages={initialMessages}
               onFirstMessage={handleFirstMessage}
-              initialPrompt={initialPromptRef.current}
+              initialPrompt={initialPrompt}
+              onInitialPromptConsumed={() => setInitialPrompt(null)}
             />
           )}
         </div>
