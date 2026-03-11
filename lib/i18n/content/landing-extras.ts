@@ -42,7 +42,13 @@ export interface LandingExtrasDictionary {
     text: string
     accept: string
     decline: string
+    manage: string
     learnMore: string
+    save: string
+    essential: { label: string; description: string }
+    functional: { label: string; description: string }
+    analytics: { label: string; description: string }
+    alwaysOn: string
   }
   scrollToTop: string
 }
@@ -195,10 +201,28 @@ const id: LandingExtrasDictionary = {
     madeFor: "Dibuat untuk PROXOCORIS 2026 oleh Tim Subak Code",
   },
   cookieConsent: {
-    text: "Kami menggunakan cookie untuk menyimpan preferensi tampilan Anda. Dengan melanjutkan, Anda menyetujui penggunaan cookie sesuai",
-    accept: "Terima",
-    decline: "Tolak",
+    text: "Kami menggunakan cookie untuk meningkatkan pengalaman Anda. Anda dapat memilih kategori cookie yang diizinkan sesuai",
+    accept: "Terima Semua",
+    decline: "Tolak Semua",
+    manage: "Kelola Preferensi",
     learnMore: "Kebijakan Cookie",
+    save: "Simpan Preferensi",
+    essential: {
+      label: "Cookie Esensial",
+      description:
+        "Diperlukan untuk login dan fungsi dasar platform. Tidak dapat dinonaktifkan.",
+    },
+    functional: {
+      label: "Cookie Fungsional",
+      description:
+        "Menyimpan preferensi bahasa, tema, dan status sidebar Anda.",
+    },
+    analytics: {
+      label: "Cookie Analitik",
+      description:
+        "Membantu kami memahami pola penggunaan platform secara anonim melalui Google Analytics.",
+    },
+    alwaysOn: "Selalu Aktif",
   },
   scrollToTop: "Kembali ke atas",
 }
@@ -351,10 +375,28 @@ const en: LandingExtrasDictionary = {
     madeFor: "Made for PROXOCORIS 2026 by Team Subak Code",
   },
   cookieConsent: {
-    text: "We use cookies to store your display preferences. By continuing, you agree to our cookie usage per our",
-    accept: "Accept",
-    decline: "Decline",
+    text: "We use cookies to improve your experience. You can choose which cookie categories to allow per our",
+    accept: "Accept All",
+    decline: "Decline All",
+    manage: "Manage Preferences",
     learnMore: "Cookie Policy",
+    save: "Save Preferences",
+    essential: {
+      label: "Essential Cookies",
+      description:
+        "Required for login and basic platform functionality. Cannot be disabled.",
+    },
+    functional: {
+      label: "Functional Cookies",
+      description:
+        "Stores your language, theme, and sidebar state preferences.",
+    },
+    analytics: {
+      label: "Analytics Cookies",
+      description:
+        "Helps us understand platform usage patterns anonymously via Google Analytics.",
+    },
+    alwaysOn: "Always On",
   },
   scrollToTop: "Back to top",
 }

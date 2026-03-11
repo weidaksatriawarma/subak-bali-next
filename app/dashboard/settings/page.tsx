@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 import {
   Form,
   FormControl,
@@ -78,11 +79,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [email, setEmail] = useState("")
-  const {
-    status: cookieStatus,
-    accept: acceptCookies,
-    decline: declineCookies,
-  } = useCookieConsent()
+  const { details, acceptSelected } = useCookieConsent()
   const { resetTour } = useTour()
   const { t } = useTranslation()
   const s = t.dashboard.settings
@@ -410,28 +407,50 @@ export default function SettingsPage() {
             {s.cookiePreferences}
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="mb-4 text-sm text-muted-foreground">{s.cookieDesc}</p>
-          <div className="flex items-center gap-3">
-            <span className="text-sm">
-              {s.cookieStatus}:{" "}
-              <span className="font-medium">
-                {cookieStatus === "accepted"
-                  ? s.cookieAccepted
-                  : cookieStatus === "declined"
-                    ? s.cookieDeclined
-                    : s.cookieNotChosen}
-              </span>
-            </span>
-            {cookieStatus === "accepted" ? (
-              <Button variant="outline" size="sm" onClick={declineCookies}>
-                {s.declineCookies}
-              </Button>
-            ) : (
-              <Button variant="outline" size="sm" onClick={acceptCookies}>
-                {s.acceptCookies}
-              </Button>
-            )}
+        <CardContent className="space-y-4">
+          <p className="text-sm text-muted-foreground">{s.cookieDesc}</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium">{s.cookieEssentialLabel}</p>
+              <p className="text-xs text-muted-foreground">
+                {s.cookieEssentialDesc}
+              </p>
+            </div>
+            <Switch checked disabled />
+          </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium">{s.cookieFunctionalLabel}</p>
+              <p className="text-xs text-muted-foreground">
+                {s.cookieFunctionalDesc}
+              </p>
+            </div>
+            <Switch
+              checked={details?.functional ?? false}
+              onCheckedChange={(v) =>
+                acceptSelected({
+                  functional: v,
+                  analytics: details?.analytics ?? false,
+                })
+              }
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium">{s.cookieAnalyticsLabel}</p>
+              <p className="text-xs text-muted-foreground">
+                {s.cookieAnalyticsDesc}
+              </p>
+            </div>
+            <Switch
+              checked={details?.analytics ?? false}
+              onCheckedChange={(v) =>
+                acceptSelected({
+                  functional: details?.functional ?? false,
+                  analytics: v,
+                })
+              }
+            />
           </div>
         </CardContent>
       </Card>

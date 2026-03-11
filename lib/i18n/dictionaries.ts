@@ -571,12 +571,12 @@ export interface DashboardDictionary {
     retakeAssessment: string
     cookiePreferences: string
     cookieDesc: string
-    cookieStatus: string
-    cookieAccepted: string
-    cookieDeclined: string
-    cookieNotChosen: string
-    acceptCookies: string
-    declineCookies: string
+    cookieEssentialLabel: string
+    cookieEssentialDesc: string
+    cookieFunctionalLabel: string
+    cookieFunctionalDesc: string
+    cookieAnalyticsLabel: string
+    cookieAnalyticsDesc: string
     helpTitle: string
     helpDesc: string
     startTour: string
@@ -1562,12 +1562,12 @@ const id: Dictionary = {
       cookiePreferences: "Preferensi Cookie",
       cookieDesc:
         "Cookie fungsional menyimpan preferensi tampilan Anda (bahasa, tema, status sidebar) agar tetap tersimpan saat kembali berkunjung.",
-      cookieStatus: "Status",
-      cookieAccepted: "Diterima",
-      cookieDeclined: "Ditolak",
-      cookieNotChosen: "Belum dipilih",
-      acceptCookies: "Terima Cookie",
-      declineCookies: "Tolak Cookie",
+      cookieEssentialLabel: "Cookie Esensial",
+      cookieEssentialDesc: "Login dan fungsi dasar",
+      cookieFunctionalLabel: "Cookie Fungsional",
+      cookieFunctionalDesc: "Bahasa, tema, sidebar",
+      cookieAnalyticsLabel: "Cookie Analitik",
+      cookieAnalyticsDesc: "Google Analytics (anonim)",
       helpTitle: "Bantuan",
       helpDesc:
         "Mulai ulang tur interaktif untuk melihat fitur-fitur utama dashboard.",
@@ -2478,12 +2478,12 @@ const en: Dictionary = {
       cookiePreferences: "Cookie Preferences",
       cookieDesc:
         "Functional cookies save your display preferences (language, theme, sidebar state) so they persist when you return.",
-      cookieStatus: "Status",
-      cookieAccepted: "Accepted",
-      cookieDeclined: "Declined",
-      cookieNotChosen: "Not chosen",
-      acceptCookies: "Accept Cookies",
-      declineCookies: "Decline Cookies",
+      cookieEssentialLabel: "Essential Cookies",
+      cookieEssentialDesc: "Login and basic functions",
+      cookieFunctionalLabel: "Functional Cookies",
+      cookieFunctionalDesc: "Language, theme, sidebar",
+      cookieAnalyticsLabel: "Analytics Cookies",
+      cookieAnalyticsDesc: "Google Analytics (anonymous)",
       helpTitle: "Help",
       helpDesc:
         "Restart the interactive tour to see the main dashboard features.",

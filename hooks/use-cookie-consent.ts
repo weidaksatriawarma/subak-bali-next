@@ -2,10 +2,12 @@
 
 import { useCallback, useSyncExternalStore } from "react"
 import {
-  type ConsentStatus,
-  getConsentStatus,
-  setConsentStatus,
+  type ConsentDetails,
+  getConsentDetails,
+  setConsentDetails,
+  hasRespondedToConsent,
   clearFunctionalStorage,
+  clearAnalyticsStorage,
   CONSENT_KEY,
 } from "@/lib/cookie-consent"
 
@@ -14,31 +16,53 @@ function subscribe(callback: () => void) {
   return () => window.removeEventListener("storage", callback)
 }
 
-function getSnapshot(): ConsentStatus | null {
-  return getConsentStatus()
+function getDetailsSnapshot(): ConsentDetails | null {
+  return getConsentDetails()
 }
 
-function getServerSnapshot(): ConsentStatus | null {
+function getRespondedSnapshot(): boolean {
+  return hasRespondedToConsent()
+}
+
+function getServerDetails(): ConsentDetails | null {
   return null
+}
+function getServerResponded(): boolean {
+  return false
 }
 
 export function useCookieConsent() {
-  const status = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  const details = useSyncExternalStore(
+    subscribe,
+    getDetailsSnapshot,
+    getServerDetails
+  )
+  const hasResponded = useSyncExternalStore(
+    subscribe,
+    getRespondedSnapshot,
+    getServerResponded
+  )
 
-  const accept = useCallback(() => {
-    setConsentStatus("accepted")
+  const acceptAll = useCallback(() => {
+    setConsentDetails({ functional: true, analytics: true })
   }, [])
 
-  const decline = useCallback(() => {
-    setConsentStatus("declined")
+  const acceptSelected = useCallback((d: ConsentDetails) => {
+    setConsentDetails(d)
+  }, [])
+
+  const declineAll = useCallback(() => {
+    setConsentDetails({ functional: false, analytics: false })
     clearFunctionalStorage()
+    clearAnalyticsStorage()
   }, [])
 
   const reset = useCallback(() => {
     localStorage.removeItem(CONSENT_KEY)
     clearFunctionalStorage()
+    clearAnalyticsStorage()
     window.dispatchEvent(new StorageEvent("storage"))
   }, [])
 
-  return { status, accept, decline, reset }
+  return { details, hasResponded, acceptAll, acceptSelected, declineAll, reset }
 }

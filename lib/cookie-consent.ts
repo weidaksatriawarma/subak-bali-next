@@ -1,21 +1,50 @@
 export const CONSENT_KEY = "subakhijau-cookie-consent"
 
-export type ConsentStatus = "accepted" | "declined"
+export interface ConsentDetails {
+  functional: boolean
+  analytics: boolean
+}
 
-export function getConsentStatus(): ConsentStatus | null {
+// Parse stored value, handling backward compat with old "accepted"/"declined" strings
+export function getConsentDetails(): ConsentDetails | null {
   if (typeof window === "undefined") return null
-  const value = localStorage.getItem(CONSENT_KEY)
-  if (value === "accepted" || value === "declined") return value
+  const raw = localStorage.getItem(CONSENT_KEY)
+  if (!raw) return null
+  // Backward compat: old binary format
+  if (raw === "accepted") return { functional: true, analytics: false }
+  if (raw === "declined") return { functional: false, analytics: false }
+  try {
+    const parsed = JSON.parse(raw)
+    if (
+      typeof parsed.functional === "boolean" &&
+      typeof parsed.analytics === "boolean"
+    ) {
+      return parsed as ConsentDetails
+    }
+  } catch {
+    /* invalid JSON, treat as no consent */
+  }
   return null
 }
 
-export function setConsentStatus(status: ConsentStatus): void {
-  localStorage.setItem(CONSENT_KEY, status)
+export function setConsentDetails(details: ConsentDetails): void {
+  localStorage.setItem(CONSENT_KEY, JSON.stringify(details))
+  if (!details.functional) clearFunctionalStorage()
+  if (!details.analytics) clearAnalyticsStorage()
   window.dispatchEvent(new StorageEvent("storage"))
 }
 
+export function hasRespondedToConsent(): boolean {
+  if (typeof window === "undefined") return false
+  return localStorage.getItem(CONSENT_KEY) !== null
+}
+
 export function isFunctionalCookiesAllowed(): boolean {
-  return getConsentStatus() === "accepted"
+  return getConsentDetails()?.functional ?? false
+}
+
+export function isAnalyticsCookiesAllowed(): boolean {
+  return getConsentDetails()?.analytics ?? false
 }
 
 export function clearFunctionalStorage(): void {
@@ -23,4 +52,16 @@ export function clearFunctionalStorage(): void {
   localStorage.removeItem("theme")
   localStorage.removeItem("assessment-draft")
   document.cookie = "sidebar_state=; path=/; max-age=0"
+}
+
+export function clearAnalyticsStorage(): void {
+  // Clear GA4 cookies
+  const gaCookies = document.cookie.split(";").map((c) => c.trim())
+  for (const cookie of gaCookies) {
+    const name = cookie.split("=")[0]
+    if (name === "_ga" || name.startsWith("_ga_") || name === "_gid") {
+      document.cookie = `${name}=; path=/; max-age=0; domain=${window.location.hostname}`
+      document.cookie = `${name}=; path=/; max-age=0`
+    }
+  }
 }
