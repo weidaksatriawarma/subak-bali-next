@@ -257,8 +257,8 @@ function ChatPageContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const conversationId = searchParams.get("id")
-  const [initialPrompt, setInitialPrompt] = useState<string | null>(
-    () => searchParams.get("prompt")
+  const [initialPrompt, setInitialPrompt] = useState<string | null>(() =>
+    searchParams.get("prompt")
   )
   const [sheetOpen, setSheetOpen] = useState(false)
   const { t } = useTranslation()
