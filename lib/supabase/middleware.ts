@@ -77,7 +77,9 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(new URL("/dashboard", request.url))
     }
   } catch (error) {
-    console.error("Middleware auth error:", error)
+    const message =
+      error instanceof Error ? error.message : "Unknown middleware error"
+    console.error(`[middleware] ${message}`)
     // On auth failure for protected routes, redirect to login
     if (
       request.nextUrl.pathname.startsWith("/dashboard") ||

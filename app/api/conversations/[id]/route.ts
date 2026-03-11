@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import { rateLimit, rateLimitResponse } from "@/lib/security"
+import {
+  rateLimit,
+  rateLimitResponse,
+  validateOrigin,
+} from "@/lib/security"
 import { auditLog } from "@/lib/audit"
 
 export async function GET(
@@ -48,9 +52,13 @@ export async function GET(
 }
 
 export async function DELETE(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!validateOrigin(req)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+  }
+
   const { id } = await params
   const supabase = await createClient()
   const {

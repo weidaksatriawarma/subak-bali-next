@@ -96,11 +96,15 @@ export function sanitizeObjectForPrompt(
   for (const [key, value] of Object.entries(obj)) {
     if (typeof value === "string") {
       result[key] = sanitizeForPrompt(value, 500)
-    } else if (
-      typeof value === "object" &&
-      value !== null &&
-      !Array.isArray(value)
-    ) {
+    } else if (Array.isArray(value)) {
+      result[key] = value.map((item) =>
+        typeof item === "string"
+          ? sanitizeForPrompt(item, 500)
+          : typeof item === "object" && item !== null
+            ? sanitizeObjectForPrompt(item as Record<string, unknown>)
+            : item
+      )
+    } else if (typeof value === "object" && value !== null) {
       result[key] = sanitizeObjectForPrompt(value as Record<string, unknown>)
     } else {
       result[key] = value
