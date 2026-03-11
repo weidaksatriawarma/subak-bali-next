@@ -128,6 +128,11 @@ export function AppSidebar({ profile }: AppSidebarProps) {
               href: "/dashboard/sdg",
               icon: Globe,
             },
+            {
+              title: d.nav.report,
+              href: "/dashboard/score/report",
+              icon: FileText,
+            },
           ],
         },
         { title: d.nav.roadmap, href: "/dashboard/roadmap", icon: Map },
@@ -140,18 +145,11 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           title: d.nav.certificate,
           href: "/dashboard/certificate",
           icon: Award,
-          children: [
-            {
-              title: d.nav.achievementCard,
-              href: "/dashboard/achievement",
-              icon: Trophy,
-            },
-            {
-              title: d.nav.report,
-              href: "/dashboard/score/report",
-              icon: FileText,
-            },
-          ],
+        },
+        {
+          title: d.nav.achievementCard,
+          href: "/dashboard/achievement",
+          icon: Trophy,
         },
         {
           title: d.nav.aiConsultant,

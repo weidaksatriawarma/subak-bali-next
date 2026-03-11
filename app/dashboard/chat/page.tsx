@@ -267,6 +267,7 @@ function ChatPageContent() {
     searchParams.get("prompt")
   )
   const [sheetOpen, setSheetOpen] = useState(false)
+  const [resetKey, setResetKey] = useState(0)
   const { t } = useTranslation()
   const cp = t.dashboard.chatPage
 
@@ -288,6 +289,7 @@ function ChatPageContent() {
 
   const handleNewChat = () => {
     router.push("/dashboard/chat")
+    setResetKey((k) => k + 1)
     setSheetOpen(false)
   }
 
@@ -377,7 +379,7 @@ function ChatPageContent() {
             </div>
           ) : (
             <ChatPanel
-              key={conversationId || "new"}
+              key={conversationId || `new-${resetKey}`}
               conversationId={conversationId}
               initialMessages={initialMessages}
               onFirstMessage={handleFirstMessage}

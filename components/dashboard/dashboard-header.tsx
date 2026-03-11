@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { Moon, Sun, Languages } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
@@ -23,9 +24,16 @@ export function DashboardHeader() {
         aria-orientation="vertical"
         className="mr-2 h-4 w-px shrink-0 bg-border"
       />
-      <span className="text-sm font-medium text-muted-foreground">
-        Subak Hijau
-      </span>
+      <div className="flex items-center gap-2">
+        <Image
+          src="/images/logo/logo-subak-hijau.png"
+          alt="Subak Hijau"
+          width={28}
+          height={28}
+          className="rounded-md"
+        />
+        <span className="text-sm font-semibold">Subak Hijau</span>
+      </div>
 
       <div className="ml-auto flex items-center gap-1">
         <NotificationBell />
