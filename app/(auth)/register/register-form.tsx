@@ -21,6 +21,7 @@ export function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault()
@@ -61,6 +62,7 @@ export function RegisterForm() {
   }
 
   async function handleGoogleRegister() {
+    setGoogleLoading(true)
     const supabase = createClient()
     await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -146,9 +148,10 @@ export function RegisterForm() {
           variant="outline"
           className="w-full"
           onClick={handleGoogleRegister}
+          disabled={googleLoading}
         >
           <Chrome className="mr-2 h-4 w-4" />
-          {t.auth.registerWithGoogle}
+          {googleLoading ? t.auth.processing : t.auth.registerWithGoogle}
         </Button>
       </CardContent>
       <CardFooter className="justify-center">

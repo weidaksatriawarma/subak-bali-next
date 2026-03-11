@@ -19,16 +19,13 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      if (user) {
+      if (data.user) {
         const { data: profile } = await supabase
           .from("profiles")
           .select("id")
-          .eq("id", user.id)
+          .eq("id", data.user.id)
           .single()
 
         if (!profile) {

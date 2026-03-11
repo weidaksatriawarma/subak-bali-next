@@ -20,6 +20,7 @@ export function LoginForm() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
 
   async function handleEmailLogin(e: React.FormEvent) {
     e.preventDefault()
@@ -42,6 +43,7 @@ export function LoginForm() {
   }
 
   async function handleGoogleLogin() {
+    setGoogleLoading(true)
     const supabase = createClient()
     await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -112,9 +114,10 @@ export function LoginForm() {
           variant="outline"
           className="w-full"
           onClick={handleGoogleLogin}
+          disabled={googleLoading}
         >
           <Chrome className="mr-2 h-4 w-4" />
-          {t.auth.loginWithGoogle}
+          {googleLoading ? t.auth.processing : t.auth.loginWithGoogle}
         </Button>
       </CardContent>
       <CardFooter className="justify-center">
