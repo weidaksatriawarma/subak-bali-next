@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
-import {
-  rateLimit,
-  rateLimitResponse,
-  validateOrigin,
-} from "@/lib/security"
+import { rateLimit, rateLimitResponse, validateOrigin } from "@/lib/security"
 
 const CreateConversationSchema = z.object({
   title: z.string().trim().min(1).max(200).optional(),

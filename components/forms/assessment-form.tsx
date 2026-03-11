@@ -263,8 +263,7 @@ export function AssessmentForm() {
           plastic_reduction_efforts: formData.plastic_reduction_efforts,
           waste_volume_kg_monthly: formData.waste_volume_kg_monthly,
           local_sourcing_percentage: formData.local_sourcing_percentage,
-          supplier_sustainability_check:
-            formData.supplier_sustainability_check,
+          supplier_sustainability_check: formData.supplier_sustainability_check,
           packaging_type: formData.packaging_type,
           water_conservation: formData.water_conservation,
           digital_operations: formData.digital_operations,

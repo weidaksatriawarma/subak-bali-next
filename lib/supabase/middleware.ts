@@ -21,8 +21,7 @@ export async function updateSession(request: NextRequest) {
   // Rate-limit certificate verification by IP
   if (request.nextUrl.pathname.startsWith("/verify/")) {
     const ip =
-      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-      "unknown"
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
     if (!verifyRateLimit(ip)) {
       return new NextResponse("Too Many Requests", { status: 429 })
     }

@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import {
-  rateLimit,
-  rateLimitResponse,
-  validateOrigin,
-} from "@/lib/security"
+import { rateLimit, rateLimitResponse, validateOrigin } from "@/lib/security"
 import { auditLog } from "@/lib/audit"
 
 export async function GET(

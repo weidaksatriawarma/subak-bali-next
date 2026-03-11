@@ -134,10 +134,7 @@ export function validateOrigin(req: Request): boolean {
   const origin = req.headers.get("origin")
   // No origin header = same-origin request (browser doesn't send it)
   if (!origin) return true
-  const allowed = [
-    "https://subakhijau.app",
-    "https://www.subakhijau.app",
-  ]
+  const allowed = ["https://subakhijau.app", "https://www.subakhijau.app"]
   if (process.env.NODE_ENV === "development") {
     allowed.push("http://localhost:3000")
   }

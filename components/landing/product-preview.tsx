@@ -105,8 +105,9 @@ function CategoryBar({ name, value }: { name: string; value: number }) {
       <div className="h-2 overflow-hidden rounded-full bg-muted">
         <motion.div
           className="h-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500"
-          initial={{ width: 0 }}
-          animate={isInView ? { width: `${value}%` } : { width: 0 }}
+          style={{ width: `${value}%`, transformOrigin: "left" }}
+          initial={{ scaleX: 0 }}
+          animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
           transition={
             prefersReduced
               ? { duration: 0 }
@@ -184,15 +185,21 @@ export function ProductPreview() {
             <TabsList className="mx-auto mb-6 grid w-full max-w-md grid-cols-3">
               <TabsTrigger value="score" className="gap-1.5">
                 <BarChart3 className="size-4" />
-                <span className="hidden sm:inline">{pp.tabs.score}</span>
+                <span className="sr-only sm:not-sr-only sm:inline">
+                  {pp.tabs.score}
+                </span>
               </TabsTrigger>
               <TabsTrigger value="roadmap" className="gap-1.5">
                 <Zap className="size-4" />
-                <span className="hidden sm:inline">{pp.tabs.roadmap}</span>
+                <span className="sr-only sm:not-sr-only sm:inline">
+                  {pp.tabs.roadmap}
+                </span>
               </TabsTrigger>
               <TabsTrigger value="chat" className="gap-1.5">
                 <Bot className="size-4" />
-                <span className="hidden sm:inline">{pp.tabs.chat}</span>
+                <span className="sr-only sm:not-sr-only sm:inline">
+                  {pp.tabs.chat}
+                </span>
               </TabsTrigger>
             </TabsList>
 
