@@ -8,7 +8,7 @@ export default function PublicLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className="min-h-svh">
+    <main id="main-content" tabIndex={-1} className="min-h-svh">
       <Navbar />
       <div className="pt-20 pb-16">{children}</div>
       <Footer />

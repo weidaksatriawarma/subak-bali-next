@@ -68,6 +68,9 @@
   "overrides": {
     "hono": ">=4.12.7"
   },
+  "browserslist": [
+    "defaults and fully supports es6-module"
+  ],
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.58.2",

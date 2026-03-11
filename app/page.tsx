@@ -29,7 +29,7 @@ const faqItems = landingExtras.id.faq.items
 
 export default function Page() {
   return (
-    <main className="min-h-svh">
+    <main id="main-content" tabIndex={-1} className="min-h-svh">
       <Navbar />
       <Hero />
       <Stats />

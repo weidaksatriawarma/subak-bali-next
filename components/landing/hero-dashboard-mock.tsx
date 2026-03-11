@@ -67,17 +67,17 @@ const pulseVariants: Variants = {
   },
 }
 
-function makeBarVariants(value: number, reduced: boolean): Variants {
+function makeBarVariants(reduced: boolean): Variants {
   if (reduced) {
     return {
-      hidden: { width: `${value}%` },
-      visible: { width: `${value}%` },
+      hidden: { scaleX: 1 },
+      visible: { scaleX: 1 },
     }
   }
   return {
-    hidden: { width: 0 },
+    hidden: { scaleX: 0 },
     visible: {
-      width: `${value}%`,
+      scaleX: 1,
       transition: { duration: 0.8, ease: "easeOut" },
     },
   }
@@ -224,6 +224,8 @@ export function HeroDashboardMock() {
                     <motion.div
                       className="h-full rounded-full"
                       style={{
+                        width: `${cat.value}%`,
+                        transformOrigin: "left",
                         background:
                           index < 2
                             ? "var(--color-primary)"
@@ -231,10 +233,7 @@ export function HeroDashboardMock() {
                               ? "var(--color-chart-2)"
                               : "var(--color-chart-3)",
                       }}
-                      variants={makeBarVariants(
-                        cat.value,
-                        prefersReduced ?? false
-                      )}
+                      variants={makeBarVariants(prefersReduced ?? false)}
                       initial="hidden"
                       animate="visible"
                       transition={{

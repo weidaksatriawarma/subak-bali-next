@@ -5,6 +5,9 @@ const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
   : "*.supabase.co"
 const nextConfig = {
   serverExternalPackages: ["@react-pdf/renderer"],
+  experimental: {
+    optimizePackageImports: ["framer-motion"],
+  },
   images: {
     remotePatterns: [
       {
