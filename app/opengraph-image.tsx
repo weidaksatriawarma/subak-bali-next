@@ -9,7 +9,7 @@ export const contentType = "image/png"
 export default async function Image() {
   // Load the logo from public/
   const logoData = await fetch(
-    new URL("../public/images/logo/logo-subak-hijau.png", import.meta.url)
+    new URL("../public/icons/icon-192x192.png", import.meta.url)
   ).then((res) => res.arrayBuffer())
 
   return new ImageResponse(
