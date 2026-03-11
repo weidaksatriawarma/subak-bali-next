@@ -5,6 +5,7 @@ import {
   calculateRegulatoryCompliance,
 } from "@/lib/carbon"
 import { lookupRegulations } from "@/lib/ai/regulations"
+import type { Locale } from "@/lib/i18n/dictionaries"
 import type { Assessment } from "@/types/database"
 
 const INDUSTRY_BENCHMARKS: Record<
@@ -75,11 +76,39 @@ const INDUSTRY_BENCHMARKS: Record<
   },
 }
 
-export function createChatTools(assessment: Assessment | null) {
+export function createChatTools(
+  assessment: Assessment | null,
+  locale: Locale = "id"
+) {
+  const desc = {
+    id: {
+      calculateCO2:
+        "Menghitung estimasi jejak karbon (carbon footprint) bisnis berdasarkan data assessment. Gunakan tool ini ketika user bertanya tentang emisi CO2, jejak karbon, atau dampak lingkungan bisnis mereka.",
+      lookupRegulation:
+        "Mencari regulasi Indonesia terkait keberlanjutan untuk UMKM. Gunakan tool ini ketika user bertanya tentang aturan, regulasi, kebijakan pemerintah, POJK, atau compliance.",
+      getIndustryBenchmark:
+        "Membandingkan skor keberlanjutan bisnis dengan rata-rata industri di Indonesia. Gunakan tool ini ketika user bertanya perbandingan, benchmark, atau posisi mereka dibanding bisnis sejenis.",
+    },
+    en: {
+      calculateCO2:
+        "Calculate the estimated carbon footprint of the business based on assessment data. Use this tool when the user asks about CO2 emissions, carbon footprint, or the environmental impact of their business.",
+      lookupRegulation:
+        "Look up Indonesian sustainability regulations for MSMEs. Use this tool when the user asks about rules, regulations, government policies, POJK, or compliance.",
+      getIndustryBenchmark:
+        "Compare the business sustainability score with industry averages in Indonesia. Use this tool when the user asks about comparisons, benchmarks, or their position relative to similar businesses.",
+    },
+  } as const
+
+  const catNames =
+    locale === "id"
+      ? { energy: "Energi", waste: "Limbah", transport: "Transportasi" }
+      : { energy: "Energy", waste: "Waste", transport: "Transportation" }
+
+  const numFmt = locale === "id" ? "id-ID" : "en-US"
+
   return {
     calculateCO2: tool({
-      description:
-        "Menghitung estimasi jejak karbon (carbon footprint) bisnis berdasarkan data assessment. Gunakan tool ini ketika user bertanya tentang emisi CO2, jejak karbon, atau dampak lingkungan bisnis mereka.",
+      description: desc[locale].calculateCO2,
       inputSchema: z.object({
         energySource: z
           .enum(["pln_only", "pln_solar", "solar_only", "diesel_generator"])
@@ -125,33 +154,35 @@ export function createChatTools(assessment: Assessment | null) {
           ...result,
           breakdown: [
             {
-              category: "Energi",
+              category: catNames.energy,
               co2Kg: result.energyCO2,
               percentage: Math.round(
                 (result.energyCO2 / result.totalCO2) * 100
               ),
             },
             {
-              category: "Limbah",
+              category: catNames.waste,
               co2Kg: result.wasteCO2,
               percentage: Math.round((result.wasteCO2 / result.totalCO2) * 100),
             },
             {
-              category: "Transportasi",
+              category: catNames.transport,
               co2Kg: result.transportCO2,
               percentage: Math.round(
                 (result.transportCO2 / result.totalCO2) * 100
               ),
             },
           ],
-          context: `Total emisi tahunan: ${result.totalCO2.toLocaleString("id-ID")} kg CO₂, setara dengan ${result.treeEquivalent} pohon per tahun untuk menyerap emisi ini.`,
+          context:
+            locale === "id"
+              ? `Total emisi tahunan: ${result.totalCO2.toLocaleString(numFmt)} kg CO₂, setara dengan ${result.treeEquivalent} pohon per tahun untuk menyerap emisi ini.`
+              : `Total annual emissions: ${result.totalCO2.toLocaleString(numFmt)} kg CO₂, equivalent to ${result.treeEquivalent} trees per year to absorb these emissions.`,
         }
       },
     }),
 
     lookupRegulation: tool({
-      description:
-        "Mencari regulasi Indonesia terkait keberlanjutan untuk UMKM. Gunakan tool ini ketika user bertanya tentang aturan, regulasi, kebijakan pemerintah, POJK, atau compliance.",
+      description: desc[locale].lookupRegulation,
       inputSchema: z.object({
         topic: z
           .enum(["carbon", "waste", "energy", "reporting", "green_finance"])
@@ -166,7 +197,9 @@ export function createChatTools(assessment: Assessment | null) {
             topic,
             found: false as const,
             message:
-              "Tidak ditemukan regulasi spesifik untuk topik ini. Coba topik lain: carbon, waste, energy, reporting, atau green_finance.",
+              locale === "id"
+                ? "Tidak ditemukan regulasi spesifik untuk topik ini. Coba topik lain: carbon, waste, energy, reporting, atau green_finance."
+                : "No specific regulations found for this topic. Try another topic: carbon, waste, energy, reporting, or green_finance.",
           }
         }
 
@@ -193,8 +226,7 @@ export function createChatTools(assessment: Assessment | null) {
     }),
 
     getIndustryBenchmark: tool({
-      description:
-        "Membandingkan skor keberlanjutan bisnis dengan rata-rata industri di Indonesia. Gunakan tool ini ketika user bertanya perbandingan, benchmark, atau posisi mereka dibanding bisnis sejenis.",
+      description: desc[locale].getIndustryBenchmark,
       inputSchema: z.object({
         industry: z
           .enum([
@@ -224,7 +256,10 @@ export function createChatTools(assessment: Assessment | null) {
               policy: benchmark.policyAvg,
             },
           },
-          context: `Rata-rata skor sustainability untuk industri ${industry} di Indonesia adalah ${benchmark.avgScore}/100. Top performer mencapai ${benchmark.topScore}/100.`,
+          context:
+            locale === "id"
+              ? `Rata-rata skor sustainability untuk industri ${industry} di Indonesia adalah ${benchmark.avgScore}/100. Top performer mencapai ${benchmark.topScore}/100.`
+              : `The average sustainability score for the ${industry} industry in Indonesia is ${benchmark.avgScore}/100. Top performers reach ${benchmark.topScore}/100.`,
         }
       },
     }),

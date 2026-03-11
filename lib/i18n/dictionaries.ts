@@ -695,6 +695,31 @@ export interface Dictionary {
     madeFor: string
     team: string
   }
+  auth: {
+    loginTitle: string
+    registerTitle: string
+    email: string
+    emailPlaceholder: string
+    password: string
+    loginPasswordPlaceholder: string
+    registerPasswordPlaceholder: string
+    confirmPassword: string
+    confirmPasswordPlaceholder: string
+    loginButton: string
+    registerButton: string
+    processing: string
+    or: string
+    loginWithGoogle: string
+    registerWithGoogle: string
+    noAccount: string
+    hasAccount: string
+    register: string
+    login: string
+    passwordMismatch: string
+    passwordMinLength: string
+    passwordUppercase: string
+    passwordNumber: string
+  }
   dashboard: DashboardDictionary
 }
 
@@ -907,6 +932,31 @@ const id: Dictionary = {
   footer: {
     madeFor: "Dibuat untuk PROXOCORIS 2026",
     team: "Tim Subak Code",
+  },
+  auth: {
+    loginTitle: "Masuk ke Subak Hijau",
+    registerTitle: "Daftar di Subak Hijau",
+    email: "Email",
+    emailPlaceholder: "nama@email.com",
+    password: "Kata Sandi",
+    loginPasswordPlaceholder: "Masukkan kata sandi",
+    registerPasswordPlaceholder: "Minimal 8 karakter (huruf besar + angka)",
+    confirmPassword: "Konfirmasi Kata Sandi",
+    confirmPasswordPlaceholder: "Ulangi kata sandi",
+    loginButton: "Masuk",
+    registerButton: "Daftar",
+    processing: "Memproses...",
+    or: "atau",
+    loginWithGoogle: "Masuk dengan Google",
+    registerWithGoogle: "Daftar dengan Google",
+    noAccount: "Belum punya akun?",
+    hasAccount: "Sudah punya akun?",
+    register: "Daftar",
+    login: "Masuk",
+    passwordMismatch: "Kata sandi tidak cocok",
+    passwordMinLength: "Kata sandi minimal 8 karakter",
+    passwordUppercase: "Kata sandi harus mengandung minimal 1 huruf besar",
+    passwordNumber: "Kata sandi harus mengandung minimal 1 angka",
   },
   dashboard: {
     sidebar: {
@@ -1841,6 +1891,31 @@ const en: Dictionary = {
   footer: {
     madeFor: "Made for PROXOCORIS 2026",
     team: "Team Subak Code",
+  },
+  auth: {
+    loginTitle: "Sign in to Subak Hijau",
+    registerTitle: "Create your account",
+    email: "Email",
+    emailPlaceholder: "you@email.com",
+    password: "Password",
+    loginPasswordPlaceholder: "Enter your password",
+    registerPasswordPlaceholder: "Min 8 chars (uppercase + number)",
+    confirmPassword: "Confirm Password",
+    confirmPasswordPlaceholder: "Repeat your password",
+    loginButton: "Sign in",
+    registerButton: "Sign up",
+    processing: "Processing...",
+    or: "or",
+    loginWithGoogle: "Sign in with Google",
+    registerWithGoogle: "Sign up with Google",
+    noAccount: "Don't have an account?",
+    hasAccount: "Already have an account?",
+    register: "Sign up",
+    login: "Sign in",
+    passwordMismatch: "Passwords do not match",
+    passwordMinLength: "Password must be at least 8 characters",
+    passwordUppercase: "Password must contain at least 1 uppercase letter",
+    passwordNumber: "Password must contain at least 1 number",
   },
   dashboard: {
     sidebar: {

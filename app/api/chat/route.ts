@@ -41,6 +41,7 @@ const ChatRequestSchema = z.object({
     .min(1)
     .max(50),
   conversationId: z.string().uuid().nullish(),
+  locale: z.enum(["id", "en"]).default("id"),
 })
 
 export const maxDuration = 60
@@ -60,9 +61,10 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return Response.json({ error: "Invalid request body" }, { status: 400 })
   }
-  const { messages, conversationId } = parsed.data as unknown as {
+  const { messages, conversationId, locale } = parsed.data as unknown as {
     messages: UIMessage[]
     conversationId?: string | null
+    locale: "id" | "en"
   }
 
   const supabase = await createClient()
@@ -143,9 +145,9 @@ export async function POST(req: Request) {
   try {
     const result = streamText({
       model: gateway("anthropic/claude-sonnet-4-20250514"),
-      system: buildChatSystemPrompt(profile, score),
+      system: buildChatSystemPrompt(profile, score, locale),
       messages: await convertToModelMessages(messages),
-      tools: createChatTools(assessment),
+      tools: createChatTools(assessment, locale),
       stopWhen: stepCountIs(3),
       abortSignal: controller.signal,
       onError({ error }) {
@@ -174,7 +176,9 @@ export async function POST(req: Request) {
     clearTimeout(timeout)
     logError("chat", err)
     return new Response(
-      "Layanan AI sedang tidak tersedia. Silakan coba lagi dalam beberapa saat.",
+      locale === "en"
+        ? "AI service is temporarily unavailable. Please try again shortly."
+        : "Layanan AI sedang tidak tersedia. Silakan coba lagi dalam beberapa saat.",
       { status: 503 }
     )
   }

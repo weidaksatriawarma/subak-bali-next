@@ -1,3 +1,4 @@
+import type { Locale } from "@/lib/i18n/dictionaries"
 import type { Profile, Score, Assessment } from "@/types/database"
 import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
 import { sanitizeForPrompt, sanitizeObjectForPrompt } from "@/lib/security"
@@ -116,7 +117,8 @@ Set tree_equivalent = estimated_co2_reduction_kg / 22 (average CO₂ absorbed by
 
 export function buildChatSystemPrompt(
   profile: Profile,
-  score?: Score | null
+  score?: Score | null,
+  locale: Locale = "id"
 ): string {
   const scoreContext = score
     ? `
@@ -127,7 +129,9 @@ Score breakdown:
 - Rantai Pasok: ${score.supply_chain_score}/100
 - Operasional: ${score.operations_score}/100
 - Kebijakan: ${score.policy_score}/100`
-    : "Belum ada assessment sustainability."
+    : locale === "id"
+      ? "Belum ada assessment sustainability."
+      : "No sustainability assessment available yet."
 
   const name = sanitizeForPrompt(profile.business_name)
   const location = sanitizeForPrompt(profile.location || "Indonesia")
@@ -160,7 +164,7 @@ You have tools available to provide data-backed answers:
 Always prefer using tools to provide concrete data rather than generic advice.
 
 Communication style:
-- Respond in the same language as the user (Bahasa Indonesia or English)
+${locale === "id" ? "- ALWAYS respond in Bahasa Indonesia regardless of what language the user writes in" : "- ALWAYS respond in English regardless of what language the user writes in"}
 - Be concise but thorough
 - Use specific numbers and examples when possible
 - Prioritize low-cost, high-impact actions

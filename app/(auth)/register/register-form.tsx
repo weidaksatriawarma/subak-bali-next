@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Mail, Lock, Chrome } from "lucide-react"
 
+import { useTranslation } from "@/lib/i18n/language-context"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
@@ -13,6 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 
 export function RegisterForm() {
+  const { t } = useTranslation()
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -25,22 +27,22 @@ export function RegisterForm() {
     setError(null)
 
     if (password !== confirmPassword) {
-      setError("Kata sandi tidak cocok")
+      setError(t.auth.passwordMismatch)
       return
     }
 
     if (password.length < 8) {
-      setError("Kata sandi minimal 8 karakter")
+      setError(t.auth.passwordMinLength)
       return
     }
 
     if (!/[A-Z]/.test(password)) {
-      setError("Kata sandi harus mengandung minimal 1 huruf besar")
+      setError(t.auth.passwordUppercase)
       return
     }
 
     if (!/[0-9]/.test(password)) {
-      setError("Kata sandi harus mengandung minimal 1 angka")
+      setError(t.auth.passwordNumber)
       return
     }
 
@@ -72,7 +74,7 @@ export function RegisterForm() {
     <Card>
       <CardHeader>
         <h1 className="text-center text-xl font-semibold">
-          Daftar di Subak Hijau
+          {t.auth.registerTitle}
         </h1>
       </CardHeader>
       <CardContent>
@@ -83,13 +85,13 @@ export function RegisterForm() {
             </div>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t.auth.email}</Label>
             <div className="relative">
               <Mail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 id="email"
                 type="email"
-                placeholder="nama@email.com"
+                placeholder={t.auth.emailPlaceholder}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-10"
@@ -98,13 +100,13 @@ export function RegisterForm() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Kata Sandi</Label>
+            <Label htmlFor="password">{t.auth.password}</Label>
             <div className="relative">
               <Lock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 id="password"
                 type="password"
-                placeholder="Minimal 8 karakter (huruf besar + angka)"
+                placeholder={t.auth.registerPasswordPlaceholder}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10"
@@ -113,13 +115,13 @@ export function RegisterForm() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirm-password">Konfirmasi Kata Sandi</Label>
+            <Label htmlFor="confirm-password">{t.auth.confirmPassword}</Label>
             <div className="relative">
               <Lock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 id="confirm-password"
                 type="password"
-                placeholder="Ulangi kata sandi"
+                placeholder={t.auth.confirmPasswordPlaceholder}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="pl-10"
@@ -128,13 +130,13 @@ export function RegisterForm() {
             </div>
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Memproses..." : "Daftar"}
+            {loading ? t.auth.processing : t.auth.registerButton}
           </Button>
         </form>
 
         <div className="relative my-6 flex items-center">
           <Separator className="flex-1" />
-          <span className="px-3 text-sm text-muted-foreground">atau</span>
+          <span className="px-3 text-sm text-muted-foreground">{t.auth.or}</span>
           <Separator className="flex-1" />
         </div>
 
@@ -144,14 +146,14 @@ export function RegisterForm() {
           onClick={handleGoogleRegister}
         >
           <Chrome className="mr-2 h-4 w-4" />
-          Daftar dengan Google
+          {t.auth.registerWithGoogle}
         </Button>
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
-          Sudah punya akun?{" "}
+          {t.auth.hasAccount}{" "}
           <Link href="/login" className="text-primary hover:underline">
-            Masuk
+            {t.auth.login}
           </Link>
         </p>
       </CardFooter>

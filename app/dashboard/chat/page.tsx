@@ -61,17 +61,23 @@ function ChatPanel({
   const [activeConvId, setActiveConvId] = useState(conversationId)
   const scrollRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
-  const { t } = useTranslation()
+  const { locale, t } = useTranslation()
   const cp = t.dashboard.chatPage
 
   const activeConvIdRef = useRef(activeConvId)
   activeConvIdRef.current = activeConvId
 
+  const localeRef = useRef(locale)
+  localeRef.current = locale
+
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
         api: "/api/chat",
-        body: () => ({ conversationId: activeConvIdRef.current }),
+        body: () => ({
+          conversationId: activeConvIdRef.current,
+          locale: localeRef.current,
+        }),
       }),
     []
   )

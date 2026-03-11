@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Mail, Lock, Chrome } from "lucide-react"
 
+import { useTranslation } from "@/lib/i18n/language-context"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
@@ -13,6 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 
 export function LoginForm() {
+  const { t } = useTranslation()
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -53,7 +55,7 @@ export function LoginForm() {
     <Card>
       <CardHeader>
         <h1 className="text-center text-xl font-semibold">
-          Masuk ke Subak Hijau
+          {t.auth.loginTitle}
         </h1>
       </CardHeader>
       <CardContent>
@@ -64,13 +66,13 @@ export function LoginForm() {
             </div>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t.auth.email}</Label>
             <div className="relative">
               <Mail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 id="email"
                 type="email"
-                placeholder="nama@email.com"
+                placeholder={t.auth.emailPlaceholder}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-10"
@@ -79,13 +81,13 @@ export function LoginForm() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Kata Sandi</Label>
+            <Label htmlFor="password">{t.auth.password}</Label>
             <div className="relative">
               <Lock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 id="password"
                 type="password"
-                placeholder="Masukkan kata sandi"
+                placeholder={t.auth.loginPasswordPlaceholder}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pl-10"
@@ -94,13 +96,13 @@ export function LoginForm() {
             </div>
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Memproses..." : "Masuk"}
+            {loading ? t.auth.processing : t.auth.loginButton}
           </Button>
         </form>
 
         <div className="relative my-6 flex items-center">
           <Separator className="flex-1" />
-          <span className="px-3 text-sm text-muted-foreground">atau</span>
+          <span className="px-3 text-sm text-muted-foreground">{t.auth.or}</span>
           <Separator className="flex-1" />
         </div>
 
@@ -110,14 +112,14 @@ export function LoginForm() {
           onClick={handleGoogleLogin}
         >
           <Chrome className="mr-2 h-4 w-4" />
-          Masuk dengan Google
+          {t.auth.loginWithGoogle}
         </Button>
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
-          Belum punya akun?{" "}
+          {t.auth.noAccount}{" "}
           <Link href="/register" className="text-primary hover:underline">
-            Daftar
+            {t.auth.register}
           </Link>
         </p>
       </CardFooter>

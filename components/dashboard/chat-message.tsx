@@ -13,8 +13,9 @@ import { cn } from "@/lib/utils"
 import { useTranslation } from "@/lib/i18n/language-context"
 
 function ToolResultCard({ output }: { output: Record<string, unknown> }) {
-  const { t } = useTranslation()
+  const { locale, t } = useTranslation()
   const cm = t.dashboard.chatMessage
+  const numFmt = locale === "id" ? "id-ID" : "en-US"
   const categories = t.dashboard.common.categories
   const type = output.type as string
 
@@ -40,7 +41,7 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
           {cm.carbonFootprint}
         </p>
         <p className="mb-2 text-lg font-bold text-green-700 dark:text-green-400">
-          {(output.totalCO2 as number).toLocaleString("id-ID")} {cm.kgCo2Year}
+          {(output.totalCO2 as number).toLocaleString(numFmt)} {cm.kgCo2Year}
         </p>
         <div className="mb-2 space-y-1">
           {breakdown.map((b) => (
@@ -52,7 +53,7 @@ function ToolResultCard({ output }: { output: Record<string, unknown> }) {
                 />
               </div>
               <span className="w-24 text-muted-foreground">
-                {b.category}: {b.co2Kg.toLocaleString("id-ID")} kg
+                {b.category}: {b.co2Kg.toLocaleString(numFmt)} kg
               </span>
               <span className="w-8 text-right font-medium">
                 {b.percentage}%
