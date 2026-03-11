@@ -1,0 +1,2 @@
+# Enforce LF line endings for all text files (matches .prettierrc endOfLine: "lf")
+* text=auto eol=lf
