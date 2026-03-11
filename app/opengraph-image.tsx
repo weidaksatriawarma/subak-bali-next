@@ -7,6 +7,11 @@ export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
 export default async function Image() {
+  // Load the logo from public/
+  const logoData = await fetch(
+    new URL("../public/images/logo/logo-subak-hijau.png", import.meta.url)
+  ).then((res) => res.arrayBuffer())
+
   return new ImageResponse(
     <div
       style={{
@@ -29,7 +34,13 @@ export default async function Image() {
           marginBottom: "24px",
         }}
       >
-        <span style={{ fontSize: "72px" }}>🌿</span>
+        {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text -- OG image uses satori, not browser DOM */}
+        <img
+          src={logoData as unknown as string}
+          width="80"
+          height="80"
+          style={{ borderRadius: "16px" }}
+        />
         <span
           style={{
             fontSize: "64px",

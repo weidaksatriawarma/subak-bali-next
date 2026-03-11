@@ -1,7 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { Leaf, MessageCircle, Mail } from "lucide-react"
+import Image from "next/image"
+import { MessageCircle, Mail } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { useTranslation } from "@/lib/i18n/language-context"
 import { landingExtras } from "@/lib/i18n/content/landing-extras"
@@ -22,7 +23,7 @@ export function Footer() {
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="mb-3 flex items-center gap-2 text-foreground">
-              <Leaf className="size-5 text-primary" />
+              <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={20} height={20} />
               <span className="text-lg font-bold">Subak Hijau</span>
             </div>
             <p className="text-sm text-muted-foreground">{d.tagline}</p>

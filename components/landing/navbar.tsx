@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Leaf, Menu } from "lucide-react"
+import Image from "next/image"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
@@ -68,7 +69,7 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Leaf className="size-6 text-primary" />
+          <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={24} height={24} />
           <span className="text-lg font-bold text-foreground">Subak Hijau</span>
         </Link>
 
@@ -116,7 +117,7 @@ export function Navbar() {
             <SheetContent side="right" className="flex w-64 flex-col">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
-                  <Leaf className="size-5 text-primary" />
+                  <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={20} height={20} />
                   Subak Hijau
                 </SheetTitle>
               </SheetHeader>

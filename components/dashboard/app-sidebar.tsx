@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
@@ -12,7 +13,6 @@ import {
   Globe,
   HelpCircle,
   LayoutDashboard,
-  Leaf,
   LogOut,
   Map,
   MessageSquare,
@@ -200,9 +200,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/dashboard">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <Leaf className="size-4" />
-                </div>
+                <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={32} height={32} className="rounded-lg" />
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">Subak Hijau</span>
                   <span className="truncate text-xs text-muted-foreground">

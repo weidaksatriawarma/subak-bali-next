@@ -103,6 +103,11 @@ export async function generateMetadata({
       type: "article",
       url: `https://subakhijau.app/verify/${token}/achievement`,
     },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   }
 }
 

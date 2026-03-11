@@ -6,6 +6,7 @@ import { useForm, type Resolver } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 
+import Image from "next/image"
 import { createClient } from "@/lib/supabase/client"
 import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
 import type { Industry, BusinessSize } from "@/types/database"
@@ -124,7 +125,10 @@ export function OnboardingForm() {
   return (
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader className="space-y-4">
-        <h1 className="text-center text-2xl font-bold">Subak Hijau</h1>
+        <div className="flex items-center justify-center gap-2">
+          <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={32} height={32} />
+          <h1 className="text-2xl font-bold">Subak Hijau</h1>
+        </div>
         <div className="space-y-2">
           <div className="flex justify-between text-sm text-muted-foreground">
             <span>Langkah {step + 1} dari 3</span>
