@@ -1,6 +1,10 @@
 import { test } from "@playwright/test"
 import { mkdirSync } from "fs"
-import { join } from "path"
+import { dirname, join } from "path"
+import { fileURLToPath } from "url"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const BASE_URL = process.env.BASE_URL || "http://localhost:3000"
 const SEED_EMAIL = process.env.SEED_EMAIL || ""
@@ -29,6 +33,11 @@ test.describe("Public pages", () => {
 })
 
 test.describe("Authenticated pages", () => {
+  test.skip(
+    !SEED_EMAIL || !SEED_PASSWORD,
+    "SEED_EMAIL and SEED_PASSWORD env vars required for authenticated screenshots"
+  )
+
   test.beforeEach(async ({ page }) => {
     // Navigate to login page
     await page.goto(`${BASE_URL}/login`)
