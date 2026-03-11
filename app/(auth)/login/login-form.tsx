@@ -21,9 +21,7 @@ export function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(
-    urlError === "auth_failed"
-      ? "Autentikasi gagal. Silakan coba lagi."
-      : null
+    urlError === "auth_failed" ? "Autentikasi gagal. Silakan coba lagi." : null
   )
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)

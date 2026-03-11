@@ -346,9 +346,11 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
           {data.totalScore !== null && labelInfo ? (
             <div className="flex items-center gap-6">
               <div className="text-center">
-                <div className={`rounded-full p-2 ${labelInfo.color}`}>
+                <div
+                  className={`mx-auto flex size-12 items-center justify-center rounded-full ${labelInfo.color}`}
+                >
                   <labelInfo.icon
-                    className={`h-8 w-8 ${labelInfo.iconColor}`}
+                    className={`h-7 w-7 ${labelInfo.iconColor}`}
                   />
                 </div>
                 <p
@@ -403,7 +405,7 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
           <CardContent>
             <div className="grid grid-cols-3 gap-4">
               <div className="flex items-center gap-2">
-                <Leaf className="h-4 w-4 text-green-600" />
+                <Leaf className="h-6 w-6 text-green-600" />
                 <div>
                   <p className="text-lg font-bold text-green-700 dark:text-green-400">
                     {data.impact.carbon.totalCO2.toLocaleString("id-ID")} kg
@@ -414,7 +416,7 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Banknote className="h-4 w-4 text-blue-600" />
+                <Banknote className="h-6 w-6 text-blue-600" />
                 <div>
                   <p className="text-lg font-bold text-blue-700 dark:text-blue-400">
                     Rp{" "}
@@ -429,7 +431,7 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-amber-600" />
+                <Shield className="h-6 w-6 text-amber-600" />
                 <div>
                   <p className="text-lg font-bold text-amber-700 dark:text-amber-400">
                     {data.impact.compliance.overallPercent}%
