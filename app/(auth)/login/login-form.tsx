@@ -49,10 +49,11 @@ export function LoginForm() {
   async function handleGoogleLogin() {
     setGoogleLoading(true)
     const supabase = createClient()
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/api/auth/callback`,
+        redirectTo: `${baseUrl}/api/auth/callback`,
       },
     })
   }

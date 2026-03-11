@@ -8,6 +8,9 @@ function getRedirectOrigin(request: Request): string {
   if (forwardedHost && process.env.NODE_ENV !== "development") {
     return `${forwardedProto}://${forwardedHost}`
   }
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    return process.env.NEXT_PUBLIC_APP_URL
+  }
   return new URL(request.url).origin
 }
 
