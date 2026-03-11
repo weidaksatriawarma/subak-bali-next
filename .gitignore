@@ -49,6 +49,9 @@ pnpm-debug.log*
 *.swp
 *.swo
 
+# claude
+.claude/
+
 # os
 Thumbs.db
 ._*
