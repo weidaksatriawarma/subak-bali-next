@@ -181,7 +181,7 @@ export function ScoreContent({
   industry?: Industry
   certificateToken?: string
 }) {
-  const { t } = useTranslation()
+  const { t, locale } = useTranslation()
   const d = t.dashboard.score
   const labels = t.dashboard.common.scoreLabels
   const cats = t.dashboard.common.categories
@@ -277,7 +277,8 @@ export function ScoreContent({
                     {carbonData.totalCO2.toLocaleString("id-ID")} kg
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    CO₂/tahun ({carbonData.treeEquivalent} pohon)
+                    est. CO₂/tahun ({carbonData.treeEquivalent}{" "}
+                    {locale === "id" ? "pohon" : "trees"})
                   </p>
                 </div>
               </div>
@@ -291,7 +292,10 @@ export function ScoreContent({
                     jt
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    potensi hemat/bulan
+                    est.{" "}
+                    {locale === "id"
+                      ? "potensi hemat/bulan"
+                      : "potential savings/month"}
                   </p>
                 </div>
               </div>
@@ -304,11 +308,14 @@ export function ScoreContent({
                     {complianceData?.overallPercent ?? 0}%
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    POJK 51/2017 compliance
+                    est. POJK 51/2017 compliance
                   </p>
                 </div>
               </div>
             </div>
+            <p className="mt-2 text-[10px] text-muted-foreground/70">
+              {d.impactDisclaimer}
+            </p>
           </CardContent>
         </Card>
       )}

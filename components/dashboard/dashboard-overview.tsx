@@ -397,7 +397,7 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
         <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
           <CardHeader>
             <CardTitle className="text-base">
-              {"\u{1F33F}"} Dampak Lingkungan
+              {"\u{1F33F}"} {d.impactTitle}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -408,7 +408,9 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
                   <p className="text-lg font-bold text-green-700 dark:text-green-400">
                     {data.impact.carbon.totalCO2.toLocaleString("id-ID")} kg
                   </p>
-                  <p className="text-[10px] text-muted-foreground">CO₂/tahun</p>
+                  <p className="text-[10px] text-muted-foreground">
+                    {d.estCo2Year}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -422,7 +424,7 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
                     jt
                   </p>
                   <p className="text-[10px] text-muted-foreground">
-                    hemat/bulan
+                    {d.estSavingsMonth}
                   </p>
                 </div>
               </div>
@@ -433,11 +435,14 @@ export function DashboardOverview({ data }: { data: OverviewData }) {
                     {data.impact.compliance.overallPercent}%
                   </p>
                   <p className="text-[10px] text-muted-foreground">
-                    POJK compliance
+                    {d.estCompliance}
                   </p>
                 </div>
               </div>
             </div>
+            <p className="mt-2 text-[10px] text-muted-foreground/70">
+              {d.impactDisclaimer}
+            </p>
           </CardContent>
         </Card>
       )}

@@ -1039,6 +1039,11 @@ const id: Dictionary = {
         title: "\u{1F3C6} Pencapaian",
         viewAll: "Lihat Semua",
       },
+      impactTitle: "Dampak Lingkungan",
+      estCo2Year: "est. CO₂/tahun",
+      estSavingsMonth: "est. hemat/bulan",
+      estCompliance: "est. POJK compliance",
+      impactDisclaimer: "* Estimasi, bukan pengukuran aktual",
       gettingStarted: {
         title: "\u{1F4D6} Panduan Memulai",
         subtitle:
@@ -1117,6 +1122,8 @@ const id: Dictionary = {
         scanToVerify: "Scan untuk verifikasi",
         downloadPdf: "Download PDF",
         pdfPrint: "Print",
+        estimateDisclaimer:
+          "* Semua angka karbon dan penghematan adalah estimasi berdasarkan model kalkulasi.",
       },
     },
     roadmap: {
@@ -1702,6 +1709,7 @@ const id: Dictionary = {
       pts: "poin",
       ariaLabel:
         "Perbandingan benchmark: Skor Anda {userScore}, Rata-rata industri {benchmark}",
+      estimateNote: "* Persentil merupakan estimasi kasar",
     },
   },
 }
@@ -2009,6 +2017,11 @@ const en: Dictionary = {
         title: "\u{1F3C6} Achievements",
         viewAll: "View All",
       },
+      impactTitle: "Environmental Impact",
+      estCo2Year: "est. CO₂/year",
+      estSavingsMonth: "est. savings/month",
+      estCompliance: "est. POJK compliance",
+      impactDisclaimer: "* Estimates, not actual measurements",
       gettingStarted: {
         title: "\u{1F4D6} Getting Started",
         subtitle: "Follow these steps to start your sustainability journey",
@@ -2045,6 +2058,8 @@ const en: Dictionary = {
         change: "Change",
       },
       impactTitle: "\u{1F33F} Your Business Environmental Impact",
+      impactDisclaimer:
+        "* Estimates based on assessment data, not actual measurements",
       categoryBreakdown: "Category Breakdown",
       downloadReport: "Download Report",
       sdg: {
@@ -2084,6 +2099,8 @@ const en: Dictionary = {
         scanToVerify: "Scan to verify",
         downloadPdf: "Download PDF",
         pdfPrint: "Print",
+        estimateDisclaimer:
+          "* All carbon and savings figures are estimates based on calculation models.",
       },
     },
     roadmap: {
@@ -2235,6 +2252,12 @@ const en: Dictionary = {
       kgYear: "kg CO₂/year",
       trees: "trees",
       rpMonth: "Rp/month",
+      estimateDisclaimer:
+        "* Figures are estimates based on assessment data, not actual measurements.",
+      emissionComparisonLower:
+        "Your estimated emissions are {percent}% lower than the industry average!",
+      emissionComparisonHigher:
+        "Your estimated emissions are {percent}% higher than the industry average.",
     },
     compliance: {
       title: "Regulatory Compliance",
@@ -2245,6 +2268,8 @@ const en: Dictionary = {
       compliant: "Compliant",
       nonCompliant: "Non-Compliant",
       recommendation: "Recommendation",
+      selfAssessedNote:
+        "* Based on self-assessment, not an official audit",
       noAssessment: "No data yet",
       noAssessmentDesc:
         "Complete an assessment to view your regulatory compliance status.",
@@ -2263,6 +2288,7 @@ const en: Dictionary = {
       reset: "Reset All",
       changeScenarios: "Change Scenarios",
       allAchieved: "All scenarios already achieved! Amazing!",
+      projectionNote: "* Simulation projection, actual results may vary",
       noAssessment: "No data yet",
       noAssessmentDesc:
         "Complete an assessment and generate a score first to use the simulator.",
@@ -2655,6 +2681,7 @@ const en: Dictionary = {
       pts: "pts",
       ariaLabel:
         "Benchmark comparison: Your score {userScore}, Industry average {benchmark}",
+      estimateNote: "* Percentile is a rough estimate",
     },
   },
 }

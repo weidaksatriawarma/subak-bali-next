@@ -202,6 +202,9 @@ export function BenchmarkCard({
             </p>
           </div>
         </div>
+        <p className="mt-2 text-[10px] text-muted-foreground/70">
+          {bm.estimateNote}
+        </p>
       </CardContent>
     </Card>
   )

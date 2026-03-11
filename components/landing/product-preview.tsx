@@ -183,29 +183,23 @@ export function ProductPreview() {
         <FadeInUp delay={0.15}>
           <Tabs defaultValue="score">
             <TabsList className="mx-auto mb-6 grid w-full max-w-md grid-cols-3">
-              <TabsTrigger
-                value="score"
-                className="gap-1.5"
-                aria-label={pp.tabs.score}
-              >
+              <TabsTrigger value="score" className="gap-1.5">
                 <BarChart3 className="size-4" />
-                <span className="hidden sm:inline">{pp.tabs.score}</span>
+                <span className="sr-only sm:not-sr-only sm:inline">
+                  {pp.tabs.score}
+                </span>
               </TabsTrigger>
-              <TabsTrigger
-                value="roadmap"
-                className="gap-1.5"
-                aria-label={pp.tabs.roadmap}
-              >
+              <TabsTrigger value="roadmap" className="gap-1.5">
                 <Zap className="size-4" />
-                <span className="hidden sm:inline">{pp.tabs.roadmap}</span>
+                <span className="sr-only sm:not-sr-only sm:inline">
+                  {pp.tabs.roadmap}
+                </span>
               </TabsTrigger>
-              <TabsTrigger
-                value="chat"
-                className="gap-1.5"
-                aria-label={pp.tabs.chat}
-              >
+              <TabsTrigger value="chat" className="gap-1.5">
                 <Bot className="size-4" />
-                <span className="hidden sm:inline">{pp.tabs.chat}</span>
+                <span className="sr-only sm:not-sr-only sm:inline">
+                  {pp.tabs.chat}
+                </span>
               </TabsTrigger>
             </TabsList>
 

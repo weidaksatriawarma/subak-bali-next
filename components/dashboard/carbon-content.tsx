@@ -261,7 +261,7 @@ export function CarbonContent({
                 <p className="text-xl font-bold text-green-700 dark:text-green-400">
                   {carbonData.totalCO2.toLocaleString("id-ID")} kg
                 </p>
-                <p className="text-xs text-muted-foreground">{d.kgYear}</p>
+                <p className="text-xs text-muted-foreground">est. {d.kgYear}</p>
               </div>
             </div>
 
@@ -275,7 +275,7 @@ export function CarbonContent({
                   {carbonData.treeEquivalent}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {d.treeEquivalent} ({d.trees})
+                  {d.treeEquivalent} (est. {d.trees})
                 </p>
               </div>
             </div>
@@ -290,11 +290,14 @@ export function CarbonContent({
                   Rp {(savingsData.monthlySavingsRp / 1_000_000).toFixed(1)} jt
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {d.potentialSavings} ({d.rpMonth})
+                  {d.potentialSavings} (est. {d.rpMonth})
                 </p>
               </div>
             </div>
           </div>
+          <p className="mt-2 text-[10px] text-muted-foreground/70">
+            {d.estimateDisclaimer}
+          </p>
         </CardContent>
       </Card>
 
@@ -435,19 +438,25 @@ export function CarbonContent({
           <div className="mt-3 text-center">
             {carbonData.totalCO2 <= industryAvg ? (
               <p className="text-sm font-medium text-green-600 dark:text-green-400">
-                Emisi bisnis Anda{" "}
-                {Math.round(
-                  ((industryAvg - carbonData.totalCO2) / industryAvg) * 100
+                {d.emissionComparisonLower.replace(
+                  "{percent}",
+                  String(
+                    Math.round(
+                      ((industryAvg - carbonData.totalCO2) / industryAvg) * 100
+                    )
+                  )
                 )}
-                % lebih rendah dari rata-rata industri!
               </p>
             ) : (
               <p className="text-sm font-medium text-orange-500 dark:text-orange-400">
-                Emisi bisnis Anda{" "}
-                {Math.round(
-                  ((carbonData.totalCO2 - industryAvg) / industryAvg) * 100
+                {d.emissionComparisonHigher.replace(
+                  "{percent}",
+                  String(
+                    Math.round(
+                      ((carbonData.totalCO2 - industryAvg) / industryAvg) * 100
+                    )
+                  )
                 )}
-                % lebih tinggi dari rata-rata industri.
               </p>
             )}
           </div>

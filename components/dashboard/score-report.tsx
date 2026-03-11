@@ -245,7 +245,7 @@ export function ScoreReport({
                       kg
                     </p>
                     <p className="text-xs" style={{ color: "#6b7280" }}>
-                      {d.co2Year}
+                      est. {d.co2Year}
                     </p>
                   </div>
                   <div className="text-center">
@@ -256,7 +256,7 @@ export function ScoreReport({
                       Rp {(savings.monthlySavingsRp / 1_000_000).toFixed(1)} jt
                     </p>
                     <p className="text-xs" style={{ color: "#6b7280" }}>
-                      {d.potentialSavingsMonth}
+                      est. {d.potentialSavingsMonth}
                     </p>
                   </div>
                   <div className="text-center">
@@ -293,6 +293,12 @@ export function ScoreReport({
                   </p>
                   <p className="text-xs" style={{ color: "#6b7280" }}>
                     {carbon.treeEquivalent} {d.treeEquivalentText}
+                  </p>
+                  <p
+                    className="mt-1 text-[10px]"
+                    style={{ color: "#9ca3af" }}
+                  >
+                    {d.estimateDisclaimer}
                   </p>
                 </div>
               </div>

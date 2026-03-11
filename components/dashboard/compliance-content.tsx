@@ -164,6 +164,9 @@ export function ComplianceContent({ assessment }: { assessment: Assessment }) {
         </CardHeader>
         <CardContent>
           <ComplianceGauge percent={compliance.overallPercent} />
+          <p className="mt-1 text-center text-[10px] text-muted-foreground/70">
+            {d.selfAssessedNote}
+          </p>
         </CardContent>
       </Card>
 

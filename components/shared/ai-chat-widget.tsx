@@ -130,13 +130,17 @@ export function AiChatWidget({ variant }: AiChatWidgetProps) {
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState("")
   const [expandedItem, setExpandedItem] = useState<number | null>(null)
-  const [hasShownPulse, setHasShownPulse] = useState(() => {
-    if (typeof window === "undefined") return false
-    return !sessionStorage.getItem(`subakhijau-widget-seen-${variant}`)
-  })
+  const [hasShownPulse, setHasShownPulse] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
   const panelRef = useRef<HTMLDivElement>(null)
+
+  // Read sessionStorage after hydration to avoid mismatch
+  useEffect(() => {
+    if (!sessionStorage.getItem(`subakhijau-widget-seen-${variant}`)) {
+      setHasShownPulse(true)
+    }
+  }, [variant])
 
   // Write to sessionStorage when pulse is shown
   useEffect(() => {

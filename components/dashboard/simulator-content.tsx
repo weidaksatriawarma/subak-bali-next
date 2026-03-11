@@ -347,6 +347,9 @@ export function SimulatorContent({
                 +{scoreDiff} {sim.pointIncrease}
               </span>
             )}
+            <p className="text-[10px] text-muted-foreground/70">
+              {sim.projectionNote}
+            </p>
           </CardContent>
         </Card>
       </div>
