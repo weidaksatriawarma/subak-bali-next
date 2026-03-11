@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { rateLimit, rateLimitResponse } from "@/lib/security"
+import { auditLog } from "@/lib/audit"
 import { renderToBuffer } from "@react-pdf/renderer"
 import { ScoreReportPDF } from "@/lib/pdf/score-report-pdf"
 import {
@@ -61,11 +62,15 @@ export async function GET() {
   ])
 
   if (!score) {
-    return NextResponse.json(
-      { error: "Belum ada skor. Selesaikan assessment terlebih dahulu." },
-      { status: 404 }
-    )
+    return NextResponse.json({ error: "Not found" }, { status: 404 })
   }
+
+  auditLog({
+    action: "pdf_generate",
+    userId: user.id,
+    resourceType: "score",
+    resourceId: score.id,
+  })
 
   // Compute carbon data from assessment
   const carbon = assessment ? calculateCarbonFootprint(assessment) : null

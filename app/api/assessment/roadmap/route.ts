@@ -3,7 +3,13 @@ import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
 import { RoadmapSchema } from "@/lib/ai/schemas"
 import { buildRoadmapPrompt } from "@/lib/ai/prompts"
-import { rateLimit, rateLimitResponse } from "@/lib/security"
+import {
+  rateLimit,
+  rateLimitResponse,
+  validateOrigin,
+  logError,
+} from "@/lib/security"
+import { auditLog } from "@/lib/audit"
 
 const RoadmapRequestSchema = z.object({
   assessment_id: z.string().uuid(),
@@ -18,6 +24,10 @@ export async function POST(req: Request) {
   } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 })
   }
+  if (!validateOrigin(req)) {
+    return Response.json({ error: "Forbidden" }, { status: 403 })
+  }
+
   const parsed = RoadmapRequestSchema.safeParse(body)
   if (!parsed.success) {
     return Response.json({ error: "Invalid request body" }, { status: 400 })
@@ -64,11 +74,15 @@ export async function POST(req: Request) {
     .single()
 
   if (!score) {
-    return Response.json(
-      { error: "Score not found. Run assessment scoring first." },
-      { status: 404 }
-    )
+    return Response.json({ error: "Not found" }, { status: 404 })
   }
+
+  auditLog({
+    action: "roadmap_generate",
+    userId: user.id,
+    resourceType: "assessment",
+    resourceId: assessment_id,
+  })
 
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 55_000)
@@ -85,7 +99,7 @@ export async function POST(req: Request) {
     roadmapData = result.output
   } catch (err) {
     clearTimeout(timeout)
-    console.error("[roadmap] generation error:", err)
+    logError("roadmap", err)
     return Response.json(
       {
         error:

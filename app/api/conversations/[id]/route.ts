@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { rateLimit, rateLimitResponse } from "@/lib/security"
+import { auditLog } from "@/lib/audit"
 
 export async function GET(
   _req: Request,
@@ -77,6 +78,13 @@ export async function DELETE(
   if (!conversation) {
     return new Response("Not found", { status: 404 })
   }
+
+  auditLog({
+    action: "conversation_delete",
+    userId: user.id,
+    resourceType: "conversation",
+    resourceId: id,
+  })
 
   // Delete messages first, then conversation
   await supabase.from("chat_messages").delete().eq("conversation_id", id)

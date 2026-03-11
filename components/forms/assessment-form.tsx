@@ -47,7 +47,7 @@ const assessmentSchema = z.object({
     "solar_only",
     "diesel_generator",
   ]),
-  monthly_electricity_kwh: z.coerce.number().min(0).optional(),
+  monthly_electricity_kwh: z.coerce.number().min(0).max(100_000).optional(),
   uses_energy_efficient_equipment: z.boolean().default(false),
   waste_management: z.enum([
     "none",
@@ -57,7 +57,7 @@ const assessmentSchema = z.object({
     "circular",
   ]),
   plastic_reduction_efforts: z.boolean().default(false),
-  waste_volume_kg_monthly: z.coerce.number().min(0).optional(),
+  waste_volume_kg_monthly: z.coerce.number().min(0).max(50_000).optional(),
   local_sourcing_percentage: z.number().min(0).max(100).default(0),
   supplier_sustainability_check: z.boolean().default(false),
   packaging_type: z.enum([
@@ -110,8 +110,21 @@ function loadDraft(): {
 } | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : null
+    if (!raw) return null
+    const parsed = JSON.parse(raw)
+    const validated = assessmentSchema.partial().safeParse(parsed.values)
+    if (!validated.success) {
+      localStorage.removeItem(STORAGE_KEY)
+      return null
+    }
+    const maxSteps = 6
+    const step = Math.min(
+      Math.max(typeof parsed.step === "number" ? parsed.step : 0, 0),
+      maxSteps
+    )
+    return { values: validated.data, step }
   } catch {
+    localStorage.removeItem(STORAGE_KEY)
     return null
   }
 }
@@ -242,7 +255,24 @@ export function AssessmentForm() {
         .insert({
           user_id: user.id,
           status: "completed" as const,
-          ...formData,
+          energy_source: formData.energy_source,
+          monthly_electricity_kwh: formData.monthly_electricity_kwh,
+          uses_energy_efficient_equipment:
+            formData.uses_energy_efficient_equipment,
+          waste_management: formData.waste_management,
+          plastic_reduction_efforts: formData.plastic_reduction_efforts,
+          waste_volume_kg_monthly: formData.waste_volume_kg_monthly,
+          local_sourcing_percentage: formData.local_sourcing_percentage,
+          supplier_sustainability_check:
+            formData.supplier_sustainability_check,
+          packaging_type: formData.packaging_type,
+          water_conservation: formData.water_conservation,
+          digital_operations: formData.digital_operations,
+          transportation_type: formData.transportation_type,
+          has_sustainability_policy: formData.has_sustainability_policy,
+          employee_sustainability_training:
+            formData.employee_sustainability_training,
+          community_engagement: formData.community_engagement,
           industry_answers: showIndustryStep ? industryAnswers : {},
         })
         .select()
@@ -380,6 +410,7 @@ export function AssessmentForm() {
                   id="monthly_electricity_kwh"
                   type="number"
                   min={0}
+                  max={100000}
                   placeholder="Contoh: 500"
                   {...register("monthly_electricity_kwh")}
                 />
@@ -452,6 +483,7 @@ export function AssessmentForm() {
                   id="waste_volume_kg_monthly"
                   type="number"
                   min={0}
+                  max={50000}
                   placeholder="Contoh: 50"
                   {...register("waste_volume_kg_monthly")}
                 />

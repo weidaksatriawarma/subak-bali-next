@@ -3,7 +3,13 @@ import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
 import { ScoreSchema } from "@/lib/ai/schemas"
 import { buildScorePrompt } from "@/lib/ai/prompts"
-import { rateLimit, rateLimitResponse } from "@/lib/security"
+import {
+  rateLimit,
+  rateLimitResponse,
+  validateOrigin,
+  logError,
+} from "@/lib/security"
+import { auditLog } from "@/lib/audit"
 
 const ScoreRequestSchema = z.object({
   assessment_id: z.string().uuid(),
@@ -18,6 +24,10 @@ export async function POST(req: Request) {
   } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 })
   }
+  if (!validateOrigin(req)) {
+    return Response.json({ error: "Forbidden" }, { status: 403 })
+  }
+
   const parsed = ScoreRequestSchema.safeParse(body)
   if (!parsed.success) {
     return Response.json({ error: "Invalid request body" }, { status: 400 })
@@ -54,6 +64,13 @@ export async function POST(req: Request) {
     return Response.json({ error: "Not found" }, { status: 404 })
   }
 
+  auditLog({
+    action: "score_generate",
+    userId: user.id,
+    resourceType: "assessment",
+    resourceId: assessment_id,
+  })
+
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 55_000)
 
@@ -69,7 +86,7 @@ export async function POST(req: Request) {
     scoreData = result.output
   } catch (err) {
     clearTimeout(timeout)
-    console.error("[score] generation error:", err)
+    logError("score", err)
     return Response.json(
       {
         error:

@@ -131,9 +131,15 @@ export interface CarbonFootprint {
 export function calculateCarbonFootprint(
   assessment: Partial<Assessment>
 ): CarbonFootprint {
-  const monthlyKwh = assessment.monthly_electricity_kwh ?? 500
+  const monthlyKwh = Math.min(
+    Math.max(assessment.monthly_electricity_kwh ?? 500, 0),
+    100_000
+  )
   const energySource = assessment.energy_source ?? "pln_only"
-  const wasteKg = assessment.waste_volume_kg_monthly ?? 100
+  const wasteKg = Math.min(
+    Math.max(assessment.waste_volume_kg_monthly ?? 100, 0),
+    50_000
+  )
   const wasteManagement = assessment.waste_management ?? "none"
   const transportType = assessment.transportation_type ?? "gasoline"
 

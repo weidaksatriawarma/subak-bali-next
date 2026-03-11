@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import { timingSafeEqual } from "@/lib/security"
+import { timingSafeEqual, logError } from "@/lib/security"
+import { auditLog } from "@/lib/audit"
 
 export async function POST(req: Request) {
-  if (process.env.NODE_ENV !== "development" && process.env.SEED_SECRET) {
+  // Deny-first: block production unless SEED_SECRET is set and matches
+  if (process.env.NODE_ENV !== "development") {
+    if (!process.env.SEED_SECRET) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 })
+    }
     try {
       const { secret } = await req.json()
       if (
@@ -15,8 +20,6 @@ export async function POST(req: Request) {
     } catch {
       return NextResponse.json({ error: "Not found" }, { status: 404 })
     }
-  } else if (process.env.NODE_ENV !== "development") {
-    return NextResponse.json({ error: "Not found" }, { status: 404 })
   }
 
   const supabase = await createClient()
@@ -30,6 +33,13 @@ export async function POST(req: Request) {
   }
 
   const userId = user.id
+
+  auditLog({
+    action: "seed_execute",
+    userId,
+    resourceType: "database",
+  })
+
   const now = new Date()
 
   // Date helpers
@@ -500,7 +510,7 @@ export async function POST(req: Request) {
       },
     })
   } catch (error) {
-    console.error("Seed error:", error)
-    return NextResponse.json({ error: "Failed to seed data" }, { status: 500 })
+    logError("seed", error)
+    return NextResponse.json({ error: "Internal error" }, { status: 500 })
   }
 }

@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
-import { rateLimit, rateLimitResponse } from "@/lib/security"
+import {
+  rateLimit,
+  rateLimitResponse,
+  validateOrigin,
+} from "@/lib/security"
 
 const CreateConversationSchema = z.object({
-  title: z.string().max(200).optional(),
+  title: z.string().trim().min(1).max(200).optional(),
 })
 
 export async function GET() {
@@ -54,6 +58,10 @@ export async function POST(req: Request) {
     windowMs: 60_000,
   })
   if (!success) return rateLimitResponse()
+
+  if (!validateOrigin(req)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+  }
 
   let body
   try {

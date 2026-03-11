@@ -77,23 +77,72 @@ export function sanitizeRedirectPath(path: string): string {
 
 // --- Prompt Input Sanitization ---
 
+const INJECTION_PATTERNS =
+  /ignore\s+previous\s+instructions|system\s+override|act\s+as\b|disregard\s+(all|above|previous)|new\s+instructions|```/gi
+
 export function sanitizeForPrompt(input: string, maxLength = 200): string {
   return input
     .replace(/[\r\n]+/g, " ") // collapse newlines to spaces
     .replace(/[^\p{L}\p{N}\p{P}\p{Z}]/gu, "") // keep letters, numbers, punctuation, spaces
+    .replace(INJECTION_PATTERNS, "") // strip prompt injection patterns
     .trim()
     .slice(0, maxLength)
+}
+
+export function sanitizeObjectForPrompt(
+  obj: Record<string, unknown>
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(obj)) {
+    if (typeof value === "string") {
+      result[key] = sanitizeForPrompt(value, 500)
+    } else if (
+      typeof value === "object" &&
+      value !== null &&
+      !Array.isArray(value)
+    ) {
+      result[key] = sanitizeObjectForPrompt(value as Record<string, unknown>)
+    } else {
+      result[key] = value
+    }
+  }
+  return result
 }
 
 // --- Timing-Safe Comparison ---
 
 export function timingSafeEqual(a: string, b: string): boolean {
-  const bufA = Buffer.from(a)
-  const bufB = Buffer.from(b)
-  if (bufA.length !== bufB.length) {
-    // Compare against self to prevent length-based timing leaks
-    crypto.timingSafeEqual(bufA, bufA)
-    return false
+  const hmacA = crypto
+    .createHmac("sha256", "timing-safe-pad")
+    .update(a)
+    .digest()
+  const hmacB = crypto
+    .createHmac("sha256", "timing-safe-pad")
+    .update(b)
+    .digest()
+  const equal = crypto.timingSafeEqual(hmacA, hmacB)
+  return equal && a.length === b.length
+}
+
+// --- CSRF Origin Validation ---
+
+export function validateOrigin(req: Request): boolean {
+  const origin = req.headers.get("origin")
+  // No origin header = same-origin request (browser doesn't send it)
+  if (!origin) return true
+  const allowed = [
+    "https://subakhijau.app",
+    "https://www.subakhijau.app",
+  ]
+  if (process.env.NODE_ENV === "development") {
+    allowed.push("http://localhost:3000")
   }
-  return crypto.timingSafeEqual(bufA, bufB)
+  return allowed.includes(origin)
+}
+
+// --- Error Logging ---
+
+export function logError(tag: string, err: unknown): void {
+  const message = err instanceof Error ? err.message : "Unknown error"
+  console.error(`[${tag}] ${message}`)
 }

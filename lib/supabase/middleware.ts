@@ -1,8 +1,33 @@
 import { createServerClient } from "@supabase/ssr"
 import { type NextRequest, NextResponse } from "next/server"
 
+// Inline rate-limit store for Edge Runtime (cannot import crypto-dependent security.ts)
+const verifyRateStore = new Map<string, { count: number; resetAt: number }>()
+
+function verifyRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const entry = verifyRateStore.get(ip)
+  if (!entry || now > entry.resetAt) {
+    verifyRateStore.set(ip, { count: 1, resetAt: now + 60_000 })
+    return true
+  }
+  entry.count++
+  return entry.count <= 20
+}
+
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request })
+
+  // Rate-limit certificate verification by IP
+  if (request.nextUrl.pathname.startsWith("/verify/")) {
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      "unknown"
+    if (!verifyRateLimit(ip)) {
+      return new NextResponse("Too Many Requests", { status: 429 })
+    }
+    return response
+  }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY

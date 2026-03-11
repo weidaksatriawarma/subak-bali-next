@@ -9,11 +9,37 @@ import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
 import { buildChatSystemPrompt } from "@/lib/ai/prompts"
 import { createChatTools } from "@/lib/ai/tools"
-import { rateLimit, rateLimitResponse } from "@/lib/security"
+import {
+  rateLimit,
+  rateLimitResponse,
+  validateOrigin,
+  logError,
+} from "@/lib/security"
 import type { Assessment } from "@/types/database"
 
 const ChatRequestSchema = z.object({
-  messages: z.array(z.record(z.string(), z.unknown())).min(1),
+  messages: z
+    .array(
+      z
+        .object({
+          role: z.enum(["user", "assistant", "system"]),
+          parts: z
+            .array(
+              z
+                .object({
+                  type: z.string(),
+                  text: z.string().max(10_000).optional(),
+                })
+                .passthrough()
+            )
+            .optional(),
+          content: z.string().max(10_000).optional(),
+          id: z.string().optional(),
+        })
+        .passthrough()
+    )
+    .min(1)
+    .max(50),
   conversationId: z.string().uuid().nullish(),
 })
 
@@ -26,6 +52,10 @@ export async function POST(req: Request) {
   } catch {
     return Response.json({ error: "Invalid JSON" }, { status: 400 })
   }
+  if (!validateOrigin(req)) {
+    return Response.json({ error: "Forbidden" }, { status: 403 })
+  }
+
   const parsed = ChatRequestSchema.safeParse(body)
   if (!parsed.success) {
     return Response.json({ error: "Invalid request body" }, { status: 400 })
@@ -76,7 +106,7 @@ export async function POST(req: Request) {
   ])
 
   if (!profile) {
-    return new Response("Profile not found", { status: 404 })
+    return Response.json({ error: "Not found" }, { status: 404 })
   }
 
   // Verify conversation ownership
@@ -119,7 +149,7 @@ export async function POST(req: Request) {
       stopWhen: stepCountIs(3),
       abortSignal: controller.signal,
       onError({ error }) {
-        console.error("[chat] streaming error:", error)
+        logError("chat-stream", error)
       },
       async onFinish({ text }) {
         clearTimeout(timeout)
@@ -142,7 +172,7 @@ export async function POST(req: Request) {
     return result.toUIMessageStreamResponse()
   } catch (err) {
     clearTimeout(timeout)
-    console.error("[chat] error:", err)
+    logError("chat", err)
     return new Response(
       "Layanan AI sedang tidak tersedia. Silakan coba lagi dalam beberapa saat.",
       { status: 503 }

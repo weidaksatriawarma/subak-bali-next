@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const isDev = process.env.NODE_ENV === "development"
+const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
+  : "*.supabase.co"
 const nextConfig = {
   serverExternalPackages: ["@react-pdf/renderer"],
   images: {
@@ -37,10 +40,11 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://images.unsplash.com",
               "font-src 'self'",
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
+              `connect-src 'self' https://${supabaseHost} wss://${supabaseHost}`,
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
+              "report-uri /api/csp-report",
             ].join("; "),
           },
         ],

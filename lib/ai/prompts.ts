@@ -1,6 +1,6 @@
 import type { Profile, Score, Assessment } from "@/types/database"
 import { INDUSTRY_LABELS, BUSINESS_SIZE_LABELS } from "@/lib/constants"
-import { sanitizeForPrompt } from "@/lib/security"
+import { sanitizeForPrompt, sanitizeObjectForPrompt } from "@/lib/security"
 import { INDUSTRY_SCORING_WEIGHTS } from "@/lib/gamification/industry-data"
 
 export function buildScorePrompt(
@@ -43,7 +43,7 @@ Industry-specific scoring weights for ${INDUSTRY_LABELS[profile.industry]}:
 - Operations: ${INDUSTRY_SCORING_WEIGHTS[profile.industry].operations * 100}%
 - Policy: ${INDUSTRY_SCORING_WEIGHTS[profile.industry].policy * 100}%
 Weight the scores accordingly.
-${assessment.industry_answers ? `\nIndustry-specific answers: ${JSON.stringify(assessment.industry_answers)}` : ""}
+${assessment.industry_answers ? `\nIndustry-specific answers: ${JSON.stringify(sanitizeObjectForPrompt(assessment.industry_answers as Record<string, unknown>))}` : ""}
 Score each category 0-100 based on Indonesian MSME standards.
 
 Context: This business produces approximately ${assessment.monthly_electricity_kwh ?? 500} kWh/month of electricity consumption and ${assessment.waste_volume_kg_monthly ?? 100} kg/month of waste. Consider the CO₂ impact of their energy source (${assessment.energy_source}) and waste management (${assessment.waste_management}) when scoring.
@@ -79,7 +79,22 @@ Current Scores:
 - Operasional: ${scores.operations_score}/100
 - Kebijakan: ${scores.policy_score}/100
 
-Assessment: ${JSON.stringify(assessment)}
+Assessment Data:
+- Energy source: ${assessment.energy_source}
+- Monthly electricity: ${assessment.monthly_electricity_kwh} kWh
+- Energy-efficient equipment: ${assessment.uses_energy_efficient_equipment}
+- Waste management: ${assessment.waste_management}
+- Plastic reduction: ${assessment.plastic_reduction_efforts}
+- Monthly waste: ${assessment.waste_volume_kg_monthly} kg
+- Local sourcing: ${assessment.local_sourcing_percentage}%
+- Supplier sustainability check: ${assessment.supplier_sustainability_check}
+- Packaging type: ${assessment.packaging_type}
+- Water conservation: ${assessment.water_conservation}
+- Digital operations: ${assessment.digital_operations}
+- Transportation: ${assessment.transportation_type}
+- Sustainability policy: ${assessment.has_sustainability_policy}
+- Employee training: ${assessment.employee_sustainability_training}
+- Community engagement: ${assessment.community_engagement}
 
 Generate 8-12 specific, actionable items.
 Prioritize low-cost, high-impact actions first.
