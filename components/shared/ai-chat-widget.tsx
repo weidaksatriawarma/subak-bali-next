@@ -135,18 +135,17 @@ export function AiChatWidget({ variant }: AiChatWidgetProps) {
   const router = useRouter()
   const panelRef = useRef<HTMLDivElement>(null)
 
-  // Read sessionStorage after hydration to avoid mismatch
+  // Pulse animation: check sessionStorage, show pulse for 3s if not seen
   useEffect(() => {
-    if (!sessionStorage.getItem(`subakhijau-widget-seen-${variant}`)) {
-      setHasShownPulse(true)
+    if (sessionStorage.getItem(`subakhijau-widget-seen-${variant}`)) return
+    sessionStorage.setItem(`subakhijau-widget-seen-${variant}`, "1")
+    const frameId = requestAnimationFrame(() => setHasShownPulse(true))
+    const timerId = setTimeout(() => setHasShownPulse(false), 3000)
+    return () => {
+      cancelAnimationFrame(frameId)
+      clearTimeout(timerId)
     }
   }, [variant])
-
-  // Write to sessionStorage when pulse is shown
-  useEffect(() => {
-    if (!hasShownPulse) return
-    sessionStorage.setItem(`subakhijau-widget-seen-${variant}`, "1")
-  }, [hasShownPulse, variant])
 
   // Determine locale from pathname or default to "id"
   const locale =
@@ -185,12 +184,6 @@ export function AiChatWidget({ variant }: AiChatWidgetProps) {
     }
   }, [open])
 
-  // Stop pulse animation after 3 seconds
-  useEffect(() => {
-    if (!hasShownPulse) return
-    const timer = setTimeout(() => setHasShownPulse(false), 3000)
-    return () => clearTimeout(timer)
-  }, [hasShownPulse])
 
   // Hide on chat page for dashboard variant (after all hooks)
   if (variant === "dashboard" && pathname === "/dashboard/chat") return null
