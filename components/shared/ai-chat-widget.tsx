@@ -184,7 +184,6 @@ export function AiChatWidget({ variant }: AiChatWidgetProps) {
     }
   }, [open])
 
-
   // Hide on chat page for dashboard variant (after all hooks)
   if (variant === "dashboard" && pathname === "/dashboard/chat") return null
 
