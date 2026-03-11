@@ -1,8 +1,26 @@
 {
   "name": "subak-bali-next",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "module",
   "private": true,
+  "description": "AI-powered sustainability consultant for Indonesian MSMEs — PROXOCORIS 2026",
+  "homepage": "https://subakhijau.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/weidaksatriawarma/subak-bali-next.git"
+  },
+  "author": "Tim SubakCode",
+  "license": "MIT",
+  "keywords": [
+    "sustainability",
+    "ai",
+    "umkm",
+    "indonesia",
+    "nextjs",
+    "supabase",
+    "carbon-footprint",
+    "esg"
+  ],
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -12,7 +30,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "screenshots": "npx playwright test scripts/capture-screenshots.ts"
   },
   "dependencies": {
     "@ai-sdk/react": "^3.0.118",

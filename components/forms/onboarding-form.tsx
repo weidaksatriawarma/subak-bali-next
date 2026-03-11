@@ -126,7 +126,12 @@ export function OnboardingForm() {
     <Card className="mx-auto w-full max-w-2xl">
       <CardHeader className="space-y-4">
         <div className="flex items-center justify-center gap-2">
-          <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={32} height={32} />
+          <Image
+            src="/images/logo/logo-subak-hijau.png"
+            alt="Subak Hijau"
+            width={32}
+            height={32}
+          />
           <h1 className="text-2xl font-bold">Subak Hijau</h1>
         </div>
         <div className="space-y-2">

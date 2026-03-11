@@ -23,7 +23,12 @@ export function Footer() {
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="mb-3 flex items-center gap-2 text-foreground">
-              <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={20} height={20} />
+              <Image
+                src="/images/logo/logo-subak-hijau.png"
+                alt="Subak Hijau"
+                width={20}
+                height={20}
+              />
               <span className="text-lg font-bold">Subak Hijau</span>
             </div>
             <p className="text-sm text-muted-foreground">{d.tagline}</p>

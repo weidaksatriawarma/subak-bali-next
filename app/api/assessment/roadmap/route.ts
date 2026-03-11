@@ -114,10 +114,7 @@ export async function POST(req: Request) {
     .single()
 
   if (roadmapError || !roadmap) {
-    return Response.json(
-      { error: "Gagal menyimpan roadmap" },
-      { status: 500 }
-    )
+    return Response.json({ error: "Gagal menyimpan roadmap" }, { status: 500 })
   }
 
   const items = roadmapData.items.map((item, index) => ({

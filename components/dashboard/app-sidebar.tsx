@@ -200,7 +200,13 @@ export function AppSidebar({ profile }: AppSidebarProps) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/dashboard">
-                <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={32} height={32} className="rounded-lg" />
+                <Image
+                  src="/images/logo/logo-subak-hijau.png"
+                  alt="Subak Hijau"
+                  width={32}
+                  height={32}
+                  className="rounded-lg"
+                />
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">Subak Hijau</span>
                   <span className="truncate text-xs text-muted-foreground">

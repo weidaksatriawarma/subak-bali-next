@@ -40,10 +40,7 @@ export async function GET(
     .order("created_at", { ascending: true })
 
   if (msgError) {
-    return NextResponse.json(
-      { error: "Gagal memuat pesan" },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: "Gagal memuat pesan" }, { status: 500 })
   }
 
   return NextResponse.json({ conversation, messages })

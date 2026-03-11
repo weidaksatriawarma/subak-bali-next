@@ -6,7 +6,7 @@ Always use Context7 MCP when I need library/API documentation, code generation, 
 
 ## Project Overview
 
-Subak Hijau — an AI-powered sustainability consultant web app for Indonesian MSMEs (UMKM). Built for the PROXOCORIS 2026 competition. The full PRD is in `PLAN.md`.
+Subak Hijau — an AI-powered sustainability consultant web app for Indonesian MSMEs (UMKM). Built for the PROXOCORIS 2026 competition. The full PRD is in `docs/PLAN.md`.
 
 ## Commands
 
@@ -71,15 +71,14 @@ npm run format       # Prettier format all .ts/.tsx files
 
 ## Database
 
-Supabase PostgreSQL with RLS. Tables: `profiles`, `assessments`, `scores`, `roadmaps`, `roadmap_items`, `chat_conversations`, `chat_messages`. Full schema in `PLAN.md` section 3. Migrations in `supabase/migrations/` (001–009).
+Supabase PostgreSQL with RLS. Tables: `profiles`, `assessments`, `scores`, `roadmaps`, `roadmap_items`, `chat_conversations`, `chat_messages`. Full schema in `PLAN.md` section 3. Migrations in `supabase/migrations/` (000–010).
 
 ## Environment Variables
 
 ```
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
-ANTHROPIC_API_KEY
-OPENAI_API_KEY
+AI_GATEWAY_API_KEY
 ```
 
 ## AI Integration (AI SDK v6)

@@ -69,7 +69,12 @@ export function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={24} height={24} />
+          <Image
+            src="/images/logo/logo-subak-hijau.png"
+            alt="Subak Hijau"
+            width={24}
+            height={24}
+          />
           <span className="text-lg font-bold text-foreground">Subak Hijau</span>
         </Link>
 
@@ -117,7 +122,12 @@ export function Navbar() {
             <SheetContent side="right" className="flex w-64 flex-col">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
-                  <Image src="/images/logo/logo-subak-hijau.png" alt="Subak Hijau" width={20} height={20} />
+                  <Image
+                    src="/images/logo/logo-subak-hijau.png"
+                    alt="Subak Hijau"
+                    width={20}
+                    height={20}
+                  />
                   Subak Hijau
                 </SheetTitle>
               </SheetHeader>

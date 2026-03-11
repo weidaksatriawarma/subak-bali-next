@@ -101,10 +101,7 @@ export async function POST(req: Request) {
     .single()
 
   if (error) {
-    return Response.json(
-      { error: "Gagal menyimpan skor" },
-      { status: 500 }
-    )
+    return Response.json({ error: "Gagal menyimpan skor" }, { status: 500 })
   }
 
   return Response.json(score)
