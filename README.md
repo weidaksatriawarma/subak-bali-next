@@ -97,29 +97,6 @@ Indonesia has **65 million MSMEs** — the backbone of its national economy, con
 
 ---
 
-## 🎬 Demo Script (5 Menit) / *5-Minute Demo Flow*
-
-> Alur demo untuk presentasi kompetisi PROXOCORIS 2026.
-> Gunakan akun demo yang sudah di-seed dengan data sampel.
-
-| Menit | Langkah | Halaman | Talking Point |
-|-------|---------|---------|---------------|
-| 0:00 | 🏠 Buka landing page, scroll untuk trigger animasi | `/` | "Subak Hijau — konsultan AI gratis untuk 65 juta UMKM" |
-| 0:30 | 🔐 Login dengan akun demo | `/login` | "Autentikasi aman via Supabase" |
-| 1:00 | 📊 Tunjukkan dashboard overview | `/dashboard` | "Semua insight sustainability dalam satu halaman" |
-| 1:30 | 📝 Mulai assessment baru, isi 2–3 langkah | `/dashboard/assessment` | "5 kategori: energi, limbah, rantai pasok, operasional, kebijakan" |
-| 2:00 | 🧮 Buka kalkulator karbon | `/dashboard/carbon` | "Faktor emisi Indonesia — CO₂/tahun & penghematan Rp/bulan" |
-| 2:30 | 🎯 Lihat hasil skor AI + radar chart | `/dashboard/score` | "Skor 0–100 dengan benchmark industri sejenis" |
-| 3:00 | 🗺️ Tunjukkan roadmap aksi, centang item | `/dashboard/roadmap` | "8–12 langkah diprioritaskan berdasarkan dampak & biaya" |
-| 3:15 | 🎊 Trigger confetti celebration | `/dashboard/roadmap` | "Gamifikasi untuk memotivasi perjalanan sustainability" |
-| 3:30 | 💬 Chat AI — tanya tentang CO₂ | `/dashboard/chat` | "AI dengan tool calling — hitung karbon langsung di chat" |
-| 4:00 | 📜 Tunjukkan sertifikat + QR code | `/dashboard/certificate` | "Verifikasi publik via QR — bisa dibagikan ke stakeholder" |
-| 4:15 | 🏅 Lihat achievement badges | `/dashboard/achievement` | "Shareable card format IG Story 1080x1920" |
-| 4:30 | 📈 Lihat tracking progres | `/dashboard/progress` | "Visualisasi peningkatan dari waktu ke waktu" |
-| 4:45 | 📱 Toggle mobile view + dark mode (`d`) | Responsive | "Mobile-first, PWA installable, dark mode" |
-
----
-
 ## 🛠️ Tech Stack
 
 | Teknologi | Versi | Kegunaan / *Purpose* |
