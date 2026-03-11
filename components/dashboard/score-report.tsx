@@ -294,10 +294,7 @@ export function ScoreReport({
                   <p className="text-xs" style={{ color: "#6b7280" }}>
                     {carbon.treeEquivalent} {d.treeEquivalentText}
                   </p>
-                  <p
-                    className="mt-1 text-[10px]"
-                    style={{ color: "#9ca3af" }}
-                  >
+                  <p className="mt-1 text-[10px]" style={{ color: "#9ca3af" }}>
                     {d.estimateDisclaimer}
                   </p>
                 </div>

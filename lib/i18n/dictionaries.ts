@@ -2268,8 +2268,7 @@ const en: Dictionary = {
       compliant: "Compliant",
       nonCompliant: "Non-Compliant",
       recommendation: "Recommendation",
-      selfAssessedNote:
-        "* Based on self-assessment, not an official audit",
+      selfAssessedNote: "* Based on self-assessment, not an official audit",
       noAssessment: "No data yet",
       noAssessmentDesc:
         "Complete an assessment to view your regulatory compliance status.",

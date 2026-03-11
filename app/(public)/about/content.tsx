@@ -238,7 +238,7 @@ export function AboutContent() {
 
       {/* Team Section */}
       <FadeInUp>
-        <div className="mb-8 mt-16 text-center">
+        <div className="mt-16 mb-8 text-center">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
             {d.team.title}
           </h2>
