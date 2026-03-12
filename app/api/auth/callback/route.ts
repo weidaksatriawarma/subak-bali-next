@@ -1,5 +1,6 @@
+import { createServerClient } from "@supabase/ssr"
+import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
 import { sanitizeRedirectPath } from "@/lib/security"
 
 function getRedirectOrigin(request: Request): string {
@@ -21,10 +22,38 @@ export async function GET(request: Request) {
   const next = sanitizeRedirectPath(searchParams.get("next") ?? "/dashboard")
 
   if (code) {
-    const supabase = await createClient()
+    const cookieStore = await cookies()
+    const cookiesToForward: {
+      name: string
+      value: string
+      options: Record<string, unknown>
+    }[] = []
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return cookieStore.getAll()
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              cookieStore.set(name, value, options)
+            })
+            cookiesToForward.push(...cookiesToSet)
+          },
+        },
+      }
+    )
+
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
+      const response = NextResponse.redirect(`${origin}${next}`)
+      cookiesToForward.forEach(({ name, value, options }) => {
+        response.cookies.set(name, value, options)
+      })
+      return response
     }
     console.error("[auth callback]", error.message)
   }

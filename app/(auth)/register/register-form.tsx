@@ -58,6 +58,7 @@ export function RegisterForm() {
       return
     }
 
+    router.refresh()
     router.push("/dashboard")
   }
 
