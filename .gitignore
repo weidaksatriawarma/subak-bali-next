@@ -54,6 +54,9 @@ CLAUDE.md
 Thumbs.db
 ._*
 
+# proposal
+/proposal/
+
 # supabase local
 supabase/.temp/
 
