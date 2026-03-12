@@ -262,8 +262,8 @@ export function ScoreContent({
         <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
           <CardHeader>
             <CardTitle className="text-base">
-              {t.dashboard.score.impactTitle ??
-                "\u{1F33F} Dampak Lingkungan Bisnis Anda"}
+              {t.dashboard.score?.impactTitle ??
+                "\u{1F33F} Your Business Environmental Impact"}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -274,11 +274,10 @@ export function ScoreContent({
                 </div>
                 <div>
                   <p className="text-xl font-bold text-green-700 dark:text-green-400">
-                    {carbonData.totalCO2.toLocaleString("id-ID")} kg
+                    {carbonData.totalCO2.toLocaleString("en-US")} kg
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    est. CO₂/tahun ({carbonData.treeEquivalent}{" "}
-                    {locale === "id" ? "pohon" : "trees"})
+                    est. CO₂/year ({carbonData.treeEquivalent} trees)
                   </p>
                 </div>
               </div>
@@ -288,14 +287,10 @@ export function ScoreContent({
                 </div>
                 <div>
                   <p className="text-xl font-bold text-blue-700 dark:text-blue-400">
-                    Rp {(savingsData.monthlySavingsRp / 1_000_000).toFixed(1)}{" "}
-                    jt
+                    Rp {(savingsData.monthlySavingsRp / 1_000_000).toFixed(1)}M
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    est.{" "}
-                    {locale === "id"
-                      ? "potensi hemat/bulan"
-                      : "potential savings/month"}
+                    est. potential savings/month
                   </p>
                 </div>
               </div>
@@ -429,19 +424,19 @@ export function ScoreContent({
       {industry !== "other" && (
         <Card>
           <CardHeader>
-            <CardTitle>Performa Industri</CardTitle>
+            <CardTitle>Industry Performance</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Di atas{" "}
+              Above{" "}
               <span className="font-semibold text-foreground">
                 {percentile}%
               </span>{" "}
-              perusahaan {data.industryLabel}
+              of {data.industryLabel} businesses
             </p>
             {allIndustryBadges.length > 0 && (
               <div className="space-y-2">
-                <p className="text-sm font-medium">Badge Industri</p>
+                <p className="text-sm font-medium">Industry Badges</p>
                 <div className="flex flex-wrap gap-2">
                   {allIndustryBadges.map((badge) => {
                     const isUnlocked = unlockedBadges.some(
@@ -649,7 +644,7 @@ export function ScoreContent({
           title={t.dashboard.askAiCard.score.title}
           description={t.dashboard.askAiCard.score.description}
           buttonLabel={t.dashboard.askAiCard.button}
-          prompt={`Skor sustainability saya ${data.totalScore}/100. Energi ${data.energyScore}, Limbah ${data.wasteScore}, Rantai Pasok ${data.supplyChainScore}, Operasional ${data.operationsScore}, Kebijakan ${data.policyScore}. Kategori mana yang harus saya prioritaskan?`}
+          prompt={`My sustainability score is ${data.totalScore}/100. Energy ${data.energyScore}, Waste ${data.wasteScore}, Supply Chain ${data.supplyChainScore}, Operations ${data.operationsScore}, Policy ${data.policyScore}. Which category should I prioritize?`}
         />
       </div>
     </div>

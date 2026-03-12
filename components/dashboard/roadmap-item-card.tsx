@@ -149,7 +149,7 @@ export function RoadmapItemCard({
                 asChild
               >
                 <Link
-                  href={`/dashboard/chat?prompt=${encodeURIComponent(`Jelaskan lebih detail cara mengimplementasikan langkah sustainability berikut: "${item.title}". ${item.description}`)}`}
+                  href={`/dashboard/chat?prompt=${encodeURIComponent(`Explain in detail how to implement the following sustainability step: "${item.title}". ${item.description}`)}`}
                 >
                   <MessageSquare className="mr-1.5 h-4 w-4" />
                   {rd.askAi}
