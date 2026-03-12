@@ -36,6 +36,7 @@ export function NotificationBell() {
           variant="ghost"
           size="icon"
           className="relative"
+          suppressHydrationWarning
           aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ""}`}
         >
           <Bell className="h-5 w-5" />
