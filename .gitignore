@@ -55,7 +55,7 @@ Thumbs.db
 ._*
 
 # proposal
-/proposal/
+docs/proposal/
 
 # supabase local
 supabase/.temp/
