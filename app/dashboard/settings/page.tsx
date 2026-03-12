@@ -103,7 +103,7 @@ export default function SettingsPage() {
   })
 
   useEffect(() => {
-    document.title = "Pengaturan | Subak Hijau"
+    document.title = "Settings | Subak Hijau"
   }, [])
 
   useEffect(() => {

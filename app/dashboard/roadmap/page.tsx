@@ -450,10 +450,10 @@ export default function RoadmapPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-green-700 dark:text-green-400">
-                    {impactData.completedCo2.toLocaleString("id-ID")}
+                    {impactData.completedCo2.toLocaleString("en-US")}
                     <span className="text-base font-normal text-muted-foreground">
                       {" "}
-                      / {impactData.totalCo2.toLocaleString("id-ID")} kg
+                      / {impactData.totalCo2.toLocaleString("en-US")} kg
                     </span>
                   </p>
                   <p className="text-xs text-muted-foreground">

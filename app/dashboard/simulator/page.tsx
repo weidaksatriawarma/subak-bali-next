@@ -22,7 +22,7 @@ const SimulatorContent = dynamic(
 import type { Assessment, Score } from "@/types/database"
 
 export const metadata: Metadata = {
-  title: "Simulator Aksi",
+  title: "Action Simulator",
 }
 
 export default async function SimulatorPage() {
@@ -55,9 +55,9 @@ export default async function SimulatorPage() {
       <div className="flex flex-1 items-center justify-center">
         <EmptyState
           icon={ClipboardList}
-          title="Belum ada data"
-          description="Lengkapi assessment dan generate skor terlebih dahulu."
-          actionLabel="Mulai Assessment"
+          title="No data yet"
+          description="Complete an assessment and generate your score first."
+          actionLabel="Start Assessment"
           actionHref="/dashboard/assessment"
         />
       </div>

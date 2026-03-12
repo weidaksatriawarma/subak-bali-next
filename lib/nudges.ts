@@ -31,7 +31,7 @@ export function getNudge(context: NudgeContext): Nudge | null {
     return {
       id: "roadmap-weekly-goal",
       emoji: "\u{1F3AF}",
-      text: "Selesaikan 3 langkah minggu ini untuk menjaga momentum!",
+      text: "Complete 3 steps this week to keep your momentum going!",
     }
   }
 
@@ -44,8 +44,8 @@ export function getNudge(context: NudgeContext): Nudge | null {
     return {
       id: "score-focus-lowest",
       emoji: "\u{1F4A1}",
-      text: "Fokus pada kategori terendah untuk peningkatan tercepat.",
-      ctaLabel: "Lihat Roadmap",
+      text: "Focus on your lowest category for the fastest improvement.",
+      ctaLabel: "View Roadmap",
       ctaHref: "/dashboard/roadmap",
     }
   }
@@ -54,8 +54,8 @@ export function getNudge(context: NudgeContext): Nudge | null {
     return {
       id: "overview-start-assessment",
       emoji: "\u{1F680}",
-      text: "Mulai assessment untuk mengetahui skor sustainability bisnis Anda.",
-      ctaLabel: "Mulai Assessment",
+      text: "Start an assessment to find out your business sustainability score.",
+      ctaLabel: "Start Assessment",
       ctaHref: "/dashboard/assessment",
     }
   }
@@ -64,7 +64,7 @@ export function getNudge(context: NudgeContext): Nudge | null {
     return {
       id: `streak-${streakWeeks}`,
       emoji: "\u{1F525}",
-      text: `Streak ${streakWeeks} minggu! Terus konsisten untuk hasil maksimal.`,
+      text: `${streakWeeks}-week streak! Stay consistent for maximum results.`,
     }
   }
 
@@ -72,8 +72,8 @@ export function getNudge(context: NudgeContext): Nudge | null {
     return {
       id: "inactive-7-days",
       emoji: "\u{23F0}",
-      text: "Sudah seminggu tanpa progres. Pilih 1 langkah mudah untuk memulai kembali!",
-      ctaLabel: "Lihat Roadmap",
+      text: "It's been a week without progress. Pick 1 easy step to get back on track!",
+      ctaLabel: "View Roadmap",
       ctaHref: "/dashboard/roadmap",
     }
   }

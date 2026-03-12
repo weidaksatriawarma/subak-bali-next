@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import { HelpContent } from "./content"
 
 export const metadata: Metadata = {
-  title: "Pusat Bantuan",
+  title: "Help Center",
   description:
-    "Pusat bantuan Subak Hijau — temukan jawaban untuk pertanyaan Anda tentang fitur dan penggunaan platform.",
+    "Subak Hijau Help Center — find answers to your questions about features and platform usage.",
 }
 
 export default function HelpPage() {

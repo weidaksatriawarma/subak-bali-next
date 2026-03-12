@@ -4,8 +4,8 @@ import { createClient } from "@/lib/supabase/server"
 import { ComparisonContent } from "@/components/dashboard/comparison-content"
 
 export const metadata: Metadata = {
-  title: "Perbandingan - Subak Hijau",
-  description: "Bandingkan assessment pertama dan terbaru",
+  title: "Comparison - Subak Hijau",
+  description: "Compare your first and latest assessment",
 }
 
 export default async function ComparisonPage() {

@@ -14,7 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Score, Profile, Assessment, Category } from "@/types/database"
 
 export const metadata: Metadata = {
-  title: "Sertifikat Keberlanjutan",
+  title: "Sustainability Certificate",
 }
 
 export default async function CertificatePage() {
@@ -52,9 +52,9 @@ export default async function CertificatePage() {
       <div className="flex flex-1 items-center justify-center">
         <EmptyState
           icon={ClipboardList}
-          title="Belum ada skor"
-          description="Lengkapi assessment terlebih dahulu untuk mendapatkan sertifikat."
-          actionLabel="Mulai Assessment"
+          title="No score yet"
+          description="Complete an assessment first to get your certificate."
+          actionLabel="Start Assessment"
           actionHref="/dashboard/assessment"
         />
       </div>
@@ -79,10 +79,10 @@ export default async function CertificatePage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">
-          Sertifikat Keberlanjutan
+          Sustainability Certificate
         </h1>
         <p className="text-muted-foreground">
-          Preview dan download sertifikat sustainability bisnis Anda
+          Preview and download your business sustainability certificate
         </p>
       </div>
 
@@ -91,7 +91,7 @@ export default async function CertificatePage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Award className="h-5 w-5" />
-            Preview Sertifikat
+            Certificate Preview
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -122,7 +122,7 @@ export default async function CertificatePage() {
           <Button asChild variant="outline">
             <Link href="/dashboard/score/report" target="_blank">
               <FileDown className="mr-2 h-4 w-4" />
-              Download Laporan PDF
+              Download PDF Report
             </Link>
           </Button>
         </CardContent>
@@ -132,17 +132,17 @@ export default async function CertificatePage() {
       {shareUrl && (
         <Card>
           <CardHeader>
-            <CardTitle>Bagikan Sertifikat</CardTitle>
+            <CardTitle>Share Certificate</CardTitle>
           </CardHeader>
           <CardContent>
             <ShareActions
               shareUrl={shareUrl}
-              shareTitle={`\uD83C\uDF3F ${profile.business_name} mendapat skor sustainability ${score.total_score}/100 dari Subak Hijau!`}
+              shareTitle={`\uD83C\uDF3F ${profile.business_name} scored ${score.total_score}/100 on sustainability from Subak Hijau!`}
               labels={{
-                copyLink: "Salin Link",
-                linkCopied: "Link disalin!",
+                copyLink: "Copy Link",
+                linkCopied: "Link copied!",
                 shareWhatsApp: "WhatsApp",
-                scanToVerify: "Scan untuk verifikasi",
+                scanToVerify: "Scan to verify",
               }}
             />
           </CardContent>
@@ -154,7 +154,7 @@ export default async function CertificatePage() {
         <Button asChild variant="outline">
           <Link href="/dashboard/achievement">
             <Trophy className="mr-2 h-4 w-4" />
-            Lihat Kartu Pencapaian
+            View Achievement Card
           </Link>
         </Button>
       </div>

@@ -408,10 +408,10 @@ export default function ProgressPage() {
       </Card>
 
       <AskAiCard
-        title={t.dashboard.askAiCard.progress.title}
-        description={t.dashboard.askAiCard.progress.description}
-        buttonLabel={t.dashboard.askAiCard.button}
-        prompt={`Skor terbaru ${latestScore}/100, ${completedItems.length} dari ${items.length} langkah selesai (${completionPercent}%), streak ${streak.currentStreak} minggu. Analisis progres dan sarankan cara mempercepat peningkatan.`}
+        title={t.dashboard.askAiCard?.progress?.title ?? "Want to accelerate your progress?"}
+        description={t.dashboard.askAiCard?.progress?.description ?? "The AI Consultant can analyze your progress and suggest ways to improve faster."}
+        buttonLabel={t.dashboard.askAiCard?.button ?? "Ask AI"}
+        prompt={`Latest score ${latestScore}/100, ${completedItems.length} of ${items.length} steps completed (${completionPercent}%), streak ${streak.currentStreak} weeks. Analyze my progress and suggest ways to accelerate improvement.`}
       />
     </div>
   )
@@ -477,7 +477,7 @@ function SustainabilityAnalytics({
             </div>
             <div>
               <p className="text-lg font-bold text-blue-700 dark:text-blue-400">
-                Rp {(savings.monthlySavingsRp / 1_000_000).toFixed(1)} jt
+                Rp {(savings.monthlySavingsRp / 1_000_000).toFixed(1)}M
               </p>
               <p className="text-xs text-muted-foreground">
                 {prg.estSavingsMonth}

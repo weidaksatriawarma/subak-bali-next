@@ -147,9 +147,13 @@ export function AiChatWidget({ variant }: AiChatWidgetProps) {
     }
   }, [variant])
 
-  // Determine locale from pathname or default to "id"
+  // Dashboard always uses English; homepage detects from pathname
   const locale =
-    pathname.startsWith("/en") || pathname.includes("/en/") ? "en" : "id"
+    variant === "dashboard"
+      ? "en"
+      : pathname.startsWith("/en") || pathname.includes("/en/")
+        ? "en"
+        : "id"
 
   const suggestions =
     variant === "dashboard"

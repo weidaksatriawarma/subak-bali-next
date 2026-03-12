@@ -22,7 +22,7 @@ const ComplianceContent = dynamic(
 import type { Assessment } from "@/types/database"
 
 export const metadata: Metadata = {
-  title: "Kepatuhan Regulasi",
+  title: "Regulatory Compliance",
 }
 
 export default async function CompliancePage() {
@@ -46,9 +46,9 @@ export default async function CompliancePage() {
       <div className="flex flex-1 items-center justify-center">
         <EmptyState
           icon={ClipboardList}
-          title="Belum ada data"
-          description="Lengkapi assessment untuk melihat status kepatuhan regulasi bisnis Anda."
-          actionLabel="Mulai Assessment"
+          title="No data yet"
+          description="Complete an assessment to view your business regulatory compliance status."
+          actionLabel="Start Assessment"
           actionHref="/dashboard/assessment"
         />
       </div>

@@ -22,7 +22,7 @@ const CarbonContent = dynamic(
 import type { Assessment, Profile } from "@/types/database"
 
 export const metadata: Metadata = {
-  title: "Jejak Karbon",
+  title: "Carbon Footprint",
 }
 
 export default async function CarbonPage() {
@@ -49,9 +49,9 @@ export default async function CarbonPage() {
       <div className="flex flex-1 items-center justify-center">
         <EmptyState
           icon={ClipboardList}
-          title="Belum ada data"
-          description="Lengkapi assessment untuk melihat jejak karbon bisnis Anda."
-          actionLabel="Mulai Assessment"
+          title="No data yet"
+          description="Complete an assessment to view your business carbon footprint."
+          actionLabel="Start Assessment"
           actionHref="/dashboard/assessment"
         />
       </div>

@@ -58,6 +58,21 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   )
 }
 
+/** Forces English locale for all children — used in dashboard layout */
+export function DashboardLanguageProvider({
+  children,
+}: {
+  children: ReactNode
+}) {
+  const setLocale = useCallback(() => {}, [])
+
+  return (
+    <LanguageContext value={{ locale: "en", setLocale, t: dictionaries["en"] }}>
+      {children}
+    </LanguageContext>
+  )
+}
+
 export function useTranslation() {
   const ctx = useContext(LanguageContext)
   if (!ctx) {

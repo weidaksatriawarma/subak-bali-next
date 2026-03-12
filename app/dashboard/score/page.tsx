@@ -7,7 +7,7 @@ import { INDUSTRY_LABELS } from "@/lib/constants"
 import type { Score, Profile, Assessment } from "@/types/database"
 
 export const metadata: Metadata = {
-  title: "Skor Sustainability",
+  title: "Sustainability Score",
 }
 
 export default async function ScorePage() {

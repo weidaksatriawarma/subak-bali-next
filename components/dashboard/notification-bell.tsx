@@ -19,10 +19,10 @@ function formatRelativeTime(timestamp: string): string {
   const hours = Math.floor(diffMs / 3_600_000)
   const days = Math.floor(diffMs / 86_400_000)
 
-  if (minutes < 1) return "Baru saja"
-  if (minutes < 60) return `${minutes} menit lalu`
-  if (hours < 24) return `${hours} jam lalu`
-  return `${days} hari lalu`
+  if (minutes < 1) return "Just now"
+  if (minutes < 60) return `${minutes}m ago`
+  if (hours < 24) return `${hours}h ago`
+  return `${days}d ago`
 }
 
 export function NotificationBell() {
@@ -36,7 +36,7 @@ export function NotificationBell() {
           variant="ghost"
           size="icon"
           className="relative"
-          aria-label={`Notifikasi${unreadCount > 0 ? `, ${unreadCount} belum dibaca` : ""}`}
+          aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ""}`}
         >
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
@@ -50,10 +50,10 @@ export function NotificationBell() {
         className="w-80 p-0"
         align="end"
         role="dialog"
-        aria-label="Panel notifikasi"
+        aria-label="Notification panel"
       >
         <div className="flex items-center justify-between border-b px-4 py-3">
-          <h3 className="text-sm font-semibold">Notifikasi</h3>
+          <h3 className="text-sm font-semibold">Notifications</h3>
           {unreadCount > 0 && (
             <Button
               variant="ghost"
@@ -61,14 +61,14 @@ export function NotificationBell() {
               className="h-auto px-2 py-1 text-xs text-muted-foreground"
               onClick={markAllAsRead}
             >
-              Tandai semua dibaca
+              Mark all as read
             </Button>
           )}
         </div>
         <div className="max-h-80 overflow-y-auto">
           {notifications.length === 0 ? (
             <p className="px-4 py-8 text-center text-sm text-muted-foreground">
-              Tidak ada notifikasi
+              No notifications
             </p>
           ) : (
             notifications.map((notification) => (

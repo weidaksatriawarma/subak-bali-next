@@ -74,9 +74,9 @@ export default async function SDGPage() {
       <div className="flex flex-1 items-center justify-center">
         <EmptyState
           icon={ClipboardList}
-          title="Belum ada assessment"
-          description="Lengkapi assessment terlebih dahulu untuk melihat kontribusi SDG Anda."
-          actionLabel="Mulai Assessment"
+          title="No assessment yet"
+          description="Complete an assessment first to view your SDG contributions."
+          actionLabel="Start Assessment"
           actionHref="/dashboard/assessment"
         />
       </div>

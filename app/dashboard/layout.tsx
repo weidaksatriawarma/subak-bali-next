@@ -10,6 +10,7 @@ import { CommandPalette } from "@/components/dashboard/command-palette"
 import { PageTransition } from "@/components/dashboard/page-transition"
 import { AiChatWidget } from "@/components/shared/ai-chat-widget"
 import { OnboardingWidgets } from "@/components/dashboard/onboarding-client"
+import { DashboardLanguageProvider } from "@/lib/i18n/language-context"
 
 export default async function DashboardLayout({
   children,
@@ -67,21 +68,23 @@ export default async function DashboardLayout({
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar profile={profile} />
-      <SidebarInset>
-        <DashboardHeader />
-        <main id="main-content" className="flex-1 p-4 pb-20 md:p-6 md:pb-6">
-          <CelebrationProvider>
-            <OnboardingWidgets journeyData={journeyData} />
-            <CommandPalette />
-            <KeyboardShortcuts />
-            <PageTransition>{children}</PageTransition>
-          </CelebrationProvider>
-        </main>
-        <BottomSheetNav />
-        <AiChatWidget variant="dashboard" />
-      </SidebarInset>
-    </SidebarProvider>
+    <DashboardLanguageProvider>
+      <SidebarProvider>
+        <AppSidebar profile={profile} />
+        <SidebarInset>
+          <DashboardHeader />
+          <main id="main-content" className="flex-1 p-4 pb-20 md:p-6 md:pb-6">
+            <CelebrationProvider>
+              <OnboardingWidgets journeyData={journeyData} />
+              <CommandPalette />
+              <KeyboardShortcuts />
+              <PageTransition>{children}</PageTransition>
+            </CelebrationProvider>
+          </main>
+          <BottomSheetNav />
+          <AiChatWidget variant="dashboard" />
+        </SidebarInset>
+      </SidebarProvider>
+    </DashboardLanguageProvider>
   )
 }

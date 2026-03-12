@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server"
 
 export const metadata: Metadata = {
   title: "Quick Assessment - Subak Hijau",
-  description: "Estimasi skor sustainability dalam 3 menit",
+  description: "Estimate your sustainability score in 3 minutes",
 }
 
 export default async function QuickAssessmentPage() {
