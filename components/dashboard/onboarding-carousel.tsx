@@ -15,15 +15,15 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    title: "Apa itu Subak Hijau?",
+    title: "What is Subak Hijau?",
     description:
-      "Platform AI yang membantu UMKM Indonesia mengukur dan meningkatkan sustainability bisnis mereka.",
+      "An AI-powered platform that helps Indonesian MSMEs measure and improve their business sustainability.",
     icon: <Leaf className="h-16 w-16 text-primary" />,
   },
   {
-    title: "Cara Kerjanya",
+    title: "How It Works",
     description:
-      "Isi assessment tentang bisnis Anda, dapatkan skor dari AI, lalu ikuti roadmap yang dipersonalisasi.",
+      "Complete an assessment about your business, get an AI-generated score, then follow a personalized roadmap.",
     icon: (
       <div className="flex items-center gap-3">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
@@ -41,9 +41,9 @@ const slides: Slide[] = [
     ),
   },
   {
-    title: "Mulai Sekarang",
+    title: "Get Started",
     description:
-      "Siap meningkatkan sustainability bisnis Anda? Mari mulai dengan assessment pertama!",
+      "Ready to improve your business sustainability? Let's begin with your first assessment!",
     icon: <div className="text-6xl">{"\u{1F33F}"}</div>,
   },
 ]
@@ -104,19 +104,19 @@ export function OnboardingCarousel() {
                 className="flex-1"
                 onClick={handleDismiss}
               >
-                Lewati
+                Skip
               </Button>
               <Button
                 className="flex-1"
                 onClick={() => setCurrent(current + 1)}
               >
-                Lanjut
+                Next
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </>
           ) : (
             <Button className="w-full" onClick={handleDismiss}>
-              Mulai Sekarang
+              Get Started
               <ArrowRight className="ml-1 h-4 w-4" />
             </Button>
           )}
