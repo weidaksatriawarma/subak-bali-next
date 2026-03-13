@@ -92,9 +92,7 @@ describe("getScoreColor", () => {
 describe("getScoreBgColor", () => {
   it("returns bg-red for scores below 30", () => {
     expect(getScoreBgColor(0)).toBe("bg-gradient-to-r from-red-500 to-red-400")
-    expect(getScoreBgColor(29)).toBe(
-      "bg-gradient-to-r from-red-500 to-red-400"
-    )
+    expect(getScoreBgColor(29)).toBe("bg-gradient-to-r from-red-500 to-red-400")
   })
 
   it("returns bg-orange for scores 30-59", () => {

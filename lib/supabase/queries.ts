@@ -1,11 +1,6 @@
 import { cache } from "react"
 import { createClient } from "./server"
-import type {
-  Assessment,
-  Profile,
-  Score,
-  RoadmapItem,
-} from "@/types/database"
+import type { Assessment, Profile, Score, RoadmapItem } from "@/types/database"
 
 export const getUser = cache(async () => {
   const supabase = await createClient()

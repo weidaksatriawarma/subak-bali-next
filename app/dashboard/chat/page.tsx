@@ -202,7 +202,7 @@ function ChatPanel({
                       className="group flex flex-col gap-2 rounded-xl border bg-background p-4 text-left transition-all hover:border-primary/50 hover:bg-primary/5 hover:shadow-sm"
                     >
                       <Icon className="size-5 text-primary" />
-                      <span className="text-sm font-medium leading-snug">
+                      <span className="text-sm leading-snug font-medium">
                         {item.label}
                       </span>
                     </button>

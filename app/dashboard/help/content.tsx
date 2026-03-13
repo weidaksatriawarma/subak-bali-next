@@ -381,7 +381,7 @@ export function HelpContent() {
                     <TabsTrigger
                       key={group.industry}
                       value={group.industry}
-                      className="shrink-0 rounded-full px-3 py-1.5 text-xs data-active:border-primary data-active:bg-primary/10 data-active:text-primary sm:text-sm"
+                      className="shrink-0 rounded-full px-3 py-1.5 text-xs sm:text-sm data-active:border-primary data-active:bg-primary/10 data-active:text-primary"
                     >
                       <Icon className="size-3.5" />
                       {industryLabels[locale]?.[group.industry] ??
