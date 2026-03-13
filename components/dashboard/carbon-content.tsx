@@ -65,15 +65,15 @@ function getRecommendations(
       co2: energyCO2,
       recommendations: [
         {
-          title: "Ganti ke LED & Peralatan Hemat Energi",
+          title: "Switch to LED & Energy-Efficient Equipment",
           description:
-            "Menggunakan lampu LED dan peralatan bersertifikat hemat energi bisa mengurangi konsumsi listrik hingga 30%.",
+            "Using LED lights and energy-certified equipment can reduce electricity consumption by up to 30%.",
           icon: Lightbulb,
         },
         {
-          title: "Pertimbangkan Solar Panel",
+          title: "Consider Solar Panels",
           description:
-            "Investasi solar panel dapat mengurangi ketergantungan pada PLN dan menurunkan emisi karbon secara signifikan.",
+            "Investing in solar panels can reduce grid dependency and significantly lower carbon emissions.",
           icon: Lightbulb,
         },
       ],
@@ -83,15 +83,15 @@ function getRecommendations(
       co2: wasteCO2,
       recommendations: [
         {
-          title: "Terapkan Pemilahan & Daur Ulang Limbah",
+          title: "Implement Waste Sorting & Recycling",
           description:
-            "Pisahkan limbah organik dan anorganik, lalu daur ulang material yang bisa digunakan kembali.",
+            "Separate organic and inorganic waste, then recycle reusable materials.",
           icon: Trash2,
         },
         {
-          title: "Kurangi Kemasan Sekali Pakai",
+          title: "Reduce Single-Use Packaging",
           description:
-            "Beralih ke kemasan biodegradable atau reusable untuk mengurangi volume limbah.",
+            "Switch to biodegradable or reusable packaging to reduce waste volume.",
           icon: Trash2,
         },
       ],
@@ -101,15 +101,15 @@ function getRecommendations(
       co2: transportCO2,
       recommendations: [
         {
-          title: "Optimalkan Rute & Gunakan Kendaraan Efisien",
+          title: "Optimize Routes & Use Efficient Vehicles",
           description:
-            "Konsolidasi pengiriman dan pertimbangkan kendaraan hybrid atau listrik untuk operasional.",
+            "Consolidate shipments and consider hybrid or electric vehicles for operations.",
           icon: Truck,
         },
         {
-          title: "Prioritaskan Supplier Lokal",
+          title: "Prioritize Local Suppliers",
           description:
-            "Sourcing dari supplier lokal mengurangi jarak tempuh dan emisi transportasi.",
+            "Sourcing from local suppliers reduces travel distance and transportation emissions.",
           icon: Truck,
         },
       ],

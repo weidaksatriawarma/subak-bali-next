@@ -109,7 +109,7 @@ export async function GET() {
   // Render the PDF document to a buffer
   const buffer = await renderToBuffer(
     <ScoreReportPDF
-      businessName={profile?.business_name ?? "Bisnis Saya"}
+      businessName={profile?.business_name ?? "My Business"}
       industryLabel={industryLabel}
       date={date}
       totalScore={score.total_score}
@@ -133,7 +133,7 @@ export async function GET() {
     headers: {
       "Content-Type": "application/pdf",
       "Content-Disposition":
-        'attachment; filename="laporan-sustainability-subakhijau.pdf"',
+        'attachment; filename="sustainability-report-subakhijau.pdf"',
     },
   })
 }

@@ -89,7 +89,7 @@ export function ScoreReport({
       const url = URL.createObjectURL(blob)
       const a = document.createElement("a")
       a.href = url
-      a.download = "laporan-sustainability-subakhijau.pdf"
+      a.download = "sustainability-report-subakhijau.pdf"
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)

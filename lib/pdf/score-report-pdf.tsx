@@ -28,17 +28,17 @@ interface ScoreReportPDFProps {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  energy: "Energi",
-  waste: "Limbah",
-  supply_chain: "Rantai Pasok",
-  operations: "Operasional",
-  policy: "Kebijakan",
+  energy: "Energy",
+  waste: "Waste",
+  supply_chain: "Supply Chain",
+  operations: "Operations",
+  policy: "Policy",
 }
 
 const PRIORITY_LABELS: Record<string, string> = {
-  high: "Tinggi",
-  medium: "Sedang",
-  low: "Rendah",
+  high: "High",
+  medium: "Medium",
+  low: "Low",
 }
 
 function ScoreBar({ label, value }: { label: string; value: number }) {
@@ -97,11 +97,11 @@ export function ScoreReportPDF({
         {/* Header */}
         <View style={s.header}>
           <Text style={s.brandName}>SUBAK HIJAU</Text>
-          <Text style={s.title}>Laporan Sustainability</Text>
+          <Text style={s.title}>Sustainability Report</Text>
           <Text style={s.subtitle}>
             {businessName} — {industryLabel}
           </Text>
-          <Text style={s.dateText}>Tanggal: {date}</Text>
+          <Text style={s.dateText}>Date: {date}</Text>
         </View>
 
         {/* Total Score */}
@@ -109,7 +109,7 @@ export function ScoreReportPDF({
           <Text
             style={{ fontSize: 9, color: PDF_COLORS.gray, marginBottom: 4 }}
           >
-            SKOR TOTAL
+            TOTAL SCORE
           </Text>
           <Text style={s.bigScore}>
             {totalScore}
@@ -119,7 +119,7 @@ export function ScoreReportPDF({
 
         {/* Category Breakdown */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>Breakdown Kategori</Text>
+          <Text style={s.sectionTitle}>Category Breakdown</Text>
           <ScoreBar label={CATEGORY_LABELS.energy} value={energyScore} />
           <ScoreBar label={CATEGORY_LABELS.waste} value={wasteScore} />
           <ScoreBar
@@ -135,7 +135,7 @@ export function ScoreReportPDF({
 
         {/* SDG Alignment */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>Keselarasan SDGs</Text>
+          <Text style={s.sectionTitle}>SDG Alignment</Text>
           <View style={s.sdgRow}>
             {sdgResults.map((sdg) => (
               <View
@@ -165,19 +165,19 @@ export function ScoreReportPDF({
         {/* Carbon Footprint Metrics */}
         {carbon && savings && compliance && (
           <View style={s.section}>
-            <Text style={s.sectionTitle}>Jejak Karbon & Dampak Lingkungan</Text>
+            <Text style={s.sectionTitle}>Carbon Footprint & Environmental Impact</Text>
             <View style={s.metricsRow}>
               <View style={s.metricCard}>
                 <Text style={[s.metricValue, { color: PDF_COLORS.green }]}>
                   {carbon.totalCO2.toLocaleString("id-ID")} kg
                 </Text>
-                <Text style={s.metricLabel}>CO2/tahun</Text>
+                <Text style={s.metricLabel}>CO₂/year</Text>
               </View>
               <View style={s.metricCard}>
                 <Text style={[s.metricValue, { color: PDF_COLORS.blue }]}>
                   Rp {(savings.monthlySavingsRp / 1_000_000).toFixed(1)} jt
                 </Text>
-                <Text style={s.metricLabel}>potensi hemat/bulan</Text>
+                <Text style={s.metricLabel}>potential savings/month</Text>
               </View>
               <View style={s.metricCard}>
                 <Text style={[s.metricValue, { color: PDF_COLORS.amber }]}>
@@ -193,7 +193,7 @@ export function ScoreReportPDF({
         {compliance && (
           <View style={s.section}>
             <Text style={s.sectionTitle}>
-              Kepatuhan Regulasi ({compliance.framework})
+              Regulatory Compliance ({compliance.framework})
             </Text>
             {compliance.met.length > 0 && (
               <View style={{ marginBottom: 4 }}>
@@ -205,7 +205,7 @@ export function ScoreReportPDF({
                     marginBottom: 2,
                   }}
                 >
-                  Terpenuhi ({compliance.met.length})
+                  Compliant ({compliance.met.length})
                 </Text>
                 {compliance.met.map((item) => (
                   <View key={item.id} style={s.complianceItem}>
@@ -225,7 +225,7 @@ export function ScoreReportPDF({
                     marginBottom: 2,
                   }}
                 >
-                  Belum Terpenuhi ({compliance.unmet.length})
+                  Non-Compliant ({compliance.unmet.length})
                 </Text>
                 {compliance.unmet.map((item) => (
                   <View key={item.id} style={s.complianceItem}>
@@ -241,7 +241,7 @@ export function ScoreReportPDF({
         {/* AI Summary */}
         {summaryLines.length > 0 && (
           <View style={s.section}>
-            <Text style={s.sectionTitle}>Analisis AI</Text>
+            <Text style={s.sectionTitle}>AI Analysis</Text>
             {summaryLines.map((line, i) => (
               <Text
                 key={i}
@@ -261,9 +261,9 @@ export function ScoreReportPDF({
         {/* Industry Benchmark */}
         {industryBenchmark !== null && (
           <View style={s.section}>
-            <Text style={s.sectionTitle}>Benchmark Industri</Text>
+            <Text style={s.sectionTitle}>Industry Benchmark</Text>
             <Text style={{ fontSize: 9, color: PDF_COLORS.darkGray }}>
-              Rata-rata industri {industryLabel}: {industryBenchmark}/100
+              Industry average for {industryLabel}: {industryBenchmark}/100
             </Text>
             <Text
               style={{
@@ -277,8 +277,8 @@ export function ScoreReportPDF({
               }}
             >
               {totalScore >= industryBenchmark
-                ? `+${totalScore - industryBenchmark} di atas rata-rata`
-                : `${totalScore - industryBenchmark} di bawah rata-rata`}
+                ? `+${totalScore - industryBenchmark} above average`
+                : `${totalScore - industryBenchmark} below average`}
             </Text>
           </View>
         )}
@@ -286,7 +286,7 @@ export function ScoreReportPDF({
         {/* Top Roadmap Actions */}
         {topActions.length > 0 && (
           <View style={s.section}>
-            <Text style={s.sectionTitle}>Rekomendasi Aksi</Text>
+            <Text style={s.sectionTitle}>Recommended Actions</Text>
             {topActions.map((item, i) => (
               <View key={item.id} style={s.actionItem}>
                 <Text style={s.actionNumber}>{i + 1}</Text>
@@ -295,7 +295,7 @@ export function ScoreReportPDF({
                   <Text style={s.actionDesc}>{item.description}</Text>
                   <View style={{ flexDirection: "row", marginTop: 4 }}>
                     <Text style={s.badge}>
-                      Prioritas:{" "}
+                      Priority:{" "}
                       {PRIORITY_LABELS[item.priority] ?? item.priority}
                     </Text>
                     {item.estimated_impact && (
@@ -308,7 +308,7 @@ export function ScoreReportPDF({
                           },
                         ]}
                       >
-                        Dampak:{" "}
+                        Impact:{" "}
                         {PRIORITY_LABELS[item.estimated_impact] ??
                           item.estimated_impact}
                       </Text>
@@ -323,8 +323,8 @@ export function ScoreReportPDF({
         {/* Footer */}
         <View style={s.footer}>
           <Text style={s.footerText}>
-            Subak Hijau — Laporan ini dibuat otomatis oleh AI. Data bersifat
-            estimasi.
+            Subak Hijau — This report was automatically generated by AI. Data are
+            estimates.
           </Text>
           {qrDataUrl && (
             <View style={{ alignItems: "center" }}>
@@ -333,7 +333,7 @@ export function ScoreReportPDF({
               <Text
                 style={{ fontSize: 6, color: PDF_COLORS.gray, marginTop: 2 }}
               >
-                Scan untuk verifikasi
+                Scan to verify
               </Text>
             </View>
           )}

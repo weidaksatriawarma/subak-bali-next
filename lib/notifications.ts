@@ -42,8 +42,8 @@ export function createScoreNotification(score: number): AppNotification {
   return {
     id: crypto.randomUUID(),
     type: "score",
-    title: "Skor Diperbarui",
-    description: `Skor sustainability Anda sekarang ${score}/100`,
+    title: "Score Updated",
+    description: `Your sustainability score is now ${score}/100`,
     timestamp: new Date().toISOString(),
     read: false,
   }
@@ -53,8 +53,8 @@ export function createStreakNotification(weeks: number): AppNotification {
   return {
     id: crypto.randomUUID(),
     type: "streak",
-    title: `Streak ${weeks} Minggu!`,
-    description: `Anda menyelesaikan item roadmap ${weeks} minggu berturut-turut`,
+    title: `${weeks}-Week Streak!`,
+    description: `You completed roadmap items ${weeks} weeks in a row`,
     timestamp: new Date().toISOString(),
     read: false,
   }
@@ -64,8 +64,8 @@ export function createRoadmapNotification(itemTitle: string): AppNotification {
   return {
     id: crypto.randomUUID(),
     type: "roadmap",
-    title: "Langkah Selesai!",
-    description: `Anda menyelesaikan: ${itemTitle}`,
+    title: "Step Complete!",
+    description: `You completed: ${itemTitle}`,
     timestamp: new Date().toISOString(),
     read: false,
   }
