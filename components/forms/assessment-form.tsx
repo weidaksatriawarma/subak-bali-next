@@ -300,6 +300,7 @@ export function AssessmentForm() {
 
       setCurrentProcessingStep(3)
       clearDraft()
+      router.refresh()
       router.push("/dashboard/score")
     } catch (err) {
       setCurrentProcessingStep(-1)
