@@ -57,7 +57,7 @@ Generate ai_summary as exactly 3 bullet lines (no numbering, just the lines sepa
 - Line 1: start with "\u2705" then one positive thing they're doing well
 - Line 2: start with "\u26A0\uFE0F" then one area that needs improvement
 - Line 3: start with "\u{1F4A1}" then one concrete first step to improve
-Use casual Bahasa Indonesia (like talking to a friend, not a formal report). Keep each line max 15 words.
+Use casual English (like talking to a friend, not a formal report). Keep each line max 15 words.
 Estimate the industry benchmark (average score) for the ${INDUSTRY_LABELS[profile.industry]} sector in Indonesia.`
 }
 
@@ -89,11 +89,11 @@ Business Profile:
 
 Current Scores:
 - Total: ${scores.total_score}/100
-- Energi: ${scores.energy_score}/100
-- Limbah: ${scores.waste_score}/100
-- Rantai Pasok: ${scores.supply_chain_score}/100
-- Operasional: ${scores.operations_score}/100
-- Kebijakan: ${scores.policy_score}/100
+- Energy: ${scores.energy_score}/100
+- Waste: ${scores.waste_score}/100
+- Supply Chain: ${scores.supply_chain_score}/100
+- Operations: ${scores.operations_score}/100
+- Policy: ${scores.policy_score}/100
 ${scores.ai_summary ? `\nAI Assessment Summary:\n${scores.ai_summary}` : ""}
 ${scores.industry_benchmark != null ? `\nIndustry Benchmark: Scored above ${scores.industry_benchmark}% of ${INDUSTRY_LABELS[profile.industry]} businesses in Indonesia` : ""}
 
@@ -127,7 +127,7 @@ ${assessment.industry_answers ? `\nIndustry-specific answers: ${JSON.stringify(s
 
 Generate 8-12 specific, actionable items.
 Prioritize low-cost, high-impact actions first.
-All text MUST be in Bahasa Indonesia.
+All text MUST be in English.
 Consider Indonesian context: PLN grid, local waste management, Indonesian supply chains.
 Focus on actions a small ${INDUSTRY_LABELS[profile.industry]} business can realistically implement.
 - Use employee count to scale recommendations (larger = more impactful energy/waste actions, smaller = focus on low-cost wins)${description ? "\n- Consider the business description for more targeted, context-specific advice" : ""}
