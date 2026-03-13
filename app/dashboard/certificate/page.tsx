@@ -87,14 +87,14 @@ export default async function CertificatePage() {
       </div>
 
       {/* Certificate Preview */}
-      <Card>
+      <Card className="overflow-hidden">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Award className="h-5 w-5" />
             Certificate Preview
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-0 pb-0 sm:px-6 sm:pb-6">
           <CertificatePreview
             businessName={profile.business_name}
             totalScore={score.total_score}
@@ -108,25 +108,23 @@ export default async function CertificatePage() {
       </Card>
 
       {/* Download buttons */}
-      <Card>
-        <CardContent className="flex flex-wrap items-center justify-center gap-3 pt-6">
-          <SustainabilityCertificate
-            businessName={profile.business_name}
-            totalScore={score.total_score}
-            categoryScores={categoryScores}
-            assessmentDate={assessment?.created_at ?? score.created_at}
-            scoreLabel={scoreLabel}
-            industry={profile.industry}
-            certificateToken={certificateToken}
-          />
-          <Button asChild variant="outline">
-            <Link href="/dashboard/score/report" target="_blank">
-              <FileDown className="mr-2 h-4 w-4" />
-              Download PDF Report
-            </Link>
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-2 gap-3">
+        <SustainabilityCertificate
+          businessName={profile.business_name}
+          totalScore={score.total_score}
+          categoryScores={categoryScores}
+          assessmentDate={assessment?.created_at ?? score.created_at}
+          scoreLabel={scoreLabel}
+          industry={profile.industry}
+          certificateToken={certificateToken}
+        />
+        <Button asChild variant="outline" className="w-full">
+          <Link href="/dashboard/score/report" target="_blank">
+            <FileDown className="mr-2 h-4 w-4" />
+            Download PDF Report
+          </Link>
+        </Button>
+      </div>
 
       {/* Share actions */}
       {shareUrl && (
