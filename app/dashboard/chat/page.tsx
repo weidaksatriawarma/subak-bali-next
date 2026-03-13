@@ -160,7 +160,7 @@ function ChatPanel({
   useEffect(() => {
     if (initialPrompt && !hasAutoSent.current) {
       hasAutoSent.current = true
-      handleSend(initialPrompt)
+      setInput(initialPrompt)
       onInitialPromptConsumed?.()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
