@@ -84,29 +84,25 @@ export function AchievementPageContent({
         <p className="text-muted-foreground">{ap.subtitle}</p>
       </div>
 
-      {/* Achievement Preview */}
-      <Card>
+      {/* Achievement Preview & Download - full card on md+ */}
+      <Card className="hidden md:block">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Trophy className="h-5 w-5" />
             {ap.previewCardTitle}
           </CardTitle>
         </CardHeader>
-        <CardContent className="flex justify-center">
-          <AchievementPreview
-            businessName={profile.business_name}
-            totalScore={score.total_score}
-            rankName={rank}
-            achievements={achievements}
-            streakWeeks={0}
-            certificateToken={certificateToken}
-          />
-        </CardContent>
-      </Card>
-
-      {/* Download button */}
-      <Card>
-        <CardContent className="flex justify-center pt-6">
+        <CardContent className="space-y-4">
+          <div className="flex justify-center">
+            <AchievementPreview
+              businessName={profile.business_name}
+              totalScore={score.total_score}
+              rankName={rank}
+              achievements={achievements}
+              streakWeeks={0}
+              certificateToken={certificateToken}
+            />
+          </div>
           <AchievementCard
             businessName={profile.business_name}
             totalScore={score.total_score}
@@ -117,6 +113,18 @@ export function AchievementPageContent({
           />
         </CardContent>
       </Card>
+
+      {/* Download button only on mobile */}
+      <div className="md:hidden">
+        <AchievementCard
+          businessName={profile.business_name}
+          totalScore={score.total_score}
+          rankName={rank}
+          achievements={achievements}
+          streakWeeks={0}
+          certificateToken={certificateToken}
+        />
+      </div>
 
       {/* Share actions */}
       {shareUrl && (

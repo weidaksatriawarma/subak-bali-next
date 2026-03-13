@@ -13,7 +13,7 @@ import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
 import type { UIMessage } from "ai"
 import { toast } from "sonner"
-import { Leaf, Loader2, History } from "lucide-react"
+import { Leaf, Loader2, History, SquarePen } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -362,8 +362,15 @@ function ChatPageContent() {
         <div className="flex items-center border-b px-3 py-2 md:hidden">
           <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
+              <Button variant="ghost" size="icon" className="relative h-8 w-8">
                 <History className="h-4 w-4" />
+                {conversations.length > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold leading-none text-primary-foreground">
+                    {conversations.length > 99
+                      ? "99+"
+                      : conversations.length}
+                  </span>
+                )}
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-72 p-0">
@@ -373,9 +380,19 @@ function ChatPageContent() {
               {historyPanel}
             </SheetContent>
           </Sheet>
-          <span className="ml-2 text-sm font-medium text-muted-foreground">
+          <span className="ml-2 flex-1 text-sm font-medium text-muted-foreground">
             {cp.headerTitle}
           </span>
+          {conversationId && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={handleNewChat}
+            >
+              <SquarePen className="h-4 w-4" />
+            </Button>
+          )}
         </div>
 
         {/* Chat panel */}
