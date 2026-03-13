@@ -67,7 +67,7 @@ export function CertificatePreview({
 
   return (
     <div
-      className={`relative aspect-[1200/850] w-full overflow-hidden rounded-none bg-gradient-to-br ${bgClass} p-6 text-white shadow-xl sm:rounded-xl sm:p-8`}
+      className={`relative aspect-[1200/850] w-full overflow-hidden rounded-xl bg-gradient-to-br ${bgClass} p-6 text-white shadow-xl sm:p-8`}
     >
       {/* Decorative borders */}
       <div className="pointer-events-none absolute inset-3 rounded-lg border border-white/20" />

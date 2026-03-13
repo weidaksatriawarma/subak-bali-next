@@ -87,25 +87,17 @@ export default async function CertificatePage() {
       </div>
 
       {/* Certificate Preview */}
-      <Card className="overflow-hidden">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Award className="h-5 w-5" />
-            Certificate Preview
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="px-0 pb-0 sm:px-6 sm:pb-6">
-          <CertificatePreview
-            businessName={profile.business_name}
-            totalScore={score.total_score}
-            categoryScores={categoryScores}
-            assessmentDate={assessment?.created_at ?? score.created_at}
-            scoreLabel={scoreLabel}
-            industryRank={profile.industry !== "other" ? rank : undefined}
-            certificateToken={certificateToken}
-          />
-        </CardContent>
-      </Card>
+      <div className="-mx-4 sm:mx-0">
+        <CertificatePreview
+          businessName={profile.business_name}
+          totalScore={score.total_score}
+          categoryScores={categoryScores}
+          assessmentDate={assessment?.created_at ?? score.created_at}
+          scoreLabel={scoreLabel}
+          industryRank={profile.industry !== "other" ? rank : undefined}
+          certificateToken={certificateToken}
+        />
+      </div>
 
       {/* Download buttons */}
       <div className="grid grid-cols-2 gap-3">
