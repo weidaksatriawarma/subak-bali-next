@@ -47,6 +47,7 @@ const navItems = [
   { id: "regulations", icon: ScrollText },
   { id: "tips", icon: Lightbulb },
   { id: "glossary", icon: BookOpen },
+  { id: "methodology", icon: Calculator },
 ]
 
 const industryLabels: Record<string, Record<string, string>> = {
@@ -84,6 +85,7 @@ export function HelpContent() {
     regulations: kb.sectionTitles.regulations,
     tips: kb.sectionTitles.tips,
     glossary: kb.sectionTitles.glossary,
+    methodology: kb.sectionTitles.methodology,
   }
 
   // Filter FAQ sections based on search
@@ -166,7 +168,7 @@ export function HelpContent() {
                 variant="outline"
                 size="sm"
                 onClick={() => scrollTo(id)}
-                className="basis-[calc(50%-0.25rem)] gap-1.5 text-xs sm:basis-auto sm:text-sm"
+                className="basis-[calc(33.33%-0.33rem)] gap-1.5 text-xs sm:basis-auto sm:text-sm"
               >
                 <Icon className="size-3.5" />
                 {navLabels[id as keyof typeof navLabels]}
@@ -430,6 +432,52 @@ export function HelpContent() {
             </div>
           )}
         </div>
+      </FadeInUp>
+
+      <Separator className="my-8" />
+
+      {/* ── Methodology ─────────────────────────────────────── */}
+      <FadeInUp delay={0.25}>
+        <section id="methodology" className="mb-8 scroll-mt-32">
+          <div className="mb-6 flex items-center gap-3">
+            <div className="flex size-9 items-center justify-center rounded-lg bg-primary/10">
+              <Calculator className="size-5 text-primary" />
+            </div>
+            <h2 className="text-lg font-semibold">
+              {kb.sectionTitles.methodology}
+            </h2>
+          </div>
+          <Accordion type="single" collapsible className="w-full space-y-3">
+            {kb.methodology.map((group, gi) => (
+              <AccordionItem
+                key={gi}
+                value={`methodology-${gi}`}
+                className="rounded-xl border bg-card px-2"
+              >
+                <AccordionTrigger className="hover:no-underline">
+                  <div className="text-left">
+                    <span className="text-sm font-medium">{group.title}</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <p className="mb-4 text-sm text-muted-foreground">
+                    {group.description}
+                  </p>
+                  <div className="space-y-3">
+                    {group.items.map((item, ii) => (
+                      <div key={ii}>
+                        <p className="text-sm font-medium">{item.question}</p>
+                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                          {item.answer}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
       </FadeInUp>
     </div>
   )

@@ -95,6 +95,8 @@ Indonesia has **65 million MSMEs** — the backbone of its national economy, con
 | 📱 **Mobile Bottom Nav** | Navigasi bawah 5-item untuk mobile, sidebar untuk desktop — fully responsive |
 | 🎞️ **Scroll Animations** | Framer Motion entrance animations yang dipicu saat scroll di landing page |
 
+> **Calculation Methodology**: See [`docs/METHODOLOGY.md`](./docs/METHODOLOGY.md) for detailed formulas, emission factors, and data sources used in all estimations.
+
 ---
 
 ## 🛠️ Tech Stack

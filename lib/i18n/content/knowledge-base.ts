@@ -19,15 +19,28 @@ interface GlossaryItem {
   definition: string
 }
 
+interface MethodologyItem {
+  question: string
+  answer: string
+}
+
+interface MethodologySection {
+  title: string
+  description: string
+  items: MethodologyItem[]
+}
+
 interface KnowledgeBase {
   sectionTitles: {
     regulations: string
     tips: string
     glossary: string
+    methodology: string
   }
   regulations: RegulationGuide[]
   tips: SustainabilityTip[]
   glossary: GlossaryItem[]
+  methodology: MethodologySection[]
 }
 
 const id: KnowledgeBase = {
@@ -35,6 +48,7 @@ const id: KnowledgeBase = {
     regulations: "Panduan Regulasi",
     tips: "Tips Sustainability",
     glossary: "Glosarium",
+    methodology: "Metodologi Perhitungan",
   },
   regulations: [
     {
@@ -354,6 +368,130 @@ const id: KnowledgeBase = {
         "Praktik memberikan kesan menyesatkan bahwa produk, layanan, atau organisasi lebih ramah lingkungan dari kenyataannya, melalui klaim sustainability yang tidak didukung bukti.",
     },
   ],
+  methodology: [
+    {
+      title: "Jejak Karbon",
+      description:
+        "Bagaimana estimasi emisi CO\u2082 dihitung dari data listrik, limbah, dan transportasi bisnis Anda.",
+      items: [
+        {
+          question: "Bagaimana emisi CO\u2082 dari listrik dihitung?",
+          answer:
+            "Emisi energi = kWh/bulan \u00d7 faktor emisi \u00d7 12 bulan. Faktor emisi PLN: 0,78 kg CO\u2082/kWh, PLN+Solar: 0,39, Solar: 0,05, Genset Diesel: 0,84. Contoh: 500 kWh/bulan dengan PLN = 500 \u00d7 0,78 \u00d7 12 = 4.680 kg CO\u2082/tahun.",
+        },
+        {
+          question: "Bagaimana emisi dari limbah dihitung?",
+          answer:
+            "Emisi limbah = kg limbah/bulan \u00d7 faktor emisi \u00d7 12. Faktor: tanpa pengelolaan (0,50), pemilahan (0,35), daur ulang (0,10), komposting (0,10), sirkular (0,05). Contoh: 100 kg/bulan tanpa pengelolaan = 100 \u00d7 0,50 \u00d7 12 = 600 kg CO\u2082/tahun.",
+        },
+        {
+          question: "Apa itu 'ekuivalen pohon'?",
+          answer:
+            "Total CO\u2082 dibagi 22 kg (rata-rata penyerapan CO\u2082 satu pohon dewasa per tahun). Jika total emisi 7.680 kg, itu setara dengan \u00b1349 pohon yang dibutuhkan untuk menyerap emisi tersebut.",
+        },
+      ],
+    },
+    {
+      title: "Estimasi Penghematan",
+      description:
+        "Bagaimana potensi penghematan biaya bulanan dihitung berdasarkan ukuran bisnis.",
+      items: [
+        {
+          question: "Bagaimana estimasi penghematan dihitung?",
+          answer:
+            "Penghematan per kategori = (batas bawah + batas atas) / 2. Contoh untuk UMKM mikro: Energi Rp 300rb, Limbah Rp 125rb, Rantai Pasok Rp 75rb, Operasional Rp 65rb = total \u00b1Rp 565rb/bulan.",
+        },
+        {
+          question: "Berapa kisaran penghematan per ukuran bisnis?",
+          answer:
+            "Mikro: Rp 400rb\u2013730rb/bulan. Kecil: Rp 630rb\u20131,07jt/bulan. Menengah: Rp 1,07jt\u20131,45jt/bulan. Besar: Rp 1,45jt\u20132,3jt/bulan. Penghematan ini adalah estimasi potensial dari implementasi praktik berkelanjutan.",
+        },
+      ],
+    },
+    {
+      title: "Kepatuhan Regulasi",
+      description:
+        "Bagaimana persentase kepatuhan terhadap POJK 51/2017 & TKBI dihitung.",
+      items: [
+        {
+          question: "Apa saja 8 item kepatuhan dan bobotnya?",
+          answer:
+            "Kebijakan sustainability (20%), Pengelolaan limbah/recycling+ (15%), Peralatan hemat energi (15%), Evaluasi supplier (10%), Pelatihan karyawan (10%), Keterlibatan komunitas (10%), Operasi digital (10%), Konservasi air (10%). Total: 100%.",
+        },
+        {
+          question: "Bagaimana persentase kepatuhan dihitung?",
+          answer:
+            "Setiap item bernilai biner (terpenuhi atau tidak). Persentase kepatuhan = jumlah bobot item yang terpenuhi. Contoh: jika memiliki kebijakan sustainability (20%) dan peralatan hemat energi (15%), kepatuhan = 35%.",
+        },
+      ],
+    },
+    {
+      title: "Skor Sustainability",
+      description:
+        "Bagaimana skor 0\u2013100 dihitung per kategori dan cara Quick Assessment bekerja.",
+      items: [
+        {
+          question: "Bagaimana skor per kategori dihitung?",
+          answer:
+            "Setiap kategori (energi, limbah, rantai pasok, operasional, kebijakan) memiliki 3\u20134 faktor penilaian. Poin dijumlahkan, maksimal 100 per kategori. Skor total = rata-rata dari 5 kategori.",
+        },
+        {
+          question: "Bagaimana Quick Assessment bekerja?",
+          answer:
+            "5 pertanyaan cepat tentang energi, limbah, kemasan, transportasi, dan kebijakan. Setiap jawaban dinilai 10\u2013100. Skor akhir = rata-rata \u00b1 10 poin (range ketidakpastian karena penilaian singkat).",
+        },
+        {
+          question: "Apa perbedaan Quick Assessment dan Full Assessment?",
+          answer:
+            "Quick Assessment hanya 5 pertanyaan untuk gambaran umum (akurasi \u00b110 poin). Full Assessment mencakup 15+ pertanyaan detail untuk skor akurat per kategori, roadmap aksi, dan sertifikat.",
+        },
+      ],
+    },
+    {
+      title: "Bobot Industri & Benchmark",
+      description:
+        "Mengapa industri berbeda memiliki bobot penilaian berbeda, dan apa arti persentil.",
+      items: [
+        {
+          question: "Mengapa bobot berbeda per industri?",
+          answer:
+            "Setiap industri memiliki tantangan sustainability yang berbeda. Contoh: F&B menekankan limbah (30%) karena food waste, Manufaktur menekankan energi (30%) karena proses produksi intensif energi, Jasa menekankan operasional (35%) karena berbasis kantor/digital.",
+        },
+        {
+          question: "Apa arti 'Di atas X% perusahaan'?",
+          answer:
+            "Ini adalah persentil yang menunjukkan posisi Anda dibanding bisnis sejenis. 'Di atas 70%' berarti skor Anda lebih baik dari 70% bisnis di industri yang sama. Benchmark menggunakan distribusi simulasi yang mencerminkan tingkat kematangan sustainability UMKM Indonesia.",
+        },
+        {
+          question: "Bagaimana rank industri ditentukan?",
+          answer:
+            "5 tier berdasarkan skor: 0\u201319 (Tier 1/Pemula), 20\u201339 (Tier 2), 40\u201359 (Tier 3), 60\u201379 (Tier 4), 80\u2013100 (Tier 5/Master). Setiap industri memiliki nama rank unik, misal F&B: Beginner Kitchen \u2192 Sustainability Chef.",
+        },
+      ],
+    },
+    {
+      title: "Sertifikat & Pencapaian",
+      description:
+        "Bagaimana tier sertifikat ditentukan dan cara membuka achievement badges.",
+      items: [
+        {
+          question: "Apa saja tier sertifikat?",
+          answer:
+            "BRONZE (skor 0\u201329), SILVER (30\u201359), GOLD (60\u201379), EMERALD (80\u2013100). Sertifikat dilengkapi QR code untuk verifikasi publik di /verify/[token].",
+        },
+        {
+          question: "Bagaimana cara membuka achievement badges?",
+          answer:
+            "Badges umum: selesaikan 1, 5, 50%, 80%, atau 100% roadmap items. Badges kategori: selesaikan semua item dalam satu kategori. Badges industri: capai skor tertentu di kategori spesifik (misal F&B: Zero Food Waste = skor limbah \u226580).",
+        },
+        {
+          question: "Bagaimana sistem streak bekerja?",
+          answer:
+            "Streak dihitung berdasarkan minggu ISO berturut-turut dengan minimal 1 item roadmap diselesaikan. Streak terputus jika minggu ini tidak ada penyelesaian. Celebrasi muncul di milestone minggu ke-4, 8, dan 12.",
+        },
+      ],
+    },
+  ],
 }
 
 const en: KnowledgeBase = {
@@ -361,6 +499,7 @@ const en: KnowledgeBase = {
     regulations: "Regulation Guide",
     tips: "Sustainability Tips",
     glossary: "Glossary",
+    methodology: "Calculation Methodology",
   },
   regulations: [
     {
@@ -678,6 +817,130 @@ const en: KnowledgeBase = {
       term: "Greenwashing",
       definition:
         "The practice of giving a misleading impression that a product, service, or organization is more environmentally friendly than it actually is, through sustainability claims not supported by evidence.",
+    },
+  ],
+  methodology: [
+    {
+      title: "Carbon Footprint",
+      description:
+        "How CO\u2082 emissions are estimated from your business electricity, waste, and transport data.",
+      items: [
+        {
+          question: "How are electricity CO\u2082 emissions calculated?",
+          answer:
+            "Energy CO\u2082 = kWh/month \u00d7 emission factor \u00d7 12 months. PLN grid: 0.78 kg CO\u2082/kWh, PLN+Solar: 0.39, Solar only: 0.05, Diesel generator: 0.84. Example: 500 kWh/month on PLN = 500 \u00d7 0.78 \u00d7 12 = 4,680 kg CO\u2082/year.",
+        },
+        {
+          question: "How are waste emissions calculated?",
+          answer:
+            "Waste CO\u2082 = kg waste/month \u00d7 emission factor \u00d7 12. Factors: no management (0.50), segregation (0.35), recycling (0.10), composting (0.10), circular (0.05). Example: 100 kg/month with no management = 100 \u00d7 0.50 \u00d7 12 = 600 kg CO\u2082/year.",
+        },
+        {
+          question: "What is the 'tree equivalent'?",
+          answer:
+            "Total CO\u2082 divided by 22 kg (average CO\u2082 absorption of one mature tree per year). If total emissions are 7,680 kg, that's equivalent to \u00b1349 trees needed to offset those emissions.",
+        },
+      ],
+    },
+    {
+      title: "Cost Savings",
+      description:
+        "How potential monthly cost savings are estimated based on business size.",
+      items: [
+        {
+          question: "How are savings estimates calculated?",
+          answer:
+            "Savings per category = (lower bound + upper bound) / 2. Example for micro business: Energy Rp 300k, Waste Rp 125k, Supply Chain Rp 75k, Operations Rp 65k = total \u00b1Rp 565k/month.",
+        },
+        {
+          question: "What are the savings ranges by business size?",
+          answer:
+            "Micro: Rp 400k\u2013730k/month. Small: Rp 630k\u20131.07M/month. Medium: Rp 1.07M\u20131.45M/month. Large: Rp 1.45M\u20132.3M/month. These are potential estimates from implementing sustainable practices.",
+        },
+      ],
+    },
+    {
+      title: "Regulatory Compliance",
+      description:
+        "How the compliance percentage against POJK 51/2017 & TKBI is calculated.",
+      items: [
+        {
+          question: "What are the 8 compliance items and their weights?",
+          answer:
+            "Sustainability policy (20%), Waste management/recycling+ (15%), Energy efficient equipment (15%), Supplier check (10%), Employee training (10%), Community engagement (10%), Digital operations (10%), Water conservation (10%). Total: 100%.",
+        },
+        {
+          question: "How is the compliance percentage calculated?",
+          answer:
+            "Each item is binary (met or unmet). Compliance % = sum of weights for met items. Example: having a sustainability policy (20%) and energy efficient equipment (15%) = 35% compliance.",
+        },
+      ],
+    },
+    {
+      title: "Sustainability Score",
+      description:
+        "How the 0\u2013100 score is calculated per category and how Quick Assessment works.",
+      items: [
+        {
+          question: "How are category scores calculated?",
+          answer:
+            "Each category (energy, waste, supply chain, operations, policy) has 3\u20134 scoring factors. Points are summed, capped at 100 per category. Total score = average of all 5 categories.",
+        },
+        {
+          question: "How does Quick Assessment work?",
+          answer:
+            "5 quick questions about energy, waste, packaging, transport, and policy. Each answer scores 10\u2013100. Final score = average \u00b1 10 points (uncertainty range due to simplified assessment).",
+        },
+        {
+          question: "What's the difference between Quick and Full Assessment?",
+          answer:
+            "Quick Assessment is only 5 questions for a general overview (\u00b110 point accuracy). Full Assessment covers 15+ detailed questions for accurate per-category scores, action roadmap, and certification.",
+        },
+      ],
+    },
+    {
+      title: "Industry Weights & Benchmarks",
+      description:
+        "Why different industries have different scoring weights, and what percentiles mean.",
+      items: [
+        {
+          question: "Why do weights differ by industry?",
+          answer:
+            "Each industry faces different sustainability challenges. Example: F&B emphasizes waste (30%) due to food waste, Manufacturing emphasizes energy (30%) due to energy-intensive processes, Services emphasizes operations (35%) as they are office/digital-based.",
+        },
+        {
+          question: "What does 'Above X% of businesses' mean?",
+          answer:
+            "This is a percentile showing your position vs. similar businesses. 'Above 70%' means your score is better than 70% of businesses in your industry. Benchmarks use simulated distributions reflecting Indonesian MSME sustainability maturity levels.",
+        },
+        {
+          question: "How are industry ranks determined?",
+          answer:
+            "5 tiers based on score: 0\u201319 (Tier 1/Beginner), 20\u201339 (Tier 2), 40\u201359 (Tier 3), 60\u201379 (Tier 4), 80\u2013100 (Tier 5/Master). Each industry has unique rank names, e.g. F&B: Beginner Kitchen \u2192 Sustainability Chef.",
+        },
+      ],
+    },
+    {
+      title: "Certificates & Achievements",
+      description:
+        "How certificate tiers are determined and how to unlock achievement badges.",
+      items: [
+        {
+          question: "What are the certificate tiers?",
+          answer:
+            "BRONZE (score 0\u201329), SILVER (30\u201359), GOLD (60\u201379), EMERALD (80\u2013100). Certificates include a QR code for public verification at /verify/[token].",
+        },
+        {
+          question: "How do I unlock achievement badges?",
+          answer:
+            "General badges: complete 1, 5, 50%, 80%, or 100% of roadmap items. Category badges: complete all items in a single category. Industry badges: reach specific scores in certain categories (e.g. F&B: Zero Food Waste = waste score \u226580).",
+        },
+        {
+          question: "How does the streak system work?",
+          answer:
+            "Streaks count consecutive ISO weeks with at least 1 roadmap item completed. The streak breaks if the current week has no completion. Celebrations trigger at week 4, 8, and 12 milestones.",
+        },
+      ],
     },
   ],
 }
