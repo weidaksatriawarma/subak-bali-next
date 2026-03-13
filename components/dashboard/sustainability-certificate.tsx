@@ -454,6 +454,7 @@ export function SustainabilityCertificate({
       onClick={generateCertificate}
       variant="outline"
       disabled={isGenerating}
+      className="w-full"
     >
       {isGenerating ? (
         <>

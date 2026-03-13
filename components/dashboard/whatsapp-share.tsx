@@ -41,7 +41,7 @@ ${d.checkYours}: https://subakhijau.app
   return (
     <Button
       variant="outline"
-      className="border-green-500 text-green-600 hover:bg-green-50 hover:text-green-700 dark:hover:bg-green-950"
+      className="w-full border-green-500 text-green-600 hover:bg-green-50 hover:text-green-700 dark:hover:bg-green-950"
       onClick={() => window.open(url, "_blank")}
     >
       <WhatsAppIcon className="mr-2 h-4 w-4" />

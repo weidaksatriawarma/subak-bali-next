@@ -591,50 +591,49 @@ export function ScoreContent({
         />
       )}
 
-      <div
-        id="certificate"
-        className="flex flex-wrap items-center justify-center gap-3"
-      >
-        {data.businessName && (
-          <WhatsAppShare
-            score={data.totalScore}
-            businessName={data.businessName}
-            scoreLabel={labelInfo.label}
-          />
-        )}
-        {assessment && (
-          <SustainabilityCertificate
-            businessName={data.businessName ?? ""}
-            totalScore={data.totalScore}
-            categoryScores={categoryScoresRecord}
-            assessmentDate={assessment.created_at}
-            scoreLabel={labelInfo.label}
-            industry={industry}
-            certificateToken={certificateToken}
-          />
-        )}
-        <div id="achievement-card">
-          <AchievementCard
-            businessName={data.businessName ?? ""}
-            totalScore={data.totalScore}
-            rankName={getIndustryRank(industry, data.totalScore).rank}
-            achievements={unlockedBadges.map((b) => ({
-              id: b.id,
-              emoji: b.emoji,
-              title: b.name,
-              unlocked: true,
-            }))}
-            streakWeeks={0}
-            certificateToken={certificateToken}
-          />
+      <div id="certificate" className="space-y-3">
+        <div className="grid grid-cols-2 gap-3">
+          {data.businessName && (
+            <WhatsAppShare
+              score={data.totalScore}
+              businessName={data.businessName}
+              scoreLabel={labelInfo.label}
+            />
+          )}
+          {assessment && (
+            <SustainabilityCertificate
+              businessName={data.businessName ?? ""}
+              totalScore={data.totalScore}
+              categoryScores={categoryScoresRecord}
+              assessmentDate={assessment.created_at}
+              scoreLabel={labelInfo.label}
+              industry={industry}
+              certificateToken={certificateToken}
+            />
+          )}
+          <div id="achievement-card">
+            <AchievementCard
+              businessName={data.businessName ?? ""}
+              totalScore={data.totalScore}
+              rankName={getIndustryRank(industry, data.totalScore).rank}
+              achievements={unlockedBadges.map((b) => ({
+                id: b.id,
+                emoji: b.emoji,
+                title: b.name,
+                unlocked: true,
+              }))}
+              streakWeeks={0}
+              certificateToken={certificateToken}
+            />
+          </div>
+          <Button asChild variant="outline">
+            <Link href="/dashboard/score/report" target="_blank">
+              <FileDown className="mr-2 h-4 w-4" />
+              {d.downloadReport}
+            </Link>
+          </Button>
         </div>
-        <Button asChild variant="outline">
-          <Link href="/dashboard/score/report" target="_blank">
-            <FileDown className="mr-2 h-4 w-4" />
-            {d.downloadReport}
-          </Link>
-        </Button>
-        <Button asChild size="lg">
+        <Button asChild size="lg" className="w-full">
           <Link href="/dashboard/roadmap">
             {d.viewRoadmap}
             <ArrowRight className="ml-2 h-4 w-4" />

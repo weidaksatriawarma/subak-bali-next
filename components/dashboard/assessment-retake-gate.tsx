@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { AlertTriangle } from "lucide-react"
+import { AlertTriangle, BarChart3, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -34,7 +34,7 @@ export function AssessmentRetakeGate({
   }
 
   const formattedDate = assessmentDate
-    ? new Date(assessmentDate).toLocaleDateString("id-ID", {
+    ? new Date(assessmentDate).toLocaleDateString("en-US", {
         day: "numeric",
         month: "long",
         year: "numeric",
@@ -71,11 +71,15 @@ export function AssessmentRetakeGate({
             <p className="text-sm">{gate.warning}</p>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Button variant="outline" className="flex-1" asChild>
-              <Link href="/dashboard/score">{gate.viewResults}</Link>
+          <div className="grid grid-cols-2 gap-3">
+            <Button variant="outline" size="lg" asChild>
+              <Link href="/dashboard/score">
+                <BarChart3 className="mr-2 h-4 w-4" />
+                {gate.viewResults}
+              </Link>
             </Button>
-            <Button className="flex-1" onClick={() => setShowForm(true)}>
+            <Button size="lg" onClick={() => setShowForm(true)}>
+              <RotateCcw className="mr-2 h-4 w-4" />
               {gate.startNew}
             </Button>
           </div>
