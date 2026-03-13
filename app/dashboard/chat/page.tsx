@@ -365,10 +365,8 @@ function ChatPageContent() {
               <Button variant="ghost" size="icon" className="relative h-8 w-8">
                 <History className="h-4 w-4" />
                 {conversations.length > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold leading-none text-primary-foreground">
-                    {conversations.length > 99
-                      ? "99+"
-                      : conversations.length}
+                  <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] leading-none font-semibold text-primary-foreground">
+                    {conversations.length > 99 ? "99+" : conversations.length}
                   </span>
                 )}
               </Button>

@@ -230,7 +230,12 @@ export function AchievementCard({
   ])
 
   return (
-    <Button onClick={generateCard} variant="outline" disabled={isGenerating} className="w-full">
+    <Button
+      onClick={generateCard}
+      variant="outline"
+      disabled={isGenerating}
+      className="w-full"
+    >
       {isGenerating ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />

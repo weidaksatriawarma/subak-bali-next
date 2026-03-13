@@ -33,7 +33,9 @@ import {
 } from "@/components/ui/form"
 
 const onboardingSchema = z.object({
-  business_name: z.string().min(2, "Business name must be at least 2 characters"),
+  business_name: z
+    .string()
+    .min(2, "Business name must be at least 2 characters"),
   industry: z.enum([
     "fnb",
     "retail",
@@ -291,10 +293,7 @@ export function OnboardingForm() {
                     <FormItem>
                       <FormLabel>Location (City/Province)</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="e.g., Denpasar, Bali"
-                          {...field}
-                        />
+                        <Input placeholder="e.g., Denpasar, Bali" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
