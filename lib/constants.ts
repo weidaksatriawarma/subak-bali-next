@@ -15,18 +15,18 @@ import type {
 import { getIndustryRank } from "@/lib/gamification/industry-data"
 
 export const INDUSTRY_LABELS: Record<Industry, string> = {
-  fnb: "F&B (Makanan & Minuman)",
+  fnb: "F&B (Food & Beverage)",
   retail: "Retail",
-  manufacturing: "Manufaktur",
-  services: "Jasa",
-  agriculture: "Pertanian",
-  other: "Lainnya",
+  manufacturing: "Manufacturing",
+  services: "Services",
+  agriculture: "Agriculture",
+  other: "Other",
 }
 
 export const BUSINESS_SIZE_LABELS: Record<BusinessSize, string> = {
-  micro: "Mikro (< 5 karyawan)",
-  small: "Kecil (5-19 karyawan)",
-  medium: "Menengah (20-99 karyawan)",
+  micro: "Micro (< 5 employees)",
+  small: "Small (5-19 employees)",
+  medium: "Medium (20-99 employees)",
 }
 
 export const CATEGORY_LABELS: Record<Category, string> = {

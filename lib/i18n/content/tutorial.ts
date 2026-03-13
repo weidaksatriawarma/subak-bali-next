@@ -187,9 +187,9 @@ const id: TutorialDictionary = {
         title: "Memulai",
         items: [
           {
-            question: "Bagaimana cara mendaftar dan memulai onboarding?",
+            question: "How do I sign up and complete onboarding?",
             answer:
-              "Klik tombol 'Daftar' di halaman utama, masukkan email dan password Anda. Setelah verifikasi email, Anda akan diarahkan ke halaman onboarding untuk mengisi profil bisnis seperti nama bisnis, industri, lokasi, dan jumlah karyawan.",
+              "Click the 'Register' button on the home page, enter your email and password. After email verification, you'll be directed to the onboarding page to fill in your business profile such as business name, industry, location, and employee count.",
           },
           {
             question: "Bagaimana cara mengambil assessment?",

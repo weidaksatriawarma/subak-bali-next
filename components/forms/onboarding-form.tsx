@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/form"
 
 const onboardingSchema = z.object({
-  business_name: z.string().min(2, "Nama bisnis minimal 2 karakter"),
+  business_name: z.string().min(2, "Business name must be at least 2 characters"),
   industry: z.enum([
     "fnb",
     "retail",
@@ -136,12 +136,12 @@ export function OnboardingForm() {
         </div>
         <div className="space-y-2">
           <div className="flex justify-between text-sm text-muted-foreground">
-            <span>Langkah {step + 1} dari 3</span>
+            <span>Step {step + 1} of 3</span>
             <span>{Math.round(progressValue)}%</span>
           </div>
           <Progress value={progressValue} />
           <div className="flex justify-between">
-            {["Informasi Bisnis", "Detail Bisnis", "Konfirmasi"].map(
+            {["Business Info", "Business Details", "Confirmation"].map(
               (label, i) => (
                 <div key={label} className="flex items-center gap-1.5 text-sm">
                   <span
@@ -182,10 +182,10 @@ export function OnboardingForm() {
                   name="business_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nama Bisnis</FormLabel>
+                      <FormLabel>Business Name</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Contoh: Warung Makan Sederhana"
+                          placeholder="e.g., Simple Restaurant"
                           {...field}
                         />
                       </FormControl>
@@ -199,14 +199,14 @@ export function OnboardingForm() {
                   name="industry"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Jenis Industri</FormLabel>
+                      <FormLabel>Industry Type</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Pilih jenis industri" />
+                            <SelectValue placeholder="Select industry type" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -232,14 +232,14 @@ export function OnboardingForm() {
                   name="business_size"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Ukuran Bisnis</FormLabel>
+                      <FormLabel>Business Size</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Pilih ukuran bisnis" />
+                            <SelectValue placeholder="Select business size" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -269,12 +269,12 @@ export function OnboardingForm() {
                   name="employee_count"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Jumlah Karyawan</FormLabel>
+                      <FormLabel>Employee Count</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           min={1}
-                          placeholder="Contoh: 10"
+                          placeholder="e.g., 10"
                           {...field}
                           value={field.value ?? ""}
                         />
@@ -289,10 +289,10 @@ export function OnboardingForm() {
                   name="location"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Lokasi (Kota/Provinsi)</FormLabel>
+                      <FormLabel>Location (City/Province)</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Contoh: Denpasar, Bali"
+                          placeholder="e.g., Denpasar, Bali"
                           {...field}
                         />
                       </FormControl>
@@ -306,10 +306,10 @@ export function OnboardingForm() {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Deskripsi Singkat Bisnis</FormLabel>
+                      <FormLabel>Brief Business Description</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Ceritakan sedikit tentang bisnis Anda..."
+                          placeholder="Tell us a bit about your business..."
                           rows={4}
                           {...field}
                         />
@@ -323,20 +323,20 @@ export function OnboardingForm() {
 
             {step === 2 && (
               <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Konfirmasi Data</h2>
+                <h2 className="text-lg font-semibold">Confirm Details</h2>
                 <div className="space-y-3 rounded-lg border p-4">
                   <SummaryRow
-                    label="Nama Bisnis"
+                    label="Business Name"
                     value={values.business_name}
                   />
                   <SummaryRow
-                    label="Jenis Industri"
+                    label="Industry Type"
                     value={
                       values.industry ? INDUSTRY_LABELS[values.industry] : "-"
                     }
                   />
                   <SummaryRow
-                    label="Ukuran Bisnis"
+                    label="Business Size"
                     value={
                       values.business_size
                         ? BUSINESS_SIZE_LABELS[values.business_size]
@@ -344,16 +344,16 @@ export function OnboardingForm() {
                     }
                   />
                   <SummaryRow
-                    label="Jumlah Karyawan"
+                    label="Employee Count"
                     value={
                       values.employee_count
                         ? String(values.employee_count)
                         : "-"
                     }
                   />
-                  <SummaryRow label="Lokasi" value={values.location || "-"} />
+                  <SummaryRow label="Location" value={values.location || "-"} />
                   <SummaryRow
-                    label="Deskripsi"
+                    label="Description"
                     value={values.description || "-"}
                   />
                 </div>
@@ -363,7 +363,7 @@ export function OnboardingForm() {
             <div className="flex justify-between gap-3">
               {step > 0 ? (
                 <Button type="button" variant="outline" onClick={handleBack}>
-                  Sebelumnya
+                  Back
                 </Button>
               ) : (
                 <div />
@@ -371,11 +371,11 @@ export function OnboardingForm() {
 
               {step < 2 ? (
                 <Button type="button" onClick={handleNext}>
-                  Selanjutnya
+                  Next
                 </Button>
               ) : (
                 <Button type="submit" disabled={submitting}>
-                  {submitting ? "Menyimpan..." : "Mulai Assessment"}
+                  {submitting ? "Saving..." : "Start Assessment"}
                 </Button>
               )}
             </div>
