@@ -408,8 +408,14 @@ export default function ProgressPage() {
       </Card>
 
       <AskAiCard
-        title={t.dashboard.askAiCard?.progress?.title ?? "Want to accelerate your progress?"}
-        description={t.dashboard.askAiCard?.progress?.description ?? "The AI Consultant can analyze your progress and suggest ways to improve faster."}
+        title={
+          t.dashboard.askAiCard?.progress?.title ??
+          "Want to accelerate your progress?"
+        }
+        description={
+          t.dashboard.askAiCard?.progress?.description ??
+          "The AI Consultant can analyze your progress and suggest ways to improve faster."
+        }
         buttonLabel={t.dashboard.askAiCard?.button ?? "Ask AI"}
         prompt={`Latest score ${latestScore}/100, ${completedItems.length} of ${items.length} steps completed (${completionPercent}%), streak ${streak.currentStreak} weeks. Analyze my progress and suggest ways to accelerate improvement.`}
       />

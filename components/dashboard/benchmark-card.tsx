@@ -86,9 +86,11 @@ export function BenchmarkCard({
             viewBox="0 0 320 60"
             className="w-full"
             role="img"
-            aria-label={bm?.ariaLabel
-              ?.replace("{userScore}", String(userScore))
-              ?.replace("{benchmark}", String(industryBenchmark)) ?? ""}
+            aria-label={
+              bm?.ariaLabel
+                ?.replace("{userScore}", String(userScore))
+                ?.replace("{benchmark}", String(industryBenchmark)) ?? ""
+            }
           >
             {/* Gradient bar background */}
             <defs>
