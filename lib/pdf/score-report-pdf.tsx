@@ -169,7 +169,7 @@ export function ScoreReportPDF({
             <View style={s.metricsRow}>
               <View style={s.metricCard}>
                 <Text style={[s.metricValue, { color: PDF_COLORS.green }]}>
-                  {carbon.totalCO2.toLocaleString("id-ID")} kg
+                  {carbon.totalCO2.toLocaleString("en-US")} kg
                 </Text>
                 <Text style={s.metricLabel}>CO₂/year</Text>
               </View>

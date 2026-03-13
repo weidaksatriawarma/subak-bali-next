@@ -230,10 +230,10 @@ export function calculateRegulatoryCompliance(
 
   for (const item of COMPLIANCE_ITEMS) {
     if (checks[item.id]) {
-      met.push({ id: item.id, label: item.label, labelEn: item.labelEn })
+      met.push({ id: item.id, label: item.labelEn, labelEn: item.labelEn })
       totalWeight += item.weight
     } else {
-      unmet.push({ id: item.id, label: item.label, labelEn: item.labelEn })
+      unmet.push({ id: item.id, label: item.labelEn, labelEn: item.labelEn })
     }
   }
 

@@ -94,14 +94,14 @@ export async function GET() {
     }
   }
 
-  // Format date in Indonesian locale
-  const date = new Date(score.created_at).toLocaleDateString("id-ID", {
+  // Format date in English locale
+  const date = new Date(score.created_at).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   })
 
-  // Map industry code to Indonesian label
+  // Map industry code to label
   const industryLabel =
     INDUSTRY_LABELS[(profile?.industry as Industry) ?? "other"] ??
     INDUSTRY_LABELS.other
