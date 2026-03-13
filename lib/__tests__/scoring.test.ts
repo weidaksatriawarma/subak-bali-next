@@ -91,18 +91,28 @@ describe("getScoreColor", () => {
 
 describe("getScoreBgColor", () => {
   it("returns bg-red for scores below 30", () => {
-    expect(getScoreBgColor(0)).toBe("bg-red-500")
-    expect(getScoreBgColor(29)).toBe("bg-red-500")
+    expect(getScoreBgColor(0)).toBe("bg-gradient-to-r from-red-500 to-red-400")
+    expect(getScoreBgColor(29)).toBe(
+      "bg-gradient-to-r from-red-500 to-red-400"
+    )
   })
 
   it("returns bg-orange for scores 30-59", () => {
-    expect(getScoreBgColor(30)).toBe("bg-orange-500")
-    expect(getScoreBgColor(59)).toBe("bg-orange-500")
+    expect(getScoreBgColor(30)).toBe(
+      "bg-gradient-to-r from-orange-500 to-amber-400"
+    )
+    expect(getScoreBgColor(59)).toBe(
+      "bg-gradient-to-r from-orange-500 to-amber-400"
+    )
   })
 
   it("returns bg-green for scores 60+", () => {
-    expect(getScoreBgColor(60)).toBe("bg-green-500")
-    expect(getScoreBgColor(100)).toBe("bg-green-500")
+    expect(getScoreBgColor(60)).toBe(
+      "bg-gradient-to-r from-green-500 to-emerald-400"
+    )
+    expect(getScoreBgColor(100)).toBe(
+      "bg-gradient-to-r from-green-500 to-emerald-400"
+    )
   })
 })
 

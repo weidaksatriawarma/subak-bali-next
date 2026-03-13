@@ -355,7 +355,7 @@ export function ScoreContent({
                         </span>
                       </span>
                     </div>
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                    <div className="h-3 w-full overflow-hidden rounded-full bg-muted">
                       <div
                         className={`h-full rounded-full ${getScoreBgColor(cat.score)} animate-bar-grow`}
                         style={

@@ -180,7 +180,7 @@ export function getScoreColor(score: number): string {
 }
 
 export function getScoreBgColor(score: number): string {
-  if (score < 30) return "bg-red-500"
-  if (score < 60) return "bg-orange-500"
-  return "bg-green-500"
+  if (score < 30) return "bg-gradient-to-r from-red-500 to-red-400"
+  if (score < 60) return "bg-gradient-to-r from-orange-500 to-amber-400"
+  return "bg-gradient-to-r from-green-500 to-emerald-400"
 }
