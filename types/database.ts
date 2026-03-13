@@ -6,7 +6,7 @@ export type Industry =
   | "agriculture"
   | "other"
 
-export type BusinessSize = "micro" | "small" | "medium"
+export type BusinessSize = "micro" | "small" | "medium" | "large"
 
 export type AssessmentStatus = "draft" | "completed"
 

@@ -35,26 +35,31 @@ const SAVINGS_BY_CATEGORY: Record<
     micro: { min: 200_000, max: 400_000 },
     small: { min: 400_000, max: 600_000 },
     medium: { min: 600_000, max: 800_000 },
+    large: { min: 800_000, max: 1_200_000 },
   },
   waste: {
     micro: { min: 100_000, max: 150_000 },
     small: { min: 150_000, max: 200_000 },
     medium: { min: 200_000, max: 300_000 },
+    large: { min: 300_000, max: 500_000 },
   },
   supply_chain: {
     micro: { min: 50_000, max: 100_000 },
     small: { min: 100_000, max: 150_000 },
     medium: { min: 150_000, max: 200_000 },
+    large: { min: 200_000, max: 350_000 },
   },
   operations: {
     micro: { min: 50_000, max: 80_000 },
     small: { min: 80_000, max: 120_000 },
     medium: { min: 120_000, max: 150_000 },
+    large: { min: 150_000, max: 250_000 },
   },
   policy: {
     micro: { min: 0, max: 0 },
     small: { min: 0, max: 0 },
     medium: { min: 0, max: 0 },
+    large: { min: 0, max: 0 },
   },
 }
 

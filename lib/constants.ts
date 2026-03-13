@@ -27,6 +27,7 @@ export const BUSINESS_SIZE_LABELS: Record<BusinessSize, string> = {
   micro: "Micro (< 5 employees)",
   small: "Small (5-19 employees)",
   medium: "Medium (20-99 employees)",
+  large: "Large (100+ employees)",
 }
 
 export const CATEGORY_LABELS: Record<Category, string> = {
