@@ -15,7 +15,7 @@ import {
   validateOrigin,
   logError,
 } from "@/lib/security"
-import type { Assessment } from "@/types/database"
+import type { Assessment, ToolPartData } from "@/types/database"
 
 const ChatRequestSchema = z.object({
   messages: z
@@ -153,15 +153,30 @@ export async function POST(req: Request) {
       onError({ error }) {
         logError("chat-stream", error)
       },
-      async onFinish({ text }) {
+      async onFinish({ text, steps }) {
         clearTimeout(timeout)
-        if (conversationId && text) {
-          await supabase.from("chat_messages").insert({
-            conversation_id: conversationId,
-            user_id: user.id,
-            role: "assistant",
-            content: text,
-          })
+        if (conversationId) {
+          const toolParts: ToolPartData[] = []
+          for (const step of steps) {
+            for (const tr of step.toolResults) {
+              toolParts.push({
+                toolName: tr.toolName,
+                toolCallId: tr.toolCallId,
+                input: tr.input as Record<string, unknown>,
+                output: tr.output as Record<string, unknown>,
+              })
+            }
+          }
+
+          if (text || toolParts.length > 0) {
+            await supabase.from("chat_messages").insert({
+              conversation_id: conversationId,
+              user_id: user.id,
+              role: "assistant",
+              content: text || "",
+              tool_parts: toolParts.length > 0 ? toolParts : null,
+            })
+          }
 
           await supabase
             .from("chat_conversations")

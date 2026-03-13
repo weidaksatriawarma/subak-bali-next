@@ -515,7 +515,7 @@ export interface DashboardDictionary {
     errorTitle: string
     errorRetry: string
     historyTitle: string
-    suggestedPrompts: string[]
+    suggestedPrompts: { icon: string; label: string; prompt: string }[]
     aiUnavailable: string
     headerTitle: string
   }
@@ -1579,9 +1579,26 @@ const id: Dictionary = {
       errorRetry: "Silakan coba kirim ulang pesan Anda.",
       historyTitle: "Riwayat Chat",
       suggestedPrompts: [
-        "Bagaimana cara mengurangi limbah plastik?",
-        "Tips hemat energi untuk UMKM",
-        "Apa itu ekonomi sirkular?",
+        {
+          icon: "Recycle",
+          label: "Kurangi Limbah Plastik",
+          prompt: "Bagaimana cara mengurangi limbah plastik?",
+        },
+        {
+          icon: "Zap",
+          label: "Hemat Energi UMKM",
+          prompt: "Tips hemat energi untuk UMKM",
+        },
+        {
+          icon: "RefreshCw",
+          label: "Ekonomi Sirkular",
+          prompt: "Apa itu ekonomi sirkular?",
+        },
+        {
+          icon: "TrendingUp",
+          label: "Tingkatkan Skor",
+          prompt: "Bagaimana cara meningkatkan skor sustainability saya?",
+        },
       ],
       aiUnavailable: "AI sedang tidak tersedia. Coba lagi dalam beberapa saat.",
       headerTitle: "Subak Hijau Chat",
@@ -2550,9 +2567,26 @@ const en: Dictionary = {
       errorRetry: "Please try resending your message.",
       historyTitle: "Chat History",
       suggestedPrompts: [
-        "How to reduce plastic waste?",
-        "Energy saving tips for MSMEs",
-        "What is circular economy?",
+        {
+          icon: "Recycle",
+          label: "Reduce Plastic Waste",
+          prompt: "How to reduce plastic waste?",
+        },
+        {
+          icon: "Zap",
+          label: "Energy Saving for MSMEs",
+          prompt: "Energy saving tips for MSMEs",
+        },
+        {
+          icon: "RefreshCw",
+          label: "Circular Economy",
+          prompt: "What is circular economy?",
+        },
+        {
+          icon: "TrendingUp",
+          label: "Improve My Score",
+          prompt: "How can I improve my sustainability score?",
+        },
       ],
       aiUnavailable: "AI is currently unavailable. Please try again shortly.",
       headerTitle: "Subak Hijau Chat",

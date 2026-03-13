@@ -142,11 +142,19 @@ export interface ChatConversation {
   updated_at: string
 }
 
+export interface ToolPartData {
+  toolName: string
+  toolCallId: string
+  input: Record<string, unknown>
+  output: Record<string, unknown>
+}
+
 export interface ChatMessage {
   id: string
   conversation_id: string
   user_id: string
   role: "user" | "assistant"
   content: string
+  tool_parts?: ToolPartData[] | null
   created_at: string
 }

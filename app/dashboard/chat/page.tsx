@@ -13,8 +13,16 @@ import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
 import type { UIMessage } from "ai"
 import { toast } from "sonner"
-import { Leaf, Loader2, History, SquarePen } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import {
+  Leaf,
+  Loader2,
+  History,
+  SquarePen,
+  Recycle,
+  Zap,
+  RefreshCw,
+  TrendingUp,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
@@ -34,13 +42,38 @@ import { useTranslation } from "@/lib/i18n/language-context"
 import type {
   ChatConversation,
   ChatMessage as DBChatMessage,
+  ToolPartData,
 } from "@/types/database"
 
 function dbToUIMessage(msg: DBChatMessage): UIMessage {
+  const parts: UIMessage["parts"] = []
+
+  // Reconstruct tool parts before text (matches streaming order)
+  if (msg.tool_parts && Array.isArray(msg.tool_parts)) {
+    for (const tp of msg.tool_parts as ToolPartData[]) {
+      parts.push({
+        type: `tool-${tp.toolName}` as `tool-${string}`,
+        toolCallId: tp.toolCallId,
+        state: "output-available",
+        input: tp.input,
+        output: tp.output,
+      } as unknown as UIMessage["parts"][number])
+    }
+  }
+
+  if (msg.content) {
+    parts.push({ type: "text" as const, text: msg.content })
+  }
+
+  // Ensure at least one part exists
+  if (parts.length === 0) {
+    parts.push({ type: "text" as const, text: "" })
+  }
+
   return {
     id: msg.id,
     role: msg.role,
-    parts: [{ type: "text", text: msg.content }],
+    parts,
   }
 }
 
@@ -153,17 +186,28 @@ function ChatPanel({
                   {cp.greetingDesc}
                 </p>
               </div>
-              <div className="flex flex-wrap justify-center gap-2 pt-1">
-                {cp.suggestedPrompts.map((prompt) => (
-                  <Badge
-                    key={prompt}
-                    variant="outline"
-                    className="cursor-pointer rounded-full px-4 py-2 text-sm transition-colors hover:border-primary/50 hover:bg-primary/5"
-                    onClick={() => handleSend(prompt)}
-                  >
-                    {prompt}
-                  </Badge>
-                ))}
+              <div className="grid w-full max-w-lg grid-cols-2 gap-3 pt-2">
+                {cp.suggestedPrompts.map((item) => {
+                  const Icon =
+                    {
+                      Recycle,
+                      Zap,
+                      RefreshCw,
+                      TrendingUp,
+                    }[item.icon] ?? Leaf
+                  return (
+                    <button
+                      key={item.prompt}
+                      onClick={() => handleSend(item.prompt)}
+                      className="group flex flex-col gap-2 rounded-xl border bg-background p-4 text-left transition-all hover:border-primary/50 hover:bg-primary/5 hover:shadow-sm"
+                    >
+                      <Icon className="size-5 text-primary" />
+                      <span className="text-sm font-medium leading-snug">
+                        {item.label}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
           )}
@@ -268,13 +312,24 @@ function ChatPageContent() {
     searchParams.get("prompt")
   )
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [resetKey, setResetKey] = useState(0)
+  const [panelKey, setPanelKey] = useState(
+    () => urlConversationId || `new-${Date.now()}`
+  )
+  const justCreatedIdRef = useRef<string | null>(null)
   const { t } = useTranslation()
   const cp = t.dashboard.chatPage
 
   // Sync local state when URL changes (back/forward, clicking history items)
   useEffect(() => {
-    setConversationId(urlConversationId)
+    if (urlConversationId === justCreatedIdRef.current) {
+      // Self-initiated: update state but don't remount ChatPanel
+      justCreatedIdRef.current = null
+      setConversationId(urlConversationId)
+    } else {
+      // External navigation (history click, back/forward): normal behavior
+      setConversationId(urlConversationId)
+      setPanelKey(urlConversationId || `new-${Date.now()}`)
+    }
   }, [urlConversationId])
 
   useEffect(() => {
@@ -295,7 +350,7 @@ function ChatPageContent() {
 
   const handleNewChat = () => {
     setConversationId(null)
-    setResetKey((k) => k + 1)
+    setPanelKey(`new-${Date.now()}`)
     setSheetOpen(false)
     router.push("/dashboard/chat")
   }
@@ -323,6 +378,7 @@ function ChatPageContent() {
 
     const conv: ChatConversation = await res.json()
     setConversations((prev) => [conv, ...prev])
+    justCreatedIdRef.current = conv.id
     return conv.id
   }
 
@@ -401,7 +457,7 @@ function ChatPageContent() {
             </div>
           ) : (
             <ChatPanel
-              key={conversationId || `new-${resetKey}`}
+              key={panelKey}
               conversationId={conversationId}
               initialMessages={initialMessages}
               onFirstMessage={handleFirstMessage}
