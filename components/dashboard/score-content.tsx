@@ -315,7 +315,7 @@ export function ScoreContent({
         </Card>
       )}
 
-      <div className="grid items-start gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>{d.totalScore}</CardTitle>
@@ -401,11 +401,11 @@ export function ScoreContent({
           )}
         </Card>
 
-        <Card>
+        <Card className="flex flex-col">
           <CardHeader>
             <CardTitle>{d.radarChart}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-1 items-center justify-center">
             <ScoreRadarChart
               scores={{
                 energy: data.energyScore,

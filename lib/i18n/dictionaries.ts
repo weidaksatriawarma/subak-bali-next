@@ -1084,7 +1084,7 @@ const id: Dictionary = {
       impactDisclaimer:
         "* Estimasi berdasarkan data assessment, bukan pengukuran aktual",
       categoryBreakdown: "Detail Kategori",
-      downloadReport: "Download Laporan",
+      downloadReport: "Laporan",
       sdg: {
         title: "Kontribusi SDG",
         subtitle:
@@ -1093,7 +1093,7 @@ const id: Dictionary = {
         inactive: "Belum berkontribusi",
       },
       share: {
-        button: "Bagikan via WhatsApp",
+        button: "WhatsApp",
         gotScore: "mendapat skor keberlanjutan",
         from: "dari Subak Hijau AI!",
         checkYours: "Cek sustainability bisnis kamu juga",
@@ -1317,7 +1317,7 @@ const id: Dictionary = {
       startAssessment: "Mulai Assessment",
     },
     certificate: {
-      download: "Download Sertifikat",
+      download: "Sertifikat",
       generating: "Membuat sertifikat...",
       certificateTitle: "SERTIFIKAT KEBERLANJUTAN",
       issuedTo: "Diberikan kepada",
@@ -1428,7 +1428,7 @@ const id: Dictionary = {
         template: "Di atas {percent}% perusahaan {industry}",
       },
       achievementCard: {
-        download: "Download Kartu Pencapaian",
+        download: "Pencapaian",
         title: "Kartu Pencapaian",
       },
       industryQuestions: {
@@ -2061,7 +2061,7 @@ const en: Dictionary = {
       impactDisclaimer:
         "* Estimates based on assessment data, not actual measurements",
       categoryBreakdown: "Category Breakdown",
-      downloadReport: "Download Report",
+      downloadReport: "Report",
       sdg: {
         title: "SDG Contribution",
         subtitle:
@@ -2070,7 +2070,7 @@ const en: Dictionary = {
         inactive: "Not yet contributing",
       },
       share: {
-        button: "Share via WhatsApp",
+        button: "WhatsApp",
         gotScore: "got a sustainability score of",
         from: "from Subak Hijau AI!",
         checkYours: "Check your business sustainability too",
@@ -2294,7 +2294,7 @@ const en: Dictionary = {
       startAssessment: "Start Assessment",
     },
     certificate: {
-      download: "Download Certificate",
+      download: "Certificate",
       generating: "Generating certificate...",
       certificateTitle: "SUSTAINABILITY CERTIFICATE",
       issuedTo: "Issued to",
@@ -2402,7 +2402,7 @@ const en: Dictionary = {
         template: "Above {percent}% of {industry} businesses",
       },
       achievementCard: {
-        download: "Download Achievement Card",
+        download: "Achievement",
         title: "Achievement Card",
       },
       industryQuestions: {

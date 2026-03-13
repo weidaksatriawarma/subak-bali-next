@@ -159,14 +159,14 @@ export function HelpContent() {
       {/* ── Sticky Section Navigation ─────────────────────────── */}
       <FadeInUp>
         <div className="sticky top-16 z-10 -mx-4 mb-8 border-b bg-background/80 px-4 py-3 backdrop-blur-sm">
-          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+          <div className="flex flex-wrap gap-2">
             {navItems.map(({ id, icon: Icon }) => (
               <Button
                 key={id}
                 variant="outline"
                 size="sm"
                 onClick={() => scrollTo(id)}
-                className="gap-1.5 text-xs sm:text-sm"
+                className="basis-[calc(50%-0.25rem)] gap-1.5 text-xs sm:basis-auto sm:text-sm"
               >
                 <Icon className="size-3.5" />
                 {navLabels[id as keyof typeof navLabels]}
@@ -350,19 +350,17 @@ export function HelpContent() {
             <h2 className="text-lg font-semibold">{kb.sectionTitles.tips}</h2>
           </div>
           <Tabs defaultValue="general">
-            <div className="-mx-4 mb-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
-              <TabsList className="inline-flex h-auto w-max gap-1 sm:w-full sm:flex-wrap">
-                {kb.tips.map((group) => (
-                  <TabsTrigger
-                    key={group.industry}
-                    value={group.industry}
-                    className="shrink-0 text-xs sm:text-sm"
-                  >
-                    {industryLabels[locale]?.[group.industry] ?? group.industry}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
+            <TabsList className="mb-4 flex h-auto w-full flex-wrap gap-1">
+              {kb.tips.map((group) => (
+                <TabsTrigger
+                  key={group.industry}
+                  value={group.industry}
+                  className="flex-initial basis-[calc(33.33%-0.25rem)] text-xs sm:basis-auto sm:text-sm"
+                >
+                  {industryLabels[locale]?.[group.industry] ?? group.industry}
+                </TabsTrigger>
+              ))}
+            </TabsList>
             {kb.tips.map((group) => (
               <TabsContent key={group.industry} value={group.industry}>
                 <div className="grid gap-3 sm:grid-cols-2">
