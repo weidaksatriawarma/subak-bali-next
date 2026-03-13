@@ -262,7 +262,8 @@ function useChatData(conversationId: string | null) {
 function ChatPageContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const conversationId = searchParams.get("id")
+  const urlConversationId = searchParams.get("id")
+  const [conversationId, setConversationId] = useState(urlConversationId)
   const [initialPrompt, setInitialPrompt] = useState<string | null>(() =>
     searchParams.get("prompt")
   )
@@ -270,6 +271,11 @@ function ChatPageContent() {
   const [resetKey, setResetKey] = useState(0)
   const { t } = useTranslation()
   const cp = t.dashboard.chatPage
+
+  // Sync local state when URL changes (back/forward, clicking history items)
+  useEffect(() => {
+    setConversationId(urlConversationId)
+  }, [urlConversationId])
 
   useEffect(() => {
     document.title = "AI Consultant | Subak Hijau"
@@ -288,9 +294,10 @@ function ChatPageContent() {
   } = useChatData(conversationId)
 
   const handleNewChat = () => {
-    router.push("/dashboard/chat")
+    setConversationId(null)
     setResetKey((k) => k + 1)
     setSheetOpen(false)
+    router.push("/dashboard/chat")
   }
 
   const handleDelete = async (id: string) => {
