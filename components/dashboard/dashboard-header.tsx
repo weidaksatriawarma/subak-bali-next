@@ -20,9 +20,9 @@ export function DashboardHeader() {
       <div
         role="separator"
         aria-orientation="vertical"
-        className="mr-2 h-4 w-px shrink-0 bg-border"
+        className="mr-2 h-4 w-px shrink-0 bg-border md:hidden"
       />
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 md:hidden">
         <Image
           src="/images/logo/logo-subak-hijau.png"
           alt="Subak Hijau"
