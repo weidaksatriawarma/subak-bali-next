@@ -46,6 +46,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { createClient } from "@/lib/supabase/client"
+import { clearUserStorage } from "@/lib/cookie-consent"
 import { useRouter } from "next/navigation"
 
 interface NavItem {
@@ -163,6 +164,7 @@ export function AppSidebar({ profile }: AppSidebarProps) {
 
   async function handleSignOut() {
     const supabase = createClient()
+    clearUserStorage()
     await supabase.auth.signOut()
     router.push("/login")
   }

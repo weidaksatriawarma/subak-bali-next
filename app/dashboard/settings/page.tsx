@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { createClient } from "@/lib/supabase/client"
+import { clearUserStorage } from "@/lib/cookie-consent"
 import { toast } from "sonner"
 import {
   Settings,
@@ -172,6 +173,7 @@ export default function SettingsPage() {
 
   async function handleSignOut() {
     const supabase = createClient()
+    clearUserStorage()
     await supabase.auth.signOut()
     router.push("/login")
   }
@@ -190,6 +192,7 @@ export default function SettingsPage() {
     // Delete auth user record via Edge Function or admin API
     // Note: Client-side cannot delete auth.users directly.
     // For now, sign out and notify. A Supabase Edge Function should handle full deletion.
+    clearUserStorage()
     await supabase.auth.signOut()
     router.push("/login")
   }

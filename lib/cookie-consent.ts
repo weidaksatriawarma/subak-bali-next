@@ -54,6 +54,38 @@ export function clearFunctionalStorage(): void {
   document.cookie = "sidebar_state=; path=/; max-age=0"
 }
 
+export function clearUserStorage(): void {
+  // User-specific localStorage
+  localStorage.removeItem("subakhijau-locale")
+  localStorage.removeItem("subakhijau-tour-completed")
+  localStorage.removeItem("subakhijau-onboarding-carousel-done")
+  localStorage.removeItem("subakhijau-journey-dismissed")
+  localStorage.removeItem("subakhijau-notifications")
+  localStorage.removeItem("assessment-draft")
+  localStorage.removeItem("theme")
+
+  // Clear all nudge dismissal keys (pattern: subakhijau-nudge-dismissed-*)
+  const keysToRemove: string[] = []
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i)
+    if (key?.startsWith("subakhijau-nudge-dismissed-")) {
+      keysToRemove.push(key)
+    }
+  }
+  keysToRemove.forEach((key) => localStorage.removeItem(key))
+
+  // Clear sessionStorage (chat widget seen state)
+  sessionStorage.clear()
+
+  // Clear sidebar cookie
+  document.cookie = "sidebar_state=; path=/; max-age=0"
+
+  // Clear service worker cache
+  if ("caches" in window) {
+    caches.keys().then((keys) => keys.forEach((key) => caches.delete(key)))
+  }
+}
+
 export function clearAnalyticsStorage(): void {
   // Clear GA4 cookies
   const gaCookies = document.cookie.split(";").map((c) => c.trim())
