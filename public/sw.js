@@ -1,6 +1,6 @@
 // IMPORTANT: Bump version on each deploy to invalidate old caches
-const CACHE_NAME = "subakhijau-v2"
-const STATIC_ASSETS = ["/", "/dashboard", "/manifest.json"]
+const CACHE_NAME = "subakhijau-v3"
+const STATIC_ASSETS = ["/", "/manifest.json"]
 const OFFLINE_URL = "/offline.html"
 
 self.addEventListener("install", (event) => {
@@ -26,14 +26,20 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return
 
+  const url = new URL(event.request.url)
+
+  // Only cache http(s) — skip chrome-extension://, blob:, data:, etc.
+  if (url.protocol !== "http:" && url.protocol !== "https:") return
+
   // Skip API requests from caching
-  if (event.request.url.includes("/api/")) return
+  if (url.pathname.startsWith("/api/")) return
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
       const fetched = fetch(event.request)
         .then((response) => {
-          if (response.ok) {
+          // Only cache successful, non-redirected responses
+          if (response.ok && !response.redirected) {
             const clone = response.clone()
             caches
               .open(CACHE_NAME)
