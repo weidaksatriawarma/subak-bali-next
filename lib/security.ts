@@ -134,11 +134,21 @@ export function validateOrigin(req: Request): boolean {
   const origin = req.headers.get("origin")
   // No origin header = same-origin request (browser doesn't send it)
   if (!origin) return true
-  const allowed = ["https://subakhijau.app", "https://www.subakhijau.app"]
-  if (process.env.NODE_ENV === "development") {
-    allowed.push("http://localhost:3000")
+  const allowed = new Set([
+    "https://subakhijau.app",
+    "https://www.subakhijau.app",
+  ])
+  if (process.env.NEXT_PUBLIC_APP_URL) {
+    try {
+      allowed.add(new URL(process.env.NEXT_PUBLIC_APP_URL).origin)
+    } catch {
+      // ignore invalid NEXT_PUBLIC_APP_URL
+    }
   }
-  return allowed.includes(origin)
+  if (process.env.NODE_ENV === "development") {
+    allowed.add("http://localhost:3000")
+  }
+  return allowed.has(origin)
 }
 
 // --- Error Logging ---

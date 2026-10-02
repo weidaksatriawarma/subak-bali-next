@@ -262,6 +262,33 @@ describe("validateOrigin", () => {
     const req = new Request("https://subakhijau.app/api/test")
     expect(validateOrigin(req)).toBe(true)
   })
+
+  it("allows the origin from NEXT_PUBLIC_APP_URL when set", () => {
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://subak.example.com")
+    const req = new Request("https://subak.example.com/api/test", {
+      headers: { origin: "https://subak.example.com" },
+    })
+    expect(validateOrigin(req)).toBe(true)
+    vi.unstubAllEnvs()
+  })
+
+  it("still rejects other origins when NEXT_PUBLIC_APP_URL is set", () => {
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://subak.example.com")
+    const req = new Request("https://subak.example.com/api/test", {
+      headers: { origin: "https://evil.com" },
+    })
+    expect(validateOrigin(req)).toBe(false)
+    vi.unstubAllEnvs()
+  })
+
+  it("ignores a malformed NEXT_PUBLIC_APP_URL instead of throwing", () => {
+    vi.stubEnv("NEXT_PUBLIC_APP_URL", "not-a-url")
+    const req = new Request("https://subakhijau.app/api/test", {
+      headers: { origin: "https://subakhijau.app" },
+    })
+    expect(validateOrigin(req)).toBe(true)
+    vi.unstubAllEnvs()
+  })
 })
 
 describe("logError", () => {
